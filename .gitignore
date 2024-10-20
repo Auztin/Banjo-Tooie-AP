@@ -1,0 +1,10 @@
+build/
+libdragon/
+mips64/
+pc/main
+pc/main.exe
+armips
+base.n64
+patched.n64
+patched.pak
+patched.ram
