@@ -1,8 +1,15 @@
+#include "asio.hpp"
 #include "ftd2xx.h"
+#include "json.hpp"
+#include "usb_util.h"
+
 #include <stdint.h>
 #include <stdio.h>
 #include <string.h>
-#include "usb_util.h"
+#include <iostream>
+
+using asio::ip::tcp;
+using json = nlohmann::json;
 
 const uint32_t USB_VERSION = USB_CURRENT_VERSION;
 struct {
@@ -92,6 +99,56 @@ uint8_t usb_write(uint16_t cmd, uint16_t len) {
 }
 
 int main() {
+
+  // json
+  json j = {
+    {"pi", 3.141},
+    {"happy", true},
+    {"name", "Niels"},
+    {"nothing", nullptr},
+    {"answer", {
+      {"everything", 42}
+    }},
+    {"list", {1, 0, 2}},
+    {"object", {
+      {"currency", "USD"},
+      {"value", 42.99}
+    }}
+  };
+
+  j["answer"]["life"] = 42;
+  j["answer"]["the_universe"] = "42";
+
+  std::cout << j["answer"]["everything"] << std::endl;
+  std::cout << j << std::endl;
+  std::cout << j.dump(4) << std::endl;
+
+  // asio/socket
+  try
+  {
+
+    asio::io_context io_context;
+
+    tcp::socket s(io_context);
+    tcp::resolver resolver(io_context);
+    asio::connect(s, resolver.resolve("127.0.0.1", "37491"));
+
+    std::cout << "Sending: test" << std::endl;
+    asio::write(s, asio::buffer("test", 4));
+
+    char reply[1024];
+    size_t reply_length = asio::read(s, asio::buffer(reply, 4));
+    std::cout << "Received: ";
+    std::cout.write(reply, reply_length);
+    std::cout << std::endl;
+  }
+  catch (std::exception& e)
+  {
+    std::cerr << "Exception: " << e.what() << "\n";
+  }
+
+  return 0;
+
   uint8_t opened = 0;
 
   DWORD devices;
@@ -151,15 +208,3 @@ int main() {
   }
   return 0;
 }
-
-// int main() {
-//   printf("tiles %u\n", sizeof(tiles)/1024/1024);
-//   printf("usb.packet %u %p\n", sizeof(usb.packet_t), &usb.packet);
-//   printf("cmd %p\n", &usb.packet.cmd);
-//   printf("size %p\n", &usb.packet.size);
-//   printf("handshake %u %p\n", sizeof(usb.packet.handshake), &usb.packet.handshake);
-//   printf("mem %u %p\n", sizeof(usb.packet.mem), &usb.packet.mem);
-//   printf("data %p\n", &usb.packet.data);
-//   printf("extra %p\n", &usb.packet.extra);
-//   return 0;
-// }
