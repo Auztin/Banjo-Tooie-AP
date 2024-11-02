@@ -20,8 +20,21 @@
         private:
             string PREV_STATE = "";
             string CUR_STATE =  STATE_UNINITIALIZED;
+            tcp::acceptor acceptor_;
             asio::io_context io_context;
-            tcp::socket sock = tcp::socket(io_context);
+            void do_accept();
+    };
+
+    class session: public std::enable_shared_from_this<session>
+    {
+        public:
+            session(tcp::socket socket);
+            void start();
+            void do_read();
+            void do_write(std::size_t length);
+        private:
+            tcp::socket socket_;
+            enum { max_length = 1024 };
+            char data_[max_length];
     };
 #endif
-

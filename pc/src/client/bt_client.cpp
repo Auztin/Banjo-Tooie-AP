@@ -4,23 +4,59 @@
 using asio::ip::tcp;
 using std::string;
 
-BT_Client::BT_Client() {
-        try
-        {
-            tcp::resolver resolver(io_context);
-            asio::connect(sock, resolver.resolve("127.0.0.1", "21221"));
-
-            std::cout << "Sending: test" << std::endl;
-            asio::write(sock, asio::buffer("test", 4));
-
-            char reply[1024];
-            size_t reply_length = asio::read(sock, asio::buffer(reply, 4));
-            std::cout << "Received: ";
-            std::cout.write(reply, reply_length);
-            std::cout << std::endl;
-        }
-        catch (std::exception& e)
-        {
-            std::cerr << "Exception: " << e.what() << "\n";
-        }
+BT_Client::BT_Client(): acceptor_(io_context, tcp::endpoint(tcp::v4(), 21221))
+{
+    do_accept();
 }
+
+void BT_Client::do_accept()
+{
+    acceptor_.async_accept(
+        [this](std::error_code ec, tcp::socket socket)
+        {
+          if (!ec)
+          {
+            std::make_shared<session>(std::move(socket))->start();
+          }
+
+          do_accept();
+        });
+}
+
+
+session::session(tcp::socket socket): socket_(std::move(socket))
+{
+}
+
+void session::start()
+{
+  do_read();
+}
+
+
+void session::do_read()
+{
+auto self(shared_from_this());
+socket_.async_read_some(asio::buffer(data_, max_length),
+    [this, self](std::error_code ec, std::size_t length)
+    {
+        if (!ec)
+        {
+            session::do_write(length);
+        }
+    });
+}
+
+void session::do_write(std::size_t length)
+{
+    auto self(shared_from_this());
+    asio::async_write(socket_, asio::buffer(data_, length),
+        [this, self](std::error_code ec, std::size_t /*length*/)
+        {
+          if (!ec)
+          {
+            do_read();
+          }
+        });
+}
+
