@@ -1,3 +1,4 @@
+#pragma once
 #ifndef USB_UTIL_H
 #define USB_UTIL_H
 
