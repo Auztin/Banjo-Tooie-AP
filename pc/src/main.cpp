@@ -4,7 +4,7 @@
 #include <string.h>
 #include <iostream>
 
-#include "client/bt_client.hpp"
+#include "server/server.hpp"
 #include "usb/usb_com.hpp"
 
 
@@ -37,7 +37,7 @@ int main() {
   std::cout << j.dump(4) << std::endl;
 
   asio::io_context io_context;
-  BT_Client bt_client(io_context);
+  Server bt_client(io_context);
   io_context.run();
   return 0;
 

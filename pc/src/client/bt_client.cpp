@@ -1,62 +1,89 @@
-
 #include "bt_client.hpp"
 
-using asio::ip::tcp;
-using std::string;
+using json = nlohmann::json;
 
-BT_Client::BT_Client(asio::io_context& io_context): acceptor_(io_context, tcp::endpoint(tcp::v4(), asio::ip::port_type(21221)))
+BTClient::BTClient(tcp::socket socket): socket_(std::move(socket))
 {
-    do_accept();
 }
 
-void BT_Client::do_accept()
+void BTClient::getSlotData()
 {
-    acceptor_.async_accept(
-        [this](std::error_code ec, tcp::socket socket)
+    json retTable = {};
+    retTable["getSlot"] = true;
+    if(DEBUG_NET == true)
+    {
+        printf("Encoding getSlot");
+    }
+    string msg = retTable.dump() + "\n";
+    send(msg);
+    json j = read();
+}
+
+void BTClient::receive()
+{
+    if(PLAYER == "" && SEED == 0)
+    {
+        getSlotData();
+    }
+}
+
+void BTClient::startLoop()
+{
+  CUR_STATE = STATE_INITIAL_CONNECTION_MADE;
+  printf("Initial Connection Made");
+  DEBUG_NET = true;
+
+  while(true) {
+    FRAME = FRAME + 1;
+    if(CUR_STATE != PREV_STATE) {
+        PREV_STATE = CUR_STATE;
+    }
+    if(CUR_STATE == STATE_OK || CUR_STATE == STATE_INITIAL_CONNECTION_MADE || CUR_STATE == STATE_TENTATIVELY_CONNECTED)
+    {
+        if(FRAME % 10000 == 1)
         {
-          if (!ec)
-          {
-            std::make_shared<session>(std::move(socket))->start();
-          }
+            receive();
+        }
+        if(FRAME % 5 == 1)
+        {
 
-          do_accept();
-        });
+        }
+    }
+  }
 }
 
 
-session::session(tcp::socket socket): socket_(std::move(socket))
-{
-}
-
-void session::start()
-{
-  do_read();
-}
-
-
-void session::do_read()
+json BTClient::read()
 {
 auto self(shared_from_this());
-socket_.async_read_some(asio::buffer(data_, max_length),
+json recv;
+asio::streambuf buf;
+asio::async_read_until(socket_, buf, "\n", 
     [this, self](std::error_code ec, std::size_t length)
+{
+    if(!ec)
     {
-        if (!ec)
-        {
-            session::do_write(length);
-        }
-    });
+        printf("HI!\n");
+    }
+});
+// socket_.async_read_some(asio::buffer(data_, max_length),
+//     [this, self](std::error_code ec, std::size_t length)
+//     {
+//         if (!ec)
+//         {
+//             BTClient::do_write(length);
+//         }
+//     });
+// std::istream is(&buf);
+// std::string line;
+// std::getline(is, line);
+ recv = {};
+ return recv;
 }
 
-void session::do_write(std::size_t length)
+void BTClient::send(std::string jsonData)
 {
     auto self(shared_from_this());
-    asio::async_write(socket_, asio::buffer(data_, length),
-        [this, self](std::error_code ec, std::size_t /*length*/)
-        {
-          if (!ec)
-          {
-            do_read();
-          }
-        });
+    asio::async_write(socket_, asio::buffer(jsonData, jsonData.length()),
+        [this, self](std::error_code ec, std::size_t /*length*/){});
 }
-
