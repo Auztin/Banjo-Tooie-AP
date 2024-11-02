@@ -4,6 +4,7 @@ ifeq ($(OS),Windows_NT)
 	CPPFLAGS = -D_WIN32_WINNT=0x0601
 	LDFLAGS = -static
 	LDFLAGS+= -l ws2_32
+	LDFLAGS+= -l wsock32
 else
 	CXX=g++
 	TARGET=main

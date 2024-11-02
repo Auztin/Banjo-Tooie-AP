@@ -4,7 +4,7 @@
 using asio::ip::tcp;
 using std::string;
 
-BT_Client::BT_Client(): acceptor_(io_context, tcp::endpoint(tcp::v4(), 21221))
+BT_Client::BT_Client(asio::io_context& io_context): acceptor_(io_context, tcp::endpoint(tcp::v4(), asio::ip::port_type(21221)))
 {
     do_accept();
 }

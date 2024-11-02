@@ -36,7 +36,9 @@ int main() {
   std::cout << j << std::endl;
   std::cout << j.dump(4) << std::endl;
 
-  BT_Client* bt_client = new BT_Client();
+  asio::io_context io_context;
+  BT_Client bt_client(io_context);
+  io_context.run();
   return 0;
 
   uint8_t opened = 0;

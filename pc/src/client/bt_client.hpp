@@ -16,12 +16,11 @@
 
     class BT_Client {
         public:
-            BT_Client();
+            BT_Client(asio::io_context& io_context);
         private:
             string PREV_STATE = "";
             string CUR_STATE =  STATE_UNINITIALIZED;
             tcp::acceptor acceptor_;
-            asio::io_context io_context;
             void do_accept();
     };
 
