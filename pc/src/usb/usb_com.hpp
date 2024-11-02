@@ -1,3 +1,6 @@
+#ifndef USB_COM_HPP
+#define USB_COM_HPP
+
 #include "usb_util.h"
 #include "ftd2xx.h"
 #include <stdint.h>
@@ -5,7 +8,7 @@
 #include <string.h>
 #include <iostream>
 
-const uint32_t USB_VERSION = USB_CURRENT_VERSION;
+
 struct {
   FT_HANDLE handle;
   usb_packet_t packet;
@@ -18,3 +21,5 @@ void endian_swap32(void *val);
 void usb_packet_endian_swap();
 uint8_t usb_read();
 uint8_t usb_write(uint16_t cmd, uint16_t len);
+
+#endif // USB_COM_HPP

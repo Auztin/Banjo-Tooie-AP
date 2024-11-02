@@ -1,6 +1,6 @@
 
-#include "../../include/bt_client.hpp"
- 
+#include "bt_client.hpp"
+
 using asio::ip::tcp;
 using std::string;
 

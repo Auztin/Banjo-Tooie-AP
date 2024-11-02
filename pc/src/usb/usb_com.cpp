@@ -1,5 +1,7 @@
 
-#include "../../include/usb_com.hpp"
+#include "usb_com.hpp"
+
+const uint32_t USB_VERSION = USB_CURRENT_VERSION;
 
 void memcpy16(void *dest, uint16_t src) {
   uint8_t *dst = (uint8_t*)dest;
@@ -81,4 +83,3 @@ uint8_t usb_write(uint16_t cmd, uint16_t len) {
   printf("\n");
   return ret;
 }
-

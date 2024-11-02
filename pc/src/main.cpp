@@ -3,8 +3,9 @@
 #include <stdio.h>
 #include <string.h>
 #include <iostream>
-#include <usb_com.hpp>
-#include "bt_client.hpp"
+
+#include "usb/usb_com.hpp"
+#include "client/bt_client.hpp"
 
 using json = nlohmann::json;
 
