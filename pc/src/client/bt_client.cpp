@@ -12,7 +12,7 @@ void BTClient::getSlotData()
     retTable["getSlot"] = true;
     if(DEBUG_NET == true)
     {
-        printf("Encoding getSlot");
+        // printf("Encoding getSlot");
     }
     string msg = retTable.dump() + "\n";
     send(msg);
@@ -55,35 +55,18 @@ void BTClient::startLoop()
 
 json BTClient::read()
 {
-auto self(shared_from_this());
-json recv;
-asio::streambuf buf;
-asio::async_read_until(socket_, buf, "\n", 
-    [this, self](std::error_code ec, std::size_t length)
-{
-    if(!ec)
-    {
-        printf("HI!\n");
-    }
-});
-// socket_.async_read_some(asio::buffer(data_, max_length),
-//     [this, self](std::error_code ec, std::size_t length)
-//     {
-//         if (!ec)
-//         {
-//             BTClient::do_write(length);
-//         }
-//     });
-// std::istream is(&buf);
-// std::string line;
-// std::getline(is, line);
- recv = {};
- return recv;
+    asio::streambuf buffer;
+    asio::read_until(socket_, buffer, "\n");
+    std::istream is(&buffer);
+    std::string line;
+    std::getline(is, line);
+    std::cout << line << std::endl << std::endl;
+    json recv = json::parse(line);
+    return recv;
 }
 
 void BTClient::send(std::string jsonData)
 {
     auto self(shared_from_this());
-    asio::async_write(socket_, asio::buffer(jsonData, jsonData.length()),
-        [this, self](std::error_code ec, std::size_t /*length*/){});
+    asio::write(socket_, asio::buffer(jsonData, jsonData.length()));
 }
