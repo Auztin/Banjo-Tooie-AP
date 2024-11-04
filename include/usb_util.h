@@ -1,6 +1,8 @@
 #ifndef USB_UTIL_H
 #define USB_UTIL_H
 
+#include <stdint.h>
+
 extern const uint32_t USB_VERSION;
 #define USB_CURRENT_VERSION 1
 

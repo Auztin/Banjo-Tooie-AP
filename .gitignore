@@ -10,3 +10,4 @@ patched.n64
 patched.pak
 patched.ram
 .vscode
+*.o
