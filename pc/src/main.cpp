@@ -3,8 +3,9 @@
 #include <stdio.h>
 #include <string.h>
 #include <iostream>
+#include <asio.hpp>
 
-#include "server/server.hpp"
+#include "client/bt_client.hpp"
 #include "usb/usb_com.hpp"
 
 
@@ -32,12 +33,12 @@ int main() {
   j["answer"]["life"] = 42;
   j["answer"]["the_universe"] = "42";
 
-  std::cout << j["answer"]["everything"] << std::endl;
-  std::cout << j << std::endl;
-  std::cout << j.dump(4) << std::endl;
+  // std::cout << j["answer"]["everything"] << std::endl;
+  // std::cout << j << std::endl;
+  // std::cout << j.dump(4) << std::endl;
 
   asio::io_context io_context;
-  Server bt_client(io_context);
+  BTClient bt_client(&io_context);
   io_context.run();
   return 0;
 
