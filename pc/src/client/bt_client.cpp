@@ -207,13 +207,13 @@ asio::awaitable<void> BTClient::getSlotData()
     }
     if(SEED != 0){
         printGoalInfo();
-    }  
+    }
     co_return;
 }
 
 void BTClient::printGoalInfo()
 {
-    const std::vector<string> encouragement{
+    std::vector<string> encouragement{
         " GUH-HUH!",
         " BREEE!",
         " EEKUM BOKUM!",
@@ -223,8 +223,9 @@ void BTClient::printGoalInfo()
         " ROOOOO!!!",
         " OOMANAKA!!!"
     };
-    // auto rng = std::default_random_engine {};
-    // std::shuffle(std::begin(encouragement), std::end(encouragement), rng);
+    auto rd = std::random_device {};
+    auto rng = std::default_random_engine { rd() };
+    std::shuffle(std::begin(encouragement), std::end(encouragement), rng);
     // Shuffle the Encouragement and pick one.
     if(GOAL_TYPE == 0)
     {
