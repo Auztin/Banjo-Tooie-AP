@@ -59,20 +59,25 @@ bool BTClient::check_state() {
   return CUR_STATE == STATE_OK || CUR_STATE == STATE_INITIAL_CONNECTION_MADE || CUR_STATE == STATE_TENTATIVELY_CONNECTED;
 }
 
-asio::awaitable<void> BTClient::check_jiggy_locations()
+asio::awaitable<nlohmann::json> BTClient::check_jiggy_locations()
 {
-    // u16 current_map = ap_memory.n64.misc.current_map;
-    // if(ASSET_MAP_CHECK.count(current_map))
-    // {
-    //     if(ASSET_MAP_CHECK[current_map].count("JIGGIES"))
-    //     {
-    //         for(const std::string& locationId: ASSET_MAP_CHECK[current_map]["JIGGIES"])
-    //         {
-
-    //         }
-    //     }
-    // }
-    co_return;
+    nlohmann::json jiggy_check = {};
+    u16 current_map = ap_memory.n64.misc.current_map;
+    if(ASSET_MAP_CHECK.count(current_map))
+    {
+        if(ASSET_MAP_CHECK[current_map].count("JIGGIES"))
+        {
+            for(const std::string& locationId: ASSET_MAP_CHECK[current_map]["JIGGIES"])
+            {
+                jiggy_check[locationId] = check_flag(locationId);
+            }
+        }
+    }
+    for(const std::string& locationId: ASSET_MAP_CHECK[0]["JIGGIES"])
+    {
+        jiggy_check[locationId] = check_flag(locationId);
+    }
+    co_return jiggy_check;
 }
 
 
@@ -302,6 +307,7 @@ asio::awaitable<void> BTClient::receive()
     {
         co_await getSlotData();
     }
+
     co_return;
 }
 

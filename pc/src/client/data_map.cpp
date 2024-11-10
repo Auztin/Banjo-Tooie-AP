@@ -1,5 +1,4 @@
 #include "data_map.hpp"
-#include <usb/usb_com.hpp>
 
     std::map<uint16_t, std::map<std::string, std::vector<std::string>>> ASSET_MAP_CHECK = {
         {0, { // ALL MAPS
@@ -947,6 +946,11 @@ bool check_flag(std::string locationId) {
             case 1230995: return real->cheats_honeyback_received;
             case 1230996: return real->cheats_jukebox_received;
         //HoneyB
+            case 1230997: return real->trade_honey_b >= 1;
+            case 1230998: return real->trade_honey_b >= 2;
+            case 1230999: return real->trade_honey_b >= 3;
+            case 1231000: return real->trade_honey_b >= 4;
+            case 1231001: return real->trade_honey_b == 5;
         /*
             HoneyB has to be properly calcluated and process by the middleman
         */
