@@ -9,7 +9,7 @@ else
 	CXX=g++
 	TARGET=main
 endif
-CXXFLAGS+= -I ../include -I include
+CXXFLAGS+= -I src -I include -I ../include
 CXXFLAGS+= -std=c++20 -g
 LDFLAGS += -L lib/vcp-driver/amd64 -L lib/vcp-driver/i386
 LDFLAGS += -l ftd2xx
