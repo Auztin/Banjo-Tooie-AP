@@ -62,7 +62,12 @@ void usb_check() {
         if (main.frame_count == usb.ping_frame) usb.status = USB_STATUS_DISCONNECTED;
         else if (ed64_can_read()) {
           usb_read();
-          if (usb.packet.cmd == USB_CMD_PONG) usb.status = USB_STATUS_CONNECTED;
+          if (usb.packet.cmd == USB_CMD_PONG) {
+            usb.status = USB_STATUS_CONNECTED;
+            usb.send.misc = 1;
+            usb.send.saves_primary = 1;
+            usb.send.saves_secondary = 1;
+          }
         }
         break;
       }
@@ -86,33 +91,36 @@ void usb_check() {
               usb.ping_frame = main.frame_count;
               break;
             }
-            case USB_CMD_READ8: {
-              usb.packet.mem.val = *(vu8*)usb.packet.mem.addr;
-              usb_write(USB_CMD_READ8, 4);
+            case USB_CMD_PC_MISC: {
+              memcpy(&ap_memory.pc.misc, usb.packet.extra, usb.packet.size);
               break;
             }
-            case USB_CMD_READ16: {
-              usb.packet.mem.val = *(vu16*)usb.packet.mem.addr;
-              usb_write(USB_CMD_READ16, 4);
+            case USB_CMD_PC_SETTINGS: {
+              memcpy(&ap_memory.pc.settings, usb.packet.extra, usb.packet.size);
               break;
             }
-            case USB_CMD_READ32: {
-              usb.packet.mem.val = *(vu32*)usb.packet.mem.addr;
-              usb_write(USB_CMD_READ32, 4);
+            case USB_CMD_PC_ITEMS: {
+              memcpy(ap_memory.pc.items, usb.packet.extra, usb.packet.size);
               break;
             }
-            case USB_CMD_WRITE8: {
-              *(vu8*)usb.packet.mem.addr = usb.packet.mem.val;
-              break;
-            }
-            case USB_CMD_WRITE16: {
-              *(vu16*)usb.packet.mem.addr = usb.packet.mem.val;
-              break;
-            }
-            case USB_CMD_WRITE32: {
-              *(vu32*)usb.packet.mem.addr = usb.packet.mem.val;
-              break;
-            }
+          }
+        }
+        if (ed64_can_write()) {
+          u16 size;
+          if (usb.send.misc) {
+            size = sizeof(ap_memory.n64.misc);
+            memcpy(usb.packet.extra, &ap_memory.n64.misc, size);
+            if (!usb_write(USB_CMD_N64_MISC, size)) usb.send.misc = 0;
+          }
+          else if (usb.send.saves_primary) {
+            size = sizeof(bt_save_flags_t);
+            memcpy(usb.packet.extra, &ap_memory.n64.saves.primary, size);
+            if (!usb_write(USB_CMD_N64_SAVES_PRIMARY, size)) usb.send.saves_primary = 0;
+          }
+          else if (usb.send.saves_secondary) {
+            size = sizeof(bt_save_flags_t);
+            memcpy(usb.packet.extra, &ap_memory.n64.saves.secondary, size);
+            if (!usb_write(USB_CMD_N64_SAVES_SECONDARY, size)) usb.send.saves_secondary = 0;
           }
         }
         break;

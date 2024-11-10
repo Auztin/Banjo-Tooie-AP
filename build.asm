@@ -22,6 +22,9 @@
 .org    0x80400000
 .area   0x00200000 ;payload max memory
 
+AP_MEMORY_PTR:
+.word 0
+
 ;modify replaced code and add back to run later
 init_game:
   .incbin "base.n64",0x1050,0xCC
@@ -33,6 +36,7 @@ PAYLOAD_START:
 
 .align 0x10
 .importobj "build/bundle.o"
+.include "displaced.asm"
 
 PAYLOAD_END:
 .endarea ; payload max memory

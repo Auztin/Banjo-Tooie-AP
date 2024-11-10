@@ -2,10 +2,12 @@
 #define MAIN_H
 
 #include "util.h"
+#include "bt.h"
 
 typedef struct {
   u8 is_emulator : 1;
   u8 new_file : 1;
+  u8 override_text : 1;
   u8 frame_count;
 } main_t;
 extern main_t main;
@@ -18,7 +20,9 @@ void pre_load_scene(u16 *scene, u16 *entry); // before a scene load. scene and e
 void post_load_scene(u16 scene, u16 entry); // after a scene load
 void pre_load_save(); // during scene load, before save is loaded. bt_save is null
 void post_load_save(); // during scene load, after save is loaded
-void pre_object_init(); // just after an object is loaded into memory, before it is initialized
-void post_object_init(); // just after an object is initialized
+void pre_object_init(bt_object_t *obj); // just after an object is loaded into memory, before it is initialized
+void post_object_init(bt_object_t *obj); // just after an object is initialized
+void pre_load_data(u16 *id);
+void post_load_data(u16 id, u32 addr);
 
 #endif // MAIN_H
