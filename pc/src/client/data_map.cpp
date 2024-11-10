@@ -501,6 +501,32 @@ bool check_flag(std::string locationId) {
         //Roysten
             case 1230777: return fake->extra_bubbles;
             case 1230778: return fake->fast_swimming;
+        //Jamjars
+            case 1230753: return fake->grip_grab;
+            case 1230754: return fake->breegull_blaster;
+            case 1230755: return fake->egg_aim;
+            case 1230756: return fake->fire_eggs;
+            case 1230757: return fake->bill_drill;
+            case 1230758: return fake->beak_bayonet;
+            case 1230759: return fake->grenade_eggs;
+            case 1230760: return fake->airborne_egg_aiming;
+            case 1230761: return fake->split_up;
+            case 1230762: return fake->pack_whack;
+            case 1230763: return fake->ice_eggs;
+            case 1230764: return fake->wing_whack;
+            case 1230765: return fake->talon_torpedo;
+            case 1230766: return fake->sub_aqua_egg_aiming;
+            case 1230767: return fake->clockwork_kazooie_eggs;
+            case 1230768: return fake->springy_step_shoes;
+            case 1230769: return fake->taxi_pack;
+            case 1230770: return fake->hatch;
+            case 1230771: return fake->snooze_pack;
+            case 1230772: return fake->leg_spring;
+            case 1230773: return fake->claw_clamber_boots;
+            case 1230774: return fake->shack_pack;
+            case 1230775: return fake->glide;
+            case 1230776: return fake->sack_pack;
+
     }
     return false;
 }
