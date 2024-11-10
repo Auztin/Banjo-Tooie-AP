@@ -11,18 +11,12 @@ enum USB_CMD {
   USB_CMD_HANDSHAKE,
   USB_CMD_PING,
   USB_CMD_PONG,
-  USB_CMD_READ8,
-  USB_CMD_READ16,
-  USB_CMD_READ32,
-  USB_CMD_WRITE8,
-  USB_CMD_WRITE16,
-  USB_CMD_WRITE32,
-  // USB_CMD_WATCH8,
-  // USB_CMD_WATCH16,
-  // USB_CMD_WATCH32,
-  // USB_CMD_FORCE8,
-  // USB_CMD_FORCE16,
-  // USB_CMD_FORCE32,
+  USB_CMD_PC_MISC,
+  USB_CMD_PC_SETTINGS,
+  USB_CMD_PC_ITEMS,
+  USB_CMD_N64_MISC,
+  USB_CMD_N64_SAVES_PRIMARY,
+  USB_CMD_N64_SAVES_SECONDARY,
 };
 
 typedef struct {
@@ -39,10 +33,6 @@ typedef struct {
           uint8_t msg[4];
           uint32_t version;
         } handshake;
-        struct {
-          uint32_t addr;
-          uint32_t val;
-        } mem;
       };
     };
     uint8_t raw[512];

@@ -1,36 +1,27 @@
 #ifndef UTIL_H
 #define UTIL_H
 
-#include <stdint.h>
+#include <ap_memory.h>
 
-#define u8 uint8_t
-#define u16 uint16_t
-#define u32 uint32_t
-#define u64 uint64_t
+extern ap_memory_t ap_memory;
 
-#define s8 int8_t
-#define s16 int16_t
-#define s32 int32_t
-#define s64 int64_t
-
-#define vu8 volatile uint8_t
-#define vu16 volatile uint16_t
-#define vu32 volatile uint32_t
-#define vu64 volatile uint64_t
-
-#define vs8 volatile int8_t
-#define vs16 volatile int16_t
-#define vs32 volatile int32_t
-#define vs64 volatile int64_t
-
-#define f32 float
-#define f64 double
+typedef struct {
+  u32 pc;
+  u32 pc_settings;
+  u32 pc_items;
+  u32 n64;
+  u32 n64_saves_primary;
+  u32 n64_saves_secondary;
+} ap_memory_ptr_t;
+extern ap_memory_ptr_t ap_memory_ptrs;
+extern ap_memory_ptr_t* AP_MEMORY_PTR;
 
 enum UTIL_INJECT {
-  UTIL_INJECT_NOP,
-  UTIL_INJECT_RETVALUE,
+  UTIL_INJECT_RAW,
   UTIL_INJECT_JUMP,
   UTIL_INJECT_FUNCTION,
+  UTIL_INJECT_BRANCH,
+  UTIL_INJECT_RETVALUE,
 };
 
 void util_inject(enum UTIL_INJECT type, u32 addr, u32 data, u8 addNOP);

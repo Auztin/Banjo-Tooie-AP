@@ -13,6 +13,11 @@ enum USB_STATUS {
 
 typedef struct {
   usb_packet_t packet;
+  struct {
+    u8 saves_primary : 1;
+    u8 saves_secondary : 1;
+    u8 misc : 1;
+  } send;
   u8 status;
   u8 ping_frame;
 } usb_t;

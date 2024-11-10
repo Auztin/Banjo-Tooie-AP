@@ -1,8 +1,7 @@
-#ifndef BT_FLAGS_H
-#define BT_FLAGS_H
+#ifndef SAVE_FLAGS_H
+#define SAVE_FLAGS_H
 
 typedef struct {
-  struct {
 /* 0x00 */  u8 tutorial_honeycombs : 1;
             u8 tutorial_treble_clefs : 1;
             u8 tutorial_gold_feathers : 1;
@@ -243,7 +242,7 @@ typedef struct {
             u8 leg_spring : 1;
             u8 snooze_pack : 1;
 /* 0x1E */  u8 breegull_bash : 1;
-            u8 blue_eggs : 1; // game hangs when egg nests try to switch to a different egg type, but player has no egg types
+            u8 blue_eggs : 1; // game hangs when egg nests try to switch to a different egg type from blue, but player has no egg types
             u8 fast_swimming : 1;
             u8 ice_eggs : 1;
             u8 clockwork_kazooie_eggs : 1;
@@ -1075,7 +1074,7 @@ typedef struct {
             u8 cheats_homing_eggs_unlocked : 1;
             u8 _unknown_0x83_5 : 1;
             u8 tower_of_tragedy_round : 3; // 0 = intro, 1 = round 1, 2 = round 2, 3 = round 3, 4 = completed
-            u8 tower_of_tragedy_completed : 1; // if set and hasnt played before, plays revival cutscene on file load
+            u8 tower_of_tragedy_completed : 1; // if set and bottles and/or jingaling are dead, plays revival cutscene on file load
             u8 ck_opened_gun_chamber : 1; // useless, lasers dont hurt or block
 /* 0x84 */  u8 mt_notes_before_goliath1 : 1;
             u8 _unknown_0x84_6 : 1;
@@ -1440,97 +1439,6 @@ typedef struct {
                 Soggy: Crazy Castle
                 Moggy: Inside Dodgem
             */
-  } *flags;
-  struct {
-/* 0x00 */  u8 _unknown_0x00_7 : 1;
-            u8 _unknown_0x00_6 : 1;
-            u8 _unknown_0x00_5 : 1;
-            u8 _unknown_0x00_4 : 1;
-            u8 _unknown_0x00_3 : 1;
-            u8 _unknown_0x00_2 : 1;
-            u8 _unknown_0x00_1 : 1;
-            u8 _unknown_0x00_0 : 1;
-/* 0x01 */  u8 _unknown_0x01_7 : 1;
-            u8 _unknown_0x01_6 : 1;
-            u8 _unknown_0x01_5 : 1;
-            u8 _unknown_0x01_4 : 1;
-            u8 _unknown_0x01_3 : 1;
-            u8 _unknown_0x01_2 : 1;
-            u8 _unknown_0x01_1 : 1;
-            u8 _unknown_0x01_0 : 1;
-/* 0x02 */  u8 _unknown_0x02_7 : 1;
-            u8 _unknown_0x02_6 : 1;
-            u8 _unknown_0x02_5 : 1;
-            u8 _unknown_0x02_4 : 1;
-            u8 _unknown_0x02_3 : 1;
-            u8 _unknown_0x02_2 : 1;
-            u8 _unknown_0x02_1 : 1;
-            u8 _unknown_0x02_0 : 1;
-/* 0x03 */  u8 _unknown_0x03_7 : 1;
-            u8 _unknown_0x03_6 : 1;
-            u8 _unknown_0x03_5 : 1;
-            u8 _unknown_0x03_4 : 1;
-            u8 _unknown_0x03_3 : 1;
-            u8 _unknown_0x03_2 : 1;
-            u8 _unknown_0x03_1 : 1;
-            u8 _unknown_0x03_0 : 1;
-/* 0x04 */  u8 _unknown_0x04_7 : 1;
-            u8 _unknown_0x04_6 : 1;
-            u8 _unknown_0x04_5 : 1;
-            u8 _unknown_0x04_4 : 1;
-            u8 _unknown_0x04_3 : 1;
-            u8 _unknown_0x04_2 : 1;
-            u8 _unknown_0x04_1 : 1;
-            u8 _unknown_0x04_0 : 1;
-/* 0x05 */  u8 _unknown_0x05_7 : 1;
-            u8 _unknown_0x05_6 : 1;
-            u8 _unknown_0x05_5 : 1;
-            u8 _unknown_0x05_4 : 1;
-            u8 _unknown_0x05_3 : 1;
-            u8 _unknown_0x05_2 : 1;
-            u8 _unknown_0x05_1 : 1;
-            u8 _unknown_0x05_0 : 1;
-/* 0x06 */  u8 _unknown_0x06_7 : 1;
-            u8 _unknown_0x06_6 : 1;
-            u8 _unknown_0x06_5 : 1;
-            u8 _unknown_0x06_4 : 1;
-            u8 _unknown_0x06_3 : 1;
-            u8 _unknown_0x06_2 : 1;
-            u8 _unknown_0x06_1 : 1;
-            u8 _unknown_0x06_0 : 1;
-/* 0x07 */  u8 _unknown_0x07_7 : 1;
-            u8 _unknown_0x07_6 : 1;
-            u8 _unknown_0x07_5 : 1;
-            u8 _unknown_0x07_4 : 1;
-            u8 _unknown_0x07_3 : 1;
-            u8 _unknown_0x07_2 : 1;
-            u8 _unknown_0x07_1 : 1;
-            u8 _unknown_0x07_0 : 1;
-/* 0x08 */  u8 _unknown_0x08_7 : 1;
-            u8 _unknown_0x08_6 : 1;
-            u8 _unknown_0x08_5 : 1;
-            u8 _unknown_0x08_4 : 1;
-            u8 _unknown_0x08_3 : 1;
-            u8 _unknown_0x08_2 : 1;
-            u8 _unknown_0x08_1 : 1;
-            u8 _unknown_0x08_0 : 1;
-/* 0x09 */  u8 hag1_phase4_intro : 1;
-            u8 hag1_phase3_intro : 1;
-            u8 hag1_phase2_intro : 1;
-            u8 hag1_quiz_incorrect : 1;
-            u8 hag1_quiz_correct : 1;
-            u8 hag1_breegull_blaster_intro : 1;
-            u8 hag1_quiz_intro : 1;
-            u8 hag1_phase1_intro : 1;
-/* 0x0A */  u8 _unknown_0x0A_7 : 1;
-            u8 _unknown_0x0A_6 : 1;
-            u8 _unknown_0x0A_5 : 1;
-            u8 hag1_phase8_intro : 1;
-            u8 hag1_phase7_intro : 1;
-            u8 hag1_phase6_intro : 1;
-            u8 hag1_phase9_intro : 1;
-            u8 hag1_phase5_intro : 1;
-  } *temp_flags;
-} bt_save_t;
+} bt_save_flags_t;
 
-#endif // BT_FLAGS_H
+#endif // SAVE_FLAGS_H
