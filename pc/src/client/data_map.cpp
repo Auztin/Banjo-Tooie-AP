@@ -108,6 +108,61 @@ bool check_flag(std::string locationId) {
             case 1230674: return real->ccl_jiggy_collected_superstash;
             case 1230675: return real->ccl_jiggy_collected_jelly_castle;
 
+        //Jinjos
+            case 1230551: return real->mt_jinjo_grip_grab;
+            case 1230552: return real->mt_jinjo_kickball;
+            case 1230553: return real->mt_jinjo_temple;
+            case 1230554: return real->mt_jinjo_underwater;
+            case 1230555: return real->mt_jinjo_bridge;
+
+            case 1230556: return real->ggm_jinjo_water_storage;
+            case 1230557: return real->ggm_jinjo_gloomy_caverns;
+            case 1230558: return real->ggm_jinjo_toxic_gas_cave;
+            case 1230559: return real->ggm_jinjo_near_train_station;
+            case 1230560: return real->ggm_jinjo_tracks;
+
+            case 1230561: return real->ww_jinjo_big_top;
+            case 1230562: return real->ww_jinjo_cave_of_horrors;
+            case 1230563: return real->ww_jinjo_space;
+            case 1230564: return real->ww_jinjo_western;
+            case 1230565: return real->ww_jinjo_entrance;
+
+            case 1230566: return real->jrl_jinjo_alcove_across_town;
+            case 1230567: return real->jrl_jinjo_blubbers;
+            case 1230568: return real->jrl_jinjo_big_fish;
+            case 1230569: return real->jrl_jinjo_seaweed_sanctum;
+            case 1230570: return real->jrl_jinjo_spawned_chest;
+
+            case 1230571: return real->tdl_jinjo_lower_lake;
+            case 1230572: return real->tdl_jinjo_caged_entrance;
+            case 1230573: return real->tdl_jinjo_caged_near_rocknut;
+            case 1230574: return real->tdl_jinjo_caged_near_humba;
+            case 1230575: return real->tdl_jinjo_stomponadon;
+
+            case 1230576: return real->gi_roof_jinjo_center_window;
+            case 1230577: return real->gi_floor2_jinjo_toxic_room;
+            case 1230578: return real->gi_jinjo_waste_disposal_plant_jrl;
+            case 1230579: return real->gi_floor3_jinjo_boiler_plant;
+            case 1230580: return real->gi_outside_jinjo;
+
+            case 1230581: return real->hfp_lava_jinjo_waterfall;
+            case 1230582: return real->hfp_lava_jinjo_hot_water;
+            case 1230583: return real->hfp_icy_jinjo_wind_tunnel;
+            case 1230584: return real->hfp_icy_jinjo_icicle_grotto;
+            case 1230585: return real->hfp_icy_jinjo_mildred;
+
+            case 1230586: return real->ccl_jinjo_trashcan;
+            case 1230587: return real->ccl_jinjo_cheese;
+            case 1230588: return real->ccl_jinjo_near_jamjars;
+            case 1230589: return real->ccl_jinjo_mingy_jongo;
+            case 1230590: return real->ccl_jinjo_humba;
+
+            case 1230591: return real->ioh_jinjo_wooded_hollow;
+            case 1230592: return real->ioh_jinjo_wasteland;
+            case 1230593: return real->ioh_jinjo_cliff_top;
+            case 1230594: return real->ioh_jinjo_plateau;
+            case 1230595: return real->sm_jinjo_underwater;
+
 
         case 1230777: return fake->extra_bubbles;
         case 1230778: return fake->fast_swimming;
