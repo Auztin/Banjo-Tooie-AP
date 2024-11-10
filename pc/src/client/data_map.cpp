@@ -197,7 +197,40 @@ bool check_flag(std::string locationId) {
             case 1230751: return real->ccl_page_collected_zzzubas;
 
             case 1230752: return real->sm_page_nook;
+        //Honeycombs
+            case 1230703: return real->mt_honeycomb_piece_entrance;
+            case 1230704: return real->mt_honeycomb_piece_bovina;
+            case 1230705: return real->mt_honeycomb_piece_treasure_chamber;
 
+            case 1230706: return real->ggm_honeycomb_piece_toxic_gas_cave;
+            case 1230707: return real->ggm_honeycomb_piece_prospectors_hut;
+            case 1230708: return real->ggm_honeycomb_piece_train_station;
+
+            case 1230709: return real->ww_honeycomb_piece_space;
+            case 1230710: return real->ww_honeycomb_piece_mumbo;
+            case 1230711: return real->ww_honeycomb_piece_western;
+
+            case 1230712: return real->jrl_honeycomb_piece_seemee;
+            case 1230713: return real->jrl_honeycomb_piece_atlantis;
+            case 1230714: return real->jrl_honeycomb_piece_above_pig_pool;
+
+            case 1230715: return real->tdl_honeycomb_piece_lower_lake;
+            case 1230716: return real->tdl_honeycomb_piece_scrotty;
+            case 1230717: return real->tdl_honeycomb_piece_river_passage;
+
+            case 1230718: return real->gi_floor2_honeycomb_piece_corner_box;
+            case 1230719: return real->gi_floor1_honeycomb_piece_train_station;
+            case 1230720: return real->gi_roof_honeycomb_piece_chimney;
+
+            case 1230721: return real->hfp_lava_honeycomb_piece_inside_volcano;
+            case 1230722: return real->hfp_lava_honeycomb_piece_train_station;
+            case 1230723: return real->hfp_lava_honeycomb_piece_hot_water;
+
+            case 1230724: return real->ccl_honeycomb_piece_collected_buried_item;
+            case 1230725: return real->ccl_honeycomb_piece_trash_can;
+            case 1230726: return real->ccl_honeycomb_piece_pot_o_gold;
+
+            case 1230727: return real->ioh_honeycomb_piece_plateau;
 
         case 1230777: return fake->extra_bubbles;
         case 1230778: return fake->fast_swimming;
