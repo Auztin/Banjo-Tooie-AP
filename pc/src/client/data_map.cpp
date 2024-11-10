@@ -163,6 +163,41 @@ bool check_flag(std::string locationId) {
             case 1230594: return real->ioh_jinjo_plateau;
             case 1230595: return real->sm_jinjo_underwater;
 
+        //Pages
+            case 1230728: return real->mt_page_treasure_chamber;
+            case 1230729: return real->mt_page_prison_combound;
+            case 1230730: return real->mt_page_jade_snake;
+
+            case 1230731: return real->ggm_page_canary_mary;
+            case 1230732: return real->ggm_page_entrance;
+            case 1230733: return real->ggm_page_water_storage;
+
+            case 1230734: return real->ww_page_haunted_cavern;
+            case 1230735: return real->ww_page_inferno;
+            case 1230736: return real->ww_page_saucer_of_peril;
+
+            case 1230737: return real->jrl_page_pawno;
+            case 1230738: return real->jrl_page_seemee;
+            case 1230739: return real->jrl_page_ancient_swimming_baths;
+
+            case 1230740: return real->tdl_page_dippy;
+            case 1230741: return real->tdl_page_inside_the_mountain;
+            case 1230742: return real->tdl_page_near_mumbo;
+
+            case 1230743: return real->gi_floor1_page_collected_loggo;
+            case 1230744: return real->gi_floor2_page;
+            case 1230745: return real->gi_floor1_page_weldar;
+
+            case 1230746: return real->hfp_lava_page_from_stadium;
+            case 1230747: return real->hfp_icy_page_icicle_grotto;
+            case 1230748: return real->hfp_icy_page_tall_tower;
+
+            case 1230749: return real->ccl_page_collected_canary_mary;
+            case 1230750: return real->ccl_page_collected_pot_o_gold;
+            case 1230751: return real->ccl_page_collected_zzzubas;
+
+            case 1230752: return real->sm_page_nook;
+
 
         case 1230777: return fake->extra_bubbles;
         case 1230778: return fake->fast_swimming;
