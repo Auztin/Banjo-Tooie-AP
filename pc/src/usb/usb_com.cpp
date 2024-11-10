@@ -3,6 +3,8 @@
 
 const uint32_t USB_VERSION = USB_CURRENT_VERSION;
 
+ap_memory_t ap_memory = {0, };
+
 void memcpy16(void *dest, uint16_t src) {
   uint8_t *dst = (uint8_t*)dest;
   dst[0] = (src >> 8) & 0xFF;

@@ -1,4 +1,5 @@
 #include "data_map.hpp"
+#include <usb/usb_com.hpp>
 
     std::map<uint16_t, std::map<std::string, std::vector<std::string>>> ASSET_MAP_CHECK = {
         {0, {
@@ -12,10 +13,14 @@
     };
 
 bool check_flag(std::string locationId) {
-    // int loc_id = std::stoi(locationId);
-    // switch(loc_id) {
-    //     case 1230685: return ap_memory.n64.saves.primary.ioh_jiggy_collected_jingaling;
-    // }
+    int loc_id = std::stoi(locationId);
+    auto* real = &ap_memory.n64.saves.real;
+    auto* fake = &ap_memory.n64.saves.fake;
+    switch(loc_id) {
+        case 1230685: return real->ioh_jiggy_collected_jingaling;
+        case 1230777: return fake->extra_bubbles;
+        case 1230778: return fake->fast_swimming;
+    }
     return false;
 }
 

@@ -7,7 +7,9 @@
 #include <stdio.h>
 #include <string.h>
 #include <iostream>
+#include <ap_memory.h>
 
+extern ap_memory_t ap_memory;
 
 struct {
   FT_HANDLE handle;
