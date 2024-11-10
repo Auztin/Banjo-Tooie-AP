@@ -259,6 +259,17 @@ bool check_flag(std::string locationId) {
             case 1230701: return real->ccl_glowbo_mumbo;
 
             case 1230702: return real->ioh_glowbo;
+        //Treble Clef
+            case 1230781: return real->mt_notes_tc_behind_temple;
+            case 1230782: return real->ggm_notes_tc_water_storage;
+            case 1230783: return real->ww_notes_tc_space;
+            case 1230784: return real->jrl_notes_tc_blubbul_atlantis;
+            case 1230785: return real->tdl_notes_tc_near_humba;
+            case 1230786: return real->gi_outside_notes_tc_above_building_entrance;
+            case 1230787: return real->hfp_icy_notes_tc_icicle_grotto;
+            case 1230788: return real->ccl_notes_tc_high_bridge;
+            case 1230789: return real->ioh_notes_tc_atop_jinjo_house;
+
 
         case 1230777: return fake->extra_bubbles;
         case 1230778: return fake->fast_swimming;
@@ -266,16 +277,3 @@ bool check_flag(std::string locationId) {
     return false;
 }
 
-    //     ["1230700"] = {
-    //         ['addr'] = 0x44,
-    //         ['bit'] = 5,
-    //         ['name'] = 'CCL: Green Pool Glowbo'
-
-    //     },
-    //     ["1230701"] = {
-    //         ['addr'] = 0x44,
-    //         ['bit'] = 6,
-    //         ['name'] = 'CCL: Central Cavern Glowbo'
-
-    //     },
-    // },
