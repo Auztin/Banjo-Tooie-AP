@@ -305,6 +305,30 @@ bool check_flag(std::string locationId) {
             case 1230548: return real->jrl_doubloon_collected_underwater3;
             case 1230549: return real->jrl_doubloon_collected_underwater2;
             case 1230550: return real->jrl_doubloon_collected_underwater1;
+        //Jiggy Chunks
+            case 1231002: return real->ggm_jiggy_collected_crushing_shed_pieces3;
+            case 1231003: return real->ggm_jiggy_collected_crushing_shed_pieces2;
+            case 1231004: return real->ggm_jiggy_collected_crushing_shed_pieces1;
+        // Train Stations
+            case 1230790: return fake->gi_outside_opened_train;
+            case 1230791: return fake->tdl_opened_train;
+            case 1230792: return fake->hfp_lava_opened_train;
+            case 1230793: return fake->hfp_icy_opened_train;
+            case 1230794: return fake->ioh_opened_train;
+            case 1230795: return fake->ww_opened_train;
+        //Chuffy
+            case 1230796: return fake->ggm_defeated_chuffy;
+        //Jinjo Family
+            case 1230676: return fake->jv_jiggy_collected_jinjo_white;
+            case 1230677: return fake->jv_jiggy_collected_jinjo_orange;
+            case 1230678: return fake->jv_jiggy_collected_jinjo_yellow;
+            case 1230679: return fake->jv_jiggy_collected_jinjo_brown;
+            case 1230680: return fake->jv_jiggy_collected_jinjo_green;
+            case 1230681: return fake->jv_jiggy_collected_jinjo_red;
+            case 1230682: return fake->jv_jiggy_collected_jinjo_blue;
+            case 1230683: return fake->jv_jiggy_collected_jinjo_purple;
+            case 1230684: return fake->jv_jiggy_collected_jinjo_black;
+
 
         case 1230777: return fake->extra_bubbles;
         case 1230778: return fake->fast_swimming;
