@@ -65,8 +65,8 @@ void usb_check() {
           if (usb.packet.cmd == USB_CMD_PONG) {
             usb.status = USB_STATUS_CONNECTED;
             usb.send.misc = 1;
-            usb.send.saves_primary = 1;
-            usb.send.saves_secondary = 1;
+            usb.send.saves_real = 1;
+            usb.send.saves_fake = 1;
           }
         }
         break;
@@ -112,15 +112,15 @@ void usb_check() {
             memcpy(usb.packet.extra, &ap_memory.n64.misc, size);
             if (!usb_write(USB_CMD_N64_MISC, size)) usb.send.misc = 0;
           }
-          else if (usb.send.saves_primary) {
+          else if (usb.send.saves_real) {
             size = sizeof(bt_save_flags_t);
-            memcpy(usb.packet.extra, &ap_memory.n64.saves.primary, size);
-            if (!usb_write(USB_CMD_N64_SAVES_PRIMARY, size)) usb.send.saves_primary = 0;
+            memcpy(usb.packet.extra, &ap_memory.n64.saves.real, size);
+            if (!usb_write(USB_CMD_N64_SAVES_REAL, size)) usb.send.saves_real = 0;
           }
-          else if (usb.send.saves_secondary) {
+          else if (usb.send.saves_fake) {
             size = sizeof(bt_save_flags_t);
-            memcpy(usb.packet.extra, &ap_memory.n64.saves.secondary, size);
-            if (!usb_write(USB_CMD_N64_SAVES_SECONDARY, size)) usb.send.saves_secondary = 0;
+            memcpy(usb.packet.extra, &ap_memory.n64.saves.fake, size);
+            if (!usb_write(USB_CMD_N64_SAVES_FAKE, size)) usb.send.saves_fake = 0;
           }
         }
         break;

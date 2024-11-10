@@ -477,18 +477,18 @@ void ap_check() {
     ap_memory.n64.misc.current_map = bt_current_map;
     usb.send.misc = 1;
   }
-  u8* primary_in = (u8*)&bt_flags;
-  u8* primary_out = (u8*)&(ap_memory.n64.saves.primary);
-  u8* secondary_in = (u8*)&(save_data.custom[bt_save_slot].fake_flags);
-  u8* secondary_out = (u8*)&(ap_memory.n64.saves.secondary);
+  u8* real_in = (u8*)&bt_flags;
+  u8* real_out = (u8*)&(ap_memory.n64.saves.real);
+  u8* fake_in = (u8*)&(save_data.custom[bt_save_slot].fake_flags);
+  u8* fake_out = (u8*)&(ap_memory.n64.saves.fake);
   for (int i = 0; i < sizeof(bt_save_flags_t); i++) {
-    if (primary_out[i] != primary_in[i]) {
-      primary_out[i] = primary_in[i];
-      usb.send.saves_primary = 1;
+    if (real_out[i] != real_in[i]) {
+      real_out[i] = real_in[i];
+      usb.send.saves_real = 1;
     }
-    if (secondary_out[i] != secondary_in[i]) {
-      secondary_out[i] = secondary_in[i];
-      usb.send.saves_secondary = 1;
+    if (fake_out[i] != fake_in[i]) {
+      fake_out[i] = fake_in[i];
+      usb.send.saves_fake = 1;
     }
   }
 }
