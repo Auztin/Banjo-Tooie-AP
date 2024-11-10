@@ -14,7 +14,7 @@
 bool check_flag(std::string locationId) {
     // int loc_id = std::stoi(locationId);
     // switch(loc_id) {
-    //     case 1230685: return ap_memory
+    //     case 1230685: return ap_memory.n64.saves.primary.ioh_jiggy_collected_jingaling;
     // }
     return false;
 }
