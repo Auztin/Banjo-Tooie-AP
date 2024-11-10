@@ -269,11 +269,45 @@ bool check_flag(std::string locationId) {
             case 1230787: return real->hfp_icy_notes_tc_icicle_grotto;
             case 1230788: return real->ccl_notes_tc_high_bridge;
             case 1230789: return real->ioh_notes_tc_atop_jinjo_house;
+        //Doubloons
+            case 1230521: return real->jrl_doubloon_collected_bollards1;
+            case 1230522: return real->jrl_doubloon_collected_bollards2;
+            case 1230523: return real->jrl_doubloon_collected_bollards3;
+            case 1230524: return real->jrl_doubloon_collected_bollards4;
+            case 1230525: return real->jrl_doubloon_collected_bollards5;
+            case 1230526: return real->jrl_doubloon_collected_bollards6;
+            case 1230527: return real->jrl_doubloon_collected_wing_whack1;
+            case 1230528: return real->jrl_doubloon_collected_wing_whack2;
+            case 1230529: return real->jrl_doubloon_collected_wing_whack3;
+            case 1230530: return real->jrl_doubloon_collected_wing_whack4;
+            case 1230531: return real->jrl_doubloon_collected_pig_pool4;
+            case 1230532: return real->jrl_doubloon_collected_pig_pool3;
+            case 1230533: return real->jrl_doubloon_collected_pig_pool2;
+            case 1230534: return real->jrl_doubloon_collected_pig_pool1;
+            case 1230535: return real->jrl_doubloon_collected_mumbo1;
+            case 1230536: return real->jrl_doubloon_collected_mumbo2;
+            case 1230537: return real->jrl_doubloon_collected_mumbo3;
+            case 1230538: return real->jrl_doubloon_collected_mumbo4;
 
+
+            case 1230539: return real->jrl_doubloon_collected_buried_spot_entrance;
+            case 1230540: return real->jrl_doubloon_collected_buried_spot_pawnos;
+            case 1230541: return real->jrl_doubloon_collected_buried_spot_jollys;
+
+            case 1230542: return real->jrl_doubloon_collected_shock_jump_alcove3;
+            case 1230543: return real->jrl_doubloon_collected_shock_jump_alcove2;
+            case 1230544: return real->jrl_doubloon_collected_shock_jump_alcove1;
+
+            case 1230545: return real->jrl_doubloon_collected_captain_blackeye1;
+            case 1230546: return real->jrl_doubloon_collected_captain_blackeye2;
+
+            case 1230547: return real->jrl_doubloon_collected_underwater4;
+            case 1230548: return real->jrl_doubloon_collected_underwater3;
+            case 1230549: return real->jrl_doubloon_collected_underwater2;
+            case 1230550: return real->jrl_doubloon_collected_underwater1;
 
         case 1230777: return fake->extra_bubbles;
         case 1230778: return fake->fast_swimming;
     }
     return false;
 }
-
