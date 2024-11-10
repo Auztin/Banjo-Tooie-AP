@@ -15,7 +15,7 @@ LDFLAGS += -L lib/vcp-driver/amd64 -L lib/vcp-driver/i386
 LDFLAGS += -l ftd2xx
 OBJS = $(patsubst %.cpp,%.o,$(shell find src/ -type f -name '*.cpp'))
 
-all: clean main
+all: clean .WAIT main
 
 %.o: %.cpp
 	$(CXX) -c $< -o $@ $(CXXFLAGS)
