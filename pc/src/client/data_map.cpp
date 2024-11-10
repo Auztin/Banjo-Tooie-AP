@@ -2,13 +2,618 @@
 #include <usb/usb_com.hpp>
 
     std::map<uint16_t, std::map<std::string, std::vector<std::string>>> ASSET_MAP_CHECK = {
-        {0, {
+        {0, { // ALL MAPS
             {"JIGGIES", {"1230685, 1230638"}}
         }},
-        {0xAF, {
+        {0xAF, { // Spiral Mountain
             {"STOPNSWAP", {"1230956"}},
             {"JINJOS", {"1230595"}},
             {"PAGES", {"1230752"}}
+        }},
+        {0xAE, { // SM - Behind the waterfall
+            {"STOPNSWAP", {"1230957"}}
+        }},
+        {0xAD, { //SM - Grunty's Lair
+            {"CHEATOR", {"1230992", "1230993", "1230994", "1230995", "1230996"}}
+        }},
+
+        //JINJO VILLAGE
+        {0x142, { // JV
+            {"TREBLE", {"1230789"}},
+            {"ICEKEY", {"1230958"}}
+        }},
+        {0x143, { //JV - Bottles' House
+            {"AMAZE", {"1231005"}},
+        }},
+
+        //ISLE O' HAGS
+        {0x155, { //IoH - Cliff Top
+            {"JINJOS", {"1230593"}},
+            {"GLOWBO", {"1230702"}},
+            {"NOTES", {"1230936","1230937","1230938","1230939",}},
+            {"SILO", {"1230763"}},
+            {"STATIONBTN", {"1230794"}}
+        }},
+        {0x150, { //IoH - Heggy's Egg Shed
+            {"STOPNSWAP", {"1230953", "1230954", "1230955"}}
+        }},
+        {0x154, { //IoH - Pine Grove
+            {"NOTES", {"1230932","1230933","1230934", "1230935"}},
+            {"SILO", {"1230759"}}
+        }},
+        {0x152, { //IoH - Plateau
+            {"JINJOS", {"1230594"}},
+            {"HONEYCOMB", {"1230727"}},
+            {"NOTES", {"1230928", "1230929", "1230930", "1230931"}},
+            {"SILO", {"1230756"}}
+        }},
+        // {"0x153",	{"Isle O' Hags", "Plateau"},            //IoH - Plateau - Honey B's Hive
+        
+        {0x15A, { //IoH - Wasteland
+            {"JINJOS", {"1230592"}},
+            {"NOTES", {"1230940","1230941","1230942","1230943"}},
+            {"SILO", {"1230767"}},
+        }},
+        {0x14F, { //IoH - Wooded Hollow
+            {"JINJOS", {"1230591"}},
+            {"STOPNSWAP", {"1230953","1230954","1230955"}}
+        }},
+        //MAYAHEM TEMPLE
+        {0xB8, { //MT
+            {"JIGGIES", {"1230599","1230604"}},
+            {"JINJOS", {"1230552", "1230554", "1230555"}},
+            {"PAGES", {"1230728"}},
+            {"HONEYCOMB", {"1230703","1230704"}},
+            {"NOTES", {
+                "1230800",
+                "1230801",
+                "1230802",
+                "1230803",
+                "1230804",
+                "1230805",
+                "1230806",
+                "1230807",
+                "1230808",
+                "1230809",
+                "1230810",
+                "1230811",
+                "1230812",
+                "1230813",
+                "1230814",
+                "1230815",
+            }},
+            {"TREBLE", {"1230781"}},
+            {"SILO", {"1230754","1230755"}},
+        }},
+        {0xC4, { //MT - Jade Snake Grove
+            {"JIGGIES", {"1230601","1230605"}},
+            {"JINJOS", {"1230551"}},
+            {"PAGES", {"1230730"}},
+            {"GLOWBO", {"1230687"}},
+            {"SILO", {"1230753",}},
+        }},
+        {0xBB, { //MT - Mayan Kickball Stadium (Lobby)
+            {"JIGGIES", {"1230598"}}
+        }},
+        {0xB7, { //MT - Mumbo's Skull
+            {"GLOWBO", {"1230686"}}
+        }},
+        {0xB9, { //MT - Prison Compound
+            {"JIGGIES", {"1230602", "1230603"}},
+            {"PAGES", {"1230729"}}
+        }},
+        {0x17A,	{ //MT - Targitzan's Really Sacred Chamber
+            {"JIGGIES", {"1230596"}}
+        }},
+        {0x177,	{ //MT - Targitzan's Slightly Sacred Chamber
+            {"JIGGIES", {"1230597"}}
+        }},
+        {0xC5, { //MT - Treasure Chamber
+            {"JIGGIES", {"1230600"}},
+            {"HONEYCOMB", {"1230705"}}
+        }},
+        {0x178, { //MT - Inside Tatgitzan's Temple
+            {"JINJOS", {"1230553"}}
+        }},
+        //GLITTER GULCH MINE
+        
+        {0xC7,{ //GGM
+            {"JIGGIES", {"1230607","1230612","1230613"}},
+            {"JINJOS", {"1230559","1230560"}},
+            {"PAGES", {"1230731", "1230732"}},
+            {"HONEYCOMB", {"1230707"}},
+            {"GLOWBO", {"1230688","1230689"}},
+            {"NOTES", {
+                "1230816",
+                "1230817",
+                "1230818",
+                "1230819",
+                "1230820",
+                "1230821",
+                "1230822",
+                "1230823",
+                "1230824",
+                "1230825",
+                "1230826",
+                "1230827",
+            }},
+            {"SILO", {"1230757"}},
+        }},
+        {0xCC,{ //GGM - Flooded Caves
+            {"JIGGIES", {"1230615"}}
+        }},
+        {0xCA,{ //GGM - Fuel Depot
+            {"NOTES", {"1230828","1230829","1230830","1230831"}}
+        }},
+        {0xD3, { //GGM - Generator Cavern
+            {"JIGGIES", {"1230608"}}
+        }},
+        {0xD2, { //GGM - Gloomy Caverns
+            {"JINJOS", {"1230557"}}
+        }},
+        {0xD1, { //GGM - Inside Chuffy's Boiler
+            {"JIGGIES", {"1230606"}}
+        }},
+        {0x163,	{ //GGM - Ordnance Storage Entrance
+            {"JIGGIES", {"1230610"}},
+            {"SILO", {"1230758",}},
+        }},
+        {0xCF, { //GGM - Power Hut Basement
+            {"JIGGIES", {"1230614"}},
+        }},
+        {0xD8, { //GGM - Prospector's Hut
+            {"JIGGIES", {"1230611"}},
+        }},
+        {0xDA, { //GGM - Toxic Gas Cave
+            {"JINJOS", {"1230558"}},
+            {"HONEYCOMB", {"1230706"}}
+        }},
+        {0xD7, { //GGM - Train Station
+            {"HONEYCOMB", {"1230708"}}
+        }},
+        {0xCD, { //GGM - Water Storage
+            {"JINJOS", {"1230556"}},
+            {"PAGES", {"1230733"}},
+            {"TREBLE", {"1230782"}}
+        }},
+        {0xCE, { //GGM - Waterfall Cavern
+            {"JIGGIES", {"1230609"}},
+        }},
+        //{0xD0, {}}, // GGM - Chuffy Cabin
+
+        //WITCHYWORLD
+        {0xD6, { //WW
+            {"JIGGIES", {"1230619","1230621","1230622","1230625"}},
+            {"JINJOS", {"1230561","1230563","1230564","1230565"}},
+            {"PAGES", {"1230736"}},
+            {"HONEYCOMB", {"1230709"}},
+            {"NOTES", {
+                "1230832",
+                "1230833",
+                "1230834",
+                "1230835",
+                "1230836",
+                "1230837",
+                "1230838",
+                "1230839",
+                "1230840",
+                "1230841",
+                "1230842",
+                "1230843",
+                "1230844",
+                "1230845",
+                "1230846",
+                "1230847",
+            }},
+            {"TREBLE", {"1230783"}},
+            {"SILO", {"1230761","1230760"}},
+        }},
+        {0xEA, { //WW - Cave of Horrors
+            {"JINJOS", {"1230562"}}
+        }},
+        {0xE1, { //WW - Crazy Castle Stockade
+            {"JIGGIES", {"1230616","1230620"}},
+            {"HONEYCOMB", {"1230711"}},
+            {"SILO", {"1230762"}},
+        }},
+        {0xDD, { //WW - Dodgem Dome Lobby
+            {"JIGGIES", {"1230617"}},
+        }},
+        {0xEB, { //WW - Haunted Cavern
+            {"PAGES", {"1230734"}}
+        }},
+        {0xF9, { //WW - Mr. Patch
+            {"JIGGIES", {"1230618"}},
+        }},
+        {0xE6, { //WW - Star Spinner
+            {"JIGGIES", {"1230623"}},
+        }},
+        {0xE7, { //WW - The Inferno
+            {"JIGGIES", {"1230624"}},
+            {"PAGES", {"1230735"}},
+            {"GLOWBO", {"1230690"}}
+        }},
+        {0x176, { // WW - Mumbo Skull
+            {"HONEYCOMB", {"1230710"}}
+        }},
+        {0xD5, { //WW - Wumba's Wigwam
+            {"GLOWBO", {"1230691"}}
+        }},
+        {0xEC, { // WW - Train Station
+            {"STATIONBTN", {"1230795"}}
+        }},
+
+        //JOLLY ROGER'S LAGOON
+        {0x1A7, { //JRL
+            {"JIGGIES", {"1230627","1230635","1230629"}},
+            {"JINJOS", {"1230566"}},
+            {"HONEYCOMB", {"1230714"}},
+            {"DOUBLOON", {
+                "1230521",
+                "1230522",
+                "1230523",
+                "1230524",
+                "1230525",
+                "1230526",
+                "1230527",
+                "1230528",
+                "1230529",
+                "1230530",
+                "1230531",
+                "1230532",
+                "1230533",
+                "1230534",
+                "1230539",
+                "1230540",
+                "1230541",
+                "1230542",
+                "1230543",
+                "1230544",
+                "1230547",
+                "1230548",
+                "1230549",
+                "1230550",
+            }},
+            {"NOTES", {
+                "1230848",
+                "1230849",
+                "1230850",
+                "1230851",
+                "1230852",
+            }},
+            {"SILO", {"1230764"}}
+        }},
+        {0xF4, { //JRL - Ancient Swimming Baths
+            {"PAGES", {"1230739"}}
+        }},
+        {0x1A8,	{ //JRL - Atlantis
+            {"JIGGIES", {"1230633"}},
+            {"JINJOS", {"1230570"}},
+            {"PAGES", {"1230738"}},
+            {"HONEYCOMB", {"1230713","1230712"}},
+            {"GLOWBO", {"1230693"}},
+            {"NOTES", {"1230853","1230854"}},
+            {"TREBLE", {"1230784"}}
+        }},
+        {0xFF, { //JRL - Blubber's Wave Race Hire
+            {"JINJOS", {"1230567"}},
+            {"NOTES", {"1230855","1230856","1230857"}}
+        }},
+        {0xF6, {  //JRL - Electric Eel's lair
+            {"SILO", {"1230765"}},
+        }},
+        {0xF8, { //JRL - Inside the Big Fish
+            {"JINJOS", {"1230568"}}
+        }},
+        {0xED, { //JRL - Jolly's
+            {"JIGGIES", {"1230631"}},
+            {"DOUBLOON", {"1230545""1230546"}},
+            {"NOTES", {"1230861","1230862","1230863"}},
+            {"SILO", {"1230766"}},
+        }},
+        {0xFC, { //JRL - Lord Woo Fak Fak
+            {"JIGGIES", {"1230632"}},
+        }},      
+        {0xEE, { //JRL - Pawno's Emporium
+            {"JIGGIES", {"1230634"}},
+            {"PAGES", {"1230737"}},
+            {"GLOWBO", {"1230692"}},
+            {"NOTES", {"1230858","1230859","1230860"}}
+        }},
+        {0x1A9,	{ //JRL - Sea Bottom
+            {"JIGGIES", {"1230633"}},
+            {"PAGES", {"1230738"}},
+            {"HONEYCOMB", {"1230712"}}
+        }},
+        {0x181,	{ //JRL - Sea Botom Cavern
+            {"JIGGIES", {"1230626"}},
+        }},
+        {0xF7, { //JRL - Seaweed Sanctum
+            {"JINJOS", {"1230569"}}
+        }},
+        {0x1A6,	{ //JRL - Smuggler's cavern
+            {"JIGGIES", {"1230633","1230630"}},
+            {"PAGES", {"1230738"}},
+            {"HONEYCOMB", {"1230712"}}
+        }},
+        {0xFA, { //JRL - Temple of the Fishes
+            {"JIGGIES", {"1230628"}},
+        }},
+        {0xEF, { //JRL - Mumbo's Skull
+            {"DOUBLOON", {"1230535","1230536","1230537","1230538"}}
+        }},
+
+        //TERRYDACTYLAND
+        {0x112,	{ //TDL
+            {"JIGGIES", {"1230637","1230644","1230645"}},
+            {"JINJOS", {"1230571","1230572","1230573","1230574"}},
+            {"PAGES", {"1230740""1230742"}},
+            {"HONEYCOMB", {"1230715"}},
+            {"GLOWBO", {"1230694","1230695"}},
+            {"NOTES", {
+                "1230864",
+                "1230865",
+                "1230866",
+                "1230867",
+                "1230868",
+                "1230869",
+                "1230870",
+                "1230871",
+                "1230872",
+                "1230873",
+                "1230874",
+                "1230875",
+            }},
+            {"TREBLE", {"1230785"}},
+            {"SILO", {"1230768"}},
+            {"STATIONBTN", {"1230791"}}
+        }},
+        {0x123, { //TDL - Inside Chompa's Belly
+            {"JIGGIES", {"1230641"}},
+        }},
+        {0x116, { //TDL - Inside the Mountain
+            {"JIGGIES", {"1230636"}},
+            {"PAGES", {"1230741"}}
+        }},
+        {0x115, { //TDL - Oogle Boogles' Cave
+            {"JIGGIES", {"1230640"}},
+        }},
+        {0x117, { //TDL - River Passage
+            {"HONEYCOMB", {"1230717"}},
+            {"NOTES", {"1230876","1230877","1230878","1230879"}},
+            {"SILO", {"1230769"}},
+        }},
+        {0x119, { // Unga Bunga Cave
+            {"SILO", {"1230770"}}
+        }},
+        {0x11A, { //TDL - Stomping Plains
+            {"JIGGIES", {"1230643"}},
+            {"JINJOS", {"1230575"}}
+        }},
+        {0x118,	{ //TDL - Styracosaurus Family Cave
+            {"HONEYCOMB", {"1230716"}}
+        }},
+        {0x113,	{ //TDL - Terry's Nest
+            {"JIGGIES", {"1230639","1230642"}},
+        }},
+        {0x114,	{ //TDL - Train Station
+            {"JIGGIES", {"1230644"}}
+        }},
+
+        //GRUNTY'S INDUSTRIES
+        {0x100,	{ //GI
+            {"JIGGIES", {"1230649"}},
+            {"JINJOS", {"1230580"}},
+            {"HONEYCOMB", {"1230720"}},
+            {"TREBLE", {"1230786"}},
+            {"STATIONBTN", {"1230790"}}
+        }},
+        {0x10F, { //GI - Basement
+            {"JIGGIES", {"1230647"}},
+            {"NOTES", {"1230892","1230893"}}
+        }},
+        {0x110,	{ //GI - Basement (Repair Depot)
+            {"PAGES", {"1230745"}}
+        }},
+        {0x111,	{ //GI - Basement (Waste Disposal)
+            {"JIGGIES", {"1230646""1230655","1230661","1230629"}},
+            {"JINJOS", {"1230578"}},
+            {"NOTES", {"1230890","1230891"}},
+            {"SILO", {"1230771"}},
+        }},
+        {0x101,	{ //GI - Floor 1
+            {"JIGGIES", {"1230649","1230652"}},
+            {"NOTES", {"1230883","1230884"}},
+            {"SILO", {"1230773"}},
+        }},
+        {0x106,	{ //GI - Floor 2
+            {"JIGGIES", {"1230649"}},
+            {"JINJOS", {"1230577"}},
+            {"PAGES", {"1230744"}},
+            {"GLOWBO", {"1230696"}},
+            {"NOTES", {
+                "1230885",
+                "1230886",
+                "1230887",
+                "1230888",
+                "1230889"
+            }},
+            {"SILO", {"1230772"}},
+        }},
+        {0x108,	{ //GI - Floor 3
+            {"JIGGIES", {"1230649"}},
+            {"HONEYCOMB", {"1230718"}},
+            {"GLOWBO", {"1230697"}},
+            {"NOTES", {"1230894","1230895"}}
+        }},
+        {0x109,	{ //GI - Floor 3 (Boiler Plant)
+            {"JINJOS", {"1230579"}}
+        }},
+        {0x10A,	{ //GI - Floor 3 (Packing Room)
+            {"JIGGIES", {"1230654"}},
+        }},
+        // {0x10B,	{ //GI - Floor 4
+
+        // }},
+        {0x10D,	{ //GI - Floor 4 (Quality Control)
+            {"JIGGIES", {"1230651"}},
+        }},
+        {0x10E,	{ //GI - Floor 5
+            {"JIGGIES", {"1230649","1230650"}},
+            {"JINJOS", {"1230576"}}
+        }},
+        {0x187,	{ //GI - Sewer Entrance
+            {"JIGGIES", {"1230648"}},
+        }},
+        {0x102,	{ //GI - Train Station
+            {"HONEYCOMB", {"1230719"}},
+            {"NOTES", {"1230880","1230881","1230882"}}
+        }},
+        {0x104,	{ //GI - Trash Compactor
+            {"JIGGIES", {"1230653"}},
+        }},
+        {0x103,	{ //GI - Workers' Quarters
+            {"JIGGIES", {"1230649"}},
+            {"PAGES", {"1230743"}}
+        }},
+
+        //HAILFIRE PEAKS
+        {0x131,	{ //HFP - Boggy's Igloo
+            {"JIGGIES", {"1230659"}}
+        }},
+        {0x12B,	{ //HFP - Chilli Billi
+            {"JIGGIES", {"1230656"}}
+        }},
+        {0x12C,	{ //HFP - Chilly Willy
+            {"JIGGIES", {"1230656"}}
+        }},
+        {0x132,	{ //HFP - Icicle Grotto
+            {"JINJOS", {"1230584"}},
+            {"PAGES", {"1230747"}},
+            {"TREBLE", {"1230787"}}
+        }},
+        {0x128,	{ //HFP - Icy Side
+            {"JIGGIES", {"1230660","1230662","1230664"}},
+            {"JINJOS", {"1230585","1230583"}},
+            {"PAGES", {"1230748"}},
+            {"GLOWBO", {"1230699","1230046"}},
+            {"NOTES", {
+                "1230904",
+                "1230905",
+                "1230906",
+                "1230907",
+                "1230908",
+                "1230909",
+                "1230910",
+                "1230911",
+            }},
+            {"SILO", {"1230775",}},
+            {"STATIONBTN", {"1230793"}}
+        }},
+        {0x133,	{ //HFP - Inside the Volcano
+            {"JIGGIES", {"1230657"}},
+            {"HONEYCOMB", {"1230721"}}
+        }},
+        {0x12D,	{ //HFP - Kickball Stadium lobby
+            {"JIGGIES", {"1230663"}},
+        }},
+        {0x127,	{ //HFP - Lava Side
+            {"JIGGIES", {"1230658","1230665","1230629"}},
+            {"JINJOS", {"1230581","1230582"}},
+            {"PAGES", {"1230746"}},
+            {"HONEYCOMB", {"1230723"}},
+            {"GLOWBO", {"1230698"}},
+            {"NOTES", {
+                "1230896",
+                "1230897",
+                "1230898",
+                "1230899",
+                "1230900",
+                "1230901",
+                "1230902",
+                "1230903",
+            }},
+            {"SILO", {"1230774"}},
+            {"STATIONBTN", {"1230792"}}
+        }},
+        {0x129,	{ //HFP - Lava Train Station
+            {"HONEYCOMB", {"1230722"}}
+        }},
+        // {0x12A, { // HFP - Icy Side Station
+
+        // }},
+        //CLOUD CUCKOOLAND
+        {0x136,	{ //CCL
+            {"JIGGIES", {
+                "1230667", // Mr Fit
+                "1230669", // Canary Mary 3
+                "1230671", // Jiggium Plant
+                "1230675", // Jelly Castle
+                "1230637", // Dippy
+            }},
+            {"PAGES", {
+                "1230749" // Canary Mary
+            }},
+            {"HONEYCOMB", {
+                "1230724", // Dirt Patch
+                "1230726", // Pot O Gold
+                "1230725" // Trash
+            }},
+            {"GLOWBO", {
+                "1230700"
+            }}
+        }},
+        {0x13A,	{ //CCL - Central Cavern
+            {"JIGGIES", {"1230674"}},
+            {"JINJOS", {"1230588"}},
+            {"GLOWBO", {"1230701"}},
+            {"NOTES", {
+                "1230912",
+                "1230913",
+                "1230914",
+                "1230915",
+                "1230916",
+                "1230917",
+                "1230918",
+                "1230919",
+                "1230920",
+                "1230921",
+                "1230922",
+                "1230923",
+                "1230924",
+                "1230925",
+                "1230926",
+                "1230927",
+            }},
+            {"TREBLE", {"1230788"}},
+            {"SILO", {"1230776"}}
+        }},
+        {0x138,	{ //CCL - Inside the Cheese Wedge
+            {"JIGGIES", {"1230672"}},
+            {"JINJOS", {"1230587"}}
+        }},
+        {0x13D,	{ //CCL - Inside the Pot o' Gold
+            {"JIGGIES", {"1230668"}},
+            {"PAGES", {"1230750"}}
+        }},
+        {0x137,	{ //CCL - Inside the Trash Can
+            {"JIGGIES", {"1230673"}},
+            {"JINJOS", {"1230586"}}
+        }},
+        {0x13F,	{ //CCL - Mingy Jongo's Skull
+            {"JIGGIES", {"1230666"}},
+            {"JINJOS", {"1230589"}}
+        }},
+        {0x13E,	{ //CCL - Mumbo's Skull
+            {"JIGGIES", {"1230666"}},
+            {"JINJOS", {"1230589"}}
+        }},
+        {0x140,	{ //CCL - Wumba's Wigwam
+            {"JINJOS", {"1230590"}}
+        }},
+        {0x139,	{ //CCL - Zubbas' Nest
+            {"JIGGIES", {"1230670"}},
+            {"PAGES", {"1230751"}}
         }}
     };
 
