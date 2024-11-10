@@ -13,8 +13,8 @@ typedef struct {
     u16 _unused2;
   } misc;
   struct {
-    bt_save_flags_t primary; // vanilla save flags
-    bt_save_flags_t secondary; // separated save flags
+    bt_save_flags_t real; // vanilla save flags
+    bt_save_flags_t fake; // separated save flags
   } saves;
 } ap_memory_n64_t;
 

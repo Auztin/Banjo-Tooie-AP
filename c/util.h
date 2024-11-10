@@ -10,8 +10,8 @@ typedef struct {
   u32 pc_settings;
   u32 pc_items;
   u32 n64;
-  u32 n64_saves_primary;
-  u32 n64_saves_secondary;
+  u32 n64_saves_real;
+  u32 n64_saves_fake;
 } ap_memory_ptr_t;
 extern ap_memory_ptr_t ap_memory_ptrs;
 extern ap_memory_ptr_t* AP_MEMORY_PTR;
