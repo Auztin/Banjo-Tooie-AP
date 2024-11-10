@@ -231,6 +231,34 @@ bool check_flag(std::string locationId) {
             case 1230726: return real->ccl_honeycomb_piece_pot_o_gold;
 
             case 1230727: return real->ioh_honeycomb_piece_plateau;
+        // GLOWBOS
+            case 1230046: return real->collected_mega_glowbo;
+
+            case 1230686: return real->mt_glowbo_mumbo;
+            case 1230687: return real->mt_glowbo_humba;
+
+            case 1230688: return real->ggm_glowbo_humba;
+            case 1230689: return real->ggm_glowbo_mumbo;
+
+            case 1230690: return real->ww_glowbo_mumbo;
+            case 1230691: return real->ww_glowbo_humba;
+
+            case 1230692: return real->jrl_glowbo_mumbo;
+            case 1230693: return real->jrl_glowbo_humba;
+
+            case 1230694: return real->jrl_glowbo_humba;
+            case 1230695: return real->jrl_glowbo_mumbo;
+
+            case 1230696: return real->gi_floor2_glowbo_humba;
+            case 1230697: return real->gi_floor3_glowbo_mumbo;
+
+            case 1230698: return real->hfp_lava_glowbo_mumbo;
+            case 1230699: return real->hfp_icy_glowbo_humba;
+
+            case 1230700: return real->ccl_glowbo_humba;
+            case 1230701: return real->ccl_glowbo_mumbo;
+
+            case 1230702: return real->ioh_glowbo;
 
         case 1230777: return fake->extra_bubbles;
         case 1230778: return fake->fast_swimming;
@@ -238,3 +266,16 @@ bool check_flag(std::string locationId) {
     return false;
 }
 
+    //     ["1230700"] = {
+    //         ['addr'] = 0x44,
+    //         ['bit'] = 5,
+    //         ['name'] = 'CCL: Green Pool Glowbo'
+
+    //     },
+    //     ["1230701"] = {
+    //         ['addr'] = 0x44,
+    //         ['bit'] = 6,
+    //         ['name'] = 'CCL: Central Cavern Glowbo'
+
+    //     },
+    // },
