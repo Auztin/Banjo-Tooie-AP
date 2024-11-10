@@ -16,8 +16,8 @@ void pre_init(); // before bt initializes
 void post_init(); // after bt initializes, next frame should be start of puzzle transition
 void pre_loop(); // before after frame
 void post_loop(); // after every frame
-void pre_load_scene(u16 *scene, u16 *entry); // before a scene load. scene and entry can be changed to load another scene/entry
-void post_load_scene(u16 scene, u16 entry); // after a scene load
+void pre_load_scene(u16 *scene, u16 *exit); // before a scene load. scene and exit can be changed to load another scene/exit
+void post_load_scene(u16 scene, u16 exit); // after a scene load
 void pre_load_save(); // during scene load, before save is loaded. bt_save is null
 void post_load_save(); // during scene load, after save is loaded
 void pre_object_init(bt_object_t *obj); // just after an object is loaded into memory, before it is initialized

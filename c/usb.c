@@ -103,6 +103,10 @@ void usb_check() {
               memcpy(ap_memory.pc.items, usb.packet.extra, usb.packet.size);
               break;
             }
+            case USB_CMD_PC_EXIT_MAP: {
+              memcpy(ap_memory.pc.exit_map+usb.packet.exit_map.offset, usb.packet.exit_map.data, usb.packet.size);
+              break;
+            }
           }
         }
         if (ed64_can_write()) {

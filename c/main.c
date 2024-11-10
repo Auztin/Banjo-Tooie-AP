@@ -27,23 +27,33 @@ void post_loop() {
   if (bt_save_slot != 0xFF && bt_current_map != 0x0158) ap_check();
 }
 
-void pre_load_scene(u16 *scene, u16 *entry) {
+void pre_load_scene(u16 *scene, u16 *exit) {
   bt_temp_flags.bubble_cutscene = 0;
   if (ap_memory.pc.settings.skip_tower_of_tragedy) bt_flags.tower_of_tragedy_completed = 0;
   if (ap_memory.pc.settings.randomize_chuffy && !save_data.custom[bt_save_slot].fake_flags.ggm_defeated_chuffy) {
     bt_flags.train_at_ggm = 1;
     bt_flags.train_at_ioh = 0;
   }
+  for (int i = 0; i < AP_MEMORY_EXIT_MAP_MAX; i++) {
+    ap_memory_pc_exit_map_t* mapping = &(ap_memory.pc.exit_map[i]);
+    if (!mapping->on_map) break;
+    if (mapping->on_map != bt_current_map) continue;
+    if (mapping->og_map == *scene && mapping->og_exit == *exit) {
+      *scene = mapping->to_map;
+      *exit = mapping->to_exit;
+      break;
+    }
+  }
   switch (*scene) {
     case BT_MAP_CUTSCENE_OPENING:
       main.new_file = 1;
       *scene = BT_MAP_SPIRAL_MOUNTAIN;
-      *entry = 0x0004;
+      *exit = 0x0004;
       break;
     case BT_MAP_CUTSCENE_REVIVAL:
       if (ap_memory.pc.settings.skip_tower_of_tragedy) { // should only be possible if you save & quit in the ToT quiz room
         *scene = BT_MAP_JINJO_VILLAGE;
-        *entry = 0x0003;
+        *exit = 0x0003;
       }
       break;
     case BT_MAP_TOT_QUIZ_ROOM:
@@ -58,7 +68,7 @@ void pre_load_scene(u16 *scene, u16 *entry) {
   }
 }
 
-void post_load_scene(u16 scene, u16 entry) {
+void post_load_scene(u16 scene, u16 exit) {
 }
 
 void pre_load_save() {

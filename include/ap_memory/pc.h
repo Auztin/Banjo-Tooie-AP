@@ -3,6 +3,16 @@
 
 #include "items.h"
 
+#define AP_MEMORY_EXIT_MAP_MAX 63
+
+typedef struct {
+  u16 on_map;
+  u16 og_map;
+  u16 to_map;
+  u8  og_exit;
+  u8  to_exit;
+} ap_memory_pc_exit_map_t;
+
 typedef struct {
   struct {
     u8 death_link_us; // if != n64.death_link_us, send death link and increment
@@ -32,6 +42,7 @@ typedef struct {
     u8 open_silos[AP_SILO_MAX];
   } settings;
   u8 items[AP_ITEM_MAX];
+  ap_memory_pc_exit_map_t exit_map[AP_MEMORY_EXIT_MAP_MAX];
 } ap_memory_pc_t;
 
 #endif // AP_MEMORY_PC_H

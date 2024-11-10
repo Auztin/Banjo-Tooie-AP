@@ -14,6 +14,7 @@ enum USB_CMD {
   USB_CMD_PC_MISC,
   USB_CMD_PC_SETTINGS,
   USB_CMD_PC_ITEMS,
+  USB_CMD_PC_EXIT_MAP,
   USB_CMD_N64_MISC,
   USB_CMD_N64_SAVES_REAL,
   USB_CMD_N64_SAVES_FAKE,
@@ -33,6 +34,10 @@ typedef struct {
           uint8_t msg[4];
           uint32_t version;
         } handshake;
+        struct {
+          uint32_t offset;
+          uint8_t data[504];
+        } exit_map;
       };
     };
     uint8_t raw[512];
