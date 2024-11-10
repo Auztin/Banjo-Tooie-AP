@@ -35,7 +35,7 @@ void pre_load_scene(u16 *scene, u16 *entry) {
     bt_flags.train_at_ioh = 0;
   }
   switch (*scene) {
-    case BT_MAP_OPENING_CUTSCENE:
+    case BT_MAP_CUTSCENE_OPENING:
       main.new_file = 1;
       *scene = BT_MAP_SPIRAL_MOUNTAIN;
       *entry = 0x0004;
