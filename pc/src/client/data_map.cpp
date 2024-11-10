@@ -501,7 +501,7 @@ bool check_flag(std::string locationId) {
         //Roysten
             case 1230777: return fake->extra_bubbles;
             case 1230778: return fake->fast_swimming;
-        //Jamjars
+        //Jamjars + Amaze + roar
             case 1230753: return fake->grip_grab;
             case 1230754: return fake->breegull_blaster;
             case 1230755: return fake->egg_aim;
@@ -526,7 +526,8 @@ bool check_flag(std::string locationId) {
             case 1230774: return fake->shack_pack;
             case 1230775: return fake->glide;
             case 1230776: return fake->sack_pack;
-
+            case 1231005: return fake->amaze_o_gaze;
+            case 1231009: return fake->trex_roar;
     }
     return false;
 }
