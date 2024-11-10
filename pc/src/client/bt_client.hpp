@@ -8,6 +8,7 @@
 #include <iostream>
 #include <random>
 #include <vector>
+#include "data_map.hpp"
 
 class BTClient {
 public:
@@ -54,10 +55,12 @@ private:
   std::string OPEN_SILO = "NONE"; //Which Silo is Open
   std::string CLIENT_VERSION = "V0.0";
   bool VERSION_ERR = false;
+  nlohmann::json JIGGY_CHECKS; 
 
   int SEED = 0;
   asio::awaitable<void> receive();
   asio::awaitable<void> getSlotData();
+  asio::awaitable<void> check_jiggy_locations();
   bool DEBUG_NET = false;
   asio::awaitable<void> send(std::string jsonData);
   asio::awaitable<nlohmann::json> read();

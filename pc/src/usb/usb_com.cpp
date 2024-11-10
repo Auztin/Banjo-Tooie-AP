@@ -30,15 +30,15 @@ void usb_packet_endian_swap() {
     case USB_CMD_HANDSHAKE:
       endian_swap32(&usb.packet.handshake.version);
       break;
-    case USB_CMD_READ8:
-    case USB_CMD_READ16:
-    case USB_CMD_READ32:
-    case USB_CMD_WRITE8:
-    case USB_CMD_WRITE16:
-    case USB_CMD_WRITE32:
-      endian_swap32(&usb.packet.mem.addr);
-      endian_swap32(&usb.packet.mem.val);
-      break;
+    // case USB_CMD_READ8:
+    // case USB_CMD_READ16:
+    // case USB_CMD_READ32:
+    // case USB_CMD_WRITE8:
+    // case USB_CMD_WRITE16:
+    // case USB_CMD_WRITE32:
+    //   endian_swap32(&usb.packet.mem.addr);
+    //   endian_swap32(&usb.packet.mem.val);
+    //   break;
   }
 }
 
