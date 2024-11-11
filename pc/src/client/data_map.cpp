@@ -921,17 +921,17 @@ bool check_flag(std::string locationId) {
             case 1230794: return fake->ioh_opened_train;
             case 1230795: return fake->ww_opened_train;
         //Chuffy
-            case 1230796: return fake->ggm_defeated_chuffy;
+            case 1230796: return real->ggm_defeated_chuffy;
         //Jinjo Family
-            case 1230676: return fake->jv_jiggy_collected_jinjo_white;
-            case 1230677: return fake->jv_jiggy_collected_jinjo_orange;
-            case 1230678: return fake->jv_jiggy_collected_jinjo_yellow;
-            case 1230679: return fake->jv_jiggy_collected_jinjo_brown;
-            case 1230680: return fake->jv_jiggy_collected_jinjo_green;
-            case 1230681: return fake->jv_jiggy_collected_jinjo_red;
-            case 1230682: return fake->jv_jiggy_collected_jinjo_blue;
-            case 1230683: return fake->jv_jiggy_collected_jinjo_purple;
-            case 1230684: return fake->jv_jiggy_collected_jinjo_black;
+            case 1230676: return real->jv_jiggy_collected_jinjo_white;
+            case 1230677: return real->jv_jiggy_collected_jinjo_orange;
+            case 1230678: return real->jv_jiggy_collected_jinjo_yellow;
+            case 1230679: return real->jv_jiggy_collected_jinjo_brown;
+            case 1230680: return real->jv_jiggy_collected_jinjo_green;
+            case 1230681: return real->jv_jiggy_collected_jinjo_red;
+            case 1230682: return real->jv_jiggy_collected_jinjo_blue;
+            case 1230683: return real->jv_jiggy_collected_jinjo_purple;
+            case 1230684: return real->jv_jiggy_collected_jinjo_black;
         //StopNSwap
             case 1230953: return fake->wh_yellow_egg_hatched;
             case 1230954: return fake->wh_pink_egg_hatched;

@@ -28,6 +28,7 @@ private:
   bool check_state();
   asio::awaitable<void> every_30frames();
   // // void every_5frames();
+  const int SCRIPT_VERSION = 4; 
   const std::string CPP_VERSION = "V3.3.3"; //Make sure this matches with the BT_Client Version
   const std::string STATE_OK = "Ok";
   const std::string STATE_TENTATIVELY_CONNECTED = "Tentatively Connected";
@@ -57,15 +58,23 @@ private:
   std::string OPEN_SILO = "NONE"; //Which Silo is Open
   std::string CLIENT_VERSION = "V0.0";
   bool VERSION_ERR = false;
+  int TOTAL_JIGGIES = 0;
+  std::vector<std::string> MESSAGE_TABLE;
 
   int SEED = 0;
   asio::awaitable<void> receive();
   asio::awaitable<void> getSlotData();
-  asio::awaitable<nlohmann::json> check_jiggy_locations();
+  nlohmann::json check_jiggy_locations();
   bool DEBUG_NET = false;
-  asio::awaitable<void> send(std::string jsonData);
+  asio::awaitable<void> send(std::string);
   asio::awaitable<nlohmann::json> read();
+  void obtain_jiggy();
   void printGoalInfo();
+  asio::awaitable<void> sendToBTClient();
+  void process_block(nlohmann::json);
+  void process_messages(std::string);
+  void processAGIItem(nlohmann::json);
+
 };
 
 #endif // BT_CLIENT_HPP

@@ -59,7 +59,7 @@ bool BTClient::check_state() {
   return CUR_STATE == STATE_OK || CUR_STATE == STATE_INITIAL_CONNECTION_MADE || CUR_STATE == STATE_TENTATIVELY_CONNECTED;
 }
 
-asio::awaitable<nlohmann::json> BTClient::check_jiggy_locations()
+nlohmann::json BTClient::check_jiggy_locations()
 {
     nlohmann::json jiggy_check = {};
     u16 current_map = ap_memory.n64.misc.current_map;
@@ -77,9 +77,15 @@ asio::awaitable<nlohmann::json> BTClient::check_jiggy_locations()
     {
         jiggy_check[locationId] = check_flag(locationId);
     }
-    co_return jiggy_check;
+    return jiggy_check;
 }
 
+void BTClient::obtain_jiggy()
+{
+    TOTAL_JIGGIES++;
+    ap_memory.pc.items[AP_ITEM_JIGGY] = TOTAL_JIGGIES;
+    return;
+}
 
 asio::awaitable<void> BTClient::getSlotData()
 {
@@ -307,7 +313,74 @@ asio::awaitable<void> BTClient::receive()
     {
         co_await getSlotData();
     }
+    co_await sendToBTClient();
+    json bt_data = co_await read();
+    process_block(bt_data);
+    co_return;
+}
 
+void BTClient::process_block(json bt_data)
+{
+    if(!bt_data.contains(string{"items"}))
+    {
+        return;
+    }
+    if(bt_data.contains(string{"slot_player"}))
+    {
+        return;
+    }
+    if(bt_data["items"] != "")
+    {
+        processAGIItem(bt_data["items"]);
+    }
+    // if(bt_data.contains(string{"messages"}) && bt_data["messages"] != "")
+    // {
+    //     for(auto msg : bt_data["messages"])
+    //     {
+    //         MESSAGE_TABLE.push_back(msg);
+    //     }
+    // }
+    if(bt_data.contains(string{"triggerDeath"}) && bt_data["triggerDeath"] == true && DEATH_LINK == true)
+    {
+        ap_memory.pc.misc.death_link_ap++;
+    }
+}
+
+// void BTClient::process_messages(std::string messages)
+// {
+//   if not string.find(message, "%(found%)")
+// }
+
+void BTClient::processAGIItem(json item_data)
+{
+    for(auto& itemId : item_data)
+    {
+        switch((int) itemId)
+        {
+            case 1230515: obtain_jiggy(); break;
+        }
+    }
+}
+
+asio::awaitable<void> BTClient::sendToBTClient()
+{
+    bool dead = false;
+    json retTable = {};
+    if(ap_memory.pc.misc.death_link_us != ap_memory.n64.misc.death_link_us)
+    {
+        dead = true;
+        ap_memory.pc.misc.death_link_us++;
+    }
+    retTable["scriptVersion"] = SCRIPT_VERSION;
+    retTable["playerName"] = PLAYER;
+    retTable["deathlinkActive"] = DEATH_LINK;
+    retTable["jiggies"] = check_jiggy_locations();
+    retTable["hag"] = (bool) ap_memory.n64.saves.real.ck_defeated_hag1;
+    retTable["isDead"] = dead;
+    retTable["DEMO"] = false;
+    retTable["banjo_map"] = ap_memory.n64.misc.current_map;
+    retTable["sync_ready"] = true;
+    co_await send(retTable);
     co_return;
 }
 
