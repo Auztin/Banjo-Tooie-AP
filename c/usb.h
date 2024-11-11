@@ -4,13 +4,6 @@
 #include "util.h"
 #include "usb_util.h"
 
-enum USB_STATUS {
-  USB_STATUS_DISCONNECTED   = 0,
-  USB_STATUS_CONNECTING     = 1,
-  USB_STATUS_CONNECTED      = 2,
-  USB_STATUS_PINGED         = 4,
-};
-
 typedef struct {
   usb_packet_t packet;
   struct {
