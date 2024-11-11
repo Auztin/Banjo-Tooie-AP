@@ -2,7 +2,7 @@
 
     std::map<uint16_t, std::map<std::string, std::vector<std::string>>> ASSET_MAP_CHECK = {
         {0, { // ALL MAPS
-            {"JIGGIES", {"1230685, 1230638"}}
+            {"JIGGIES", {"1230685", "1230638"}}
         }},
         {0xAF, { // Spiral Mountain
             {"STOPNSWAP", {"1230956"}},
@@ -122,7 +122,7 @@
             {"JINJOS", {"1230553"}}
         }},
         //GLITTER GULCH MINE
-        
+
         {0xC7,{ //GGM
             {"JIGGIES", {"1230607","1230612","1230613"}},
             {"JINJOS", {"1230559","1230560"}},
@@ -321,7 +321,7 @@
         }},
         {0xFC, { //JRL - Lord Woo Fak Fak
             {"JIGGIES", {"1230632"}},
-        }},      
+        }},
         {0xEE, { //JRL - Pawno's Emporium
             {"JIGGIES", {"1230634"}},
             {"PAGES", {"1230737"}},
@@ -666,7 +666,7 @@ bool check_flag(std::string locationId) {
             case 1230623: return real->ww_jiggy_collected_star_spinner;
             case 1230624: return real->ww_jiggy_collected_inferno;
             case 1230625: return real->ww_jiggy_collected_test_of_strength;
-    
+
             case 1230626: return real->jrl_jiggy_collected_sea_bottom_cavern;
             case 1230627: return real->jrl_jiggy_collected_tiptup;
             case 1230628: return real->jrl_jiggy_collected_chris_p_bacon;

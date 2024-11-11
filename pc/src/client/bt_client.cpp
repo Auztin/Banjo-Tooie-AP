@@ -174,6 +174,7 @@ bool BTClient::check_amaze_o_gaze_location()
             }
         }
     }
+    return false;
 }
 
 void BTClient::obtain_amaze_o_gaze()
@@ -196,6 +197,7 @@ bool BTClient::check_roar_location()
             }
         }
     }
+    return false;
 }
 
 void BTClient::obtain_roar()
@@ -581,7 +583,7 @@ nlohmann::json BTClient::check_chuffy_location()
     if(ASSET_MAP_CHECK.count(CURRENT_MAP))
     {
         if(ASSET_MAP_CHECK[CURRENT_MAP].count("CHUFFY"))
-        { 
+        {
             chuffy_check["1230796"] = check_flag("1230796");
         }
     }
@@ -905,9 +907,12 @@ asio::awaitable<void> BTClient::receive()
     {
         co_await getSlotData();
     }
-    co_await sendToBTClient();
-    json bt_data = co_await read();
-    process_block(bt_data);
+    else
+    {
+        co_await sendToBTClient();
+        json bt_data = co_await read();
+        process_block(bt_data);
+    }
     co_return;
 }
 
@@ -1028,7 +1033,7 @@ asio::awaitable<void> BTClient::sendToBTClient()
     retTable["DEMO"] = false;
     retTable["banjo_map"] = CURRENT_MAP;
     retTable["sync_ready"] = true;
-    co_await send(retTable);
+    co_await send(retTable.dump()+"\n");
     co_return;
 }
 
@@ -1042,7 +1047,7 @@ asio::awaitable<json> BTClient::read()
     }
     std::string line(asio::buffer_cast<const char*>(buffer.data()), size);
     buffer.consume(size);
-    std::cout << line << std::endl << std::endl;
+    std::cout << "[ IN] " << line << std::endl << std::endl;
     json recv = json::parse(line);
 
     co_return recv;
@@ -1050,6 +1055,7 @@ asio::awaitable<json> BTClient::read()
 
 asio::awaitable<void> BTClient::send(std::string jsonData)
 {
+    std::cout << "[OUT] " << jsonData << std::endl << std::endl;
     asio::error_code ec;
     co_await asio::async_write(socket_, asio::buffer(jsonData, jsonData.length()), asio::redirect_error(asio::use_awaitable, ec));
     if (ec) disconnected();
@@ -1075,4 +1081,3 @@ asio::awaitable<void> BTClient::every_30frames() {
 // void BTClient::every_5frames() {
 //   // TODO
 // }
-
