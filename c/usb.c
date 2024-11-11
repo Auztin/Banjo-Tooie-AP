@@ -87,7 +87,7 @@ void usb_check() {
               break;
             }
             case USB_CMD_PONG: {
-              usb.status ^= USB_STATUS_PINGED;
+              usb.status &= ~USB_STATUS_PINGED;
               usb.ping_frame = main.frame_count;
               break;
             }
