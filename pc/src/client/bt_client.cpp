@@ -63,7 +63,7 @@ bool BTClient::check_state() {
 
 nlohmann::json BTClient::check_jiggy_locations()
 {
-    nlohmann::json jiggy_check = {};
+    nlohmann::json jiggy_check = json({});
     if(ASSET_MAP_CHECK.count(CURRENT_MAP))
     {
         if(ASSET_MAP_CHECK[CURRENT_MAP].count("JIGGIES"))
@@ -92,7 +92,7 @@ void BTClient::obtain_jiggy()
 
 nlohmann::json BTClient::check_treble_locations()
 {
-    nlohmann::json treble_check = {};
+    nlohmann::json treble_check = json({});
 
     if(ASSET_MAP_CHECK.count(CURRENT_MAP))
     {
@@ -118,7 +118,7 @@ void BTClient::obtain_treble()
 
 nlohmann::json BTClient::check_roysten_locations()
 {
-    nlohmann::json roysten_check = {};
+    nlohmann::json roysten_check = json({});
     if(ASSET_MAP_CHECK.count(CURRENT_MAP))
     {
         if(ASSET_MAP_CHECK[CURRENT_MAP].count("ROYSTEN"))
@@ -210,7 +210,7 @@ void BTClient::obtain_roar()
 
 nlohmann::json BTClient::check_page_locations()
 {
-    nlohmann::json pages_check = {};
+    nlohmann::json pages_check = json({});
     if(ASSET_MAP_CHECK.count(CURRENT_MAP))
     {
         if(ASSET_MAP_CHECK[CURRENT_MAP].count("PAGES"))
@@ -235,7 +235,7 @@ void BTClient::obtain_pages()
 
 nlohmann::json BTClient::check_cheato_locations()
 {
-    nlohmann::json cheato_check = {};
+    nlohmann::json cheato_check = json({});
     if(ASSET_MAP_CHECK.count(CURRENT_MAP))
     {
         if(ASSET_MAP_CHECK[CURRENT_MAP].count("CHEATOR"))
@@ -253,7 +253,7 @@ nlohmann::json BTClient::check_cheato_locations()
 
 nlohmann::json BTClient::check_honeycomb_locations()
 {
-    nlohmann::json honeycomb_check = {};
+    nlohmann::json honeycomb_check = json({});
     if(ASSET_MAP_CHECK.count(CURRENT_MAP))
     {
         if(ASSET_MAP_CHECK[CURRENT_MAP].count("HONEYCOMB"))
@@ -278,7 +278,7 @@ void BTClient::obtain_honeycomb()
 
 nlohmann::json BTClient::check_honeyb_locations()
 {
-    nlohmann::json honeyb_check = {};
+    nlohmann::json honeyb_check = json({});
     if(ASSET_MAP_CHECK.count(CURRENT_MAP))
     {
         if(ASSET_MAP_CHECK[CURRENT_MAP].count("HONEYB"))
@@ -296,7 +296,7 @@ nlohmann::json BTClient::check_honeyb_locations()
 
 nlohmann::json BTClient::check_glowbo_locations()
 {
-    nlohmann::json glowbo_check = {};
+    nlohmann::json glowbo_check = json({});
     if(ASSET_MAP_CHECK.count(CURRENT_MAP))
     {
         if(ASSET_MAP_CHECK[CURRENT_MAP].count("GLOWBO"))
@@ -340,7 +340,7 @@ void BTClient::obtain_magic(int itemId)
 
 nlohmann::json BTClient::check_doubloon_locations()
 {
-    nlohmann::json doubloon_check = {};
+    nlohmann::json doubloon_check = json({});
     if(ASSET_MAP_CHECK.count(CURRENT_MAP))
     {
         if(ASSET_MAP_CHECK[CURRENT_MAP].count("DOUBLOON"))
@@ -365,7 +365,7 @@ void BTClient::obtain_doubloon()
 
 nlohmann::json BTClient::check_notes_locations()
 {
-    nlohmann::json notes_check = {};
+    nlohmann::json notes_check = json({});
     if(ASSET_MAP_CHECK.count(CURRENT_MAP))
     {
         if(ASSET_MAP_CHECK[CURRENT_MAP].count("NOTES"))
@@ -390,7 +390,7 @@ void BTClient::obtain_notes()
 
 nlohmann::json BTClient::check_jiggy_chunks_locations()
 {
-    nlohmann::json chunks_check = {};
+    nlohmann::json chunks_check = json({});
     if(ASSET_MAP_CHECK.count(CURRENT_MAP))
     {
         if(ASSET_MAP_CHECK[CURRENT_MAP].count("CHUNKS"))
@@ -408,7 +408,7 @@ nlohmann::json BTClient::check_jiggy_chunks_locations()
 
 nlohmann::json BTClient::check_dino_kids_locations()
 {
-    nlohmann::json dino_check = {};
+    nlohmann::json dino_check = json({});
     dino_check["1231006"] = check_flag("1231006");
     dino_check["1231007"] = check_flag("1231007");
     dino_check["1231008"] = check_flag("1231008");
@@ -517,7 +517,7 @@ void BTClient::obtain_progressive_moves(int itemId)
 
 nlohmann::json BTClient::check_mystery_locations()
 {
-    nlohmann::json sns_check = {};
+    nlohmann::json sns_check = json({});
     if(ASSET_MAP_CHECK.count(CURRENT_MAP))
     {
         if(ASSET_MAP_CHECK[CURRENT_MAP].count("STOPNSWAP"))
@@ -548,7 +548,7 @@ void BTClient::obtain_mystery_items(int itemId)
 
 nlohmann::json BTClient::check_station_locations()
 {
-    nlohmann::json station_check = {};
+    nlohmann::json station_check = json({});
     if(ASSET_MAP_CHECK.count(CURRENT_MAP))
     {
         if(ASSET_MAP_CHECK[CURRENT_MAP].count("STATIONBTN"))
@@ -579,7 +579,7 @@ void BTClient::obtain_stations(int itemId)
 
 nlohmann::json BTClient::check_chuffy_location()
 {
-    nlohmann::json chuffy_check = {};
+    nlohmann::json chuffy_check = json({});
     if(ASSET_MAP_CHECK.count(CURRENT_MAP))
     {
         if(ASSET_MAP_CHECK[CURRENT_MAP].count("CHUFFY"))
@@ -600,7 +600,7 @@ void BTClient::obtain_chuffy()
 
 nlohmann::json BTClient::check_jamjars_locations()
 {
-    nlohmann::json jamjars_check = {};
+    nlohmann::json jamjars_check = json({});
     if(ASSET_MAP_CHECK.count(CURRENT_MAP))
     {
         if(ASSET_MAP_CHECK[CURRENT_MAP].count("SILO"))
@@ -682,7 +682,7 @@ void BTClient::initialize_bt()
 // -------------- Archipelago Function -----------
 asio::awaitable<void> BTClient::getSlotData()
 {
-    json retTable = {};
+    json retTable = json({});
     retTable["getSlot"] = true;
     if(DEBUG_NET == true)
     {
@@ -1002,7 +1002,7 @@ asio::awaitable<void> BTClient::sendToBTClient()
 {
     CURRENT_MAP = ap_memory.n64.misc.current_map;
     bool dead = false;
-    json retTable = {};
+    json retTable = json({});
     if(ap_memory.pc.misc.death_link_us != ap_memory.n64.misc.death_link_us)
     {
         dead = true;
@@ -1032,7 +1032,12 @@ asio::awaitable<void> BTClient::sendToBTClient()
     retTable["dino_kids"] = check_dino_kids_locations();
     retTable["DEMO"] = false;
     retTable["banjo_map"] = CURRENT_MAP;
-    retTable["sync_ready"] = true;
+    retTable["sync_ready"] = "true";
+
+    retTable["mystery"] = json({}); // TODO
+    retTable["jinjofam"] = json({}); // TODO
+    retTable["jinjos"] = json({}); // TODO
+    retTable["worlds"] = json({}); // TODO
     co_await send(retTable.dump()+"\n");
     co_return;
 }
