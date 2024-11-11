@@ -950,8 +950,11 @@ void BTClient::process_block(json bt_data)
 
 void BTClient::processAGIItem(json item_data)
 {
-    for(auto& itemId : item_data)
+    for(int ap_id = 0; ap_id < item_data.size(); ap_id++)
     {
+        auto itemId = item_data[ap_id];
+        if (receive_map.count(ap_id)) continue;
+        receive_map[ap_id] = itemId;
         //Mumbo and Humba Magic
         if((itemId >= 1230855 && itemId <= 1230863) || (itemId >= 1230174 && itemId <= 1230182))
         {

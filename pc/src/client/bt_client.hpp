@@ -28,7 +28,7 @@ private:
   bool check_state();
   asio::awaitable<void> every_30frames();
   // // void every_5frames();
-  const int SCRIPT_VERSION = 4; 
+  const int SCRIPT_VERSION = 4;
   const std::string CPP_VERSION = "V3.3.3"; //Make sure this matches with the BT_Client Version
   const std::string STATE_OK = "Ok";
   const std::string STATE_TENTATIVELY_CONNECTED = "Tentatively Connected";
@@ -73,6 +73,7 @@ private:
   asio::awaitable<void> sendToBTClient();
   void process_block(nlohmann::json);
   void process_messages(std::string);
+  std::map<int, int> receive_map;
   void processAGIItem(nlohmann::json);
   void initialize_bt();
 
