@@ -124,8 +124,16 @@ private:
   void obtain_progressive_moves(int);
 
   nlohmann::json check_mystery_locations();
-  void obtain_mystery_items();
+  void obtain_mystery_items(int);
 
+  nlohmann::json check_station_locations();
+  void obtain_stations(int);
+
+  nlohmann::json check_chuffy_location();
+  void obtain_chuffy();
+
+  nlohmann::json check_jamjars_locations();
+  void obtain_jamjar_moves(int);
 };
 
 #endif // BT_CLIENT_HPP

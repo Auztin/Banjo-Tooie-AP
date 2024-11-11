@@ -20,7 +20,7 @@
         //JINJO VILLAGE
         {0x142, { // JV
             {"TREBLE", {"1230789"}},
-            {"ICEKEY", {"1230958"}}
+            {"STOPNSWAP", {"1230958"}}
         }},
         {0x143, { //JV - Bottles' House
             {"AMAZE", {"1231005"}},
@@ -159,7 +159,8 @@
             {"JINJOS", {"1230557"}}
         }},
         {0xD1, { //GGM - Inside Chuffy's Boiler
-            {"JIGGIES", {"1230606"}}
+            {"JIGGIES", {"1230606"}},
+            {"CHUFFY", {"1230796"}}
         }},
         {0x163,	{ //GGM - Ordnance Storage Entrance
             {"JIGGIES", {"1230610"}},
