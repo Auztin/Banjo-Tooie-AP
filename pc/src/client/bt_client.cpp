@@ -59,15 +59,15 @@ bool BTClient::check_state() {
   return CUR_STATE == STATE_OK || CUR_STATE == STATE_INITIAL_CONNECTION_MADE || CUR_STATE == STATE_TENTATIVELY_CONNECTED;
 }
 
+// ---------------- JIGGY ------------------
 nlohmann::json BTClient::check_jiggy_locations()
 {
     nlohmann::json jiggy_check = {};
-    u16 current_map = ap_memory.n64.misc.current_map;
-    if(ASSET_MAP_CHECK.count(current_map))
+    if(ASSET_MAP_CHECK.count(CURRENT_MAP))
     {
-        if(ASSET_MAP_CHECK[current_map].count("JIGGIES"))
+        if(ASSET_MAP_CHECK[CURRENT_MAP].count("JIGGIES"))
         {
-            for(const std::string& locationId: ASSET_MAP_CHECK[current_map]["JIGGIES"])
+            for(const std::string& locationId: ASSET_MAP_CHECK[CURRENT_MAP]["JIGGIES"])
             {
                 jiggy_check[locationId] = check_flag(locationId);
             }
@@ -87,6 +87,461 @@ void BTClient::obtain_jiggy()
     return;
 }
 
+// -------------- TREBLE -------------------
+nlohmann::json BTClient::check_treble_locations()
+{
+    nlohmann::json treble_check = {};
+
+    if(ASSET_MAP_CHECK.count(CURRENT_MAP))
+    {
+        if(ASSET_MAP_CHECK[CURRENT_MAP].count("TREBLE"))
+        {
+            for(const std::string& locationId: ASSET_MAP_CHECK[CURRENT_MAP]["TREBLE"])
+            {
+                treble_check[locationId] = check_flag(locationId);
+            }
+        }
+    }
+    return treble_check;
+}
+
+void BTClient::obtain_treble()
+{
+    TOTAL_TREBLE++;
+    ap_memory.pc.items[AP_ITEM_TREBLE] = TOTAL_TREBLE;
+    return;
+}
+
+// --------------- ROYSTEN -----------------
+    nlohmann::json BTClient::check_roysten_locations()
+    {
+        nlohmann::json roysten_check = {};
+        if(ASSET_MAP_CHECK.count(CURRENT_MAP))
+        {
+            if(ASSET_MAP_CHECK[CURRENT_MAP].count("ROYSTEN"))
+            {
+                for(const std::string& locationId: ASSET_MAP_CHECK[CURRENT_MAP]["ROYSTEN"])
+                {
+                    roysten_check[locationId] = check_flag(locationId);
+                }
+            }
+        }
+        return roysten_check;
+    }
+
+    void BTClient::obtain_roysten_moves(int itemId)
+    {
+        if(itemId == 1230831) //progressive water training
+        {
+            if(ap_memory.pc.items[AP_ITEM_DIVE] == 0)
+            {
+                obtain_bk_moves(230810);
+            }
+            else if(ap_memory.pc.items[AP_ITEM_DAIR] == 0)
+            {
+                ap_memory.pc.items[AP_ITEM_DAIR] = 1;
+            }
+            else if(ap_memory.pc.items[AP_ITEM_FSWIM] == 0)
+            {
+                ap_memory.pc.items[AP_ITEM_FSWIM] = 1;
+            }
+        }
+        else if(itemId == 1230777)
+        {
+            ap_memory.pc.items[AP_ITEM_FSWIM] = 1;
+        }
+        else if(itemId == 1230778)
+        {
+            ap_memory.pc.items[AP_ITEM_DAIR] = 1;
+        }
+        return;
+    }
+
+// --------------- AMAZE-O-GAZE -------------
+    bool BTClient::check_amaze_o_gaze_location()
+    {
+        if(ASSET_MAP_CHECK.count(CURRENT_MAP))
+        {
+            if(ASSET_MAP_CHECK[CURRENT_MAP].count("AMAZE"))
+            {
+                for(const std::string& locationId: ASSET_MAP_CHECK[CURRENT_MAP]["AMAZE"])
+                {
+                    return check_flag(locationId);
+                }
+            }
+        }
+    }
+
+    void BTClient::obtain_amaze_o_gaze()
+    {
+        ap_memory.pc.items[AP_ITEM_AMAZEOGAZE] = 1;
+        return;
+    }
+
+// --------------- ROAR -------------
+    bool BTClient::check_roar_location()
+    {
+        if(ASSET_MAP_CHECK.count(CURRENT_MAP))
+        {
+            if(ASSET_MAP_CHECK[CURRENT_MAP].count("ROAR"))
+            {
+                for(const std::string& locationId: ASSET_MAP_CHECK[CURRENT_MAP]["AMAZE"])
+                {
+                    return check_flag(locationId);
+                }
+            }
+        }
+    }
+
+    void BTClient::obtain_roar()
+    {
+        ap_memory.pc.items[AP_ITEM_ROAR] = 1;
+        return;
+    }
+
+// -------------- PAGES --------------------------
+
+nlohmann::json BTClient::check_page_locations()
+{
+    nlohmann::json pages_check = {};
+
+    if(ASSET_MAP_CHECK.count(CURRENT_MAP))
+    {
+        if(ASSET_MAP_CHECK[CURRENT_MAP].count("PAGES"))
+        {
+            for(const std::string& locationId: ASSET_MAP_CHECK[CURRENT_MAP]["PAGES"])
+            {
+                pages_check[locationId] = check_flag(locationId);
+            }
+        }
+    }
+    return pages_check;
+}
+
+void BTClient::obtain_pages()
+{
+    TOTAL_PAGES++;
+    ap_memory.pc.items[AP_ITEM_PAGES] = TOTAL_PAGES;
+    return;
+}
+
+// ---------------- CHEATO REWARDS ---------------
+
+nlohmann::json BTClient::check_cheato_locations()
+{
+    nlohmann::json cheato_check = {};
+
+    if(ASSET_MAP_CHECK.count(CURRENT_MAP))
+    {
+        if(ASSET_MAP_CHECK[CURRENT_MAP].count("CHEATOR"))
+        {
+            for(const std::string& locationId: ASSET_MAP_CHECK[CURRENT_MAP]["CHEATOR"])
+            {
+                cheato_check[locationId] = check_flag(locationId);
+            }
+        }
+    }
+    return cheato_check;
+}
+
+// ---------------- HONEYCOMBS --------------------
+
+nlohmann::json BTClient::check_honeycomb_locations()
+{
+    nlohmann::json honeycomb_check = {};
+
+    if(ASSET_MAP_CHECK.count(CURRENT_MAP))
+    {
+        if(ASSET_MAP_CHECK[CURRENT_MAP].count("HONEYCOMB"))
+        {
+            for(const std::string& locationId: ASSET_MAP_CHECK[CURRENT_MAP]["HONEYCOMB"])
+            {
+                honeycomb_check[locationId] = check_flag(locationId);
+            }
+        }
+    }
+    return honeycomb_check;
+}
+
+void BTClient::obtain_honeycomb()
+{
+    TOTAL_HONEYCOMB++;
+    ap_memory.pc.items[AP_ITEM_HONEY] = TOTAL_HONEYCOMB;
+    return;
+}
+
+// ------------- HONEYB --------------------------
+
+nlohmann::json BTClient::check_honeyb_locations()
+{
+    nlohmann::json honeyb_check = {};
+
+    if(ASSET_MAP_CHECK.count(CURRENT_MAP))
+    {
+        if(ASSET_MAP_CHECK[CURRENT_MAP].count("HONEYB"))
+        {
+            for(const std::string& locationId: ASSET_MAP_CHECK[CURRENT_MAP]["HONEYB"])
+            {
+                honeyb_check[locationId] = check_flag(locationId);
+            }
+        }
+    }
+    return honeyb_check;
+}
+
+// ------------- Magic and Glowbos ---------------
+nlohmann::json BTClient::check_glowbo_locations()
+{
+    nlohmann::json glowbo_check = {};
+
+    if(ASSET_MAP_CHECK.count(CURRENT_MAP))
+    {
+        if(ASSET_MAP_CHECK[CURRENT_MAP].count("GLOWBO"))
+        {
+            for(const std::string& locationId: ASSET_MAP_CHECK[CURRENT_MAP]["GLOWBO"])
+            {
+                glowbo_check[locationId] = check_flag(locationId);
+            }
+        }
+    }
+    return glowbo_check;
+}
+
+void BTClient::obtain_magic(int itemId)
+{
+    switch(itemId) {
+        case 1230855: ap_memory.pc.items[AP_ITEM_MUMBOMT] = 1; break;
+        case 1230856: ap_memory.pc.items[AP_ITEM_MUMBOGM] = 1; break;
+        case 1230857: ap_memory.pc.items[AP_ITEM_MUMBOWW] = 1; break;
+        case 1230858: ap_memory.pc.items[AP_ITEM_MUMBOJR] = 1; break;
+        case 1230859: ap_memory.pc.items[AP_ITEM_MUMBOTD] = 1; break;
+        case 1230860: ap_memory.pc.items[AP_ITEM_MUMBOGI] = 1; break;
+        case 1230861: ap_memory.pc.items[AP_ITEM_MUMBOHP] = 1; break;
+        case 1230862: ap_memory.pc.items[AP_ITEM_MUMBOCC] = 1; break;
+        case 1230863: ap_memory.pc.items[AP_ITEM_MUMBOIH] = 1; break;
+
+        case 1230174: ap_memory.pc.items[AP_ITEM_HUMBAMT] = 1; break;
+        case 1230175: ap_memory.pc.items[AP_ITEM_HUMBAGM] = 1; break;
+        case 1230176: ap_memory.pc.items[AP_ITEM_HUMBAWW] = 1; break;
+        case 1230177: ap_memory.pc.items[AP_ITEM_HUMBAJR] = 1; break;
+        case 1230178: ap_memory.pc.items[AP_ITEM_HUMBATD] = 1; break;
+        case 1230179: ap_memory.pc.items[AP_ITEM_HUMBAGI] = 1; break;
+        case 1230180: ap_memory.pc.items[AP_ITEM_HUMBAHP] = 1; break;
+        case 1230181: ap_memory.pc.items[AP_ITEM_HUMBACC] = 1; break;
+        case 1230182: ap_memory.pc.items[AP_ITEM_HUMBAIH] = 1; break;
+    }
+    return;
+}
+
+// -------------- DOUBLOONS ----------------------
+
+nlohmann::json BTClient::check_doubloon_locations()
+{
+    nlohmann::json doubloon_check = {};
+
+    if(ASSET_MAP_CHECK.count(CURRENT_MAP))
+    {
+        if(ASSET_MAP_CHECK[CURRENT_MAP].count("DOUBLOON"))
+        {
+            for(const std::string& locationId: ASSET_MAP_CHECK[CURRENT_MAP]["DOUBLOON"])
+            {
+                doubloon_check[locationId] = check_flag(locationId);
+            }
+        }
+    }
+    return doubloon_check;
+}
+
+void BTClient::obtain_doubloon()
+{
+    TOTAL_DOUBLOONS++;
+    ap_memory.pc.items[AP_ITEM_DOUBLOON] = TOTAL_DOUBLOONS;
+    return;
+}
+
+// -------------- NOTES --------------------------
+
+nlohmann::json BTClient::check_notes_locations()
+{
+    nlohmann::json notes_check = {};
+
+    if(ASSET_MAP_CHECK.count(CURRENT_MAP))
+    {
+        if(ASSET_MAP_CHECK[CURRENT_MAP].count("NOTES"))
+        {
+            for(const std::string& locationId: ASSET_MAP_CHECK[CURRENT_MAP]["NOTES"])
+            {
+                notes_check[locationId] = check_flag(locationId);
+            }
+        }
+    }
+    return notes_check;
+}
+
+void BTClient::obtain_notes()
+{
+    TOTAL_NOTES++;
+    ap_memory.pc.items[AP_ITEM_NOTE] = TOTAL_NOTES;
+    return;
+}
+
+// -------------- JIGGY CHUNKS -------------------
+nlohmann::json BTClient::check_jiggy_chunks_locations()
+{
+    nlohmann::json chunks_check = {};
+
+    if(ASSET_MAP_CHECK.count(CURRENT_MAP))
+    {
+        if(ASSET_MAP_CHECK[CURRENT_MAP].count("CHUNKS"))
+        {
+            for(const std::string& locationId: ASSET_MAP_CHECK[CURRENT_MAP]["CHUNKS"])
+            {
+                chunks_check[locationId] = check_flag(locationId);
+            }
+        }
+    }
+    return chunks_check;
+}
+
+//---------------- DINO KIDS ---------------------
+nlohmann::json BTClient::check_dino_kids_locations()
+{
+    nlohmann::json dino_check = {};
+    dino_check["1231006"] = check_flag("1231006");
+    dino_check["1231007"] = check_flag("1231007");
+    dino_check["1231008"] = check_flag("1231008");
+
+    return dino_check;
+}
+
+//--------------- BK MOVES -----------------------
+
+void BTClient::obtain_bk_moves(int itemId)
+{
+    switch(itemId) {
+        case 1230810: ap_memory.pc.items[AP_ITEM_DIVE] = 1; break;
+        case 1230811: ap_memory.pc.items[AP_ITEM_FPAD] = 1; break;
+        case 1230812: ap_memory.pc.items[AP_ITEM_FFLIP] = 1; break;
+        case 1230813: ap_memory.pc.items[AP_ITEM_EGGSHOOT] = 1; break;
+        case 1230814: ap_memory.pc.items[AP_ITEM_ROLL] = 1; break;
+        case 1230815: ap_memory.pc.items[AP_ITEM_TTROT] = 1; break;
+        case 1230816: ap_memory.pc.items[AP_ITEM_TJUMP] = 1; break;
+        case 1230817: ap_memory.pc.items[AP_ITEM_CLIMB] = 1; break;
+        case 1230818: ap_memory.pc.items[AP_ITEM_FLUTTER] = 1; break;
+        case 1230819: ap_memory.pc.items[AP_ITEM_WWING] = 1; break;
+        case 1230820: ap_memory.pc.items[AP_ITEM_BBUST] = 1; break;
+        case 1230821: ap_memory.pc.items[AP_ITEM_TTRAIN] = 1; break;
+        case 1230822: ap_memory.pc.items[AP_ITEM_ARAT] = 1; break;
+        case 1230823: ap_memory.pc.items[AP_ITEM_BEGGS] = 1; break;
+        case 1230824: ap_memory.pc.items[AP_ITEM_GRAT] = 1; break;
+        case 1230825: ap_memory.pc.items[AP_ITEM_BBARGE] = 1; break;
+        case 1230826: ap_memory.pc.items[AP_ITEM_SSTRIDE] = 1; break;
+        case 1230827: ap_memory.pc.items[AP_ITEM_BBOMB] = 1; break;
+    }
+    return;
+}
+
+void BTClient::obtain_progressive_moves(int itemId)
+{
+    if(itemId == 1230828) // Progressive Beak Buster
+    {
+        if(!ap_memory.pc.items[AP_ITEM_BBUST])
+        {
+            obtain_bk_moves(1230820);
+        }
+        else{
+            ap_memory.pc.items[AP_ITEM_BDRILL] = 1;
+        }
+    }
+    else if(itemId == 1230829) // Progressive Eggs
+    {
+        if(!ap_memory.pc.items[AP_ITEM_FEGGS])
+        {
+            ap_memory.pc.items[AP_ITEM_FEGGS] = 1;
+        }
+        else if(!ap_memory.pc.items[AP_ITEM_GEGGS])
+        {
+            ap_memory.pc.items[AP_ITEM_GEGGS] = 1;
+        }
+        else if(!ap_memory.pc.items[AP_ITEM_IEGGS])
+        {
+            ap_memory.pc.items[AP_ITEM_IEGGS] = 1;
+        }
+        else if(!ap_memory.pc.items[AP_ITEM_CEGGS])
+        {
+            ap_memory.pc.items[AP_ITEM_CEGGS] = 1;
+        }
+    }
+    else if(itemId == 1230830) // Progressive Shoes
+    {
+        if(!ap_memory.pc.items[AP_ITEM_SSTRIDE])
+        {
+            obtain_bk_moves(1230826);
+        }
+        else if(!ap_memory.pc.items[AP_ITEM_TTRAIN])
+        {
+            obtain_bk_moves(1230821);
+        }
+        else if(!ap_memory.pc.items[AP_ITEM_SPRINGB])
+        {
+            ap_memory.pc.items[AP_ITEM_SPRINGB] = 1;
+        }
+        else if(!ap_memory.pc.items[AP_ITEM_CLAWBTS])
+        {
+            ap_memory.pc.items[AP_ITEM_CLAWBTS] = 1;
+        }
+    }
+    else if(itemId == 1230831)
+    {
+        obtain_roysten_moves(itemId);
+    }
+    else if(itemId == 1230832)
+    {
+        if(!ap_memory.pc.items[AP_ITEM_GRAT])
+        {
+            obtain_bk_moves(1230824);
+        }
+        else if(!ap_memory.pc.items[AP_ITEM_BBASH])
+        {
+            ap_memory.pc.items[AP_ITEM_BBASH] = 1;
+        }
+    }
+    return;
+}
+
+// -------------- Game Function ------------------
+void BTClient::initialize_bt()
+{
+    // Init BK Moves
+    if(ENABLE_AP_BK_MOVES == 0)
+    {
+        ap_memory.pc.items[AP_ITEM_DIVE] = 1;
+        ap_memory.pc.items[AP_ITEM_FPAD] = 1;
+        ap_memory.pc.items[AP_ITEM_GRAT] = 1;
+        ap_memory.pc.items[AP_ITEM_ROLL] = 1;
+        ap_memory.pc.items[AP_ITEM_ARAT] = 1;
+        ap_memory.pc.items[AP_ITEM_BBARGE] = 1;
+        ap_memory.pc.items[AP_ITEM_TJUMP] = 1;
+        ap_memory.pc.items[AP_ITEM_FLUTTER] = 1;
+        ap_memory.pc.items[AP_ITEM_FFLIP] = 1;
+        ap_memory.pc.items[AP_ITEM_CLIMB] = 1;
+        ap_memory.pc.items[AP_ITEM_BEGGS] = 1;
+        ap_memory.pc.items[AP_ITEM_TTROT] = 1;
+        ap_memory.pc.items[AP_ITEM_BBUST] = 1;
+        ap_memory.pc.items[AP_ITEM_WWING] = 1;
+        ap_memory.pc.items[AP_ITEM_SSTRIDE] = 1;
+        ap_memory.pc.items[AP_ITEM_TTRAIN] = 1;
+        ap_memory.pc.items[AP_ITEM_BBOMB] = 1;
+        ap_memory.pc.items[AP_ITEM_EGGSHOOT] = 1;
+    }
+    else if(ENABLE_AP_BK_MOVES == 1)
+    {
+        ap_memory.pc.items[AP_ITEM_TJUMP] = 1;
+        ap_memory.pc.items[AP_ITEM_TTROT] = 1;
+    }
+}
+
+// -------------- Archipelago Function -----------
 asio::awaitable<void> BTClient::getSlotData()
 {
     json retTable = {};
@@ -120,7 +575,7 @@ asio::awaitable<void> BTClient::getSlotData()
     }
     if(block.contains(string{"slot_bkmoves"}) && block["slot_bkmoves"] != "false")
     {
-        ENABLE_AP_BK_MOVES = true;
+        ENABLE_AP_BK_MOVES = block["slot_bkmoves"];
         if(DEBUG_NET == true) { std::cout << "BK_MOVES is set" << std::endl; }
     }
     if(block.contains(string{"slot_cheatorewards"}) && block["slot_cheatorewards"] != "false")
@@ -236,6 +691,7 @@ asio::awaitable<void> BTClient::getSlotData()
     if(SEED != 0){
         printGoalInfo();
     }
+    initialize_bt();
     co_return;
 }
 
@@ -355,15 +811,42 @@ void BTClient::processAGIItem(json item_data)
 {
     for(auto& itemId : item_data)
     {
-        switch((int) itemId)
+        //Mumbo and Humba Magic
+        if((itemId >= 1230855 && itemId <= 1230863) || (itemId >= 1230174 && itemId <= 1230182))
         {
-            case 1230515: obtain_jiggy(); break;
+            obtain_magic(itemId);
+        }
+        else if((itemId >= 1230810 && itemId <= 1230827))
+        {
+            obtain_bk_moves(itemId);
+        }
+        else if((itemId >= 1230828 && itemId <= 1230832))
+        {
+            obtain_progressive_moves(itemId);
+        }
+        else // Everything else
+        {
+            switch((int) itemId)
+            {
+                case 1230512: obtain_honeycomb(); break;
+                case 1230513: obtain_pages(); break;
+                case 1230514: obtain_doubloon(); break;
+                case 1230515: obtain_jiggy(); break;
+                case 1230516: obtain_treble(); break;
+                case 1230777: obtain_roysten_moves(1230777); break;
+                case 1230778: obtain_roysten_moves(1230778); break;
+                case 1230797: obtain_notes(); break;
+                case 1230831: obtain_roysten_moves(1230831); break;
+                case 1230779: obtain_amaze_o_gaze(); break;
+                case 1230780: obtain_roar(); break;
+            }
         }
     }
 }
 
 asio::awaitable<void> BTClient::sendToBTClient()
 {
+    CURRENT_MAP = ap_memory.n64.misc.current_map;
     bool dead = false;
     json retTable = {};
     if(ap_memory.pc.misc.death_link_us != ap_memory.n64.misc.death_link_us)
@@ -375,31 +858,26 @@ asio::awaitable<void> BTClient::sendToBTClient()
     retTable["playerName"] = PLAYER;
     retTable["deathlinkActive"] = DEATH_LINK;
     retTable["jiggies"] = check_jiggy_locations();
+    retTable["pages"] = check_page_locations();
+    retTable["honeycomb"] = check_honeycomb_locations();
+    retTable["glowbo"] = check_glowbo_locations();
+    retTable["doubloon"] = check_doubloon_locations();
+    retTable["notes"] = check_notes_locations();
     retTable["hag"] = (bool) ap_memory.n64.saves.real.ck_defeated_hag1;
     retTable["isDead"] = dead;
+    retTable["cheato_rewards"] = check_cheato_locations();
+    retTable["honeyb_rewards"] = check_honeyb_locations();
+    retTable["roysten"] = check_roysten_locations();
+    retTable["jiggy_chunks"] = check_jiggy_chunks_locations();
+    retTable["goggles"] = check_amaze_o_gaze_location();
+    retTable["roar"] = check_roar_location();
+    retTable["dino_kids"] = check_dino_kids_locations();
     retTable["DEMO"] = false;
-    retTable["banjo_map"] = ap_memory.n64.misc.current_map;
+    retTable["banjo_map"] = CURRENT_MAP;
     retTable["sync_ready"] = true;
     co_await send(retTable);
     co_return;
 }
-
-asio::awaitable<void> BTClient::every_30frames() {
-  if (check_state()) {
-    co_await receive();
-  }
-
-  timer_receive.expires_after(std::chrono::milliseconds((int)(30/60.0*1000))); // every 30 frames if 60 fps
-  timer_receive.async_wait([this](const asio::error_code& error) {
-    if (error) printf("Error during 30 frame function: %s\n", error.message().c_str());
-    else asio::co_spawn(*io_context, every_30frames(), asio::detached);
-  });
-  co_return;
-}
-
-// void BTClient::every_5frames() {
-//   // TODO
-// }
 
 asio::awaitable<json> BTClient::read()
 {
@@ -424,3 +902,24 @@ asio::awaitable<void> BTClient::send(std::string jsonData)
     if (ec) disconnected();
     co_return;
 }
+
+
+//------------------- Main Loop ---------------------
+
+asio::awaitable<void> BTClient::every_30frames() {
+  if (check_state()) {
+    co_await receive();
+  }
+
+  timer_receive.expires_after(std::chrono::milliseconds((int)(30/60.0*1000))); // every 30 frames if 60 fps
+  timer_receive.async_wait([this](const asio::error_code& error) {
+    if (error) printf("Error during 30 frame function: %s\n", error.message().c_str());
+    else asio::co_spawn(*io_context, every_30frames(), asio::detached);
+  });
+  co_return;
+}
+
+// void BTClient::every_5frames() {
+//   // TODO
+// }
+

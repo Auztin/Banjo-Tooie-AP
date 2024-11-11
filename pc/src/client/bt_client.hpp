@@ -38,9 +38,10 @@ private:
   std::string CUR_STATE = STATE_UNINITIALIZED;
   std::string PREV_STATE = "";
   std::string PLAYER = "";
+  u8 CURRENT_MAP = 0;
   bool DEATH_LINK = false;
   bool SKIP_TOT = false;
-  bool ENABLE_AP_BK_MOVES = false;
+  int ENABLE_AP_BK_MOVES = 0;
   bool ENABLE_AP_CHEATO_REWARDS = false;
   bool ENABLE_AP_HONEYB_REWARDS = false;
   std::string MINIGAMES = "";
@@ -58,22 +59,72 @@ private:
   std::string OPEN_SILO = "NONE"; //Which Silo is Open
   std::string CLIENT_VERSION = "V0.0";
   bool VERSION_ERR = false;
-  int TOTAL_JIGGIES = 0;
+
   std::vector<std::string> MESSAGE_TABLE;
 
   int SEED = 0;
   asio::awaitable<void> receive();
   asio::awaitable<void> getSlotData();
-  nlohmann::json check_jiggy_locations();
   bool DEBUG_NET = false;
   asio::awaitable<void> send(std::string);
   asio::awaitable<nlohmann::json> read();
-  void obtain_jiggy();
+
   void printGoalInfo();
   asio::awaitable<void> sendToBTClient();
   void process_block(nlohmann::json);
   void process_messages(std::string);
   void processAGIItem(nlohmann::json);
+  void initialize_bt();
+
+  int TOTAL_JIGGIES = 0;
+  nlohmann::json check_jiggy_locations();
+  void obtain_jiggy();
+
+  int TOTAL_TREBLE = 0;
+  nlohmann::json check_treble_locations();
+  void obtain_treble();
+
+  nlohmann::json check_roysten_locations();
+  void obtain_roysten_moves(int);
+
+  bool check_amaze_o_gaze_location();
+  void obtain_amaze_o_gaze();
+
+  bool check_roar_location();
+  void obtain_roar();
+
+  int TOTAL_PAGES = 0;
+  nlohmann::json check_page_locations();
+  void obtain_pages();
+
+  nlohmann::json check_cheato_locations();
+
+  int TOTAL_HONEYCOMB = 0;
+  nlohmann::json check_honeycomb_locations();
+  void obtain_honeycomb();
+
+  nlohmann::json check_honeyb_locations();
+
+  nlohmann::json check_glowbo_locations();
+  void obtain_magic(int);
+
+  int TOTAL_DOUBLOONS = 0;
+  nlohmann::json check_doubloon_locations();
+  void obtain_doubloon();
+
+  int TOTAL_NOTES = 0;
+  nlohmann::json check_notes_locations();
+  void obtain_notes();
+
+  nlohmann::json check_jiggy_chunks_locations();
+
+  nlohmann::json check_dino_kids_locations();
+
+  void obtain_bk_moves(int);
+  void obtain_progressive_moves(int);
+
+  nlohmann::json check_mystery_locations();
+  void obtain_mystery_items();
 
 };
 

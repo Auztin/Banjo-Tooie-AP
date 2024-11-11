@@ -7,7 +7,8 @@
         {0xAF, { // Spiral Mountain
             {"STOPNSWAP", {"1230956"}},
             {"JINJOS", {"1230595"}},
-            {"PAGES", {"1230752"}}
+            {"PAGES", {"1230752"}},
+            {"ROYSTEN", {"1230777", "1230778"}}
         }},
         {0xAE, { // SM - Behind the waterfall
             {"STOPNSWAP", {"1230957"}}
@@ -46,8 +47,14 @@
             {"NOTES", {"1230928", "1230929", "1230930", "1230931"}},
             {"SILO", {"1230756"}}
         }},
-        // {"0x153",	{"Isle O' Hags", "Plateau"},            //IoH - Plateau - Honey B's Hive
-        
+        {0x153, { //IoH - Plateau - Honey B's Hive
+            {"HONEYB", {
+                "1230997",
+                "1230998",
+                "1230999",
+                "1231000",
+                "1231001"}}
+        }},
         {0x15A, { //IoH - Wasteland
             {"JINJOS", {"1230592"}},
             {"NOTES", {"1230940","1230941","1230942","1230943"}},
@@ -137,6 +144,7 @@
                 "1230827",
             }},
             {"SILO", {"1230757"}},
+            {"CHUNKS", {"1231002", "1231003", "1231004"}}
         }},
         {0xCC,{ //GGM - Flooded Caves
             {"JIGGIES", {"1230615"}}
@@ -365,7 +373,8 @@
             }},
             {"TREBLE", {"1230785"}},
             {"SILO", {"1230768"}},
-            {"STATIONBTN", {"1230791"}}
+            {"STATIONBTN", {"1230791"}},
+            {"ROAR", {"1231009"}}
         }},
         {0x123, { //TDL - Inside Chompa's Belly
             {"JIGGIES", {"1230641"}},
@@ -893,7 +902,6 @@ bool check_flag(std::string locationId) {
             case 1230537: return real->jrl_doubloon_collected_mumbo3;
             case 1230538: return real->jrl_doubloon_collected_mumbo4;
 
-
             case 1230539: return real->jrl_doubloon_collected_buried_spot_entrance;
             case 1230540: return real->jrl_doubloon_collected_buried_spot_pawnos;
             case 1230541: return real->jrl_doubloon_collected_buried_spot_jollys;
@@ -951,9 +959,11 @@ bool check_flag(std::string locationId) {
             case 1230999: return real->trade_honey_b >= 3;
             case 1231000: return real->trade_honey_b >= 4;
             case 1231001: return real->trade_honey_b == 5;
-        /*
-            HoneyB has to be properly calcluated and process by the middleman
-        */
+
+        //Dino Kids
+            case 1231006: return real->tdl_returned_missing_dino;
+            case 1231007: return real->tdl_healed_sick_dino && !real->tdl_sick_dino_on_train;
+            case 1231008: return real->tdl_enlarged_small_dino;
         //Notes
             case 1230800: return real->mt_notes_before_goliath1;
             case 1230801: return real->mt_notes_before_goliath2;
@@ -1108,8 +1118,8 @@ bool check_flag(std::string locationId) {
             case 1230942: return real->ioh_notes_wasteland_ccl2;
             case 1230943: return real->ioh_notes_wasteland_ccl1;
         //Roysten
-            case 1230777: return fake->extra_bubbles;
-            case 1230778: return fake->fast_swimming;
+            case 1230777: return real->sm_opened_fish;
+            case 1230778: return real->sm_opened_fish;
         //Jamjars + Amaze + roar
             case 1230753: return fake->grip_grab;
             case 1230754: return fake->breegull_blaster;
