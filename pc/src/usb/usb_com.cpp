@@ -1,87 +1,313 @@
 
 #include "usb_com.hpp"
+#include <cstdarg>
 
 const uint32_t USB_VERSION = USB_CURRENT_VERSION;
 
 ap_memory_t ap_memory = {0, };
 
-void memcpy16(void *dest, uint16_t src) {
+USBCom::USBCom(asio::io_context* io_context):
+  timer(*io_context),
+  timer_ping(*io_context) {
+  check();
+  ping(false);
+  log("test!\n");
+}
+
+void USBCom::check() {
+  int wait = (int)(1/60.0*1000);
+  if (read() != FT_OK) {
+    status = USB_STATUS_DISCONNECTED;
+    FT_Close(handle);
+    if (open() != FT_OK) wait = 1000;
+  }
+  else process();
+
+  timer.expires_after(std::chrono::milliseconds(wait));
+  timer.async_wait([this](const asio::error_code& error) {
+    if (!error) check();
+  });
+}
+
+void USBCom::ping(bool check) {
+  if (check) {
+    switch (status) {
+      case USB_STATUS_CONNECTED:
+        status |= USB_STATUS_PINGED;
+        break;
+      case USB_STATUS_CONNECTED|USB_STATUS_PINGED:
+        log("[ PC] Ping Timeout...\n");
+        status = USB_STATUS_DISCONNECTED;
+        break;
+    }
+  }
+  else status &= ~USB_STATUS_PINGED;
+
+  timer_ping.expires_after(std::chrono::milliseconds(5000));
+  timer_ping.async_wait([this](const asio::error_code& error) {
+    if (!error) ping(true);
+  });
+}
+
+FT_STATUS USBCom::open() {
+  uint8_t opened = 0;
+  DWORD devices;
+  if (FT_CreateDeviceInfoList(&devices) != FT_OK) return FT_OTHER_ERROR;
+  if (devices) {
+    FT_DEVICE_LIST_INFO_NODE dev_info[devices];
+    if (FT_GetDeviceInfoList(dev_info, &devices) != FT_OK) return FT_OTHER_ERROR;
+    for (DWORD i = 0; i < devices; i++) {
+      if (!strcmp(dev_info[i].Description, "FT245R USB FIFO") && dev_info[i].ID == 0x4036001) {
+        if (FT_Open(i, &handle) != FT_OK) return FT_OTHER_ERROR;
+        opened = 1;
+        FT_ResetDevice(handle);
+        FT_SetTimeouts(handle, 10000, 10000);
+        FT_Purge(handle, FT_PURGE_RX | FT_PURGE_TX);
+      }
+    }
+  }
+  if (!opened) return FT_OTHER_ERROR;
+  return FT_OK;
+}
+
+FT_STATUS USBCom::read() {
+  packet.cmd = USB_CMD_NONE;
+  FT_STATUS status;
+  DWORD pending = 0;
+  DWORD size = 0;
+  status = FT_GetQueueStatus(handle, &pending);
+  if (pending >= 8) {
+    if (FT_Read(handle, packet.raw, 8, &size) != FT_OK || size != 8) return FT_OTHER_ERROR;
+    endian_swap16(&packet.cmd);
+    endian_swap16(&packet.size);
+    log("[N64] cmd:%u size:%u data:0x", packet.cmd, packet.size);
+    for (int i = 0; i < 4; i++) log("%.2X", packet.data[i]);
+    if (packet.size) {
+      packet.size--;
+      packet.size = packet.size-packet.size%4+4;
+      if (packet.size > 504) packet.cmd = USB_CMD_NONE;
+      else if (FT_Read(handle, packet.extra, packet.size, &size) != FT_OK || size != packet.size) return FT_OTHER_ERROR;
+      log(" extra:0x");
+      for (int i = 0; i < size; i++) log("%.2X", packet.extra[i]);
+    }
+    log("\n");
+    endian_swap_packet();
+  }
+  return status;
+}
+
+FT_STATUS USBCom::write(uint16_t cmd, uint16_t len) {
+  DWORD size;
+  if (len) {
+    len--;
+    len = len-len%4+4;
+  }
+  packet.cmd = cmd;
+  packet.size = len;
+  endian_swap_packet();
+  endian_swap16(&packet.cmd);
+  endian_swap16(&packet.size);
+  FT_STATUS ret = (FT_Write(handle, packet.raw, len+8, &size) != FT_OK || size != len+8) ? FT_OTHER_ERROR : FT_OK;
+  log("[ PC] cmd:%u size:%u data:0x", cmd, len);
+  for (int i = 0; i < 4; i++) log("%.2X", packet.data[i]);
+  if (len) {
+    log(" extra:0x", len);
+    for (int i = 0; i < size-8; i++) log("%.2X", packet.extra[i]);
+  }
+  log("\n");
+  return ret;
+}
+
+void USBCom::process() {
+  if (packet.cmd == USB_CMD_NONE) return;
+  switch (status & ~USB_STATUS_PINGED) {
+    case USB_STATUS_DISCONNECTED:
+      switch (packet.cmd) {
+        case USB_CMD_HANDSHAKE:
+          log("[N64] USB_CMD_HANDSHAKE\n");
+          if (memcmp(packet.handshake.msg, "HELO", 4)) {
+            log("USB Protocol invalid handshake message!\n");
+            return;
+          }
+          if (packet.handshake.version != USB_VERSION) {
+            log("USB Protocol version mismatch!\n");
+            return;
+          }
+          memcpy(packet.handshake.msg, "'LO!", 4);
+          packet.handshake.version = USB_VERSION;
+          write(USB_CMD_HANDSHAKE, 4);
+          status = USB_STATUS_CONNECTING;
+          break;
+      }
+      break;
+    case USB_STATUS_CONNECTING:
+      switch (packet.cmd) {
+        case USB_CMD_PING:
+          log("[N64] USB_CMD_PING\n");
+          write(USB_CMD_PONG, packet.size);
+          status = USB_STATUS_CONNECTED;
+          break;
+        default:
+          log("[N64] Unexpected packet. Disconnected.\n");
+          status = USB_STATUS_DISCONNECTED;
+      }
+      break;
+    case USB_STATUS_CONNECTED:
+      switch (packet.cmd) {
+        case USB_CMD_PING:
+          log("[N64] USB_CMD_PING\n");
+          write(USB_CMD_PONG, packet.size);
+          break;
+        case USB_CMD_N64_MISC:
+          log("[N64] USB_CMD_N64_MISC\n");
+          memcpy(&ap_memory.n64.misc, packet.extra, packet.size);
+          endian_swap16(&ap_memory.n64.misc.current_map);
+          break;
+        case USB_CMD_N64_SAVES_REAL:
+          log("[N64] USB_CMD_N64_SAVES_REAL\n");
+          memcpy(&ap_memory.n64.saves.real, packet.extra, packet.size);
+          endian_swap_save(&ap_memory.n64.saves.real);
+          break;
+        case USB_CMD_N64_SAVES_FAKE:
+          log("[N64] USB_CMD_N64_SAVES_FAKE\n");
+          memcpy(&ap_memory.n64.saves.fake, packet.extra, packet.size);
+          endian_swap_save(&ap_memory.n64.saves.fake);
+          break;
+        default:
+          log("[N64] Unexpected packet. Disconnected.\n");
+          status = USB_STATUS_DISCONNECTED;
+      }
+      ping(false);
+      send();
+      break;
+  }
+}
+
+bool USBCom::check_changes(void* _real, void* _clone, int size) {
+  uint8_t* real = (uint8_t*)_real;
+  uint8_t* clone = (uint8_t*)_clone;
+  bool different = false;
+  for (int i = 0; i < size; i++) {
+    if (clone[i] != real[i]) {
+      clone[i] = real[i];
+      different = true;
+    }
+  }
+  return different;
+}
+
+void USBCom::send() {
+  bool misc = check_changes(&ap_memory.pc.misc, &apm_clone.misc, sizeof(apm_clone.misc));
+  bool settings = check_changes(&ap_memory.pc.settings, &apm_clone.settings, sizeof(apm_clone.settings));
+  bool items = check_changes(&ap_memory.pc.items, &apm_clone.items, sizeof(apm_clone.items));
+  bool exit_map = check_changes(&ap_memory.pc.exit_map, &apm_clone.exit_map, sizeof(apm_clone.exit_map));
+  memcpy(&apm_converted, &apm_clone, sizeof(ap_memory_pc_t));
+  endian_swap_apm(&apm_converted);
+  if (misc) {
+    memcpy(packet.extra, &apm_converted.misc, sizeof(apm_converted.misc));
+    write(USB_CMD_PC_MISC, sizeof(apm_converted.misc));
+  }
+  if (settings) {
+    memcpy(packet.extra, &apm_converted.settings, sizeof(apm_converted.settings));
+    write(USB_CMD_PC_SETTINGS, sizeof(apm_converted.settings));
+  }
+  if (items) {
+    memcpy(packet.extra, &apm_converted.items, sizeof(apm_converted.items));
+    write(USB_CMD_PC_ITEMS, sizeof(apm_converted.items));
+  }
+  if (exit_map) {
+    int size = sizeof(ap_memory_pc_exit_map_t);
+    int max = sizeof(packet.extra)/size;
+    int n = 0;
+    int offset = 0;
+    for (int i = 0; i < AP_MEMORY_EXIT_MAP_MAX; i++) {
+      memcpy(packet.extra+size*n, &apm_converted.exit_map[i], size);
+      if (n == max) {
+        packet.exit_map.offset = offset;
+        write(USB_CMD_PC_EXIT_MAP, size*n);
+        n = 0;
+        offset += size*n;
+      }
+      n++;
+    }
+    if (n) {
+      packet.exit_map.offset = offset;
+      write(USB_CMD_PC_EXIT_MAP, size*n);
+    }
+  }
+}
+
+void USBCom::endian_swap8(void *dest) {
+  typedef union {
+    struct {
+      uint8_t bit7 : 1;
+      uint8_t bit6 : 1;
+      uint8_t bit5 : 1;
+      uint8_t bit4 : 1;
+      uint8_t bit3 : 1;
+      uint8_t bit2 : 1;
+      uint8_t bit1 : 1;
+      uint8_t bit0 : 1;
+    };
+    uint8_t byte;
+  } byte_t;
+  byte_t* dst = (byte_t*)dest;
+  byte_t src = *(byte_t*)dest;
+  dst->bit7 = src.bit0;
+  dst->bit6 = src.bit1;
+  dst->bit5 = src.bit2;
+  dst->bit4 = src.bit3;
+  dst->bit3 = src.bit4;
+  dst->bit2 = src.bit5;
+  dst->bit1 = src.bit6;
+  dst->bit0 = src.bit7;
+}
+
+void USBCom::endian_swap16(void *dest) {
   uint8_t *dst = (uint8_t*)dest;
+  uint16_t src = *(uint16_t*)dest;
   dst[0] = (src >> 8) & 0xFF;
   dst[1] = (src >> 0) & 0xFF;
 }
 
-void memcpy32(void *dest, uint32_t src) {
+void USBCom::endian_swap32(void *dest) {
   uint8_t *dst = (uint8_t*)dest;
+  uint32_t src = *(uint32_t*)dest;
   dst[0] = (src >> 24) & 0xFF;
   dst[1] = (src >> 16) & 0xFF;
   dst[2] = (src >>  8) & 0xFF;
   dst[3] = (src >>  0) & 0xFF;
 }
 
-void endian_swap16(void *val) {
-  memcpy16(val, *(uint16_t*)val);
-}
-
-void endian_swap32(void *val) {
-  memcpy32(val, *(uint32_t*)val);
-}
-
-void usb_packet_endian_swap() {
-  switch (usb.packet.cmd) {
+void USBCom::endian_swap_packet() {
+  switch (packet.cmd) {
     case USB_CMD_HANDSHAKE:
-      endian_swap32(&usb.packet.handshake.version);
+      endian_swap32(&packet.handshake.version);
       break;
-    // case USB_CMD_READ8:
-    // case USB_CMD_READ16:
-    // case USB_CMD_READ32:
-    // case USB_CMD_WRITE8:
-    // case USB_CMD_WRITE16:
-    // case USB_CMD_WRITE32:
-    //   endian_swap32(&usb.packet.mem.addr);
-    //   endian_swap32(&usb.packet.mem.val);
-    //   break;
+    case USB_CMD_PC_EXIT_MAP:
+      endian_swap32(&packet.exit_map.offset);
+      break;
   }
 }
 
-uint8_t usb_read() {
-  DWORD size;
-  if (FT_Read(usb.handle, usb.packet.raw, 8, &size) != FT_OK || size != 8) return 1;
-  endian_swap16(&usb.packet.cmd);
-  endian_swap16(&usb.packet.size);
-  printf("[N64] cmd:%u size:%u data:0x", usb.packet.cmd, usb.packet.size);
-  for (int i = 0; i < 4; i++) printf("%.2X", usb.packet.data[i]);
-  if (usb.packet.size) {
-    usb.packet.size--;
-    usb.packet.size = usb.packet.size-usb.packet.size%4+4;
-    if (usb.packet.size > 504) usb.packet.cmd = USB_CMD_NONE;
-    else if (FT_Read(usb.handle, usb.packet.extra, usb.packet.size, &size) != FT_OK || size != usb.packet.size) return 1;
-    printf(" extra:0x");
-    for (int i = 0; i < size; i++) printf("%.2X", usb.packet.extra[i]);
-  }
-  printf("\n");
-  usb_packet_endian_swap();
-  return 0;
+void USBCom::endian_swap_save(bt_save_flags_t* save) {
+  for (int i = 0; i < sizeof(bt_save_flags_t); i++) endian_swap8(&((u8*)save)[i]);
 }
 
-uint8_t usb_write(uint16_t cmd, uint16_t len) {
-  DWORD size;
-  if (len) {
-    len--;
-    len = len-len%4+4;
+void USBCom::endian_swap_apm(ap_memory_pc_t* apm) {
+  endian_swap32(&apm->settings.seed);
+  for (int i = 0; i < AP_MEMORY_EXIT_MAP_MAX; i++) {
+    ap_memory_pc_exit_map_t* map = &apm->exit_map[i];
+    endian_swap16(&map->on_map);
+    endian_swap16(&map->og_map);
+    endian_swap16(&map->to_map);
   }
-  usb.packet.cmd = cmd;
-  usb.packet.size = len;
-  usb_packet_endian_swap();
-  endian_swap16(&usb.packet.cmd);
-  endian_swap16(&usb.packet.size);
-  uint8_t ret = (FT_Write(usb.handle, usb.packet.raw, len+8, &size) != FT_OK || size != len+8) ? 1 : 0;
-  printf("[ PC] cmd:%u size:%u data:0x", cmd, len);
-  for (int i = 0; i < 4; i++) printf("%.2X", usb.packet.data[i]);
-  if (len) {
-    printf(" extra:0x", len);
-    for (int i = 0; i < size-8; i++) printf("%.2X", usb.packet.extra[i]);
-  }
-  printf("\n");
-  return ret;
+}
+
+void USBCom::log(const char* str, ...) {
+  if (!USB_COM_LOGGING) return;
+  va_list args;
+  va_start(args, str);
+  vprintf(str, args);
+  va_end(args);
 }

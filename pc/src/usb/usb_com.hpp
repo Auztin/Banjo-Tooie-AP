@@ -3,25 +3,40 @@
 
 #include "usb_util.h"
 #include "ftd2xx.h"
-#include <stdint.h>
-#include <stdio.h>
-#include <string.h>
-#include <iostream>
 #include <ap_memory.h>
+#include <asio.hpp>
+
+#define USB_COM_LOGGING false
 
 extern ap_memory_t ap_memory;
 
-struct {
+class USBCom {
+public:
+  USBCom(asio::io_context*);
+private:
+  asio::steady_timer timer;
+  asio::steady_timer timer_ping;
   FT_HANDLE handle;
-  usb_packet_t packet;
-} usb = {.packet = {0, }};
+  u8 status = USB_STATUS_DISCONNECTED;
+  usb_packet_t packet = {0, };
+  ap_memory_pc_t apm_clone = {0, };
+  ap_memory_pc_t apm_converted = {0, };
 
-void memcpy16(void *dest, uint16_t src);
-void memcpy32(void *dest, uint32_t src);
-void endian_swap16(void *val);
-void endian_swap32(void *val);
-void usb_packet_endian_swap();
-uint8_t usb_read();
-uint8_t usb_write(uint16_t cmd, uint16_t len);
+  void check();
+  void ping(bool check);
+  FT_STATUS open();
+  FT_STATUS read();
+  FT_STATUS write(uint16_t cmd, uint16_t len);
+  void process();
+  bool check_changes(void* _real, void* _clone, int size);
+  void send();
+  void endian_swap8(void *dest);
+  void endian_swap16(void *val);
+  void endian_swap32(void *val);
+  void endian_swap_packet();
+  void endian_swap_save(bt_save_flags_t* save);
+  void endian_swap_apm(ap_memory_pc_t* apm);
+  void log(const char* str, ...);
+};
 
 #endif // USB_COM_HPP

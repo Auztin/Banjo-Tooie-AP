@@ -3,11 +3,11 @@
 #include "util.h"
 #include "bt.h"
 
-extern u32 inject_load_scene_displaced(u16, u16);
-u32 inject_load_scene(u16 scene, u16 entry) {
-  pre_load_scene(&scene, &entry);
-  u32 ret = inject_load_scene_displaced(scene, entry);
-  post_load_scene(scene, entry);
+extern u32 inject_load_scene_displaced(u16, u16, u32, u32);
+u32 inject_load_scene(u16 scene, u16 exit, u32 _unknown_A2, u32 _unknown_A3) {
+  pre_load_scene(&scene, &exit);
+  u32 ret = inject_load_scene_displaced(scene, exit, _unknown_A2, _unknown_A3);
+  post_load_scene(scene, exit);
   return ret;
 }
 

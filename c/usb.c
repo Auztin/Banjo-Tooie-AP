@@ -87,7 +87,7 @@ void usb_check() {
               break;
             }
             case USB_CMD_PONG: {
-              usb.status ^= USB_STATUS_PINGED;
+              usb.status &= ~USB_STATUS_PINGED;
               usb.ping_frame = main.frame_count;
               break;
             }
@@ -101,6 +101,10 @@ void usb_check() {
             }
             case USB_CMD_PC_ITEMS: {
               memcpy(ap_memory.pc.items, usb.packet.extra, usb.packet.size);
+              break;
+            }
+            case USB_CMD_PC_EXIT_MAP: {
+              memcpy(ap_memory.pc.exit_map+usb.packet.exit_map.offset, usb.packet.exit_map.data, usb.packet.size);
               break;
             }
           }

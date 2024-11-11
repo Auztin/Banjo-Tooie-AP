@@ -15,9 +15,7 @@ vpath %.h c
 
 OBJECTS = $(patsubst $(SRCDIR)/%.c,$(OBJDIR)/%.o,$(sort $(wildcard $(SRCDIR)/*.c)))
 
-.PHONY: all clean bundle asm crc savetype
-
-all: clean bundle asm crc savetype
+all: clean .WAIT bundle .WAIT asm crc savetype
 
 $(OBJDIR)/%.o: %.c
 	$(CC) -o $@ -c $< $(CFLAGS) $(CPPFLAGS)
@@ -35,10 +33,10 @@ bundle: $(OBJECTS)
 asm: $(ARMIPS) build.asm
 	$(ARMIPS) -sym2 build/asm_symbols.txt build.asm
 
-crc: crc.py ntype.py
+crc: asm crc.py ntype.py
 	python crc.py
 
-savetype:
+savetype: crc
 	$(ED64ROMCONFIG) -w sram256k patched.n64
 
 clean:
