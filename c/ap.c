@@ -650,7 +650,6 @@ void ap_new_file() {
   bt_flags.mt_cutscene_jamjars = 1;
   bt_flags.humba_cutscene_mumbo_not_welcome = 1;
   bt_flags.ggm_cutscene_timed_gate = 1;
-  bt_flags.wh_jiggywiggy_door_auto_opens = 1;
   bt_flags.tdl_cutscene_enlarge_wigwam = 1;
   bt_flags.mt_cutscene_goliath = 1;
   bt_flags.jiggywiggy_laser_cutscene = 1;
