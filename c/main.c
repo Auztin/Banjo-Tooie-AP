@@ -24,7 +24,7 @@ void pre_loop() {
 }
 
 void post_loop() {
-  if (bt_save_slot != 0xFF && bt_current_map != 0x0158) ap_check();
+  if (BT_IN_GAME) ap_check();
 }
 
 void pre_load_scene(u16 *scene, u16 *exit) {
@@ -211,7 +211,7 @@ void main_train_summon(u32 _unknown_A0, u16 from, u16 to) {
 }
 
 void post_object_init(bt_object_t *obj) {
-  if (bt_save_slot == 0xFF || bt_current_map == 0x0158) return;
+  if (!BT_IN_GAME) return;
   switch (obj->objType) {
     case BT_OBJ_PAGE:
       util_inject(UTIL_INJECT_RAW     , obj->objPointers[ 0] + 0x01C4, 0, 0); // dont increment amount
@@ -341,6 +341,7 @@ void pre_load_data(u16 *id) {
 }
 
 void post_load_data(u16 id, u32 addr) {
+  if (!BT_IN_GAME) return;
   switch (id) {
     case 0x0D8C: // jamjar's clockwork tutorial text
       if (ap_memory.n64.misc.show_text != ap_memory.pc.misc.show_text) {

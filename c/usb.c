@@ -109,7 +109,7 @@ void usb_check() {
             }
           }
         }
-        if (ed64_can_write()) {
+        if (BT_IN_GAME && ed64_can_write()) {
           u16 size;
           if (usb.send.misc) {
             size = sizeof(ap_memory.n64.misc);
