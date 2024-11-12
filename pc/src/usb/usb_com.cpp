@@ -11,7 +11,6 @@ USBCom::USBCom(asio::io_context* io_context):
   timer_ping(*io_context) {
   check();
   ping(false);
-  log("test!\n");
 }
 
 void USBCom::check() {
@@ -238,18 +237,15 @@ void USBCom::send() {
 }
 
 void USBCom::endian_swap8(void *dest) {
-  typedef union {
-    struct {
-      uint8_t bit7 : 1;
-      uint8_t bit6 : 1;
-      uint8_t bit5 : 1;
-      uint8_t bit4 : 1;
-      uint8_t bit3 : 1;
-      uint8_t bit2 : 1;
-      uint8_t bit1 : 1;
-      uint8_t bit0 : 1;
-    };
-    uint8_t byte;
+  typedef struct {
+    uint8_t bit7 : 1;
+    uint8_t bit6 : 1;
+    uint8_t bit5 : 1;
+    uint8_t bit4 : 1;
+    uint8_t bit3 : 1;
+    uint8_t bit2 : 1;
+    uint8_t bit1 : 1;
+    uint8_t bit0 : 1;
   } byte_t;
   byte_t* dst = (byte_t*)dest;
   byte_t src = *(byte_t*)dest;
