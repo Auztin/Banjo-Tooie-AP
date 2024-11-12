@@ -1162,14 +1162,14 @@ bool check_flag(std::string locationId) {
     return false;
 }
 
-std::map<std::string, world_entrance_t> WORLD_ENTRANCES = 
+std::map<std::string, world_entrance_t> WORLD_ENTRANCES =
 {
     {"Mayahem Temple", {.mapId = 0xB8, .from_map = 0x14F, .entranceId = 10, .exitId = 2}},
-    {"Glitter Gultch Mine", {.mapId = 0xC7, .from_map = 0x152, .entranceId = 17, .exitId = 2}},
+    {"Glitter Gulch Mine", {.mapId = 0xC7, .from_map = 0x152, .entranceId = 17, .exitId = 2}},
     {"Witchyworld", {.mapId = 0xD6, .from_map = 0x154, .entranceId = 18, .exitId = 2}},
     {"Jolly Roger's Lagoon - Town Center", {.mapId = 0x1A7, .from_map = 0x155, .entranceId = 3, .exitId = 5}},
     {"Terrydactyland", {.mapId = 0x112, .from_map = 0x15A, .entranceId = 23, .exitId = 2}},
-    {"Outside Grunty Industries", {.mapId = 0x100, .from_map = 0x15C, .entranceId = 9, .exitId = 2}},
+    {"Outside Grunty's Industries", {.mapId = 0x100, .from_map = 0x15C, .entranceId = 9, .exitId = 2}},
     {"Hailfire Peaks", {.mapId = 0x127, .from_map = 0x155, .entranceId = 21, .exitId = 6}},
     {"Cloud Cuckooland", {.mapId = 0x136, .from_map = 0x15A, .entranceId = 20, .exitId = 5}},
     {"Cauldron Keep", {.mapId = 0x15D, .from_map = 0x15C, .entranceId = 1, .exitId = 3}}
