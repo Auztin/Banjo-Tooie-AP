@@ -37,7 +37,10 @@ private:
   int FRAME = 0;
   std::string CUR_STATE = STATE_UNINITIALIZED;
   std::string PREV_STATE = "";
+  
+  /* Banjo-Tooie AP Settings */
   std::string PLAYER = "";
+  int SEED = 0;
   u8 CURRENT_MAP = 0;
   bool DEATH_LINK = false;
   int SKIP_TOT = 0;
@@ -56,92 +59,19 @@ private:
   int BH_LENGTH = 0; //Boss Token Length
   int JFR_LENGTH = 0; //Jinjo Token Length
   int TH_LENGTH = 0; //Token Hunt Length
-
   std::string OPEN_SILO = "NONE"; //Which Silo is Open
   std::string CLIENT_VERSION = "V0.0";
+  /* EO Banjo-Tooie AP Settings */
+
   bool VERSION_ERR = false;
-
-  std::vector<std::string> MESSAGE_TABLE;
-
-  int SEED = 0;
-  asio::awaitable<void> receive();
-  asio::awaitable<void> getSlotData();
   bool DEBUG_NET = false;
-  asio::awaitable<void> send(std::string);
-  asio::awaitable<nlohmann::json> read();
-
-  void printGoalInfo();
-  asio::awaitable<void> sendToBTClient();
-  void process_block(nlohmann::json);
-  void process_messages(std::string);
   std::map<int, int> receive_map;
-  void processAGIItem(nlohmann::json);
-  void initialize_bt();
-
   int TOTAL_JIGGIES = 0;
-  nlohmann::json check_jiggy_locations();
-  void obtain_jiggy();
-
   int TOTAL_TREBLE = 0;
-  nlohmann::json check_treble_locations();
-  void obtain_treble();
-
-  nlohmann::json check_roysten_locations();
-  void obtain_roysten_moves(int);
-
-  bool check_amaze_o_gaze_location();
-  void obtain_amaze_o_gaze();
-
-  bool check_roar_location();
-  void obtain_roar();
-
-  std::map<std::string, int> WORLD_TABLE;
-  void world_order_cost(nlohmann::json, nlohmann::json);
-  nlohmann::json check_unlock_worlds();
-  void unlock_world(int);
-
   int TOTAL_PAGES = 0;
-  nlohmann::json check_page_locations();
-  void obtain_pages();
-
-  nlohmann::json check_cheato_locations();
-
   int TOTAL_HONEYCOMB = 0;
-  nlohmann::json check_honeycomb_locations();
-  void obtain_honeycomb();
-
-  nlohmann::json check_honeyb_locations();
-
-  nlohmann::json check_glowbo_locations();
-  void obtain_magic(int);
-
   int TOTAL_DOUBLOONS = 0;
-  nlohmann::json check_doubloon_locations();
-  void obtain_doubloon();
-
   int TOTAL_NOTES = 0;
-  nlohmann::json check_notes_locations();
-  void obtain_notes();
-
-  nlohmann::json check_jiggy_chunks_locations();
-
-  nlohmann::json check_dino_kids_locations();
-
-  void obtain_bk_moves(int);
-  void obtain_progressive_moves(int);
-
-  nlohmann::json check_mystery_locations();
-  void obtain_mystery_items(int);
-
-  nlohmann::json check_station_locations();
-  void obtain_stations(int);
-
-  nlohmann::json check_chuffy_location();
-  void obtain_chuffy();
-
-  nlohmann::json check_jamjars_locations();
-  void obtain_jamjar_moves(int);
-
   int WHITE_JINJO = 0;
   int ORANGE_JINJO = 0;
   int YELLOW_JINJO = 0;
@@ -151,13 +81,65 @@ private:
   int BLUE_JINJO = 0;
   int PURPLE_JINJO = 0;
   int BLACK_JINJO = 0;
+  int MUMBO_TOKENS = 0;
+
+  std::map<std::string, int> WORLD_TABLE;
+  std::map<std::string, std::string> RANDOM_ENTRANCES;
+  // std::vector<std::string> MESSAGE_TABLE;
+
+
+  asio::awaitable<void> receive();
+  asio::awaitable<void> getSlotData();
+  asio::awaitable<void> send(std::string);
+  asio::awaitable<nlohmann::json> read();
+  void printGoalInfo();
+  asio::awaitable<void> sendToBTClient();
+  void process_block(nlohmann::json);
+  void process_messages(std::string);
+  void processAGIItem(nlohmann::json);
+  void initialize_bt();
+  nlohmann::json check_jiggy_locations();
+  void obtain_jiggy();
+  nlohmann::json check_treble_locations();
+  void obtain_treble();
+  nlohmann::json check_roysten_locations();
+  void obtain_roysten_moves(int);
+  bool check_amaze_o_gaze_location();
+  void obtain_amaze_o_gaze();
+  bool check_roar_location();
+  void obtain_roar();
+  void world_order_cost(nlohmann::json, nlohmann::json);
+  nlohmann::json check_unlock_worlds();
+  void unlock_world(int);
+  void randomize_entrances(nlohmann::json);
+  nlohmann::json check_page_locations();
+  void obtain_pages();
+  nlohmann::json check_cheato_locations();
+  nlohmann::json check_honeycomb_locations();
+  void obtain_honeycomb();
+  nlohmann::json check_honeyb_locations();
+  nlohmann::json check_glowbo_locations();
+  void obtain_magic(int);
+  nlohmann::json check_doubloon_locations();
+  void obtain_doubloon();
+  nlohmann::json check_notes_locations();
+  void obtain_notes();
+  nlohmann::json check_jiggy_chunks_locations();
+  nlohmann::json check_dino_kids_locations();
+  void obtain_bk_moves(int);
+  void obtain_progressive_moves(int);
+  nlohmann::json check_mystery_locations();
+  void obtain_mystery_items(int);
+  nlohmann::json check_station_locations();
+  void obtain_stations(int);
+  nlohmann::json check_chuffy_location();
+  void obtain_chuffy();
+  nlohmann::json check_jamjars_locations();
+  void obtain_jamjar_moves(int);
   nlohmann::json check_jinjo_locations();
   nlohmann::json check_jinjo_family_locations();
   void obtain_jinjos(int);
-
-  int MUMBO_TOKENS = 0;
   void obtain_mumbo_token();
-
 };
 
 #endif // BT_CLIENT_HPP

@@ -15,7 +15,6 @@ BTClient::BTClient(asio::io_context* io_context):
   timer_receive(*io_context)/*,
   timer_other(io_context) */ {
   this->io_context = io_context;
-  DEBUG_NET = true;
   printf("Starting server on port: %u\n", BT_CLIENT_PORT);
   tcp::endpoint endpoint(tcp::v4(), BT_CLIENT_PORT);
   server.open(endpoint.protocol());
@@ -824,7 +823,6 @@ void BTClient::initialize_bt()
         }
     }
     //Randomize World Entrances
-
 }
 
 void BTClient::world_order_cost(nlohmann::json world_order, nlohmann::json world_keys)
@@ -909,6 +907,35 @@ void BTClient::unlock_world(int itemId)
     }
 }
 
+void BTClient::randomize_entrances(json entrance_table)
+{
+    int i = 0;
+    for(auto& [orig_world, new_world]: entrance_table.items())
+    {
+        if(orig_world == "Glitter Gultch Mine")
+        {
+            ap_memory.pc.exit_map[i].og_map = WORLD_ENTRANCES[orig_world].mapId;
+            ap_memory.pc.exit_map[i].og_exit = 16;
+            ap_memory.pc.exit_map[i].on_map = WORLD_ENTRANCES[orig_world].from_map;
+            ap_memory.pc.exit_map[i].to_map = WORLD_ENTRANCES[new_world].mapId;
+            ap_memory.pc.exit_map[i].to_exit = WORLD_ENTRANCES[new_world].entranceId;
+            i++;
+        }
+        ap_memory.pc.exit_map[i].og_map = WORLD_ENTRANCES[orig_world].mapId;
+        ap_memory.pc.exit_map[i].og_exit = WORLD_ENTRANCES[orig_world].entranceId;
+        ap_memory.pc.exit_map[i].on_map = WORLD_ENTRANCES[orig_world].from_map;
+        ap_memory.pc.exit_map[i].to_map = WORLD_ENTRANCES[new_world].mapId;
+        ap_memory.pc.exit_map[i].to_exit = WORLD_ENTRANCES[new_world].entranceId;
+        i++;
+
+        ap_memory.pc.exit_map[i].og_map = WORLD_ENTRANCES[new_world].from_map;
+        ap_memory.pc.exit_map[i].og_exit = WORLD_ENTRANCES[new_world].exitId;
+        ap_memory.pc.exit_map[i].on_map = WORLD_ENTRANCES[new_world].mapId;
+        ap_memory.pc.exit_map[i].to_map = WORLD_ENTRANCES[orig_world].from_map;
+        ap_memory.pc.exit_map[i].to_exit = WORLD_ENTRANCES[orig_world].exitId;
+        i++;
+    }
+}
 
 // -------------- Archipelago Function -----------
 asio::awaitable<void> BTClient::getSlotData()
@@ -1044,8 +1071,7 @@ asio::awaitable<void> BTClient::getSlotData()
     }
     if(block.contains(string{"slot_zones"}))
     {
-        //This Contains a table of Which Loading Zones enter to Which Worlds.
-        //This will later Exand to more maps, but for now, its just the Front Entrances
+        randomize_entrances(block["slot_zones"]);
     }
     if(SEED != 0){
         printGoalInfo();
@@ -1308,6 +1334,11 @@ asio::awaitable<void> BTClient::every_30frames() {
     co_await receive();
   }
 
+  if(VERSION_ERR == true)
+  {
+    std::cout << "Error: Mismatch Version found... Please make sure your version matches." << std::endl;
+    disconnected();
+  }
   timer_receive.expires_after(std::chrono::milliseconds((int)(30/60.0*1000))); // every 30 frames if 60 fps
   timer_receive.async_wait([this](const asio::error_code& error) {
     if (error) printf("Error during 30 frame function: %s\n", error.message().c_str());

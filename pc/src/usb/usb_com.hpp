@@ -1,10 +1,11 @@
 #ifndef USB_COM_HPP
 #define USB_COM_HPP
 
+#include <asio.hpp>
 #include "usb_util.h"
 #include "ftd2xx.h"
 #include <ap_memory.h>
-#include <asio.hpp>
+
 
 #define USB_COM_LOGGING false
 
