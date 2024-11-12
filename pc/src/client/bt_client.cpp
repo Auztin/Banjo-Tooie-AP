@@ -190,7 +190,7 @@ bool BTClient::check_roar_location()
     {
         if(ASSET_MAP_CHECK[CURRENT_MAP].count("ROAR"))
         {
-            for(const std::string& locationId: ASSET_MAP_CHECK[CURRENT_MAP]["AMAZE"])
+            for(const std::string& locationId: ASSET_MAP_CHECK[CURRENT_MAP]["ROAR"])
             {
                 return check_flag(locationId);
             }
