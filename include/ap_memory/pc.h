@@ -38,7 +38,7 @@ typedef struct {
     u8 skip_klungo;
     u8 skip_tower_of_tragedy;
     u8 speed_up_minigames;
-    u8 jiggy_requirements[10];
+    u8 jiggy_requirements[11];
     u8 open_silos[AP_SILO_MAX];
   } settings;
   u8 items[AP_ITEM_MAX];
