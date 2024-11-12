@@ -689,6 +689,15 @@ nlohmann::json BTClient::check_jinjo_family_locations()
     return jinjo_fam_check;
 }
 
+// -------------- MUMBO TOKENS -------------------
+
+void BTClient::obtain_mumbo_token()
+{
+    MUMBO_TOKENS++;
+    ap_memory.pc.items[AP_ITEM_MUMBOTOKEN] = MUMBO_TOKENS;
+    return;
+}
+
 
 // -------------- Game Function ------------------
 
@@ -721,7 +730,185 @@ void BTClient::initialize_bt()
         ap_memory.pc.items[AP_ITEM_TJUMP] = 1;
         ap_memory.pc.items[AP_ITEM_TTROT] = 1;
     }
+    // Skip Puzzles
+    if(SKIP_PUZZLES == false)
+    {
+        ap_memory.pc.settings.jiggy_requirements[0] = 1;
+        ap_memory.pc.settings.jiggy_requirements[1] = 4;
+        ap_memory.pc.settings.jiggy_requirements[2] = 8;
+        ap_memory.pc.settings.jiggy_requirements[3] = 14;
+        ap_memory.pc.settings.jiggy_requirements[4] = 20;
+        ap_memory.pc.settings.jiggy_requirements[5] = 28;
+        ap_memory.pc.settings.jiggy_requirements[6] = 36;
+        ap_memory.pc.settings.jiggy_requirements[7] = 45;
+        ap_memory.pc.settings.jiggy_requirements[8] = 55;
+        ap_memory.pc.settings.jiggy_requirements[9] = 70;
+    }
+    else
+    {
+        ap_memory.pc.settings.skip_puzzles = 1;
+    }
+    //HAG 1 Early
+    if(OPEN_HAG1 == true && GOAL_TYPE != 4)
+    {
+        ap_memory.pc.items[AP_ITEM_H1A] = 1;
+    }
+    else if(GOAL_TYPE != 4)
+    {
+        ap_memory.pc.settings.jiggy_requirements[9] = 70;
+    }
+    else
+    {
+        ap_memory.pc.settings.jiggy_requirements[9] = 99;
+    }
+    //KUNGO
+    if(SKIP_KLUNGO == true)
+    {
+        ap_memory.pc.settings.skip_klungo = 1;
+    }
+    //CHUFFY
+    if(ENABLE_AP_CHUFFY == true)
+    {
+        ap_memory.pc.settings.randomize_chuffy = 1;
+    }
+    //TOT
+    ap_memory.pc.settings.skip_tower_of_tragedy = SKIP_TOT;
+    //MINIGAME
+    if(MINIGAMES == true)
+    {
+        ap_memory.pc.settings.speed_up_minigames = 1;
+    }
+    //SILO
+    if(OPEN_SILO != "NONE")
+    {
+        if(OPEN_SILO == "ALL")
+        {
+            ap_memory.pc.settings.open_silos[AP_SILO_JINJO_VILLAGE] = 1;
+            ap_memory.pc.settings.open_silos[AP_SILO_WOODED_HOLLOW] = 1;
+            ap_memory.pc.settings.open_silos[AP_SILO_PLATEAU] = 1;
+            ap_memory.pc.settings.open_silos[AP_SILO_PINE_GROVE] = 1;
+            ap_memory.pc.settings.open_silos[AP_SILO_CLIFF_TOP] = 1;
+            ap_memory.pc.settings.open_silos[AP_SILO_WASTELAND] = 1;
+            ap_memory.pc.settings.open_silos[AP_SILO_QUAGMIRE] = 1;
+
+        }
+        else if(OPEN_SILO == "Isle O Hags - Plateau")
+        {
+            ap_memory.pc.settings.open_silos[AP_SILO_JINJO_VILLAGE] = 1;
+            ap_memory.pc.settings.open_silos[AP_SILO_PLATEAU] = 1;
+        }
+        else if(OPEN_SILO == "Isle O Hags - Plateau")
+        {
+            ap_memory.pc.settings.open_silos[AP_SILO_JINJO_VILLAGE] = 1;
+            ap_memory.pc.settings.open_silos[AP_SILO_PLATEAU] = 1;
+        }
+        else if(OPEN_SILO == "Isle O Hags - Pine Grove")
+        {
+            ap_memory.pc.settings.open_silos[AP_SILO_JINJO_VILLAGE] = 1;
+            ap_memory.pc.settings.open_silos[AP_SILO_PINE_GROVE] = 1;
+        }
+        else if(OPEN_SILO == "Isle O Hags - Cliff Top")
+        {
+            ap_memory.pc.settings.open_silos[AP_SILO_JINJO_VILLAGE] = 1;
+            ap_memory.pc.settings.open_silos[AP_SILO_CLIFF_TOP] = 1;
+        }
+        else if(OPEN_SILO == "Isle O Hags - Wasteland")
+        {
+            ap_memory.pc.settings.open_silos[AP_SILO_JINJO_VILLAGE] = 1;
+            ap_memory.pc.settings.open_silos[AP_SILO_WASTELAND] = 1;
+        }
+        else if(OPEN_SILO == "Isle O Hags - Quagmire")
+        {
+            ap_memory.pc.settings.open_silos[AP_SILO_JINJO_VILLAGE] = 1;
+            ap_memory.pc.settings.open_silos[AP_SILO_QUAGMIRE] = 1;
+        }
+    }
+    //Randomize World Entrances
+
 }
+
+void BTClient::world_order_cost(nlohmann::json world_order, nlohmann::json world_keys)
+{
+    for (auto& [world, cost] : world_order.items())
+    {
+        std::string locationId = world_keys[world];
+        WORLD_TABLE[locationId] = cost;
+        if(world == "Mayahem Temple")
+        {
+            ap_memory.pc.settings.jiggy_requirements[0] = cost;
+        }
+        else if(world == "Glitter Gulch Mine")
+        {
+            ap_memory.pc.settings.jiggy_requirements[1] = cost;
+        }
+        else if(world == "Witchyworld")
+        {
+            ap_memory.pc.settings.jiggy_requirements[2] = cost;
+        }
+        else if(world == "Jolly Roger's Lagoon - Town Center")
+        {
+            ap_memory.pc.settings.jiggy_requirements[3] = cost;
+        }
+        else if(world == "Terrydactyland")
+        {
+            ap_memory.pc.settings.jiggy_requirements[4] = cost;
+        }
+        else if(world == "Outside Grunty Industries")
+        {
+            ap_memory.pc.settings.jiggy_requirements[5] = cost;
+        }
+        else if(world == "Hailfire Peaks")
+        {
+            ap_memory.pc.settings.jiggy_requirements[6] = cost;
+        }
+        else if(world == "Cloud Cuckooland")
+        {
+            ap_memory.pc.settings.jiggy_requirements[7] = cost;
+        }
+        else if(world == "Cauldron Keep")
+        {
+            ap_memory.pc.settings.jiggy_requirements[8] = cost;
+        }
+    }
+}
+
+nlohmann::json BTClient::check_unlock_worlds()
+{
+    nlohmann::json worlds_check = json({});
+    for(auto& [locationId, cost] : WORLD_TABLE)
+    {
+        if(TOTAL_JIGGIES >= cost)
+        {
+            worlds_check[locationId] = true;
+        }
+    }
+    if(GOAL_TYPE == 0 && TOTAL_JIGGIES >= 70 && OPEN_HAG1 == false)
+    {
+        ap_memory.pc.items[AP_ITEM_H1A] = 1;
+    }
+    if(GOAL_TYPE == 4 && MUMBO_TOKENS == 32)
+    {
+        ap_memory.pc.items[AP_ITEM_H1A] = 1;
+    }
+    return worlds_check;
+}
+
+void BTClient::unlock_world(int itemId)
+{
+    switch(itemId)
+    {
+        case 1230944: ap_memory.pc.items[AP_ITEM_MTA] = 1; break;
+        case 1230945: ap_memory.pc.items[AP_ITEM_GGA] = 1; break;
+        case 1230946: ap_memory.pc.items[AP_ITEM_WWA] = 1; break;
+        case 1230947: ap_memory.pc.items[AP_ITEM_JRA] = 1; break;
+        case 1230948: ap_memory.pc.items[AP_ITEM_TDA] = 1; break;
+        case 1230949: ap_memory.pc.items[AP_ITEM_GIA] = 1; break;
+        case 1230950: ap_memory.pc.items[AP_ITEM_HFA] = 1; break;
+        case 1230951: ap_memory.pc.items[AP_ITEM_CCA] = 1; break;
+        case 1230952: ap_memory.pc.items[AP_ITEM_CKA] = 1; break;
+    }
+}
+
 
 // -------------- Archipelago Function -----------
 asio::awaitable<void> BTClient::getSlotData()
@@ -743,6 +930,7 @@ asio::awaitable<void> BTClient::getSlotData()
     if(block.contains(string{"slot_seed"}) && block["slot_seed"] != "")
     {
         SEED = block["slot_seed"];
+        ap_memory.pc.settings.seed = SEED;
         if(DEBUG_NET == true) { std::cout << "SEED is: " << SEED << std::endl; }
     }
     if(block.contains(string{"slot_deathlink"}) && block["slot_deathlink"] != "false")
@@ -750,9 +938,20 @@ asio::awaitable<void> BTClient::getSlotData()
         DEATH_LINK = true;
         if(DEBUG_NET == true) { std::cout << "Deathlink is set" << std::endl; }
     }
-    if(block.contains(string{"slot_skip_tot"}) && block["slot_skip_tot"] != "false")
+    if(block.contains(string{"slot_skip_tot"}) && block["slot_skip_tot"] != "")
     {
-        SKIP_TOT = true;
+        if(block["slot_skip_tot"] == "false")
+        {
+            SKIP_TOT = 0;
+        }
+        else if(block["slot_skip_tot"] == "true")
+        {
+            SKIP_TOT = 1;
+        }
+        else
+        {
+             SKIP_TOT = 2;
+        }
         if(DEBUG_NET == true) { std::cout << "SKIP TOT is set" << std::endl; }
     }
     if(block.contains(string{"slot_bkmoves"}) && block["slot_bkmoves"] != "false")
@@ -770,10 +969,10 @@ asio::awaitable<void> BTClient::getSlotData()
         ENABLE_AP_HONEYB_REWARDS = true;
         if(DEBUG_NET == true) { std::cout << "HONEYB_REWARDS is set" << std::endl; }
     }
-    if(block.contains(string{"slot_minigames"}) && block["slot_minigames"] != "")
+    if(block.contains(string{"slot_minigames"}) && block["slot_minigames"] == "skip")
     {
-        MINIGAMES = block["slot_minigames"];
-        if(DEBUG_NET == true) { std::cout << "MINIGAMES set to " << MINIGAMES << std::endl; }
+        MINIGAMES = true;
+        if(DEBUG_NET == true) { std::cout << "MINIGAMES is set" << std::endl; }
     }
     if(block.contains(string{"slot_skip_puzzles"}) && block["slot_skip_puzzles"] != "false")
     {
@@ -828,29 +1027,7 @@ asio::awaitable<void> BTClient::getSlotData()
     }
     if(block.contains(string{"slot_world_order"}))
     {
-        // Here is you set Which Level to open in which order and set Jiggy Amount for each world.
-        //slot_world_order is a Table.. Iterate in order using slot_keys. Below is the lua example:
-        /*
-            for level, jiggy_amt in pairs(block['slot_world_order'])
-            do
-                local locationId = block['slot_keys'][level]
-                if level == "Outside Grunty's Industries"
-                then
-                    level = "Grunty Industries"
-                elseif  level == "Jolly Roger's Lagoon - Town Center"
-                then
-                    level = "Jolly Roger's Lagoon"
-                end
-                for worlds, t in pairs(WORLD_ENTRANCE_MAP)
-                do
-                    if t['defaultName'] == level
-                    then
-                        WORLD_ENTRANCE_MAP[worlds]["defaultCost"] = jiggy_amt
-                        WORLD_ENTRANCE_MAP[worlds]["locationId"] = tostring(locationId)
-                    end
-                end
-            end
-        */
+        world_order_cost(block["slot_world_order"], block["slot_keys"]);
     }
     if(block.contains(string{"slot_open_silo"}))
     {
@@ -1028,6 +1205,10 @@ void BTClient::processAGIItem(json item_data)
         {
             obtain_jinjos(itemId);
         }
+        else if((itemId >= 1230944 && itemId <= 1230952)) // Open World Entrances
+        {
+            unlock_world(itemId);
+        }
         else // Everything else
         {
             switch((int) itemId)
@@ -1044,6 +1225,7 @@ void BTClient::processAGIItem(json item_data)
                 case 1230831: obtain_roysten_moves(1230831); break;
                 case 1230779: obtain_amaze_o_gaze(); break;
                 case 1230780: obtain_roar(); break;
+                case 1230798: obtain_mumbo_token(); break;
             }
         }
     }
@@ -1076,6 +1258,7 @@ asio::awaitable<void> BTClient::sendToBTClient()
     retTable["chuffy"] = check_chuffy_location();
     retTable["isDead"] = dead;
     retTable["jinjofam"] = check_jinjo_family_locations();
+    retTable["worlds"] = check_unlock_worlds();
     retTable["mystery"] = check_mystery_locations();
     retTable["roysten"] = check_roysten_locations();
     retTable["cheato_rewards"] = check_cheato_locations();
@@ -1087,8 +1270,7 @@ asio::awaitable<void> BTClient::sendToBTClient()
     retTable["DEMO"] = false;
     retTable["banjo_map"] = CURRENT_MAP;
     retTable["sync_ready"] = "true";
-    
-    retTable["worlds"] = json({}); // TODO
+
     co_await send(retTable.dump()+"\n");
     co_return;
 }

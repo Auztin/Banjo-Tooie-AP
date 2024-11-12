@@ -40,11 +40,11 @@ private:
   std::string PLAYER = "";
   u8 CURRENT_MAP = 0;
   bool DEATH_LINK = false;
-  bool SKIP_TOT = false;
+  int SKIP_TOT = 0;
   int ENABLE_AP_BK_MOVES = 0;
   bool ENABLE_AP_CHEATO_REWARDS = false;
   bool ENABLE_AP_HONEYB_REWARDS = false;
-  std::string MINIGAMES = "";
+  bool MINIGAMES = false;
   bool SKIP_PUZZLES = false;
   bool SKIP_KLUNGO = false;
   bool OPEN_HAG1 = false;
@@ -56,6 +56,7 @@ private:
   int BH_LENGTH = 0; //Boss Token Length
   int JFR_LENGTH = 0; //Jinjo Token Length
   int TH_LENGTH = 0; //Token Hunt Length
+
   std::string OPEN_SILO = "NONE"; //Which Silo is Open
   std::string CLIENT_VERSION = "V0.0";
   bool VERSION_ERR = false;
@@ -93,6 +94,11 @@ private:
 
   bool check_roar_location();
   void obtain_roar();
+
+  std::map<std::string, int> WORLD_TABLE;
+  void world_order_cost(nlohmann::json, nlohmann::json);
+  nlohmann::json check_unlock_worlds();
+  void unlock_world(int);
 
   int TOTAL_PAGES = 0;
   nlohmann::json check_page_locations();
@@ -148,6 +154,10 @@ private:
   nlohmann::json check_jinjo_locations();
   nlohmann::json check_jinjo_family_locations();
   void obtain_jinjos(int);
+
+  int MUMBO_TOKENS = 0;
+  void obtain_mumbo_token();
+
 };
 
 #endif // BT_CLIENT_HPP
