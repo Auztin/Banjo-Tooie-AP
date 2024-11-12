@@ -1311,7 +1311,7 @@ asio::awaitable<json> BTClient::read()
     }
     std::string line(asio::buffer_cast<const char*>(buffer.data()), size);
     buffer.consume(size);
-    std::cout << "[ IN] " << line << std::endl << std::endl;
+    if (DEBUG_NET) std::cout << "[ IN] " << line << std::endl << std::endl;
     json recv = json::parse(line);
 
     co_return recv;
@@ -1319,7 +1319,7 @@ asio::awaitable<json> BTClient::read()
 
 asio::awaitable<void> BTClient::send(std::string jsonData)
 {
-    std::cout << "[OUT] " << jsonData << std::endl << std::endl;
+    if (DEBUG_NET) std::cout << "[OUT] " << jsonData << std::endl << std::endl;
     asio::error_code ec;
     co_await asio::async_write(socket_, asio::buffer(jsonData, jsonData.length()), asio::redirect_error(asio::use_awaitable, ec));
     if (ec) disconnected();
