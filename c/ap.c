@@ -477,6 +477,38 @@ void ap_check() {
     ap_memory.n64.misc.current_map = bt_current_map;
     usb.send.misc = 1;
   }
+  if (bt_controllers[0].held.l) {
+    if (bt_controllers[0].pressed.dup) { // REFILL
+      bt_fn_increase_item(BT_ITEM_RED_FEATHERS, 999);
+      bt_fn_increase_item(BT_ITEM_GOLD_FEATHERS, 999);
+      bt_fn_increase_item(BT_ITEM_BLUE_EGGS, 999);
+      bt_fn_increase_item(BT_ITEM_FIRE_EGGS, 999);
+      bt_fn_increase_item(BT_ITEM_GRENADE_EGGS, 999);
+      bt_fn_increase_item(BT_ITEM_ICE_EGGS, 999);
+      bt_fn_increase_item(BT_ITEM_CLOCKWORK_EGGS, 999);
+    }
+    if (bt_controllers[0].pressed.dright) { // SUPER BANJO
+      bt_flags.cheats_superbanjo_enabled = !bt_flags.cheats_superbanjo_enabled;
+    }
+    if (bt_controllers[0].pressed.dleft && bt_flags.cheats_homing_eggs_received) { // HOMING EGGS
+      bt_flags.cheats_homing_eggs_enabled = !bt_flags.cheats_homing_eggs_enabled;
+    }
+    if (bt_controllers[0].pressed.ddown && bt_flags.cheats_honeyback_received) { // HONEYBACK
+      bt_flags.cheats_honeyback_enabled = !bt_flags.cheats_honeyback_enabled;
+    }
+    if (bt_controllers[0].released.start) { // SMOOTH BANJO
+      ap.smooth_banjo = !ap.smooth_banjo;
+      BT_FPS = ap.smooth_banjo ? 1 : 2;
+    }
+  }
+  else {
+    // if (bt_controllers[0].held.dup); // SNEAK
+    // if (bt_controllers[0].pressed.dright); // CHECK MOVES AND WORLDS
+    // if (bt_controllers[0].pressed.dright); // CHECK MOVES AND WORLDS
+    // if (bt_controllers[0].pressed.dleft); // CHECK MAGIC
+    // if (bt_controllers[0].pressed.ddown); // CHECK COLLECTED TREBLE, STATIONS AND VICTORY CONDITION
+  }
+
   u8* real_in = (u8*)&bt_flags;
   u8* real_out = (u8*)&(ap_memory.n64.saves.real);
   u8* fake_in = (u8*)&(save_data.custom[bt_save_slot].fake_flags);

@@ -6,6 +6,7 @@
 typedef struct {
   u8 death_link : 1;
   u8 death_link_queued : 1;
+  u8 smooth_banjo : 1;
   u8 items[AP_ITEM_MAX];
 } ap_t;
 extern ap_t ap;

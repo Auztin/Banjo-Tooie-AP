@@ -69,6 +69,7 @@ void pre_load_scene(u16 *scene, u16 *exit) {
 }
 
 void post_load_scene(u16 scene, u16 exit) {
+  BT_FPS = ap.smooth_banjo ? 1 : 2;
 }
 
 void pre_load_save() {
