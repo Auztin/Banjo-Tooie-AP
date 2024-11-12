@@ -37,11 +37,11 @@ private:
   int FRAME = 0;
   std::string CUR_STATE = STATE_UNINITIALIZED;
   std::string PREV_STATE = "";
-  
+
   /* Banjo-Tooie AP Settings */
   std::string PLAYER = "";
   int SEED = 0;
-  u8 CURRENT_MAP = 0;
+  u16 CURRENT_MAP = 0;
   bool DEATH_LINK = false;
   int SKIP_TOT = 0;
   int ENABLE_AP_BK_MOVES = 0;
