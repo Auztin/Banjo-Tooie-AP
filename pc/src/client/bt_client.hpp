@@ -146,6 +146,7 @@ private:
   int PURPLE_JINJO = 0;
   int BLACK_JINJO = 0;
   nlohmann::json check_jinjo_locations();
+  nlohmann::json check_jinjo_family_locations();
   void obtain_jinjos(int);
 };
 

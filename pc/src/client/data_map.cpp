@@ -2,12 +2,12 @@
 
     std::map<uint16_t, std::map<std::string, std::vector<std::string>>> ASSET_MAP_CHECK = {
         {0, { // ALL MAPS
-            {"JIGGIES", {
-                "1230685",
-                "1230638",
+            {"JIGGIES", {"1230685", "1230638"}},
+            {"JINJO_FAMILY", {
+                "1230676",
                 "1230677",
                 "1230678",
-                "1230679", 
+                "1230679",
                 "1230680",
                 "1230681",
                 "1230682",

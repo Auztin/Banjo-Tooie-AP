@@ -679,6 +679,16 @@ void BTClient::obtain_jinjos(int itemId)
     }
 }
 
+nlohmann::json BTClient::check_jinjo_family_locations()
+{
+    nlohmann::json jinjo_fam_check = json({});
+    for(const std::string& locationId: ASSET_MAP_CHECK[CURRENT_MAP]["JINJO_FAMILY"])
+    {
+        jinjo_fam_check[locationId] = check_flag(locationId);
+    }
+    return jinjo_fam_check;
+}
+
 
 // -------------- Game Function ------------------
 
@@ -1014,7 +1024,7 @@ void BTClient::processAGIItem(json item_data)
         {
             obtain_jamjar_moves(itemId);
         }
-        else if((itemId >= 1230501 && itemId <= 1230509)) // Jamjar Moves
+        else if((itemId >= 1230501 && itemId <= 1230509)) // Jinjos
         {
             obtain_jinjos(itemId);
         }
@@ -1065,9 +1075,11 @@ asio::awaitable<void> BTClient::sendToBTClient()
     retTable["stations"] = check_station_locations();
     retTable["chuffy"] = check_chuffy_location();
     retTable["isDead"] = dead;
+    retTable["jinjofam"] = check_jinjo_family_locations();
+    retTable["mystery"] = check_mystery_locations();
+    retTable["roysten"] = check_roysten_locations();
     retTable["cheato_rewards"] = check_cheato_locations();
     retTable["honeyb_rewards"] = check_honeyb_locations();
-    retTable["roysten"] = check_roysten_locations();
     retTable["jiggy_chunks"] = check_jiggy_chunks_locations();
     retTable["goggles"] = check_amaze_o_gaze_location();
     retTable["roar"] = check_roar_location();
@@ -1075,10 +1087,7 @@ asio::awaitable<void> BTClient::sendToBTClient()
     retTable["DEMO"] = false;
     retTable["banjo_map"] = CURRENT_MAP;
     retTable["sync_ready"] = "true";
-
-    retTable["mystery"] = json({}); // TODO
-    retTable["jinjofam"] = json({}); // TODO
-    retTable["jinjos"] = json({}); // TODO
+    
     retTable["worlds"] = json({}); // TODO
     co_await send(retTable.dump()+"\n");
     co_return;
