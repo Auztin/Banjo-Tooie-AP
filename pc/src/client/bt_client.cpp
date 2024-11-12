@@ -829,7 +829,7 @@ void BTClient::world_order_cost(nlohmann::json world_order, nlohmann::json world
 {
     for (auto& [world, cost] : world_order.items())
     {
-        std::string locationId = world_keys[world];
+        std::string locationId = std::to_string((int)world_keys[world]);
         WORLD_TABLE[locationId] = cost;
         if(world == "Mayahem Temple")
         {
