@@ -15,6 +15,8 @@ void pre_init() {
 void post_init() {
   // allow immediately pressing start to skip title screen
   (*(u8*)0x8012C78D) = 0x40;
+  util_inject(UTIL_INJECT_RAW, 0x800D0C24, 0, 0); // dont show amount of notes when collected
+  util_inject(UTIL_INJECT_RAW, 0x800D0C44, 0, 0); // dont show amount of jiggies when collected
   usb_init();
 }
 
@@ -234,13 +236,7 @@ void post_object_init(bt_object_t *obj) {
     case BT_OBJ_DOUBLOON:
       util_inject(UTIL_INJECT_RAW     , obj->objPointers[ 1] + 0x0198, 0, 0); // dont increment amount
       break;
-    case BT_OBJ_JIGGY:
-      util_inject(UTIL_INJECT_RAW     , obj->objPointer      + 0x0050, 0, 0); // dont show amount collected
-      break;
     case BT_OBJ_NESTS:
-      // note & treble clef nests
-      util_inject(UTIL_INJECT_RAW     , obj->objPointer      + 0x06A4, 0, 0); // dont show amount collected
-
       // egg nests
       util_inject(UTIL_INJECT_FUNCTION, obj->objPointer      + 0x01D8, (u32)main_increase_item, 0); // prevent receiving blue eggs if you dont have them
       util_inject(UTIL_INJECT_FUNCTION, obj->objPointer      + 0x0B08, (u32)save_has_egg_type, 0); // fix egg nests hanging the game with no eggs
