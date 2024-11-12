@@ -116,7 +116,7 @@ void ap_sync_items(u16 type, u8 value) {
     case AP_ITEM_NOTE:
       if (value != totals->notes) {
         bt_fn_ui_show_number(BT_UI_NUMBERS_NOTES, totals->notes*5+totals->treble_clefs*20, 0);
-        bt_fn_ui_show_number(BT_UI_NUMBERS_NOTES, totals->notes*5+value*20, 0);
+        bt_fn_ui_show_number(BT_UI_NUMBERS_NOTES, value*5+totals->treble_clefs*20, 0);
         totals->notes = value;
       }
       break;
