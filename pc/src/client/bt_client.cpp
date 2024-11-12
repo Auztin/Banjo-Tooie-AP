@@ -645,6 +645,40 @@ void BTClient::obtain_jamjar_moves(int itemId)
     }
 }
 
+// -------------- JINJOS -------------------------
+
+nlohmann::json BTClient::check_jinjo_locations()
+{
+    nlohmann::json jinjo_check = json({});
+    if(ASSET_MAP_CHECK.count(CURRENT_MAP))
+    {
+        if(ASSET_MAP_CHECK[CURRENT_MAP].count("JINJOS"))
+        {
+            for(const std::string& locationId: ASSET_MAP_CHECK[CURRENT_MAP]["JINJOS"])
+            {
+                jinjo_check[locationId] = check_flag(locationId);
+            }
+        }
+    }
+    return jinjo_check;
+}
+
+void BTClient::obtain_jinjos(int itemId)
+{
+    switch(itemId)
+    {
+        case 1230501: WHITE_JINJO++; ap_memory.pc.items[AP_ITEM_WJINJO] = WHITE_JINJO; break;
+        case 1230502: ORANGE_JINJO++; ap_memory.pc.items[AP_ITEM_OJINJO] = ORANGE_JINJO; break;
+        case 1230503: YELLOW_JINJO++; ap_memory.pc.items[AP_ITEM_YJINJO] = YELLOW_JINJO; break;
+        case 1230504: BROWN_JINJO++; ap_memory.pc.items[AP_ITEM_BRJINJO] = BROWN_JINJO; break;
+        case 1230505: GREEN_JINJO++; ap_memory.pc.items[AP_ITEM_GJINJO] = GREEN_JINJO; break;
+        case 1230506: RED_JINJO++; ap_memory.pc.items[AP_ITEM_RJINJO] = RED_JINJO; break;
+        case 1230507: BLUE_JINJO++; ap_memory.pc.items[AP_ITEM_BLJINJO] = BLUE_JINJO; break;
+        case 1230508: PURPLE_JINJO++; ap_memory.pc.items[AP_ITEM_PJINJO] = PURPLE_JINJO; break;
+        case 1230509: BLACK_JINJO++; ap_memory.pc.items[AP_ITEM_BKJINJO] = BLACK_JINJO; break;
+    }
+}
+
 
 // -------------- Game Function ------------------
 
@@ -980,6 +1014,10 @@ void BTClient::processAGIItem(json item_data)
         {
             obtain_jamjar_moves(itemId);
         }
+        else if((itemId >= 1230501 && itemId <= 1230509)) // Jamjar Moves
+        {
+            obtain_jinjos(itemId);
+        }
         else // Everything else
         {
             switch((int) itemId)
@@ -1015,6 +1053,7 @@ asio::awaitable<void> BTClient::sendToBTClient()
     retTable["playerName"] = PLAYER;
     retTable["deathlinkActive"] = DEATH_LINK;
     retTable["jiggies"] = check_jiggy_locations();
+    retTable["jinjos"] = check_jinjo_locations();
     retTable["pages"] = check_page_locations();
     retTable["honeycomb"] = check_honeycomb_locations();
     retTable["glowbo"] = check_glowbo_locations();

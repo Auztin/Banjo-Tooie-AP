@@ -135,6 +135,18 @@ private:
 
   nlohmann::json check_jamjars_locations();
   void obtain_jamjar_moves(int);
+
+  int WHITE_JINJO = 0;
+  int ORANGE_JINJO = 0;
+  int YELLOW_JINJO = 0;
+  int BROWN_JINJO = 0;
+  int GREEN_JINJO = 0;
+  int RED_JINJO = 0;
+  int BLUE_JINJO = 0;
+  int PURPLE_JINJO = 0;
+  int BLACK_JINJO = 0;
+  nlohmann::json check_jinjo_locations();
+  void obtain_jinjos(int);
 };
 
 #endif // BT_CLIENT_HPP
