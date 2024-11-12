@@ -505,13 +505,18 @@ void ap_new_file() {
     // bt_flags.ck_defeated_klungo3 = 1;
   }
   if (ap_memory.pc.settings.skip_tower_of_tragedy) {
-    bt_flags.tower_of_tragedy_round = 4;
-    bt_flags.ck_opened_gun_chamber = 1;
-    bt_flags.played_tower_of_tragedy_round3 = 1;
-    bt_flags.played_tower_of_tragedy_round2 = 1;
     bt_flags.played_tower_of_tragedy_round1 = 1;
+    bt_flags.played_tower_of_tragedy_round2 = 1;
+    bt_flags.played_tower_of_tragedy_round3 = 1;
     bt_flags.ck_tower_of_tragedy_mingella_lost = 1;
     bt_flags.ck_tower_of_tragedy_blobbelda_lost = 1;
+    if (ap_memory.pc.settings.skip_tower_of_tragedy == 2) {
+      bt_flags.tower_of_tragedy_round = 3;
+    }
+    else {
+      bt_flags.tower_of_tragedy_round = 4;
+      bt_flags.ck_opened_gun_chamber = 1;
+    }
   }
   if (ap_memory.pc.settings.speed_up_minigames) {
     bt_flags.mt_opened_kickball_door1 = 1;
