@@ -325,7 +325,7 @@ std::map<uint16_t, std::map<std::string, std::vector<std::string>>> ASSET_MAP_CH
         }},
         {0xED, { //JRL - Jolly's
             {"JIGGIES", {"1230631"}},
-            {"DOUBLOON", {"1230545""1230546"}},
+            {"DOUBLOON", {"1230545","1230546"}},
             {"NOTES", {"1230861","1230862","1230863"}},
             {"SILO", {"1230766"}},
         }},
@@ -365,7 +365,7 @@ std::map<uint16_t, std::map<std::string, std::vector<std::string>>> ASSET_MAP_CH
         {0x112,	{ //TDL
             {"JIGGIES", {"1230637","1230644","1230645"}},
             {"JINJOS", {"1230571","1230572","1230573","1230574"}},
-            {"PAGES", {"1230740""1230742"}},
+            {"PAGES", {"1230740","1230742"}},
             {"HONEYCOMB", {"1230715"}},
             {"GLOWBO", {"1230694","1230695"}},
             {"NOTES", {
@@ -435,7 +435,7 @@ std::map<uint16_t, std::map<std::string, std::vector<std::string>>> ASSET_MAP_CH
             {"PAGES", {"1230745"}}
         }},
         {0x111,	{ //GI - Basement (Waste Disposal)
-            {"JIGGIES", {"1230646""1230655","1230661","1230629"}},
+            {"JIGGIES", {"1230646","1230655","1230661","1230629"}},
             {"JINJOS", {"1230578"}},
             {"NOTES", {"1230890","1230891"}},
             {"SILO", {"1230771"}},
