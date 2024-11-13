@@ -755,7 +755,7 @@ bool check_flag(std::string locationId) {
             case 1230567: return real->jrl_jinjo_blubbers;
             case 1230568: return real->jrl_jinjo_big_fish;
             case 1230569: return real->jrl_jinjo_seaweed_sanctum;
-            case 1230570: return real->jrl_jinjo_spawned_chest;
+            case 1230570: return real->jrl_jinjo_collected_chest;
 
             case 1230571: return real->tdl_jinjo_lower_lake;
             case 1230572: return real->tdl_jinjo_caged_entrance;
