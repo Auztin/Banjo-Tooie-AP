@@ -138,7 +138,8 @@ void ap_sync_items(u16 type, u8 value) {
       break;
     case AP_ITEM_PMEGG:
       if (bt_flags.wh_pink_egg_hatched) break;
-      value += ap_memory.pc.items[AP_ITEM_BMEGG];
+      bt_flags.sm_pink_egg_collected = value > 0;
+      if (!bt_flags.wh_blue_egg_hatched) value += ap_memory.pc.items[AP_ITEM_BMEGG];
       current = bt_items[BT_ITEM_MYSTERY_EGGS] ^ bt_item_keys[BT_ITEM_MYSTERY_EGGS].key;
       if (value != current) {
         bt_fn_increase_item(BT_ITEM_MYSTERY_EGGS, value-current);
@@ -146,7 +147,8 @@ void ap_sync_items(u16 type, u8 value) {
       break;
     case AP_ITEM_BMEGG:
       if (bt_flags.wh_blue_egg_hatched) break;
-      value += ap_memory.pc.items[AP_ITEM_PMEGG];
+      bt_flags.sm_blue_egg_collected = value > 0;
+      if (!bt_flags.wh_pink_egg_hatched) value += ap_memory.pc.items[AP_ITEM_PMEGG];
       current = bt_items[BT_ITEM_MYSTERY_EGGS] ^ bt_item_keys[BT_ITEM_MYSTERY_EGGS].key;
       if (value != current) {
         bt_fn_increase_item(BT_ITEM_MYSTERY_EGGS, value-current);
