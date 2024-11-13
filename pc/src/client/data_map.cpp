@@ -952,9 +952,9 @@ bool check_flag(std::string locationId) {
             case 1230683: return real->jv_jiggy_collected_jinjo_purple;
             case 1230684: return real->jv_jiggy_collected_jinjo_black;
         //StopNSwap
-            case 1230953: return fake->wh_yellow_egg_hatched;
-            case 1230954: return fake->wh_pink_egg_hatched;
-            case 1230955: return fake->wh_blue_egg_hatched;
+            case 1230953: return real->wh_yellow_egg_hatched;
+            case 1230954: return real->wh_pink_egg_hatched;
+            case 1230955: return real->wh_blue_egg_hatched;
             case 1230956: return fake->sm_pink_egg_collected;
             case 1230957: return fake->sm_blue_egg_collected;
             case 1230958: return fake->opened_mega_glowbo;
