@@ -241,14 +241,12 @@ void post_object_init(bt_object_t *obj) {
       util_inject(UTIL_INJECT_FUNCTION, obj->objPointer      + 0x0B08, (u32)save_has_egg_type, 0); // fix egg nests hanging the game with no eggs
       break;
     case BT_OBJ_MOVE_SILO:
-      // called when close enough for note count to show
-      util_inject(UTIL_INJECT_FUNCTION, obj->objPointers[ 1] + 0x0058, (u32)save_fake_has_move, 0);
-      // called on scene init and when nearby
-      util_inject(UTIL_INJECT_FUNCTION, obj->objPointers[ 4] + 0x007C, (u32)save_fake_has_move, 0);
-      // called on dialog start
-      util_inject(UTIL_INJECT_FUNCTION, obj->objPointers[ 4] + 0x01C8, (u32)save_fake_has_move, 0);
-      // called on dialog start if wrong character
-      util_inject(UTIL_INJECT_FUNCTION, obj->objPointers[ 4] + 0x029C, (u32)save_fake_has_move, 0);
+      util_inject(UTIL_INJECT_FUNCTION, obj->objPointers[ 1] + 0x0058, (u32)save_fake_has_move, 0); // called when close enough for note count to show
+      util_inject(UTIL_INJECT_FUNCTION, obj->objPointers[ 3] + 0x03FC, (u32)save_fake_has_move, 0);
+      util_inject(UTIL_INJECT_FUNCTION, obj->objPointers[ 4] + 0x007C, (u32)save_fake_has_move, 0); // called on scene init and when nearby
+      util_inject(UTIL_INJECT_FUNCTION, obj->objPointers[ 4] + 0x01C8, (u32)save_fake_has_move, 0); // called on dialog start
+      util_inject(UTIL_INJECT_FUNCTION, obj->objPointers[ 4] + 0x029C, (u32)save_fake_has_move, 0); // called on dialog start if wrong character
+      util_inject(UTIL_INJECT_FUNCTION, obj->objPointers[16] + 0x0094, (u32)save_fake_has_move, 0);
 
       // called when taught move
       util_inject(UTIL_INJECT_FUNCTION, obj->objPointers[16] + 0x02D4, (u32)save_fake_set_move, 0);

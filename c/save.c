@@ -41,15 +41,10 @@ u32 save_eeprom_write(u32 _unused, u32 offset, u32 *ramAddr) {
 
 u32 save_fake_move_flags(u16 data, u8 setFlag, u8 flagState) {
   if (bt_save_slot > 2) return 0;
-  u16 saveFlagOffset = data >> 3;
-  u8 bit = 1 << (data & 7);
-  u8 *save = (u8*)&(save_data.custom[bt_save_slot].fake_flags);
-  save += saveFlagOffset;
-  if (setFlag) {
-    if (flagState) return *save |= bit;
-    else return *save &= ~bit;
-  }
-  else return *save & bit ? 1 : 0;
+  data += 0xC5; // +0xED for move function, -0x28 for bit function
+  u32 save = (u32)&(save_data.custom[bt_save_slot].fake_flags);
+  if (setFlag) return bt_fn_set_bit(save, data, flagState);
+  else return bt_fn_get_bit(save, data);
 }
 
 u32 save_fake_has_move(u16 data) {
@@ -61,6 +56,7 @@ void save_fake_set_move(u16 data, u8 state) {
 }
 
 u32 save_fake_bits(u16 data, u8 setFlag) {
+  if (bt_save_slot > 2) return 0;
   switch (data) {
     case 0x0086: // defeated chuffy
     case 0x0095: // levitated train
