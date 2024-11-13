@@ -667,6 +667,8 @@ void ap_new_file() {
   bt_flags.ccl_plants_cheese_to_blue_skull_upper = 1;
   bt_flags.jingaling_cutscene = 1;
   bt_flags.jingaling_zombified = 1;
+  bt_flags.ioh_jiggy_spawned_jingaling = 1;
+  bt_flags.ioh_jiggy_collected_jingaling = 1;
   bt_flags.intro_terry_no_hatch = 1;
   bt_flags.intro_hag1 = 1;
   bt_flags.intro_bovina = 1;
