@@ -762,6 +762,7 @@ void ap_new_file() {
   bt_flags.intro_ccl_canary_mary = 1;
   bt_flags.intro_ggm_canary_mary = 1;
   bt_flags.intro_boggy = 1;
+  bt_flags.hfp_icy_boggy_wants_fish = 1;
   bt_flags.intro_ssslumber = 1;
   bt_flags.intro_ssslumber_left = 1;
   bt_flags.intro_hfp_lava_not_welcome = 1;

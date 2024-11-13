@@ -1070,7 +1070,7 @@ typedef struct {
             u8 gi_floor1_opened_toxic_waste_disposal_jiggy : 1;
             u8 hfp_icy_boggy_fed : 1;
             u8 hfp_lava_fish_collected : 1;
-/* 0x83 */  u8 hfp_icy_boggy_gave_fish : 1;
+/* 0x83 */  u8 hfp_icy_boggy_wants_fish : 1;
             u8 cheats_homing_eggs_unlocked : 1;
             u8 _unknown_0x83_5 : 1;
             u8 tower_of_tragedy_round : 3; // 0 = intro, 1 = round 1, 2 = round 2, 3 = round 3, 4 = completed
