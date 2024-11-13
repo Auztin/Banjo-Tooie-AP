@@ -309,7 +309,9 @@ void post_object_init(bt_object_t *obj) {
       break;
     case BT_OBJ_HEGGY:
       util_inject(UTIL_INJECT_FUNCTION, obj->objPointer      + 0x1444, (u32)save_fake_give_homing_eggs, 0);
+      util_inject(UTIL_INJECT_FUNCTION, obj->objPointer      + 0x17BC, (u32)save_fake_give_homing_eggs, 0);
       util_inject(UTIL_INJECT_FUNCTION, obj->objPointer      + 0x147C, (u32)save_fake_give_breegull_bash, 0);
+      util_inject(UTIL_INJECT_FUNCTION, obj->objPointer      + 0x17DC, (u32)save_fake_give_breegull_bash, 0);
       break;
     case BT_OBJ_JIGGYWIGGY_TEMPLE:
       if (!ap_memory.pc.settings.skip_puzzles) break;
