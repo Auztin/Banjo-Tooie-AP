@@ -35,6 +35,7 @@ u8 usb_write(u8 cmd, u32 len) {
 
 void usb_check() {
   if (!main.is_emulator) {
+    if (usb.frame_count++ >= 15) usb.frame_count = 0;
     switch (usb.status & ~USB_STATUS_PINGED) {
       case USB_STATUS_DISCONNECTED: {
         if (ed64_can_read()) {
@@ -46,12 +47,12 @@ void usb_check() {
             && usb.packet.handshake.version == USB_VERSION
           ) {
             usb.status = USB_STATUS_CONNECTING;
-            usb.ping_frame = main.frame_count;
+            usb.ping_frame = usb.frame_count;
             usb_write(USB_CMD_PING, 0);
             break;
           }
         }
-        if (!main.frame_count && ed64_can_write()) {
+        if (!usb.frame_count && ed64_can_write()) {
           memcpy(usb.packet.handshake.msg, "HELO", 4);
           usb.packet.handshake.version = USB_VERSION;
           usb_write(USB_CMD_HANDSHAKE, 4);
@@ -59,7 +60,7 @@ void usb_check() {
         break;
       }
       case USB_STATUS_CONNECTING: {
-        if (main.frame_count == usb.ping_frame) usb.status = USB_STATUS_DISCONNECTED;
+        if (usb.frame_count == usb.ping_frame) usb.status = USB_STATUS_DISCONNECTED;
         else if (ed64_can_read()) {
           usb_read();
           if (usb.packet.cmd == USB_CMD_PONG) {
@@ -72,7 +73,7 @@ void usb_check() {
         break;
       }
       case USB_STATUS_CONNECTED: {
-        if (main.frame_count == usb.ping_frame) {
+        if (usb.frame_count == usb.ping_frame) {
           if (usb.status & USB_STATUS_PINGED) {
             usb.status = USB_STATUS_DISCONNECTED;
             break;
@@ -88,7 +89,7 @@ void usb_check() {
             }
             case USB_CMD_PONG: {
               usb.status &= ~USB_STATUS_PINGED;
-              usb.ping_frame = main.frame_count;
+              usb.ping_frame = usb.frame_count;
               break;
             }
             case USB_CMD_PC_MISC: {

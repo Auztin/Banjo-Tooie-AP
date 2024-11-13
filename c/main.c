@@ -21,7 +21,6 @@ void post_init() {
 }
 
 void pre_loop() {
-  if (main.frame_count++ >= 60) main.frame_count = 0;
   usb_check();
 }
 
