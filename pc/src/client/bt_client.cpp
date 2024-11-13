@@ -681,7 +681,7 @@ void BTClient::obtain_jinjos(int itemId)
 nlohmann::json BTClient::check_jinjo_family_locations()
 {
     nlohmann::json jinjo_fam_check = json({});
-    for(const std::string& locationId: ASSET_MAP_CHECK[CURRENT_MAP]["JINJO_FAMILY"])
+    for(const std::string& locationId: ASSET_MAP_CHECK[0]["JINJO_FAMILY"])
     {
         jinjo_fam_check[locationId] = check_flag(locationId);
     }
