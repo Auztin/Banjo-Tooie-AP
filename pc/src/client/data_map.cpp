@@ -870,8 +870,8 @@ bool check_flag(std::string locationId) {
             case 1230692: return real->jrl_glowbo_mumbo;
             case 1230693: return real->jrl_glowbo_humba;
 
-            case 1230694: return real->jrl_glowbo_humba;
-            case 1230695: return real->jrl_glowbo_mumbo;
+            case 1230694: return real->tdl_glowbo_humba;
+            case 1230695: return real->tdl_glowbo_mumbo;
 
             case 1230696: return real->gi_floor2_glowbo_humba;
             case 1230697: return real->gi_floor3_glowbo_mumbo;
