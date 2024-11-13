@@ -31,7 +31,8 @@ private:
   void process();
   bool check_changes(void* _real, void* _clone, int size);
   void send();
-  void endian_swap8(void *dest);
+  void endian_swap8(void *dest, int bits=8);
+  uint8_t endian_swap8(uint8_t dest, int bits=8);
   void endian_swap16(void *val);
   void endian_swap32(void *val);
   void endian_swap_packet();

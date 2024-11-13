@@ -236,19 +236,23 @@ void USBCom::send() {
   }
 }
 
-void USBCom::endian_swap8(void *dest) {
-  typedef struct {
-    uint8_t bit7 : 1;
-    uint8_t bit6 : 1;
-    uint8_t bit5 : 1;
-    uint8_t bit4 : 1;
-    uint8_t bit3 : 1;
-    uint8_t bit2 : 1;
-    uint8_t bit1 : 1;
-    uint8_t bit0 : 1;
+void USBCom::endian_swap8(void *dest, int bits) {
+  typedef union {
+    struct {
+      uint8_t bit7 : 1;
+      uint8_t bit6 : 1;
+      uint8_t bit5 : 1;
+      uint8_t bit4 : 1;
+      uint8_t bit3 : 1;
+      uint8_t bit2 : 1;
+      uint8_t bit1 : 1;
+      uint8_t bit0 : 1;
+    };
+    uint8_t byte;
   } byte_t;
   byte_t* dst = (byte_t*)dest;
   byte_t src = *(byte_t*)dest;
+  src.byte = src.byte << (8-bits);
   dst->bit7 = src.bit0;
   dst->bit6 = src.bit1;
   dst->bit5 = src.bit2;
@@ -257,6 +261,11 @@ void USBCom::endian_swap8(void *dest) {
   dst->bit2 = src.bit5;
   dst->bit1 = src.bit6;
   dst->bit0 = src.bit7;
+}
+
+uint8_t USBCom::endian_swap8(uint8_t dest, int bits) {
+  endian_swap8(&dest, bits);
+  return dest;
 }
 
 void USBCom::endian_swap16(void *dest) {
@@ -288,6 +297,19 @@ void USBCom::endian_swap_packet() {
 
 void USBCom::endian_swap_save(bt_save_flags_t* save) {
   for (int i = 0; i < sizeof(bt_save_flags_t); i++) endian_swap8(&((u8*)save)[i]);
+  save->hfp_sabreman = endian_swap8(save->hfp_sabreman, 2);
+  save->ccl_seed1 = endian_swap8(save->ccl_seed1, 3);
+  save->klungo_potion_order = endian_swap8(save->klungo_potion_order, 3);
+  save->mt_prison_code = endian_swap8(save->mt_prison_code, 2);
+  save->jiggywiggy_completed_challenges = endian_swap8(save->jiggywiggy_completed_challenges, 4);
+  save->tdl_hatched_big_girl = endian_swap8(save->tdl_hatched_big_girl, 2);
+  save->jinjo_pattern = endian_swap8(save->jinjo_pattern, 6);
+  save->jrl_locker_names = endian_swap8(save->jrl_locker_names, 7);
+  save->ccl_mumbo_location = endian_swap8(save->ccl_mumbo_location, 2);
+  save->tower_of_tragedy_round = endian_swap8(save->tower_of_tragedy_round, 4);
+  save->trade_honey_b = endian_swap8(save->trade_honey_b, 3);
+  save->ww_moggy_location = endian_swap8(save->ww_moggy_location, 2);
+  save->ww_groggy_location = endian_swap8(save->ww_groggy_location, 2);
 }
 
 void USBCom::endian_swap_apm(ap_memory_pc_t* apm) {
