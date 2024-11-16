@@ -5,7 +5,10 @@ typedef struct {
   u32 _unknown_0x00_0x04[2];
   u16 objPointerArrayLength;
   u16 _unknown_0x0A;
-  u32 _unknown_0x0C_0x28[8];
+  u16 _unknown_0x0C;
+  u8  objInternalNameLength;
+  u8  _unknown_0x0F;
+  u32 _unknown_0x10_0x28[7];
   u16 objType;
   u16 _unknown_0x2E;
   u32 _unknown_0x30;
