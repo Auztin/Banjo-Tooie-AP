@@ -29,6 +29,7 @@ void post_loop() {
 }
 
 void pre_load_scene(u16 *scene, u16 *exit) {
+  if (!BT_IN_GAME) return;
   bt_temp_flags.bubble_cutscene = 0;
   if (ap_memory.pc.settings.skip_tower_of_tragedy) bt_flags.tower_of_tragedy_completed = 0;
   if (ap_memory.pc.settings.randomize_chuffy && !save_data.custom[bt_save_slot].fake_flags.ggm_defeated_chuffy) {
