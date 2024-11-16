@@ -579,7 +579,9 @@ void ap_new_file() {
   bt_flags.tutorial_warp_pads = 1;
   bt_flags.tutorial_first_jiggywiggy_challenge_completed = 1;
   bt_flags.tutorial_skill_stop_honeycomb = 1;
+  bt_flags.encountered_first_skill_stop_honeycomb = 1;
   bt_flags.tutorial_random_stop_honeycomb = 1;
+  bt_flags.encountered_first_random_stop_honeycomb = 1;
   bt_flags.tutorial_ww_saucer_of_peril = 1;
   bt_flags.tutorial_mumbo = 1;
   bt_flags.tutorial_kickball = 1;
