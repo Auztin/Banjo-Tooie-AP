@@ -1,16 +1,18 @@
 
 #include "usb_com.hpp"
 #include <cstdarg>
+#include <client/bt_client.hpp>
 
 const uint32_t USB_VERSION = USB_CURRENT_VERSION;
 
 ap_memory_t ap_memory = {0, };
 
-USBCom::USBCom(asio::io_context* io_context):
+USBCom::USBCom(asio::io_context* io_context, BTClient* bt_client):
   timer(*io_context),
   timer_ping(*io_context) {
   check();
   ping(false);
+  this->bt_client = bt_client;
 }
 
 void USBCom::check() {
@@ -179,9 +181,9 @@ void USBCom::process() {
           status = USB_STATUS_DISCONNECTED;
       }
       ping(false);
-      send();
       break;
   }
+  if (status == USB_STATUS_CONNECTED && bt_client->get_state() == bt_client->STATE_OK) send();
 }
 
 bool USBCom::check_changes(void* _real, void* _clone, int size) {

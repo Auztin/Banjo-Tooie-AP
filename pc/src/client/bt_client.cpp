@@ -47,6 +47,8 @@ void BTClient::accept() {
 void BTClient::disconnected() {
   printf("Lost connection.\n");
   CUR_STATE = STATE_UNINITIALIZED;
+  PLAYER = "";
+  SEED = 0;
   if (socket_.is_open()) socket_.close();
   accept();
 }
@@ -1075,8 +1077,9 @@ asio::awaitable<void> BTClient::getSlotData()
     }
     if(SEED != 0){
         printGoalInfo();
+        initialize_bt();
+        if (CUR_STATE == STATE_INITIAL_CONNECTION_MADE) CUR_STATE = STATE_TENTATIVELY_CONNECTED;
     }
-    initialize_bt();
     co_return;
 }
 
@@ -1173,6 +1176,7 @@ void BTClient::process_block(json bt_data)
     {
         return;
     }
+    if (CUR_STATE == STATE_TENTATIVELY_CONNECTED) CUR_STATE = STATE_OK;
     if(bt_data["items"] != "")
     {
         processAGIItem(bt_data["items"]);
@@ -1188,6 +1192,11 @@ void BTClient::process_block(json bt_data)
     {
         ap_memory.pc.misc.death_link_ap++;
     }
+}
+
+string BTClient::get_state()
+{
+    return CUR_STATE;
 }
 
 // void BTClient::process_messages(std::string messages)

@@ -14,7 +14,13 @@
 
 class BTClient {
 public:
+  const std::string STATE_OK = "Ok";
+  const std::string STATE_TENTATIVELY_CONNECTED = "Tentatively Connected";
+  const std::string STATE_INITIAL_CONNECTION_MADE = "Initial Connection Made";
+  const std::string STATE_UNINITIALIZED = "Uninitialized";
+
   BTClient(asio::io_context*);
+  std::string get_state();
 private:
   asio::io_context* io_context;
   asio::ip::tcp::acceptor server;
@@ -30,10 +36,6 @@ private:
   // // void every_5frames();
   const int SCRIPT_VERSION = 4;
   const std::string CPP_VERSION = "V3.3.3"; //Make sure this matches with the BT_Client Version
-  const std::string STATE_OK = "Ok";
-  const std::string STATE_TENTATIVELY_CONNECTED = "Tentatively Connected";
-  const std::string STATE_INITIAL_CONNECTION_MADE = "Initial Connection Made";
-  const std::string STATE_UNINITIALIZED = "Uninitialized";
   int FRAME = 0;
   std::string CUR_STATE = STATE_UNINITIALIZED;
   std::string PREV_STATE = "";

@@ -6,14 +6,14 @@
 #include "ftd2xx.h"
 #include <ap_memory.h>
 
-
 #define USB_COM_LOGGING false
 
 extern ap_memory_t ap_memory;
+class BTClient;
 
 class USBCom {
 public:
-  USBCom(asio::io_context*);
+  USBCom(asio::io_context*, BTClient*);
 private:
   asio::steady_timer timer;
   asio::steady_timer timer_ping;
@@ -22,6 +22,7 @@ private:
   usb_packet_t packet = {0, };
   ap_memory_pc_t apm_clone = {0, };
   ap_memory_pc_t apm_converted = {0, };
+  BTClient* bt_client;
 
   void check();
   void ping(bool check);
