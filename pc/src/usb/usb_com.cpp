@@ -44,7 +44,7 @@ void USBCom::ping(bool check) {
   }
   else status &= ~USB_STATUS_PINGED;
 
-  timer_ping.expires_after(std::chrono::milliseconds(5000));
+  timer_ping.expires_after(std::chrono::milliseconds(2500));
   timer_ping.async_wait([this](const asio::error_code& error) {
     if (!error) ping(true);
   });
@@ -121,6 +121,7 @@ FT_STATUS USBCom::write(uint16_t cmd, uint16_t len) {
 
 void USBCom::process() {
   if (packet.cmd == USB_CMD_NONE) return;
+  ping(false);
   switch (status & ~USB_STATUS_PINGED) {
     case USB_STATUS_DISCONNECTED:
       switch (packet.cmd) {
@@ -180,7 +181,6 @@ void USBCom::process() {
           log("[N64] Unexpected packet. Disconnected.\n");
           status = USB_STATUS_DISCONNECTED;
       }
-      ping(false);
       break;
   }
   if (status == USB_STATUS_CONNECTED && bt_client->get_state() == bt_client->STATE_OK) send();
