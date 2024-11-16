@@ -25,4 +25,7 @@ typedef u32 (*bt_fnt_get_bit)(u32, u16);
 typedef u32 (*bt_fnt_get_save_bit)(u16);
 #define bt_fn_get_save_bit ((bt_fnt_get_save_bit)0x800DA298)
 
+typedef u32 (*bt_fnt_refill_air)(u16, u16);
+#define bt_fn_refill_air ((bt_fnt_refill_air)0x800CE9E8)
+
 #endif // BT_FN_INJECTED_H
