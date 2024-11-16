@@ -11,6 +11,7 @@ typedef struct {
 
 #define BT_MAP_CUTSCENE_OPENING       0x00A1
 #define BT_MAP_SPIRAL_MOUNTAIN        0x00AF
+#define BT_MAP_CLOUD_CUCKOOLAND       0x0136
 #define BT_MAP_CHUFFYS_CAB            0x00D0
 #define BT_MAP_TRAIN_STATION_GGM      0x00D7
 #define BT_MAP_TRAIN_STATION_WW       0x00EC

@@ -31,6 +31,7 @@ void post_loop() {
 void pre_load_scene(u16 *scene, u16 *exit) {
   if (!BT_IN_GAME) return;
   bt_temp_flags.bubble_cutscene = 0;
+  bt_flags.ccl_open = ap_memory.pc.items[AP_ITEM_CCA] > 0;
   if (bt_flags.ck_opened_gun_chamber) bt_flags.tower_of_tragedy_completed = 0;
   if (ap_memory.pc.settings.randomize_chuffy && !save_data.custom[bt_save_slot].fake_flags.ggm_defeated_chuffy) {
     bt_flags.train_at_ggm = 1;
@@ -70,6 +71,9 @@ void pre_load_scene(u16 *scene, u16 *exit) {
         bt_flags.train_at_ggm = 0;
         bt_flags.train_at_ioh = 1;
       }
+      break;
+    case BT_MAP_CLOUD_CUCKOOLAND:
+      bt_flags.ccl_open = 1; // needed for bubble to spawn
       break;
   }
 }
