@@ -912,7 +912,7 @@ void BTClient::randomize_entrances(json entrance_table)
     int i = 0;
     for(auto& [orig_world, new_world]: entrance_table.items())
     {
-        if(orig_world == "Glitter Gultch Mine")
+        if(orig_world == "Glitter Gulch Mine")
         {
             ap_memory.pc.exit_map[i].og_map = WORLD_ENTRANCES[orig_world].mapId;
             ap_memory.pc.exit_map[i].og_exit = 16;
