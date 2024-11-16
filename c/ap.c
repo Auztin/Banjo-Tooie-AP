@@ -215,15 +215,19 @@ void ap_sync_items(u16 type, u8 value) {
       bt_flags.sack_pack = value > 0;
       break;
     case AP_ITEM_FEGGS:
+      if (value && !bt_flags.fire_eggs) bt_fn_increase_item(BT_ITEM_FIRE_EGGS, 999);
       bt_flags.fire_eggs = value > 0;
       break;
     case AP_ITEM_GEGGS:
+      if (value && !bt_flags.grenade_eggs) bt_fn_increase_item(BT_ITEM_GRENADE_EGGS, 999);
       bt_flags.grenade_eggs = value > 0;
       break;
     case AP_ITEM_CEGGS:
+      if (value && !bt_flags.clockwork_kazooie_eggs) bt_fn_increase_item(BT_ITEM_CLOCKWORK_EGGS, 999);
       bt_flags.clockwork_kazooie_eggs = value > 0;
       break;
     case AP_ITEM_IEGGS:
+      if (value && !bt_flags.ice_eggs) bt_fn_increase_item(BT_ITEM_ICE_EGGS, 999);
       bt_flags.ice_eggs = value > 0;
       break;
     case AP_ITEM_FSWIM:
@@ -276,6 +280,7 @@ void ap_sync_items(u16 type, u8 value) {
       bt_flags.climbing = value > 0;
       break;
     case AP_ITEM_BEGGS:
+      if (value && !bt_flags.blue_eggs) bt_fn_increase_item(BT_ITEM_BLUE_EGGS, 999);
       bt_flags.blue_eggs = value > 0;
       break;
     case AP_ITEM_TTROT:
