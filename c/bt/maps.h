@@ -3,6 +3,12 @@
 
 #define bt_current_map (*(u16*)0x8012B402)
 
+typedef struct {
+  u16 map;
+  u16 exit;
+} bt_respawn_point_t;
+#define bt_respawn_point (*(bt_respawn_point_t*)0x80127050)
+
 #define BT_MAP_CUTSCENE_OPENING       0x00A1
 #define BT_MAP_SPIRAL_MOUNTAIN        0x00AF
 #define BT_MAP_CHUFFYS_CAB            0x00D0

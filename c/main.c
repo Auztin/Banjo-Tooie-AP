@@ -110,6 +110,8 @@ void main_increase_item(u32 _unknown_A0, u16 type, s32 amount) {
 }
 
 void main_train_change_station(u16 station) {
+  bt_respawn_point.map = station;
+  bt_respawn_point.exit = 2;
   u8 cutscene = 0;
   switch (station) {
     case BT_MAP_TRAIN_STATION_WW:
