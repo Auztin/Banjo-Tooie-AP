@@ -40,5 +40,6 @@ typedef struct {
 #define BT_OBJ_PAUSE_MENU           0x02A3
 #define BT_OBJ_DOUBLOON             0x023C
 #define BT_OBJ_JIGGY                0x00B2
+#define BT_OBJ_CAPTAIN_BLACKEYE     0x01C8
 
 #endif // BT_OBJECTS_H
