@@ -11,7 +11,7 @@
 #include "bt/player_chars.h"
 #include "bt/maps.h"
 #include "bt/cutscenes.h"
-#include "bt/fn_injected.h"
+#include "bt/misc_functions.h"
 
 #define BT_IN_GAME (bt_save_slot != 0xFF && bt_current_map != 0x0158)
 #define BT_FPS (*(u8*)0x8007913F)
