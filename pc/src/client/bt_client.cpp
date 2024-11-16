@@ -1262,10 +1262,15 @@ asio::awaitable<void> BTClient::sendToBTClient()
     CURRENT_MAP = ap_memory.n64.misc.current_map;
     bool dead = false;
     json retTable = json({});
-    if(ap_memory.pc.misc.death_link_us != ap_memory.n64.misc.death_link_us)
+    if(ap_memory.pc.misc.death_link_us != ap_memory.n64.misc.death_link_us && DEATH_LINK && !DEATH_LINK_TRIGGERED)
     {
         dead = true;
         ap_memory.pc.misc.death_link_us++;
+        DEATH_LINK_TRIGGERED = true;
+    }
+    else
+    {
+        DEATH_LINK_TRIGGERED = false;
     }
     retTable["scriptVersion"] = SCRIPT_VERSION;
     retTable["playerName"] = PLAYER;
