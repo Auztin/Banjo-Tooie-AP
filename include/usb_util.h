@@ -42,7 +42,8 @@ typedef struct {
           uint32_t version;
         } handshake;
         struct {
-          uint32_t offset;
+          uint16_t offset;
+          uint16_t size;
           uint8_t data[504];
         } exit_map;
       };

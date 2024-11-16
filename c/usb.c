@@ -95,19 +95,19 @@ void usb_check() {
               break;
             }
             case USB_CMD_PC_MISC: {
-              memcpy(&ap_memory.pc.misc, usb.packet.extra, usb.packet.size);
+              memcpy(&ap_memory.pc.misc, usb.packet.extra, sizeof(ap_memory.pc.misc));
               break;
             }
             case USB_CMD_PC_SETTINGS: {
-              memcpy(&ap_memory.pc.settings, usb.packet.extra, usb.packet.size);
+              memcpy(&ap_memory.pc.settings, usb.packet.extra, sizeof(ap_memory.pc.settings));
               break;
             }
             case USB_CMD_PC_ITEMS: {
-              memcpy(ap_memory.pc.items, usb.packet.extra, usb.packet.size);
+              memcpy(ap_memory.pc.items, usb.packet.extra, sizeof(ap_memory.pc.items));
               break;
             }
             case USB_CMD_PC_EXIT_MAP: {
-              memcpy(ap_memory.pc.exit_map+usb.packet.exit_map.offset, usb.packet.exit_map.data, usb.packet.size);
+              memcpy(ap_memory.pc.exit_map+usb.packet.exit_map.offset, usb.packet.exit_map.data, usb.packet.exit_map.size);
               break;
             }
           }

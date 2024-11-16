@@ -227,7 +227,8 @@ void USBCom::send() {
       memcpy(packet.extra+size*n, &apm_converted.exit_map[i], size);
       if (n == max) {
         packet.exit_map.offset = offset;
-        write(USB_CMD_PC_EXIT_MAP, size*n);
+        packet.exit_map.size = size*n;
+        write(USB_CMD_PC_EXIT_MAP, packet.exit_map.size);
         n = 0;
         offset += size*n;
       }
@@ -235,7 +236,8 @@ void USBCom::send() {
     }
     if (n) {
       packet.exit_map.offset = offset;
-      write(USB_CMD_PC_EXIT_MAP, size*n);
+      packet.exit_map.size = size*n;
+      write(USB_CMD_PC_EXIT_MAP, packet.exit_map.size);
     }
   }
 }
@@ -294,7 +296,8 @@ void USBCom::endian_swap_packet() {
       endian_swap32(&packet.handshake.version);
       break;
     case USB_CMD_PC_EXIT_MAP:
-      endian_swap32(&packet.exit_map.offset);
+      endian_swap16(&packet.exit_map.offset);
+      endian_swap16(&packet.exit_map.size);
       break;
   }
 }
