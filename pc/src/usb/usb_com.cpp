@@ -145,6 +145,8 @@ void USBCom::process() {
           log("[N64] USB_CMD_PING\n");
           write(USB_CMD_PONG, packet.size);
           status = USB_STATUS_CONNECTED;
+          ap_memory.pc.misc.death_link_us = 0;
+          ap_memory.pc.misc.death_link_ap = 0;
           break;
         default:
           log("[N64] Unexpected packet. Disconnected.\n");
