@@ -29,7 +29,7 @@ void post_loop() {
 }
 
 void pre_load_scene(u16 *scene, u16 *exit) {
-  if (!BT_IN_GAME) return;
+  if (!BT_IN_GAME && bt_current_map != BT_MAP_FILE_SELECT) return;
   bt_temp_flags.bubble_cutscene = 0;
   bt_flags.ccl_open = ap_memory.pc.items[AP_ITEM_CCA] > 0;
   if (bt_flags.ck_opened_gun_chamber) bt_flags.tower_of_tragedy_completed = 0;
