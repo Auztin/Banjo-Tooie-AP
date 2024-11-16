@@ -86,6 +86,7 @@ void pre_load_save() {
 }
 
 void post_load_save() {
+  if (!BT_IN_GAME) return;
   if (main.new_file) {
     main.new_file = 0;
     ap_new_file();
