@@ -110,10 +110,6 @@ void post_load_save() {
   bt_temp_flags.hag1_phase5_intro = 1;
 }
 
-void pre_object_init(bt_object_t *obj) {
-
-}
-
 void main_increase_item(u32 _unknown_A0, u16 type, s32 amount) {
   if (type == BT_ITEM_BLUE_EGGS+0x40 && !bt_flags.blue_eggs) return;
   _bt_fn_increase_item(type, amount);
@@ -224,122 +220,129 @@ void main_train_summon(u32 _unknown_A0, u16 from, u16 to) {
   bt_fn_load_scene(to, 0, 0);
 }
 
-void post_object_init(bt_object_t *obj) {
+void pre_object_init(bt_object_t *obj) {
   if (!BT_IN_GAME) return;
   switch (obj->objType) {
     case BT_OBJ_PAGE:
-      util_inject(UTIL_INJECT_RAW     , obj->objPointers[ 0] + 0x01C4, 0, 0); // dont increment amount
+      util_inject(UTIL_INJECT_RAW     , (u32)obj + 0x0234, 0, 0); // dont increment amount
+      util_inject(UTIL_INJECT_RAW     , (u32)obj + 0x0270, 0, 0); // dont comment on first 5 page milestone
       break;
     case BT_OBJ_GLOWBO:
-      util_inject(UTIL_INJECT_RAW     , obj->objPointer      + 0x0968, 0, 0); // dont increment amount
+      util_inject(UTIL_INJECT_RAW     , (u32)obj + 0x0A88, 0, 0); // dont increment amount
+      util_inject(UTIL_INJECT_RAW     , (u32)obj + 0x0A60, 0, 0); // dont increment mega glowbo amount
       break;
     case BT_OBJ_JINJO:
       // prevent collecting jinjos from giving a jiggy by convincing them that they always have 0 in their family
-      util_inject(UTIL_INJECT_RETVALUE, obj->objPointer      + 0x0084, 0, 0);
-      util_inject(UTIL_INJECT_RETVALUE, obj->objPointers[ 4] + 0x01CC, 0, 0);
-      util_inject(UTIL_INJECT_RETVALUE, obj->objPointers[ 4] + 0x0500, 0, 0);
+      util_inject(UTIL_INJECT_RETVALUE, (u32)obj + 0x01E4, 0, 0);
+      util_inject(UTIL_INJECT_RETVALUE, (u32)obj + 0x0F0C, 0, 0);
+      util_inject(UTIL_INJECT_RETVALUE, (u32)obj + 0x1240, 0, 0);
 
-      util_inject(UTIL_INJECT_RAW     , obj->objPointers[ 4] + 0x01EC, 0, 0); // dont show amount collected
+      util_inject(UTIL_INJECT_RAW     , (u32)obj + 0x0F2C, 0, 0); // dont show amount collected
       break;
     case BT_OBJ_HONEYCOMB_PIECE:
-      util_inject(UTIL_INJECT_RAW     , obj->objPointer      + 0x0090, 0, 0); // dont increment amount
+      util_inject(UTIL_INJECT_RAW     , (u32)obj + 0x0100, 0, 0); // dont increment amount
       break;
     case BT_OBJ_DOUBLOON:
-      util_inject(UTIL_INJECT_RAW     , obj->objPointers[ 1] + 0x0198, 0, 0); // dont increment amount
+      util_inject(UTIL_INJECT_RAW     , (u32)obj + 0x027C, 0, 0); // dont increment amount
       break;
     case BT_OBJ_NESTS:
       // egg nests
-      util_inject(UTIL_INJECT_FUNCTION, obj->objPointer      + 0x01D8, (u32)main_increase_item, 0); // prevent receiving blue eggs if you dont have them
-      util_inject(UTIL_INJECT_FUNCTION, obj->objPointer      + 0x0B08, (u32)save_has_egg_type, 0); // fix egg nests hanging the game with no eggs
+      util_inject(UTIL_INJECT_FUNCTION, (u32)obj + 0x0388, (u32)main_increase_item, 0); // prevent receiving blue eggs if you dont have them
+      util_inject(UTIL_INJECT_FUNCTION, (u32)obj + 0x0CB8, (u32)save_has_egg_type, 0); // fix egg nests hanging the game with no eggs
       break;
     case BT_OBJ_MOVE_SILO:
-      util_inject(UTIL_INJECT_FUNCTION, obj->objPointers[ 1] + 0x0058, (u32)save_fake_has_move, 0); // called when close enough for note count to show
-      util_inject(UTIL_INJECT_FUNCTION, obj->objPointers[ 3] + 0x03FC, (u32)save_fake_has_move, 0);
-      util_inject(UTIL_INJECT_FUNCTION, obj->objPointers[ 4] + 0x007C, (u32)save_fake_has_move, 0); // called on scene init and when nearby
-      util_inject(UTIL_INJECT_FUNCTION, obj->objPointers[ 4] + 0x01C8, (u32)save_fake_has_move, 0); // called on dialog start
-      util_inject(UTIL_INJECT_FUNCTION, obj->objPointers[ 4] + 0x029C, (u32)save_fake_has_move, 0); // called on dialog start if wrong character
-      util_inject(UTIL_INJECT_FUNCTION, obj->objPointers[16] + 0x0094, (u32)save_fake_has_move, 0);
+      util_inject(UTIL_INJECT_FUNCTION, (u32)obj + 0x0440, (u32)save_fake_has_move, 0); // called when close enough for note count to show
+      util_inject(UTIL_INJECT_FUNCTION, (u32)obj + 0x0E0C, (u32)save_fake_has_move, 0);
+      util_inject(UTIL_INJECT_FUNCTION, (u32)obj + 0x0EFC, (u32)save_fake_has_move, 0); // called on scene init and when nearby
+      util_inject(UTIL_INJECT_FUNCTION, (u32)obj + 0x1048, (u32)save_fake_has_move, 0); // called on dialog start
+      util_inject(UTIL_INJECT_FUNCTION, (u32)obj + 0x111C, (u32)save_fake_has_move, 0); // called on dialog start if wrong character
+      util_inject(UTIL_INJECT_FUNCTION, (u32)obj + 0x1B58, (u32)save_fake_has_move, 0);
 
-      // called when taught move
-      util_inject(UTIL_INJECT_FUNCTION, obj->objPointers[16] + 0x02D4, (u32)save_fake_set_move, 0);
+      util_inject(UTIL_INJECT_FUNCTION, (u32)obj + 0x1D98, (u32)save_fake_set_move, 0); // called when taught move
       break;
     case BT_OBJ_SWITCH:
-      util_inject(UTIL_INJECT_FUNCTION, obj->objPointers[ 3] + 0x0010, (u32)save_fake_get_bit, 0);
-      util_inject(UTIL_INJECT_FUNCTION, obj->objPointers[ 5] + 0x00A4, (u32)save_fake_get_bit, 0);
-      util_inject(UTIL_INJECT_FUNCTION, obj->objPointers[ 7] + 0x0014, (u32)save_fake_get_bit, 0);
-      util_inject(UTIL_INJECT_FUNCTION, obj->objPointers[ 9] + 0x001C, (u32)save_fake_get_bit, 0);
-      util_inject(UTIL_INJECT_FUNCTION, obj->objPointers[10] + 0x00C0, (u32)save_fake_get_bit, 0);
-      util_inject(UTIL_INJECT_FUNCTION, obj->objPointers[10] + 0x0114, (u32)save_fake_get_bit, 0);
-      util_inject(UTIL_INJECT_FUNCTION, obj->objPointers[10] + 0x021C, (u32)save_fake_get_bit, 0);
-      util_inject(UTIL_INJECT_FUNCTION, obj->objPointers[11] + 0x008C, (u32)save_fake_get_bit, 0);
-      util_inject(UTIL_INJECT_FUNCTION, obj->objPointers[12] + 0x0014, (u32)save_fake_get_bit, 0);
-      util_inject(UTIL_INJECT_FUNCTION, obj->objPointers[14] + 0x0014, (u32)save_fake_get_bit, 0);
+      util_inject(UTIL_INJECT_FUNCTION, (u32)obj + 0x026C, (u32)save_fake_get_bit, 0);
+      util_inject(UTIL_INJECT_FUNCTION, (u32)obj + 0x048C, (u32)save_fake_get_bit, 0);
+      util_inject(UTIL_INJECT_FUNCTION, (u32)obj + 0x06B8, (u32)save_fake_get_bit, 0);
+      util_inject(UTIL_INJECT_FUNCTION, (u32)obj + 0x0754, (u32)save_fake_get_bit, 0);
+      util_inject(UTIL_INJECT_FUNCTION, (u32)obj + 0x08CC, (u32)save_fake_get_bit, 0);
+      util_inject(UTIL_INJECT_FUNCTION, (u32)obj + 0x0920, (u32)save_fake_get_bit, 0);
+      util_inject(UTIL_INJECT_FUNCTION, (u32)obj + 0x0A28, (u32)save_fake_get_bit, 0);
+      util_inject(UTIL_INJECT_FUNCTION, (u32)obj + 0x0B04, (u32)save_fake_get_bit, 0);
+      util_inject(UTIL_INJECT_FUNCTION, (u32)obj + 0x0B94, (u32)save_fake_get_bit, 0);
+      util_inject(UTIL_INJECT_FUNCTION, (u32)obj + 0x0DC8, (u32)save_fake_get_bit, 0);
 
-      util_inject(UTIL_INJECT_FUNCTION, obj->objPointers[ 4] + 0x0084, (u32)save_fake_set_bit, 0);
-      util_inject(UTIL_INJECT_FUNCTION, obj->objPointers[ 6] + 0x00A8, (u32)save_fake_set_bit, 0);
-      util_inject(UTIL_INJECT_FUNCTION, obj->objPointers[11] + 0x0054, (u32)save_fake_set_bit, 0);
-      util_inject(UTIL_INJECT_FUNCTION, obj->objPointers[13] + 0x00EC, (u32)save_fake_set_bit, 0);
+      util_inject(UTIL_INJECT_FUNCTION, (u32)obj + 0x0338, (u32)save_fake_set_bit, 0);
+      util_inject(UTIL_INJECT_FUNCTION, (u32)obj + 0x059C, (u32)save_fake_set_bit, 0);
+      util_inject(UTIL_INJECT_FUNCTION, (u32)obj + 0x0ACC, (u32)save_fake_set_bit, 0);
+      util_inject(UTIL_INJECT_FUNCTION, (u32)obj + 0x0CEC, (u32)save_fake_set_bit, 0);
       break;
     case BT_OBJ_ROYSTEN:
-      util_inject(UTIL_INJECT_FUNCTION, obj->objPointer      + 0x0010, (u32)save_fake_get_bit, 0);
+      util_inject(UTIL_INJECT_FUNCTION, (u32)obj + 0x00E0, (u32)save_fake_get_bit, 0);
 
-      util_inject(UTIL_INJECT_FUNCTION, obj->objPointer      + 0x052C, (u32)save_fake_give_fast_swimming, 0);
-      util_inject(UTIL_INJECT_FUNCTION, obj->objPointer      + 0x0570, (u32)save_fake_give_bubbles, 0);
+      util_inject(UTIL_INJECT_FUNCTION, (u32)obj + 0x05FC, (u32)save_fake_give_fast_swimming, 0);
+      util_inject(UTIL_INJECT_FUNCTION, (u32)obj + 0x0640, (u32)save_fake_give_bubbles, 0);
       break;
     case BT_OBJ_BOTTLES_FAMILY:
-      util_inject(UTIL_INJECT_FUNCTION, obj->objPointers[ 2] + 0x08A4, (u32)save_fake_give_move, 0);
+      util_inject(UTIL_INJECT_FUNCTION, (u32)obj + 0x09BC, (u32)save_fake_give_move, 0);
       break;
     case BT_OBJ_BARGASAURUS:
-      util_inject(UTIL_INJECT_FUNCTION, obj->objPointer      + 0x0234, (u32)save_fake_give_move, 0);
-      break;
-    case BT_OBJ_CHUFFY_CABIN:
-      util_inject(UTIL_INJECT_FUNCTION, obj->objPointer      + 0x0598, (u32)main_train_change_station, 0);
-      util_inject(UTIL_INJECT_RAW     , obj->objPointer      + 0x059C, 0x86040000, 0);
-      util_inject(UTIL_INJECT_BRANCH  , obj->objPointer      + 0x05A0, 0x6C, 1);
+      util_inject(UTIL_INJECT_FUNCTION, (u32)obj + 0x02A4, (u32)save_fake_give_move, 0);
       break;
     case BT_OBJ_TRAIN_SIGN:
-      util_inject(UTIL_INJECT_JUMP    , obj->objPointer      + 0x025C, (u32)main_train_summon, 1);
-      util_inject(UTIL_INJECT_FUNCTION, obj->objPointer      + 0x0180, (u32)save_fake_get_bit, 0); // defeated chuffy
-      util_inject(UTIL_INJECT_FUNCTION, obj->objPointer      + 0x0380, (u32)save_fake_get_bit, 0); // levitated train
+      util_inject(UTIL_INJECT_JUMP    , (u32)obj + 0x032C, (u32)main_train_summon, 1);
+      util_inject(UTIL_INJECT_FUNCTION, (u32)obj + 0x0250, (u32)save_fake_get_bit, 0); // defeated chuffy
+      util_inject(UTIL_INJECT_FUNCTION, (u32)obj + 0x0450, (u32)save_fake_get_bit, 0); // levitated train
       break;
     case BT_OBJ_BK_CART:
-      util_inject(UTIL_INJECT_FUNCTION, obj->objPointer      + 0x003C, (u32)save_fake_count_item, 0); // get opened_mega_glowbo
-      util_inject(UTIL_INJECT_FUNCTION, obj->objPointer      + 0x004C, (u32)save_fake_get_bit, 0); // used ice key
-      util_inject(UTIL_INJECT_FUNCTION, obj->objPointer      + 0x0070, (u32)save_fake_get_bit, 0); // collected blue egg
-      util_inject(UTIL_INJECT_FUNCTION, obj->objPointer      + 0x0080, (u32)save_fake_get_bit, 0); // hatched blue egg
-      util_inject(UTIL_INJECT_FUNCTION, obj->objPointer      + 0x00A4, (u32)save_fake_get_bit, 0); // collected pink egg
-      util_inject(UTIL_INJECT_FUNCTION, obj->objPointer      + 0x00B4, (u32)save_fake_get_bit, 0); // hatched pink egg
+      util_inject(UTIL_INJECT_FUNCTION, (u32)obj + 0x010C, (u32)save_fake_get_bit, 0); // used ice key
+      util_inject(UTIL_INJECT_FUNCTION, (u32)obj + 0x00FC, (u32)save_fake_count_item, 0); // get opened_mega_glowbo
+      util_inject(UTIL_INJECT_FUNCTION, (u32)obj + 0x0130, (u32)save_fake_get_bit, 0); // collected blue egg
+      util_inject(UTIL_INJECT_FUNCTION, (u32)obj + 0x0140, (u32)save_fake_get_bit, 0); // hatched blue egg
+      util_inject(UTIL_INJECT_FUNCTION, (u32)obj + 0x0164, (u32)save_fake_get_bit, 0); // collected pink egg
+      util_inject(UTIL_INJECT_FUNCTION, (u32)obj + 0x0174, (u32)save_fake_get_bit, 0); // hatched pink egg
       break;
     case BT_OBJ_MYSTERY_EGGS:
-      util_inject(UTIL_INJECT_FUNCTION, obj->objPointer      + 0x0408, (u32)save_fake_set_bit, 0); // collected blue egg
-      util_inject(UTIL_INJECT_FUNCTION, obj->objPointer      + 0x0418, (u32)save_fake_set_bit, 0); // collected pink egg
+      util_inject(UTIL_INJECT_FUNCTION, (u32)obj + 0x0478, (u32)save_fake_set_bit, 0); // collected blue egg
+      util_inject(UTIL_INJECT_FUNCTION, (u32)obj + 0x0488, (u32)save_fake_set_bit, 0); // collected pink egg
 
-      util_inject(UTIL_INJECT_RAW     , obj->objPointer      + 0x0440, 0, 0); // prevent increasing inventory count
+      util_inject(UTIL_INJECT_RAW     , (u32)obj + 0x04B0, 0, 0); // prevent increasing inventory count
       break;
     case BT_OBJ_ICE_KEY:
-      util_inject(UTIL_INJECT_FUNCTION, obj->objPointer      + 0x003C, (u32)save_fake_give_item, 0); // set opened_mega_glowbo instead
+      util_inject(UTIL_INJECT_FUNCTION, (u32)obj + 0x009C, (u32)save_fake_give_item, 0); // set opened_mega_glowbo instead
       break;
     case BT_OBJ_HEGGY:
-      util_inject(UTIL_INJECT_FUNCTION, obj->objPointer      + 0x1444, (u32)save_fake_give_homing_eggs, 0);
-      util_inject(UTIL_INJECT_FUNCTION, obj->objPointer      + 0x17BC, (u32)save_fake_give_homing_eggs, 0);
-      util_inject(UTIL_INJECT_FUNCTION, obj->objPointer      + 0x147C, (u32)save_fake_give_breegull_bash, 0);
-      util_inject(UTIL_INJECT_FUNCTION, obj->objPointer      + 0x17DC, (u32)save_fake_give_breegull_bash, 0);
+      util_inject(UTIL_INJECT_FUNCTION, (u32)obj + 0x1624, (u32)save_fake_give_homing_eggs, 0);
+      util_inject(UTIL_INJECT_FUNCTION, (u32)obj + 0x199C, (u32)save_fake_give_homing_eggs, 0);
+      util_inject(UTIL_INJECT_FUNCTION, (u32)obj + 0x165C, (u32)save_fake_give_breegull_bash, 0);
+      util_inject(UTIL_INJECT_FUNCTION, (u32)obj + 0x19BC, (u32)save_fake_give_breegull_bash, 0);
       break;
     case BT_OBJ_JIGGYWIGGY_TEMPLE:
       if (!ap_memory.pc.settings.skip_puzzles) break;
-      util_inject(UTIL_INJECT_RETVALUE, obj->objPointer      + 0x0080, 999, 0); // show 999 jiggies required
-      util_inject(UTIL_INJECT_RETVALUE, obj->objPointer      + 0x0124, 0xFFFF, 0); // always show 'true disciple' dialog
+      util_inject(UTIL_INJECT_RETVALUE, (u32)obj + 0x0120, 999, 0); // show 999 jiggies required
+      util_inject(UTIL_INJECT_RETVALUE, (u32)obj + 0x01C4, 0xFFFF, 0); // always show 'true disciple' dialog
       break;
     case BT_OBJ_JIGGYWIGGY_INFO:
       if (!ap_memory.pc.settings.skip_puzzles) break;
-      util_inject(UTIL_INJECT_JUMP    , obj->objPointers[ 2]         , (u32)save_worlds_jiggy_requirment, 0);
+      util_inject(UTIL_INJECT_JUMP    , (u32)obj + 0x0214, (u32)save_worlds_jiggy_requirment, 0);
       break;
     case BT_OBJ_JIGGYWIGGY_POST:
       if (!ap_memory.pc.settings.skip_puzzles) break;
-      util_inject(UTIL_INJECT_RETVALUE, obj->objPointer      + 0x01F4, 0, 0); // only show jiggy requirement dialog
+      util_inject(UTIL_INJECT_RETVALUE, (u32)obj + 0x0254, 0, 0); // only show jiggy requirement dialog
       break;
     case BT_OBJ_PAUSE_MENU:
-      util_inject(UTIL_INJECT_RAW     , obj->objPointers[ 4] + 0x1364, 0, 0); // allow totals to show 0, fixes ui getting stuck onscreen
+      util_inject(UTIL_INJECT_RAW     , (u32)obj + 0x1CFC, 0, 0); // allow totals to show 0, fixes ui getting stuck onscreen
+      break;
+  }
+}
+
+void post_object_init(bt_object_t *obj) {
+  if (!BT_IN_GAME) return;
+  switch (obj->objType) {
+    case BT_OBJ_CHUFFY_CABIN:
+      util_inject(UTIL_INJECT_FUNCTION, (u32)obj + 0x0668, (u32)main_train_change_station, 0);
+      util_inject(UTIL_INJECT_RAW     , (u32)obj + 0x066C, 0x86040000, 0);
+      util_inject(UTIL_INJECT_BRANCH  , (u32)obj + 0x0670, 0x6C, 1);
       break;
   }
 }
