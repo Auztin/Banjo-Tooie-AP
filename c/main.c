@@ -94,6 +94,7 @@ void post_load_save() {
     u8* data = (u8*)&(save_data.custom[bt_save_slot]);
     for (int i = 0; i < sizeof(save_data.custom[bt_save_slot]); i++) data[i] = 0;
   }
+  ap_load_file();
   bt_temp_flags.hag1_phase4_intro = 1;
   bt_temp_flags.hag1_phase3_intro = 1;
   bt_temp_flags.hag1_phase2_intro = 1;

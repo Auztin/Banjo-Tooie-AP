@@ -533,53 +533,7 @@ void ap_check() {
 }
 
 void ap_new_file() {
-  for (int i = 0; i < AP_ITEM_MAX; i++) ap_sync_items(i, ap_memory.pc.items[i]);
   bt_flags.jinjo_pattern = 1;
-  if (ap_memory.pc.settings.randomize_chuffy) {
-    bt_flags.ggm_mumbo_train = 1;
-  }
-  if (ap_memory.pc.settings.skip_klungo) {
-    bt_flags.ioh_defeated_klungo1 = 1;
-    bt_flags.ioh_defeated_klungo2 = 1;
-    // bt_flags.ck_defeated_klungo3 = 1;
-  }
-  if (ap_memory.pc.settings.skip_tower_of_tragedy) {
-    bt_flags.played_tower_of_tragedy_round1 = 1;
-    bt_flags.played_tower_of_tragedy_round2 = 1;
-    bt_flags.played_tower_of_tragedy_round3 = 1;
-    bt_flags.ck_tower_of_tragedy_mingella_lost = 1;
-    bt_flags.ck_tower_of_tragedy_blobbelda_lost = 1;
-    if (ap_memory.pc.settings.skip_tower_of_tragedy == 2) {
-      bt_flags.tower_of_tragedy_round = 3;
-    }
-    else {
-      bt_flags.tower_of_tragedy_round = 4;
-      bt_flags.ck_opened_gun_chamber = 1;
-    }
-  }
-  if (ap_memory.pc.settings.speed_up_minigames) {
-    bt_flags.mt_opened_kickball_door1 = 1;
-    bt_flags.mt_opened_kickball_door2 = 1;
-    bt_flags.mt_opened_kickball_door3 = 1;
-
-    bt_flags.ww_paid_dodgem = 1;
-    bt_flags.ww_opened_dodgem1 = 1;
-    bt_flags.ww_opened_dodgem2 = 1;
-    bt_flags.ww_opened_dodgem3 = 1;
-    bt_flags.ww_won_dodgem1 = 1;
-    bt_flags.ww_won_dodgem2 = 1;
-
-    bt_flags.hfp_lava_opened_kickball_door1 = 1;
-    bt_flags.hfp_lava_opened_kickball_door2 = 1;
-    bt_flags.hfp_lava_opened_kickball_door3 = 1;
-  }
-  if (ap_memory.pc.settings.open_silos[AP_SILO_JINJO_VILLAGE]) bt_flags.silo_jinjo_village = 1;
-  if (ap_memory.pc.settings.open_silos[AP_SILO_WOODED_HOLLOW]) bt_flags.silo_wooded_hollow = 1;
-  if (ap_memory.pc.settings.open_silos[AP_SILO_PLATEAU]) bt_flags.silo_plateau = 1;
-  if (ap_memory.pc.settings.open_silos[AP_SILO_PINE_GROVE]) bt_flags.silo_pine_grove = 1;
-  if (ap_memory.pc.settings.open_silos[AP_SILO_CLIFF_TOP]) bt_flags.silo_cliff_top = 1;
-  if (ap_memory.pc.settings.open_silos[AP_SILO_WASTELAND]) bt_flags.silo_wasteland = 1;
-  if (ap_memory.pc.settings.open_silos[AP_SILO_QUAGMIRE]) bt_flags.silo_quagmire = 1;
   bt_flags.tutorial_honeycombs = 1;
   bt_flags.tutorial_treble_clefs = 1;
   bt_flags.tutorial_gold_feathers = 1;
@@ -786,4 +740,53 @@ void ap_new_file() {
   bt_flags.hfp_visited = 1;
   bt_flags.gi_visited = 1;
   bt_flags.mt_opened_prison_door = 1;
+}
+
+void ap_load_file() {
+  for (int i = 0; i < AP_ITEM_MAX; i++) ap_sync_items(i, ap_memory.pc.items[i]);
+  if (ap_memory.pc.settings.randomize_chuffy) {
+    bt_flags.ggm_mumbo_train = 1;
+  }
+  if (ap_memory.pc.settings.skip_klungo) {
+    bt_flags.ioh_defeated_klungo1 = 1;
+    bt_flags.ioh_defeated_klungo2 = 1;
+    // bt_flags.ck_defeated_klungo3 = 1;
+  }
+  if (ap_memory.pc.settings.skip_tower_of_tragedy && !bt_flags.ck_opened_gun_chamber) {
+    bt_flags.played_tower_of_tragedy_round1 = 1;
+    bt_flags.played_tower_of_tragedy_round2 = 1;
+    bt_flags.played_tower_of_tragedy_round3 = 1;
+    bt_flags.ck_tower_of_tragedy_mingella_lost = 1;
+    bt_flags.ck_tower_of_tragedy_blobbelda_lost = 1;
+    if (ap_memory.pc.settings.skip_tower_of_tragedy == 2) {
+      bt_flags.tower_of_tragedy_round = 3;
+    }
+    else {
+      bt_flags.tower_of_tragedy_round = 4;
+      bt_flags.ck_opened_gun_chamber = 1;
+    }
+  }
+  if (ap_memory.pc.settings.speed_up_minigames) {
+    bt_flags.mt_opened_kickball_door1 = 1;
+    bt_flags.mt_opened_kickball_door2 = 1;
+    bt_flags.mt_opened_kickball_door3 = 1;
+
+    bt_flags.ww_paid_dodgem = 1;
+    bt_flags.ww_opened_dodgem1 = 1;
+    bt_flags.ww_opened_dodgem2 = 1;
+    bt_flags.ww_opened_dodgem3 = 1;
+    bt_flags.ww_won_dodgem1 = 1;
+    bt_flags.ww_won_dodgem2 = 1;
+
+    bt_flags.hfp_lava_opened_kickball_door1 = 1;
+    bt_flags.hfp_lava_opened_kickball_door2 = 1;
+    bt_flags.hfp_lava_opened_kickball_door3 = 1;
+  }
+  if (ap_memory.pc.settings.open_silos[AP_SILO_JINJO_VILLAGE]) bt_flags.silo_jinjo_village = 1;
+  if (ap_memory.pc.settings.open_silos[AP_SILO_WOODED_HOLLOW]) bt_flags.silo_wooded_hollow = 1;
+  if (ap_memory.pc.settings.open_silos[AP_SILO_PLATEAU]) bt_flags.silo_plateau = 1;
+  if (ap_memory.pc.settings.open_silos[AP_SILO_PINE_GROVE]) bt_flags.silo_pine_grove = 1;
+  if (ap_memory.pc.settings.open_silos[AP_SILO_CLIFF_TOP]) bt_flags.silo_cliff_top = 1;
+  if (ap_memory.pc.settings.open_silos[AP_SILO_WASTELAND]) bt_flags.silo_wasteland = 1;
+  if (ap_memory.pc.settings.open_silos[AP_SILO_QUAGMIRE]) bt_flags.silo_quagmire = 1;
 }

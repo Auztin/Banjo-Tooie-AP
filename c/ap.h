@@ -13,5 +13,6 @@ extern ap_t ap;
 
 void ap_check();
 void ap_new_file();
+void ap_load_file();
 
 #endif // AP_H
