@@ -1343,6 +1343,7 @@ asio::awaitable<void> BTClient::every_30frames() {
   {
     std::cout << "Error: Mismatch Version found... Please make sure your version matches." << std::endl;
     disconnected();
+    VERSION_ERR = false;
   }
   timer_receive.expires_after(std::chrono::milliseconds((int)(30/60.0*1000))); // every 30 frames if 60 fps
   timer_receive.async_wait([this](const asio::error_code& error) {
