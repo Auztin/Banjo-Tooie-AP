@@ -31,7 +31,7 @@ void post_loop() {
 void pre_load_scene(u16 *scene, u16 *exit) {
   if (!BT_IN_GAME) return;
   bt_temp_flags.bubble_cutscene = 0;
-  if (ap_memory.pc.settings.skip_tower_of_tragedy) bt_flags.tower_of_tragedy_completed = 0;
+  if (bt_flags.ck_opened_gun_chamber) bt_flags.tower_of_tragedy_completed = 0;
   if (ap_memory.pc.settings.randomize_chuffy && !save_data.custom[bt_save_slot].fake_flags.ggm_defeated_chuffy) {
     bt_flags.train_at_ggm = 1;
     bt_flags.train_at_ioh = 0;
@@ -53,13 +53,17 @@ void pre_load_scene(u16 *scene, u16 *exit) {
       *exit = 0x0004;
       break;
     case BT_MAP_CUTSCENE_REVIVAL:
-      if (ap_memory.pc.settings.skip_tower_of_tragedy) { // should only be possible if you save & quit in the ToT quiz room
+      if (bt_current_map == BT_MAP_FILE_SELECT) {
         *scene = BT_MAP_JINJO_VILLAGE;
         *exit = 0x0003;
       }
+      else {
+        *scene = BT_MAP_CK_GUN_CHAMBER;
+        *exit = 0x0001;
+      }
       break;
     case BT_MAP_TOT_QUIZ_ROOM:
-      if (ap_memory.pc.settings.skip_tower_of_tragedy) bt_flags.tower_of_tragedy_completed = 1;
+      if (bt_flags.ck_opened_gun_chamber) bt_flags.tower_of_tragedy_completed = 1;
       break;
     case BT_MAP_TRAIN_STATION_GGM:
       if (ap_memory.pc.settings.randomize_chuffy && !save_data.custom[bt_save_slot].fake_flags.ggm_defeated_chuffy) {

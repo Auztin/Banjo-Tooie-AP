@@ -22,6 +22,8 @@ typedef struct {
 #define BT_MAP_TOT_QUIZ_ROOM          0x015F
 #define BT_MAP_CUTSCENE_REVIVAL       0x0194
 #define BT_MAP_JINJO_VILLAGE          0x0142
+#define BT_MAP_CK_GUN_CHAMBER         0x0160
+#define BT_MAP_FILE_SELECT            0x0158
 
 typedef u32 (*bt_fnt_load_scene)(u16, u16, u8);
 #define bt_fn_load_scene ((bt_fnt_load_scene)0x800A7990)
