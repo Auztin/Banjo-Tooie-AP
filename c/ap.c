@@ -601,7 +601,6 @@ void ap_new_file() {
   bt_flags.tdl_cutscene_chompasaurus = 1;
   bt_flags.hfp_lava_cutscene_gobi = 1;
   bt_flags.wh_cutscene = 1;
-  bt_flags.hfp_icy_cutscene_aliens_arrived = 1;
   bt_flags.ccl_cutscene_opened_zzzubas = 1;
   bt_flags.hfp_lava_cutscene_chilli_billi_weakness = 1;
   bt_flags.hfp_icy_cutscene_chilly_willy_weakness = 1;
