@@ -489,11 +489,11 @@ void ap_check() {
     if (bt_controllers[0].pressed.dup) { // REFILL
       bt_fn_increase_item(BT_ITEM_RED_FEATHERS, 999);
       bt_fn_increase_item(BT_ITEM_GOLD_FEATHERS, 999);
-      bt_fn_increase_item(BT_ITEM_BLUE_EGGS, 999);
-      bt_fn_increase_item(BT_ITEM_FIRE_EGGS, 999);
-      bt_fn_increase_item(BT_ITEM_GRENADE_EGGS, 999);
-      bt_fn_increase_item(BT_ITEM_ICE_EGGS, 999);
-      bt_fn_increase_item(BT_ITEM_CLOCKWORK_EGGS, 999);
+      if (bt_flags.blue_eggs) bt_fn_increase_item(BT_ITEM_BLUE_EGGS, 999);
+      if (bt_flags.fire_eggs) bt_fn_increase_item(BT_ITEM_FIRE_EGGS, 999);
+      if (bt_flags.grenade_eggs) bt_fn_increase_item(BT_ITEM_GRENADE_EGGS, 999);
+      if (bt_flags.ice_eggs) bt_fn_increase_item(BT_ITEM_ICE_EGGS, 999);
+      if (bt_flags.clockwork_kazooie_eggs) bt_fn_increase_item(BT_ITEM_CLOCKWORK_EGGS, 999);
     }
     if (bt_controllers[0].pressed.dright) { // SUPER BANJO
       bt_flags.cheats_superbanjo_enabled = !bt_flags.cheats_superbanjo_enabled;
@@ -511,7 +511,6 @@ void ap_check() {
   }
   else {
     // if (bt_controllers[0].held.dup); // SNEAK
-    // if (bt_controllers[0].pressed.dright); // CHECK MOVES AND WORLDS
     // if (bt_controllers[0].pressed.dright); // CHECK MOVES AND WORLDS
     // if (bt_controllers[0].pressed.dleft); // CHECK MAGIC
     // if (bt_controllers[0].pressed.ddown); // CHECK COLLECTED TREBLE, STATIONS AND VICTORY CONDITION
