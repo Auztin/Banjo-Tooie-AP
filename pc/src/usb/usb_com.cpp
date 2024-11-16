@@ -150,6 +150,7 @@ void USBCom::process() {
           status = USB_STATUS_CONNECTED;
           ap_memory.pc.misc.death_link_us = 0;
           ap_memory.pc.misc.death_link_ap = 0;
+          for (int i = 0; i < sizeof(ap_memory_pc_t); i++) ((u8*)&apm_clone)[i] = 0;
           break;
         default:
           log("[N64] Unexpected packet. Disconnected.\n");
