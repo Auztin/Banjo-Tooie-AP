@@ -267,6 +267,10 @@ typedef u32 (*bt_fnt_ui_show_number)(u16, u16, u16);
 #define _bt_fn_ui_show_number ((bt_fnt_ui_show_number)0x800D24E8)
 #define bt_fn_ui_show_number(id, amount, max) _bt_fn_ui_show_number(id+0xC0, amount, max)
 
+typedef u32 (*bt_fnt_ui_hide_number)(u16);
+#define _bt_fn_ui_hide_number ((bt_fnt_ui_hide_number)0x800D284C)
+#define bt_fn_ui_hide_number(id) _bt_fn_ui_hide_number(id+0xC0)
+
 typedef s8 (*bt_fnt_ui_showing_number)(u16, u8);
 #define _bt_fn_ui_showing_number ((bt_fnt_ui_showing_number)0x800D21F0)
 #define bt_fn_ui_showing_number(id, amount, max) _bt_fn_ui_showing_number(id+0xC0, amount, max)

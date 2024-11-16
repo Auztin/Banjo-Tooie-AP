@@ -220,6 +220,19 @@ void main_train_summon(u32 _unknown_A0, u16 from, u16 to) {
   bt_fn_load_scene(to, 0, 0);
 }
 
+extern void main_bt_paused_displaced(u32 _unknown, u8 is_paused);
+void main_bt_paused(u32 _unknown, u8 is_paused) {
+  if (bt_save_slot > 2) return;
+  if (is_paused) {
+    bt_ui_numbers[BT_UI_NUMBERS_GRUNTY_TIMER_CENTER].position = BT_UI_NUMBER_POSITION_SHARED_BOTTOM_LEFT_LOWER;
+    bt_ui_numbers[BT_UI_NUMBERS_GRUNTY_TIMER_CENTER].icon = BT_UI_ICONS_MINGY_JONGO;
+    bt_fn_ui_show_number(BT_UI_NUMBERS_GRUNTY_TIMER_CENTER, save_data.custom[bt_save_slot].totals.mumbo_tokens, 0);
+  }
+  else {
+    bt_fn_ui_hide_number(BT_UI_NUMBERS_GRUNTY_TIMER_CENTER);
+  }
+}
+
 void pre_object_init(bt_object_t *obj) {
   if (!BT_IN_GAME) return;
   switch (obj->objType) {
@@ -332,6 +345,7 @@ void pre_object_init(bt_object_t *obj) {
       break;
     case BT_OBJ_PAUSE_MENU:
       util_inject(UTIL_INJECT_RAW     , (u32)obj + 0x1CFC, 0, 0); // allow totals to show 0, fixes ui getting stuck onscreen
+      util_inject(UTIL_INJECT_FUNCTION, (u32)obj + 0x0FE0, (u32)main_bt_paused_displaced, 1); // run our function while at main pause menu
       break;
   }
 }
