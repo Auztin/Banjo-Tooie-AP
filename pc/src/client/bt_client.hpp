@@ -35,7 +35,7 @@ private:
   asio::awaitable<void> every_30frames();
   // // void every_5frames();
   const int SCRIPT_VERSION = 4;
-  const std::string CPP_VERSION = "V3.3.3"; //Make sure this matches with the BT_Client Version
+  const std::string CPP_VERSION = "V3.4"; //Make sure this matches with the BT_Client Version
   int FRAME = 0;
   std::string CUR_STATE = STATE_UNINITIALIZED;
   std::string PREV_STATE = "";
