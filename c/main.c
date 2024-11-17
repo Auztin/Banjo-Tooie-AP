@@ -86,7 +86,7 @@ void pre_load_save() {
 }
 
 void post_load_save() {
-  if (!BT_IN_GAME) return;
+  if (!BT_IN_GAME && bt_current_map != BT_MAP_FILE_SELECT) return;
   if (main.new_file) {
     main.new_file = 0;
     ap_new_file();
@@ -235,7 +235,7 @@ void main_bt_paused(u32 _unknown, u8 is_paused) {
 }
 
 void pre_object_init(bt_object_t *obj) {
-  if (!BT_IN_GAME) return;
+  if (!BT_IN_GAME && bt_current_map != BT_MAP_FILE_SELECT) return;
   switch (obj->objType) {
     case BT_OBJ_PAGE:
       util_inject(UTIL_INJECT_RAW     , (u32)obj + 0x0234, 0, 0); // dont increment amount
