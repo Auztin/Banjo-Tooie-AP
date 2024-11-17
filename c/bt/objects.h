@@ -41,5 +41,22 @@ typedef struct {
 #define BT_OBJ_DOUBLOON             0x023C
 #define BT_OBJ_JIGGY                0x00B2
 #define BT_OBJ_CAPTAIN_BLACKEYE     0x01C8
+#define BT_OBJ_FILE_SELECT          0x00CD
+
+typedef struct {
+  u32 _unknown1[6];
+  u32 operation_state;
+  u32 selection1;
+  u32 selection2;
+  u32 _unknown2[16];
+  u8 _unknown3;
+  u8 _unknown4 : 3;
+  u8 block_selection : 1;
+  u8 _unknown5 : 4;
+  u16 _unknown6;
+  u32 _unknown7[2];
+  u16 _unknown8;
+  u8 cursor_state;
+} bt_obj_file_select_ctx_t;
 
 #endif // BT_OBJECTS_H

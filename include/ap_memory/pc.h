@@ -32,7 +32,7 @@ typedef struct {
     u8 text[77]; // currently limited by clockwork tutorial text size
   } misc;
   struct {
-    u32 seed; // unused
+    u32 seed;
     u8 randomize_chuffy;
     u8 skip_puzzles;
     u8 skip_klungo;

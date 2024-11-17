@@ -5,6 +5,7 @@
 #include "ap.h"
 
 #include <string.h>
+#include <stdlib.h>
 
 main_t main = {0, };
 
@@ -90,10 +91,6 @@ void post_load_save() {
   if (main.new_file) {
     main.new_file = 0;
     ap_new_file();
-
-    // clear custom save data
-    u8* data = (u8*)&(save_data.custom[bt_save_slot]);
-    for (int i = 0; i < sizeof(save_data.custom[bt_save_slot]); i++) data[i] = 0;
   }
   ap_load_file();
   bt_temp_flags.hag1_phase4_intro = 1;
@@ -234,6 +231,71 @@ void main_bt_paused(u32 _unknown, u8 is_paused) {
   }
 }
 
+extern void main_bt_file_select_cursor_displaced(bt_obj_file_select_ctx_t* ctx, u8 operation, u8 selected);
+u8 main_bt_file_select_cursor(bt_obj_file_select_ctx_t* ctx, u8 operation, u8 selected) {
+  switch (operation) {
+    case 0x07: // select
+      switch (selected) {
+        case 0:
+        case 1:
+        case 2:
+          switch (ctx->cursor_state) {
+            case 0x04: // normal
+              u32 pc_seed = ap_memory.pc.settings.seed;
+              u32* n64_seed = &save_data.custom[selected].seed;
+              if (pc_seed == 0 || (pc_seed != *n64_seed && *n64_seed != 0)) {
+                if (!(bt_controllers[0].held.l && bt_controllers[0].held.r)) return 0;
+              }
+              *n64_seed = pc_seed;
+              break;
+            case 0x0C: // copy
+              if (ctx->operation_state == 2) {
+                if (ctx->block_selection) break;
+                // copy custom save data
+                u8* from = (u8*)&(save_data.custom[ctx->selection1]);
+                u8* to = (u8*)&(save_data.custom[ctx->selection2]);
+                for (int i = 0; i < sizeof(save_data.custom[ctx->selection2]); i++) to[i] = from[i];
+              }
+              break;
+            case 0x10: // delete
+              if (ctx->operation_state == 1) {
+                if (ctx->block_selection) break;
+                // delete custom save data
+                u8* data = (u8*)&(save_data.custom[ctx->selection1]);
+                for (int i = 0; i < sizeof(save_data.custom[ctx->selection1]); i++) data[i] = 0;
+              }
+              break;
+          }
+          break;
+      }
+      break;
+  }
+  return 1;
+}
+
+extern void main_bt_file_select_bottom_text_displaced(char* text, u16 dialog_id, u8 id);
+u8 main_bt_file_select_bottom_text(char* text, u16 dialog_id, u8 id) {
+  if (dialog_id != 0x18F3) return 1;
+  switch (id) {
+    case 0:
+      if (ap_memory.pc.settings.seed == 0) strcpy(text, "BTCLIENT DISCONNECTED.");
+      else strcpy(text, "BTCLIENT READY.");
+      return 0;
+    case 2:
+    case 3: {
+      u8 slot = bt_save_slot == 0xFF ? 0 : bt_save_slot;
+      u8 jiggies = save_data.custom[slot].totals.jiggies;
+      strcpy(text, "JIGGIES: ");
+      text = itoa(jiggies, text+9, 10);
+      for (; *text != 0; text++);
+      if (ap_memory.pc.settings.seed != save_data.custom[slot].seed) strcpy(text, ", SEED: WRONG");
+      else strcpy(text, ", SEED: MATCH");
+      return 0;
+    }
+  }
+  return 1;
+}
+
 void pre_object_init(bt_object_t *obj) {
   if (!BT_IN_GAME && bt_current_map != BT_MAP_FILE_SELECT) return;
   switch (obj->objType) {
@@ -350,6 +412,15 @@ void pre_object_init(bt_object_t *obj) {
       break;
     case BT_OBJ_CAPTAIN_BLACKEYE:
       util_inject(UTIL_INJECT_RAW     , (u32)obj + 0x0D74, 0, 0); // prevent giving 2 doubloons
+      break;
+    case BT_OBJ_FILE_SELECT:
+      // allow refusing selection
+      util_inject(UTIL_INJECT_RAW     , (u32)obj + 0x0828, 0x001F0821, 0);
+      util_inject(UTIL_INJECT_FUNCTION, (u32)obj + 0x082C, (u32)main_bt_file_select_cursor_displaced, 1);
+
+      // custom banjo text
+      util_inject(UTIL_INJECT_RAW     , (u32)obj + 0x4494, 0x001F0821, 0);
+      util_inject(UTIL_INJECT_FUNCTION, (u32)obj + 0x4498, (u32)main_bt_file_select_bottom_text_displaced, 1);
       break;
   }
 }

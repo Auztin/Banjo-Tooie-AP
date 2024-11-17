@@ -23,6 +23,7 @@ typedef struct Save_Data_s {
   u32 magic;
   u32 eeprom[512];
   struct {
+    u32 seed;
     bt_save_flags_t fake_flags;
     save_data_totals_t totals;
   } custom[3];
