@@ -65,6 +65,8 @@ void usb_check() {
           usb_read();
           if (usb.packet.cmd == USB_CMD_PONG) {
             usb.status = USB_STATUS_CONNECTED;
+            ap_memory.pc.misc.show_text = 0;
+            ap_memory.n64.misc.show_text = 0;
             ap_memory.n64.misc.death_link_us = 0;
             ap_memory.n64.misc.death_link_ap = 0;
             usb.send.misc = 1;

@@ -435,7 +435,7 @@ void ap_sync_items(u16 type, u8 value) {
 }
 
 void ap_post_custom_dialog() {
-  ap_memory.n64.misc.show_text++;
+  ap_memory.n64.misc.show_text = ap_memory.pc.misc.show_text;
   usb.send.misc = 1;
 }
 

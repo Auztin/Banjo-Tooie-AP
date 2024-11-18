@@ -149,6 +149,8 @@ void USBCom::process() {
           log("[N64] USB_CMD_PING\n");
           write(USB_CMD_PONG, packet.size);
           status = USB_STATUS_CONNECTED;
+          ap_memory.n64.misc.show_text = 0;
+          ap_memory.pc.misc.show_text = 0;
           ap_memory.pc.misc.death_link_us = 0;
           ap_memory.pc.misc.death_link_ap = 0;
           for (int i = 0; i < sizeof(ap_memory_pc_t); i++) ((u8*)&apm_clone)[i] = 0;

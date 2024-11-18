@@ -140,14 +140,17 @@ void BTClient::obtain_roysten_moves(int itemId)
         if(ap_memory.pc.items[AP_ITEM_DIVE] == 0)
         {
             obtain_bk_moves(1230810);
+            show_message(1230810);
         }
         else if(ap_memory.pc.items[AP_ITEM_DAIR] == 0)
         {
             ap_memory.pc.items[AP_ITEM_DAIR] = 1;
+            show_message(1230778);
         }
         else if(ap_memory.pc.items[AP_ITEM_FSWIM] == 0)
         {
             ap_memory.pc.items[AP_ITEM_FSWIM] = 1;
+            show_message(1230777);
         }
     }
     else if(itemId == 1230777)
@@ -453,9 +456,11 @@ void BTClient::obtain_progressive_moves(int itemId)
         if(!ap_memory.pc.items[AP_ITEM_BBUST])
         {
             obtain_bk_moves(1230820);
+            show_message(1230820);
         }
         else{
             ap_memory.pc.items[AP_ITEM_BDRILL] = 1;
+            show_message(1230757);
         }
     }
     else if(itemId == 1230829) // Progressive Eggs
@@ -463,18 +468,22 @@ void BTClient::obtain_progressive_moves(int itemId)
         if(!ap_memory.pc.items[AP_ITEM_FEGGS])
         {
             ap_memory.pc.items[AP_ITEM_FEGGS] = 1;
+            show_message(1230756);
         }
         else if(!ap_memory.pc.items[AP_ITEM_GEGGS])
         {
             ap_memory.pc.items[AP_ITEM_GEGGS] = 1;
+            show_message(1230759);
         }
         else if(!ap_memory.pc.items[AP_ITEM_IEGGS])
         {
             ap_memory.pc.items[AP_ITEM_IEGGS] = 1;
+            show_message(1230763);
         }
         else if(!ap_memory.pc.items[AP_ITEM_CEGGS])
         {
             ap_memory.pc.items[AP_ITEM_CEGGS] = 1;
+            show_message(1230767);
         }
     }
     else if(itemId == 1230830) // Progressive Shoes
@@ -482,18 +491,22 @@ void BTClient::obtain_progressive_moves(int itemId)
         if(!ap_memory.pc.items[AP_ITEM_SSTRIDE])
         {
             obtain_bk_moves(1230826);
+            show_message(1230826);
         }
         else if(!ap_memory.pc.items[AP_ITEM_TTRAIN])
         {
             obtain_bk_moves(1230821);
+            show_message(1230821);
         }
         else if(!ap_memory.pc.items[AP_ITEM_SPRINGB])
         {
             ap_memory.pc.items[AP_ITEM_SPRINGB] = 1;
+            show_message(1230768);
         }
         else if(!ap_memory.pc.items[AP_ITEM_CLAWBTS])
         {
             ap_memory.pc.items[AP_ITEM_CLAWBTS] = 1;
+            show_message(1230773);
         }
     }
     else if(itemId == 1230831)
@@ -505,10 +518,12 @@ void BTClient::obtain_progressive_moves(int itemId)
         if(!ap_memory.pc.items[AP_ITEM_GRAT])
         {
             obtain_bk_moves(1230824);
+            show_message(1230824);
         }
         else if(!ap_memory.pc.items[AP_ITEM_BBASH])
         {
             ap_memory.pc.items[AP_ITEM_BBASH] = 1;
+            show_message(1230800);
         }
     }
     return;
@@ -696,6 +711,7 @@ void BTClient::obtain_mumbo_token()
 {
     MUMBO_TOKENS++;
     ap_memory.pc.items[AP_ITEM_MUMBOTOKEN] = MUMBO_TOKENS;
+    if (GOAL_TYPE == 5 && MUMBO_TOKENS == TH_LENGTH) show_message(-2);
     return;
 }
 
@@ -753,6 +769,7 @@ void BTClient::initialize_bt()
     if(OPEN_HAG1 == true && GOAL_TYPE != 4)
     {
         ap_memory.pc.items[AP_ITEM_H1A] = 1;
+        show_message(-1);
     }
     else if(GOAL_TYPE != 4)
     {
@@ -885,10 +902,12 @@ nlohmann::json BTClient::check_unlock_worlds()
     if(GOAL_TYPE == 0 && TOTAL_JIGGIES >= 70 && OPEN_HAG1 == false)
     {
         ap_memory.pc.items[AP_ITEM_H1A] = 1;
+        show_message(-1);
     }
     if(GOAL_TYPE == 4 && MUMBO_TOKENS == 32)
     {
         ap_memory.pc.items[AP_ITEM_H1A] = 1;
+        show_message(-1);
     }
     return worlds_check;
 }
@@ -936,6 +955,21 @@ void BTClient::randomize_entrances(json entrance_table)
         ap_memory.pc.exit_map[i].to_map = WORLD_ENTRANCES[orig_world].from_map;
         ap_memory.pc.exit_map[i].to_exit = WORLD_ENTRANCES[orig_world].exitId;
         i++;
+    }
+}
+
+void BTClient::show_message(int messageId) {
+    if (
+        (
+            (ap_memory.n64.misc.current_map && CUR_STATE == STATE_OK)
+            || messageId == -2 // always show "head home" message
+        )
+        && MESSAGE_IDS.count(messageId)
+    ) {
+        std::string message;
+        message += MESSAGE_IDS[messageId];
+        std::transform(message.begin(), message.end(), message.begin(), ::toupper);
+        MESSAGE_QUEUE.push(message);
     }
 }
 
@@ -1211,6 +1245,7 @@ void BTClient::processAGIItem(json item_data)
         auto itemId = item_data[ap_id];
         if (receive_map.count(ap_id)) continue;
         receive_map[ap_id] = itemId;
+        show_message(itemId);
         //Mumbo and Humba Magic
         if((itemId >= 1230855 && itemId <= 1230863) || (itemId >= 1230174 && itemId <= 1230182))
         {
@@ -1346,6 +1381,11 @@ asio::awaitable<void> BTClient::send(std::string jsonData)
 asio::awaitable<void> BTClient::every_30frames() {
   if (check_state()) {
     co_await receive();
+  }
+  if (ap_memory.n64.misc.current_map && ap_memory.n64.misc.show_text == ap_memory.pc.misc.show_text && !MESSAGE_QUEUE.empty()) {
+    strcpy((char*)ap_memory.pc.misc.text, MESSAGE_QUEUE.front().c_str());
+    MESSAGE_QUEUE.pop();
+    ap_memory.pc.misc.show_text++;
   }
 
   if(VERSION_ERR == true)

@@ -8,6 +8,7 @@
 #include <iostream>
 #include <random>
 #include <vector>
+#include <queue>
 #include "data_map.hpp"
 
 
@@ -88,7 +89,7 @@ private:
 
   std::map<std::string, int> WORLD_TABLE;
   std::map<std::string, std::string> RANDOM_ENTRANCES;
-  // std::vector<std::string> MESSAGE_TABLE;
+  std::queue<std::string> MESSAGE_QUEUE;
 
 
   asio::awaitable<void> receive();
@@ -115,6 +116,7 @@ private:
   nlohmann::json check_unlock_worlds();
   void unlock_world(int);
   void randomize_entrances(nlohmann::json);
+  void show_message(int);
   nlohmann::json check_page_locations();
   void obtain_pages();
   nlohmann::json check_cheato_locations();
