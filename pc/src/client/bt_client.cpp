@@ -139,7 +139,7 @@ void BTClient::obtain_roysten_moves(int itemId)
     {
         if(ap_memory.pc.items[AP_ITEM_DIVE] == 0)
         {
-            obtain_bk_moves(230810);
+            obtain_bk_moves(1230810);
         }
         else if(ap_memory.pc.items[AP_ITEM_DAIR] == 0)
         {
