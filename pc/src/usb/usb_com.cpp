@@ -94,6 +94,7 @@ FT_STATUS USBCom::read() {
     log("\n");
     endian_swap_packet();
   }
+  else if (pending > 0) FT_Purge(handle, FT_PURGE_RX);
   return status;
 }
 
