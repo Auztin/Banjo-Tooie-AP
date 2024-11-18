@@ -4,7 +4,7 @@
 #include <asio.hpp>
 #include "usb_util.h"
 #include "ftd2xx.h"
-#include <ap_memory.h>
+#include <archipelago.h>
 
 #define USB_COM_LOGGING false
 

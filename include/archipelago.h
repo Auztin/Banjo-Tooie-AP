@@ -1,5 +1,5 @@
-#ifndef AP_MEMORY_H
-#define AP_MEMORY_H
+#ifndef ARCHIPELAGO_H
+#define ARCHIPELAGO_H
 
 #include <stdint.h>
 
@@ -34,4 +34,4 @@ typedef struct {
   ap_memory_n64_t n64; // only the n64 should write data here
 } ap_memory_t;
 
-#endif // AP_MEMORY_H
+#endif // ARCHIPELAGO_H

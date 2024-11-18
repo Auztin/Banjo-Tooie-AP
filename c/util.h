@@ -1,7 +1,7 @@
 #ifndef UTIL_H
 #define UTIL_H
 
-#include <ap_memory.h>
+#include <archipelago.h>
 
 extern ap_memory_t ap_memory;
 
