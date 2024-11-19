@@ -1,10 +1,7 @@
 #ifndef USB_UTIL_H
 #define USB_UTIL_H
 
-#include <stdint.h>
-
-extern const uint32_t USB_VERSION;
-#define USB_CURRENT_VERSION 1
+#include <archipelago.h>
 
 enum USB_STATUS {
   USB_STATUS_DISCONNECTED = 0,
@@ -39,7 +36,7 @@ typedef struct {
         };
         struct {
           uint8_t msg[4];
-          uint32_t version;
+          ap_version_t version;
         } handshake;
         struct {
           uint16_t offset;

@@ -3,8 +3,6 @@
 #include <cstdarg>
 #include <client/bt_client.hpp>
 
-const uint32_t USB_VERSION = USB_CURRENT_VERSION;
-
 ap_memory_t ap_memory = {0, };
 
 USBCom::USBCom(asio::io_context* io_context, BTClient* bt_client):
@@ -132,12 +130,16 @@ void USBCom::process() {
             log("USB Protocol invalid handshake message!\n");
             return;
           }
-          if (packet.handshake.version != USB_VERSION) {
-            log("USB Protocol version mismatch!\n");
+          if (packet.handshake.version.as_int != AP_VERSION.as_int) {
+            log("USB Protocol version mismatch! We are: 0x");
+            for (int i = 0; i < 4; i++) log("%.2X", ((u8*)&AP_VERSION.as_int)[i]);
+            log(" they are: 0x");
+            for (int i = 0; i < 4; i++) log("%.2X", ((u8*)&packet.handshake.version.as_int)[i]);
+            log("\n");
             return;
           }
           memcpy(packet.handshake.msg, "'LO!", 4);
-          packet.handshake.version = USB_VERSION;
+          packet.handshake.version.as_int = AP_VERSION.as_int;
           write(USB_CMD_HANDSHAKE, 4);
           status = USB_STATUS_CONNECTING;
           break;
@@ -297,7 +299,7 @@ void USBCom::endian_swap32(void *dest) {
 void USBCom::endian_swap_packet() {
   switch (packet.cmd) {
     case USB_CMD_HANDSHAKE:
-      endian_swap32(&packet.handshake.version);
+      endian_swap16(&packet.handshake.version.major);
       break;
     case USB_CMD_PC_EXIT_MAP:
       endian_swap16(&packet.exit_map.offset);

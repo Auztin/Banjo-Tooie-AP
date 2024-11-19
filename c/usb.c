@@ -5,7 +5,6 @@
 #include <string.h>
 
 usb_t usb = {0, };
-const uint32_t USB_VERSION = USB_CURRENT_VERSION;
 
 void usb_init() {
   if (!main.is_emulator) ed64_init();
@@ -39,12 +38,12 @@ void usb_check() {
     switch (usb.status & ~USB_STATUS_PINGED) {
       case USB_STATUS_DISCONNECTED: {
         if (ed64_can_read()) {
-          usb.packet.handshake.version = 0;
+          usb.packet.handshake.version.as_int = 0;
           usb_read();
           if (
             usb.packet.cmd == USB_CMD_HANDSHAKE
             && !memcmp(usb.packet.handshake.msg, "'LO!", 4)
-            && usb.packet.handshake.version == USB_VERSION
+            && usb.packet.handshake.version.as_int == AP_VERSION.as_int
           ) {
             usb.status = USB_STATUS_CONNECTING;
             usb.ping_frame = usb.frame_count;
@@ -54,7 +53,7 @@ void usb_check() {
         }
         if (!usb.frame_count && ed64_can_write()) {
           memcpy(usb.packet.handshake.msg, "HELO", 4);
-          usb.packet.handshake.version = USB_VERSION;
+          usb.packet.handshake.version.as_int = AP_VERSION.as_int;
           usb_write(USB_CMD_HANDSHAKE, 4);
         }
         break;

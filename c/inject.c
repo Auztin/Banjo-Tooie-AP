@@ -77,6 +77,7 @@ u32 inject_loop() {
 
 u32 inject_hooks() {
   save_init();
+  ap_memory_ptrs.version = AP_VERSION.as_int;
   ap_memory_ptrs.pc = (u32)&ap_memory.pc;
   ap_memory_ptrs.pc_settings = (u32)&ap_memory.pc.settings;
   ap_memory_ptrs.pc_items = (u32)&ap_memory.pc.items;

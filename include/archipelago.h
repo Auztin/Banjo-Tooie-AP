@@ -1,6 +1,10 @@
 #ifndef ARCHIPELAGO_H
 #define ARCHIPELAGO_H
 
+#define AP_VERSION_MAJOR 3
+#define AP_VERSION_MINOR 4
+#define AP_VERSION_PATCH 0
+
 #include <stdint.h>
 
 typedef uint8_t u8;
@@ -33,5 +37,15 @@ typedef struct {
   ap_memory_pc_t pc; // only the pc program should write data here
   ap_memory_n64_t n64; // only the n64 should write data here
 } ap_memory_t;
+
+typedef union {
+  struct {
+    u16 major;
+    u8  minor;
+    u8  patch;
+  };
+  u32 as_int;
+} ap_version_t;
+static const ap_version_t AP_VERSION = {AP_VERSION_MAJOR, AP_VERSION_MINOR, AP_VERSION_PATCH};
 
 #endif // ARCHIPELAGO_H

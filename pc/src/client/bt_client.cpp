@@ -14,6 +14,8 @@ BTClient::BTClient(asio::io_context* io_context):
   socket_(*io_context),
   timer_receive(*io_context)/*,
   timer_other(io_context) */ {
+  CPP_VERSION = "V"+std::to_string(AP_VERSION.major)+"."+std::to_string(AP_VERSION.minor);
+  if (AP_VERSION.patch) CPP_VERSION += "."+std::to_string(AP_VERSION.patch);
   this->io_context = io_context;
   printf("Starting server on port: %u\n", BT_CLIENT_PORT);
   tcp::endpoint endpoint(tcp::v4(), BT_CLIENT_PORT);
