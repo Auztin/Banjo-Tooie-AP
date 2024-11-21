@@ -2,6 +2,7 @@
 #include "bt.h"
 #include "save.h"
 #include "usb.h"
+#include <string.h>
 
 ap_t ap = {0, };
 
@@ -642,7 +643,10 @@ void ap_check() {
       }
     }
     if (!ap.zoombox && ap_get_next_message()) {
-      ap.zoombox = bt_fn_zoombox_new(200, ap_dialog_icons[BT_RANDOM % sizeof(ap_dialog_icons)], 0, 1);
+      u8 dialog_character = ap_memory.pc.settings.dialog_character;
+      if (dialog_character >= sizeof(ap_dialog_icons)) dialog_character = ap_dialog_icons[BT_RANDOM % sizeof(ap_dialog_icons)];
+      else dialog_character = ap_dialog_icons[dialog_character];
+      ap.zoombox = bt_fn_zoombox_new(200, dialog_character, 0, 1);
       bt_fn_zoombox_init(ap.zoombox);
     }
     for (int i = 0; i < AP_ITEM_MAX; i++) {
@@ -692,6 +696,10 @@ void ap_check() {
     }
   }
   else {
+    if (bt_controllers[0].released.dup) {
+      strcpy(ap_memory.pc.message, "THIS IS A TEST!");
+      ap_memory.pc.misc.show_message++;
+    }
     // if (bt_controllers[0].held.dup); // SNEAK
     // if (bt_controllers[0].pressed.dright); // CHECK MOVES AND WORLDS
     // if (bt_controllers[0].pressed.dleft); // CHECK MAGIC
