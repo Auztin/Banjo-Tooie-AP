@@ -5,6 +5,119 @@
 
 ap_t ap = {0, };
 
+u8 ap_dialog_icons[] = {
+  BT_ZOOMBOX_ICON_GLOWBO,
+  BT_ZOOMBOX_ICON_JIGGY,
+  BT_ZOOMBOX_ICON_HONEYCOMB,
+  BT_ZOOMBOX_ICON_SUB,
+  BT_ZOOMBOX_ICON_WASHER,
+  BT_ZOOMBOX_ICON_BANJO,
+  BT_ZOOMBOX_ICON_KAZOOIE,
+  BT_ZOOMBOX_ICON_BOTTLES,
+  BT_ZOOMBOX_ICON_MUMBO,
+  BT_ZOOMBOX_ICON_JINJO_YELLOW,
+  BT_ZOOMBOX_ICON_JINJO_GREEN,
+  BT_ZOOMBOX_ICON_JINJO_BLUE,
+  BT_ZOOMBOX_ICON_JINJO_PURPLE,
+  BT_ZOOMBOX_ICON_JINJO_ORANGE,
+  BT_ZOOMBOX_ICON_BEEHIVE,
+  BT_ZOOMBOX_ICON_GRUNTY,
+  BT_ZOOMBOX_ICON_ZUBBA,
+  BT_ZOOMBOX_ICON_JAMJARS,
+  BT_ZOOMBOX_ICON_BOVINA,
+  BT_ZOOMBOX_ICON_MINGO_WHITE,
+  BT_ZOOMBOX_ICON_MINGO_ORANGE,
+  BT_ZOOMBOX_ICON_MINGO_YELLOW,
+  BT_ZOOMBOX_ICON_MINGO_BROWN,
+  BT_ZOOMBOX_ICON_UNOGOPAZ,
+  BT_ZOOMBOX_ICON_CHIEF_BLOATAZIN,
+  BT_ZOOMBOX_ICON_DILBERTA,
+  BT_ZOOMBOX_ICON_STONIES1,
+  BT_ZOOMBOX_ICON_CANARY_MARY,
+  BT_ZOOMBOX_ICON_CHEATO,
+  BT_ZOOMBOX_ICON_GOBI,
+  BT_ZOOMBOX_ICON_DINO_KID1,
+  BT_ZOOMBOX_ICON_MR_PATCH,
+  BT_ZOOMBOX_ICON_MOGGY,
+  BT_ZOOMBOX_ICON_SOGGY,
+  BT_ZOOMBOX_ICON_GROGGY,
+  BT_ZOOMBOX_ICON_MRS_BOGGY,
+  BT_ZOOMBOX_ICON_PROSPECTOR,
+  BT_ZOOMBOX_ICON_HUMBA,
+  BT_ZOOMBOX_ICON_UFO,
+  BT_ZOOMBOX_ICON_OLD_KING_COAL,
+  BT_ZOOMBOX_ICON_SSSLUMBER,
+  BT_ZOOMBOX_ICON_BOGGY,
+  BT_ZOOMBOX_ICON_BIG_AL,
+  BT_ZOOMBOX_ICON_SALTY_JOE,
+  BT_ZOOMBOX_ICON_CONGA,
+  BT_ZOOMBOX_ICON_PAWNO,
+  BT_ZOOMBOX_ICON_TIPTUP,
+  BT_ZOOMBOX_ICON_JOLLY,
+  BT_ZOOMBOX_ICON_MERRY_MAGGIE,
+  BT_ZOOMBOX_ICON_TERRY,
+  BT_ZOOMBOX_ICON_BARGASAURUS,
+  BT_ZOOMBOX_ICON_YELLOW_STONY,
+  BT_ZOOMBOX_ICON_ALIEN,
+  BT_ZOOMBOX_ICON_CHRIS_P_BACON,
+  BT_ZOOMBOX_ICON_CAPTAIN_BLUBBER,
+  BT_ZOOMBOX_ICON_STYRACOSAURUS_MOM,
+  BT_ZOOMBOX_ICON_ROYSTEN,
+  BT_ZOOMBOX_ICON_SAFE,
+  BT_ZOOMBOX_ICON_GUFFO,
+  BT_ZOOMBOX_ICON_MR_FIT,
+  BT_ZOOMBOX_ICON_CAPTAIN_BLACKEYE,
+  BT_ZOOMBOX_ICON_JINJO_RED,
+  BT_ZOOMBOX_ICON_JINJO_WHITE,
+  BT_ZOOMBOX_ICON_JINJO_BLACK,
+  BT_ZOOMBOX_ICON_JINJO_BROWN,
+  BT_ZOOMBOX_ICON_CHILLY_WILLY,
+  BT_ZOOMBOX_ICON_CHILLI_BILLI,
+  BT_ZOOMBOX_ICON_MINGY_JONGO,
+  BT_ZOOMBOX_ICON_YELLOW_DODGEM,
+  BT_ZOOMBOX_ICON_MINGELLA,
+  BT_ZOOMBOX_ICON_BLOBBELDA,
+  BT_ZOOMBOX_ICON_KLUNGO,
+  BT_ZOOMBOX_ICON_BOTTLES_DEAD,
+  BT_ZOOMBOX_ICON_MINGO_GREEN,
+  BT_ZOOMBOX_ICON_MINGO_RED,
+  BT_ZOOMBOX_ICON_MINGO_BLUE,
+  BT_ZOOMBOX_ICON_MINGO_PURPLE,
+  BT_ZOOMBOX_ICON_MINGO_BLACK,
+  BT_ZOOMBOX_ICON_RABBIT_WORKER1,
+  BT_ZOOMBOX_ICON_UNGA_BUNGA,
+  BT_ZOOMBOX_ICON_JIGGYWIGGY,
+  BT_ZOOMBOX_ICON_JIGGYWIGGY_DISCIPLE,
+  BT_ZOOMBOX_ICON_HONEY_B,
+  BT_ZOOMBOX_ICON_BANJO_KAZOOIE,
+  BT_ZOOMBOX_ICON_PIG1,
+  BT_ZOOMBOX_ICON_OOGLE_BOOGLE,
+  BT_ZOOMBOX_ICON_GI_ANNOUNCER,
+  BT_ZOOMBOX_ICON_DINGPOT,
+  BT_ZOOMBOX_ICON_KING_JINGALING_DEAD,
+  BT_ZOOMBOX_ICON_ROCKNUT,
+  BT_ZOOMBOX_ICON_MILDRED,
+  BT_ZOOMBOX_ICON_BIGGA_FOOT,
+  BT_ZOOMBOX_ICON_GEORGE,
+  BT_ZOOMBOX_ICON_SABREMAN,
+  BT_ZOOMBOX_ICON_DIPPY,
+  BT_ZOOMBOX_ICON_LOGGO,
+  BT_ZOOMBOX_ICON_KING_JINGALING,
+  BT_ZOOMBOX_ICON_MRS_BOTTLES,
+  BT_ZOOMBOX_ICON_SPECCY,
+  BT_ZOOMBOX_ICON_GOGGLES,
+  BT_ZOOMBOX_ICON_TARGITZAN,
+  BT_ZOOMBOX_ICON_CHOMPA,
+  BT_ZOOMBOX_ICON_LORD_WOO_FAK_FAK,
+  BT_ZOOMBOX_ICON_WELDAR,
+  BT_ZOOMBOX_ICON_ALIEN_CHILD,
+  BT_ZOOMBOX_ICON_EVIL_BOTTLES,
+  BT_ZOOMBOX_ICON_DINO_KID2,
+  BT_ZOOMBOX_ICON_DINO_SCRIT_SMALL,
+  BT_ZOOMBOX_ICON_DINO_SCRIT_BIG,
+  BT_ZOOMBOX_ICON_HEGGY,
+};
+
 u8 ap_set_jinjo(save_data_totals_t* totals, u8 color, u16 ui_entry, u8 value) {
   if (value == totals->jinjos[color]) return 0;
   u16 max = color+1;
@@ -434,9 +547,77 @@ void ap_sync_items(u16 type, u8 value) {
   }
 }
 
-void ap_post_custom_dialog() {
-  ap_memory.n64.misc.show_text = ap_memory.pc.misc.show_text;
-  usb.send.misc = 1;
+void ap_draw_hud(bt_draw_ctx_t* draw_ctx) {
+  if (ap.zoombox) bt_fn_zoombox_draw(ap.zoombox, draw_ctx);
+}
+
+bool ap_get_next_message() {
+  if (ap_memory.n64.misc.show_message != ap_memory.pc.misc.show_message) {
+    ap_memory.n64.misc.show_message = ap_memory.pc.misc.show_message;
+    usb.send.misc = 1;
+    ap.message_lines = 0;
+    char* start = ap.message;
+    for (int i = 0; i < sizeof(ap.message); i++) {
+      switch (ap_memory.pc.message[i]) {
+        case '\0':
+          ap.message[i] = '\0';
+          ap.messages[ap.message_lines] = start;
+          return true;
+        case '\n':
+          if (ap.message_lines < sizeof(ap.messages)) {
+            ap.message[i] = '\0';
+            ap.messages[ap.message_lines] = start;
+            start = ap.message+i+1;
+            ap.message_lines++;
+          }
+          else ap.message[i] = ' ';
+          break;
+        default:
+          ap.message[i] = ap_memory.pc.message[i];
+      }
+    }
+  }
+  return false;
+}
+
+void ap_update() {
+  if (ap.zoombox) {
+    bt_fn_zoombox_update(ap.zoombox);
+    bool show = !bt_temp_flags.in_cutscene && !bt_dialog.textObjectPtr && !bt_loading_map.loading;
+    if (!show) {
+      if (ap.zoombox_ready) bt_fn_zoombox_close(ap.zoombox);
+      bt_fn_zoombox_selected(ap.zoombox, false);
+    }
+    switch (bt_fn_zoombox_state(ap.zoombox)) {
+      case BT_ZOOMBOX_STATE_READY:
+        ap.zoombox_ready = 1;
+        if (show) {
+          bt_fn_zoombox_open(ap.zoombox);
+          bt_fn_zoombox_append_lines(ap.zoombox, ap.message_lines+1, ap.messages);
+        }
+        break;
+      case BT_ZOOMBOX_STATE_TEXT_PRINTED:
+        if (ap_get_next_message()) bt_fn_zoombox_append_lines(ap.zoombox, ap.message_lines+1, ap.messages);
+        else {
+          bt_fn_zoombox_close(ap.zoombox);
+          ap.message[0] = '\0';
+        }
+        break;
+      case BT_ZOOMBOX_STATE_CLOSED:
+        if (ap.message[0] == '\0') bt_fn_zoombox_leave(ap.zoombox);
+        else if (show) {
+          bt_fn_zoombox_selected(ap.zoombox, true);
+          bt_fn_zoombox_open(ap.zoombox);
+          bt_fn_zoombox_append_lines(ap.zoombox, ap.message_lines+1, ap.messages);
+        }
+        break;
+      case BT_ZOOMBOX_STATE_DONE:
+        bt_fn_zoombox_free(ap.zoombox);
+        ap.zoombox = 0;
+        ap.zoombox_ready = 0;
+        break;
+    }
+  }
 }
 
 void ap_check() {
@@ -460,8 +641,9 @@ void ap_check() {
           }
       }
     }
-    if (ap_memory.n64.misc.show_text != ap_memory.pc.misc.show_text && bt_fn_load_dialog(0x0D8C, 0, 0, 0)) {
-      bt_dialog.callbackPtr = (u32)ap_post_custom_dialog;
+    if (!ap.zoombox && ap_get_next_message()) {
+      ap.zoombox = bt_fn_zoombox_new(200, ap_dialog_icons[BT_RANDOM % sizeof(ap_dialog_icons)], 0, 1);
+      bt_fn_zoombox_init(ap.zoombox);
     }
     for (int i = 0; i < AP_ITEM_MAX; i++) {
       if (ap.items[i] != ap_memory.pc.items[i]) {

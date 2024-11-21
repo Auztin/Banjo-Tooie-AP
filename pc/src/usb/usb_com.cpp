@@ -151,8 +151,8 @@ void USBCom::process() {
           log("[N64] USB_CMD_PING\n");
           write(USB_CMD_PONG, packet.size);
           status = USB_STATUS_CONNECTED;
-          ap_memory.n64.misc.show_text = 0;
-          ap_memory.pc.misc.show_text = 0;
+          ap_memory.n64.misc.show_message = 0;
+          ap_memory.pc.misc.show_message = 0;
           ap_memory.pc.misc.death_link_us = 0;
           ap_memory.pc.misc.death_link_ap = 0;
           for (int i = 0; i < sizeof(ap_memory_pc_t); i++) ((u8*)&apm_clone)[i] = 0;
@@ -206,12 +206,17 @@ bool USBCom::check_changes(void* _real, void* _clone, int size) {
 }
 
 void USBCom::send() {
+  bool message = check_changes(&ap_memory.pc.message, &apm_clone.message, sizeof(apm_clone.message));
   bool misc = check_changes(&ap_memory.pc.misc, &apm_clone.misc, sizeof(apm_clone.misc));
   bool settings = check_changes(&ap_memory.pc.settings, &apm_clone.settings, sizeof(apm_clone.settings));
   bool items = check_changes(&ap_memory.pc.items, &apm_clone.items, sizeof(apm_clone.items));
   bool exit_map = check_changes(&ap_memory.pc.exit_map, &apm_clone.exit_map, sizeof(apm_clone.exit_map));
   memcpy(&apm_converted, &apm_clone, sizeof(ap_memory_pc_t));
   endian_swap_apm(&apm_converted);
+  if (message) {
+    memcpy(packet.message, &apm_converted.message, sizeof(apm_converted.message));
+    write(USB_CMD_PC_MESSAGE, sizeof(packet.extra));
+  }
   if (misc) {
     memcpy(packet.extra, &apm_converted.misc, sizeof(apm_converted.misc));
     write(USB_CMD_PC_MISC, sizeof(apm_converted.misc));

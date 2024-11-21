@@ -64,8 +64,8 @@ void usb_check() {
           usb_read();
           if (usb.packet.cmd == USB_CMD_PONG) {
             usb.status = USB_STATUS_CONNECTED;
-            ap_memory.pc.misc.show_text = 0;
-            ap_memory.n64.misc.show_text = 0;
+            ap_memory.pc.misc.show_message = 0;
+            ap_memory.n64.misc.show_message = 0;
             ap_memory.n64.misc.death_link_us = 0;
             ap_memory.n64.misc.death_link_ap = 0;
             usb.send.misc = 1;
@@ -97,6 +97,10 @@ void usb_check() {
             }
             case USB_CMD_PC_MISC: {
               memcpy(&ap_memory.pc.misc, usb.packet.extra, sizeof(ap_memory.pc.misc));
+              break;
+            }
+            case USB_CMD_PC_MESSAGE: {
+              memcpy(&ap_memory.pc.message, usb.packet.message, sizeof(ap_memory.pc.message));
               break;
             }
             case USB_CMD_PC_SETTINGS: {

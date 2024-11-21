@@ -1384,10 +1384,10 @@ asio::awaitable<void> BTClient::every_30frames() {
   if (check_state()) {
     co_await receive();
   }
-  if (ap_memory.n64.misc.current_map && ap_memory.n64.misc.show_text == ap_memory.pc.misc.show_text && !MESSAGE_QUEUE.empty()) {
-    strcpy((char*)ap_memory.pc.misc.text, MESSAGE_QUEUE.front().c_str());
+  if (ap_memory.n64.misc.current_map && ap_memory.n64.misc.show_message == ap_memory.pc.misc.show_message && !MESSAGE_QUEUE.empty()) {
+    strcpy((char*)ap_memory.pc.message, MESSAGE_QUEUE.front().c_str());
     MESSAGE_QUEUE.pop();
-    ap_memory.pc.misc.show_text++;
+    ap_memory.pc.misc.show_message++;
   }
 
   if(VERSION_ERR == true)

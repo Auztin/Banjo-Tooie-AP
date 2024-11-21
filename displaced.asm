@@ -1,4 +1,22 @@
 .align 0x08
+inject_draw_objects_displaced:
+ADDIU SP, SP, -0x38
+J 0x800EB524
+SW S0, 0x0018 (SP)
+
+.align 0x08
+inject_draw_hud_displaced:
+ADDIU SP, SP, -0x38
+J 0x800FA510
+LUI T6, 0x8013
+
+.align 0x08
+bt_fn_zoombox_new:
+ADDIU V0, R0, 0x0000
+J 0x80087B08
+SW V0, 0x0010 (SP)
+
+.align 0x08
 inject_load_scene_displaced:
 ADDIU SP, SP, -0x20
 J 0x800A72AC

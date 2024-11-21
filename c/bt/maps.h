@@ -5,6 +5,13 @@
 
 typedef struct {
   u16 map;
+  u8 loading;
+  u8 exit;
+} bt_loading_map_t;
+#define bt_loading_map (*(bt_loading_map_t*)0x80127640)
+
+typedef struct {
+  u16 map;
   u16 exit;
 } bt_respawn_point_t;
 #define bt_respawn_point (*(bt_respawn_point_t*)0x80127050)

@@ -11,13 +11,35 @@ u32 inject_load_scene(u16 scene, u16 exit, u32 _unknown_A2, u32 _unknown_A3) {
   return ret;
 }
 
-
 extern u32 inject_load_data_displaced(u16);
 u32 inject_load_data(u16 id) {
   pre_load_data(&id);
   u32 data = inject_load_data_displaced(id);
   post_load_data(id, data);
   return data;
+}
+
+extern u32 inject_draw_objects_displaced(u8, bt_draw_ctx_t*);
+void inject_draw_objects(u8 type, bt_draw_ctx_t* draw_ctx) {
+  /* types
+    0 = entities (enemies, nests, npcs, etc)
+    1 = static entities (boxes, boulders, mole hills, etc)
+    2 = some ui elements (file screen text)
+    3 = on screen text (title screen, level names)
+    4 = ??
+    5 = shadows
+    6 = ??
+  */
+  pre_draw_objects(type, draw_ctx);
+  inject_draw_objects_displaced(type, draw_ctx);
+  post_draw_objects(type, draw_ctx);
+}
+
+extern u32 inject_draw_hud_displaced(bt_draw_ctx_t*);
+void inject_draw_hud(bt_draw_ctx_t* draw_ctx) {
+  pre_draw_hud(draw_ctx);
+  inject_draw_hud_displaced(draw_ctx);
+  post_draw_hud(draw_ctx);
 }
 
 u32 inject_load_save(u32 _unknown) {
@@ -63,6 +85,12 @@ u32 inject_init(u32 _unknown) {
   // replace game's load data function
   util_inject(UTIL_INJECT_JUMP, 0x800D674C, (u32)inject_load_data, 1);
 
+  // replace game's draw objects function
+  util_inject(UTIL_INJECT_JUMP, 0x800EB51C, (u32)inject_draw_objects, 1);
+
+  // replace game's draw hud function
+  util_inject(UTIL_INJECT_JUMP, 0x800FA508, (u32)inject_draw_hud, 1);
+
   post_init();
   return ret;
 }
@@ -79,6 +107,7 @@ u32 inject_hooks() {
   save_init();
   ap_memory_ptrs.version = AP_VERSION.as_int;
   ap_memory_ptrs.pc = (u32)&ap_memory.pc;
+  ap_memory_ptrs.pc_message = (u32)&ap_memory.pc.message;
   ap_memory_ptrs.pc_settings = (u32)&ap_memory.pc.settings;
   ap_memory_ptrs.pc_items = (u32)&ap_memory.pc.items;
   ap_memory_ptrs.pc_exit_map = (u32)&ap_memory.pc.exit_map;

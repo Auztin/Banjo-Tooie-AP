@@ -17,20 +17,20 @@ typedef struct {
   struct {
     u8 death_link_us; // if != n64.death_link_us, send death link and increment
     u8 death_link_ap; // increment to send death link to game
-    u8 show_text; // only increment if == n64.show_text
-    /*
-      127 = START
-      128 = R
-      129 = Z
-      130 = C RIGHT
-      131 = C UP
-      132 = C DOWN
-      133 = C LEFT
-      134 = B
-      135 = A
-    */
-    u8 text[77]; // currently limited by clockwork tutorial text size
+    u8 show_message; // only increment if == n64.show_text
   } misc;
+  /*
+    127 = START
+    128 = R
+    129 = Z
+    130 = C RIGHT
+    131 = C UP
+    132 = C DOWN
+    133 = C LEFT
+    134 = B
+    135 = A
+  */
+  u8 message[508];
   struct {
     u32 seed;
     u8 randomize_chuffy;

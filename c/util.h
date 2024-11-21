@@ -8,6 +8,7 @@ extern ap_memory_t ap_memory;
 typedef struct {
   u32 version;
   u32 pc;
+  u32 pc_message;
   u32 pc_settings;
   u32 pc_items;
   u32 pc_exit_map;

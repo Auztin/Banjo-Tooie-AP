@@ -16,6 +16,7 @@ enum USB_CMD {
   USB_CMD_PING,
   USB_CMD_PONG,
   USB_CMD_PC_MISC,
+  USB_CMD_PC_MESSAGE,
   USB_CMD_PC_SETTINGS,
   USB_CMD_PC_ITEMS,
   USB_CMD_PC_EXIT_MAP,
@@ -43,6 +44,7 @@ typedef struct {
           uint16_t size;
           uint8_t data[504];
         } exit_map;
+        uint8_t message[508];
       };
     };
     uint8_t raw[512];

@@ -21,8 +21,25 @@ void post_init() {
   usb_init();
 }
 
+void pre_draw_objects(u8 type, bt_draw_ctx_t* draw_ctx) {
+
+}
+
+void post_draw_objects(u8 type, bt_draw_ctx_t* draw_ctx) {
+
+}
+
+void pre_draw_hud(bt_draw_ctx_t* draw_ctx) {
+
+}
+
+void post_draw_hud(bt_draw_ctx_t* draw_ctx) {
+  ap_draw_hud(draw_ctx);
+}
+
 void pre_loop() {
   usb_check();
+  ap_update();
 }
 
 void post_loop() {
@@ -443,12 +460,6 @@ void pre_load_data(u16 *id) {
 void post_load_data(u16 id, u32 addr) {
   if (!BT_IN_GAME) return;
   switch (id) {
-    case 0x0D8C: // jamjar's clockwork tutorial text
-      if (ap_memory.n64.misc.show_text != ap_memory.pc.misc.show_text) {
-        bt_dialog_data_t* data = (bt_dialog_data_t*)addr;
-        strcpy(data->text, ap_memory.pc.misc.text);
-      }
-      break;
     // train locations
     case 0x0CF5: // GGM
     case 0x0CF6: // WW

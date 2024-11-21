@@ -13,6 +13,10 @@ extern main_t main;
 
 void pre_init(); // before bt initializes
 void post_init(); // after bt initializes, next frame should be start of puzzle transition
+void pre_draw_objects(u8 type, bt_draw_ctx_t* draw_ctx);
+void post_draw_objects(u8 type, bt_draw_ctx_t* draw_ctx);
+void pre_draw_hud(bt_draw_ctx_t* draw_ctx);
+void post_draw_hud(bt_draw_ctx_t* draw_ctx);
 void pre_loop(); // before after frame
 void post_loop(); // after every frame
 void pre_load_scene(u16 *scene, u16 *exit); // before a scene load. scene and exit can be changed to load another scene/exit
