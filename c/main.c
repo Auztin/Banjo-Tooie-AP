@@ -466,7 +466,7 @@ void post_load_data(u16 id, u32 addr) {
     case 0x1506: { // jiggywiggy disciple - you must collect jiggies
       if (!ap_memory.pc.settings.skip_puzzles) break;
       bt_dialog_data_t* data = (bt_dialog_data_t*)addr;
-      strcpy(data->text+ 1, "WHAT'S THAT I SEE IN YOUR YAML? 'SKIP PUZLES' IS ENABLED?");
+      strcpy(data->text+ 1, "WHAT'S THAT I SEE IN YOUR YAML? 'SKIP PUZZLES' IS ENABLED?");
       break;
     }
     case 0x1509: { // jiggywiggy disciple - true disciple
