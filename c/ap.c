@@ -696,10 +696,6 @@ void ap_check() {
     }
   }
   else {
-    if (bt_controllers[0].released.dup) {
-      strcpy(ap_memory.pc.message, "THIS IS A TEST!");
-      ap_memory.pc.misc.show_message++;
-    }
     // if (bt_controllers[0].held.dup); // SNEAK
     // if (bt_controllers[0].pressed.dright); // CHECK MOVES AND WORLDS
     // if (bt_controllers[0].pressed.dleft); // CHECK MAGIC
