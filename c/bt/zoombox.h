@@ -4,7 +4,7 @@
 typedef struct {
 } bt_zoombox_t;
 
-extern bt_zoombox_t* bt_fn_zoombox_new(u16 Y, u16 icon, u8 unknown, bool flipped); // unknown == 2 == no audio
+extern bt_zoombox_t* bt_fn_zoombox_new(u16 y, u16 icon, u8 unknown, bool flipped); // unknown == 2 == no audio
 
 typedef void (*bt_fnt_zoombox_text_speed)(bt_zoombox_t*, float); // higher is faster
 #define bt_fn_zoombox_text_speed ((bt_fnt_zoombox_text_speed)0x80087C28)
@@ -12,7 +12,7 @@ typedef void (*bt_fnt_zoombox_text_speed)(bt_zoombox_t*, float); // higher is fa
 typedef void (*bt_fnt_zoombox_background_speed)(bt_zoombox_t*, float); // higher is slower
 #define bt_fn_zoombox_background_speed ((bt_fnt_zoombox_background_speed)0x80087C30)
 
-typedef void (*bt_fnt_zoombox_x_size_length)(bt_zoombox_t*, u16 X, float size, float length);
+typedef void (*bt_fnt_zoombox_x_size_length)(bt_zoombox_t*, u16 x, float size, float length);
 #define bt_fn_zoombox_x_size_length ((bt_fnt_zoombox_x_size_length)0x80087BB0)
 
 // 80087C40(zoombox, bool disabled=0)

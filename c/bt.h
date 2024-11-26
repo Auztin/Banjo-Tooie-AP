@@ -23,6 +23,7 @@ typedef struct {
 #include "bt/cutscenes.h"
 #include "bt/misc_functions.h"
 #include "bt/zoombox.h"
+#include "bt/text.h"
 
 #define BT_IN_GAME (bt_save_slot != 0xFF && bt_current_map != BT_MAP_FILE_SELECT)
 #define BT_FPS    (*(u8 *)0x8007913F)
@@ -39,5 +40,21 @@ enum {
   BT_JINJO_PURPLE,
   BT_JINJO_BLACK,
 };
+
+typedef struct {
+  u8 pause_state;
+  u8 current_menu;
+  u8 unpause;
+  u8 load_state;
+  u32 _unknown1[11];
+  u16 menu_state;
+  u16 _unknown2;
+  u32 _unknown3[38];
+  float progress1;
+  float progress2;
+  float progress3;
+} bt_pause_ctx_t;
+#define bt_pause_ctx (*(bt_pause_ctx_t*)(*(u32*)0x80128AF0))
+
 
 #endif // BT_H

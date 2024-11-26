@@ -43,6 +43,62 @@ JR RA
 NOP
 
 .align 0x08
+main_bt_pause_state_change_displaced:
+ADDIU SP, SP, -0x30
+SD RA, 0x0000 (SP)
+SD AT, 0x0008 (SP)
+SD A0, 0x0010 (SP)
+SD A1, 0x0018 (SP)
+SD A2, 0x0020 (SP)
+SD A3, 0x0028 (SP)
+JAL main_bt_pause_state_change
+NOP
+LD AT, 0x0000 (SP)
+LD RA, 0x0008 (SP)
+LD A0, 0x0010 (SP)
+LD A1, 0x0018 (SP)
+LD A2, 0x0020 (SP)
+LD A3, 0x0028 (SP)
+ADDIU SP, SP, 0x30
+BNEZ V0, .+16
+NOP
+JR RA
+NOP
+; displaced code
+ADDIU SP, SP, -0x30
+SW S0, 0x0018 (SP)
+JR AT
+SLTIU AT, A3, 0x0006
+
+.align 0x08
+main_bt_pause_load_menu_displaced:
+ADDIU SP, SP, -0x30
+SD RA, 0x0000 (SP)
+SD AT, 0x0008 (SP)
+SD A0, 0x0010 (SP)
+SD A1, 0x0018 (SP)
+SD A2, 0x0020 (SP)
+SD A3, 0x0028 (SP)
+JAL main_bt_pause_load_menu
+NOP
+LD AT, 0x0000 (SP)
+LD RA, 0x0008 (SP)
+LD A0, 0x0010 (SP)
+LD A1, 0x0018 (SP)
+LD A2, 0x0020 (SP)
+LD A3, 0x0028 (SP)
+ADDIU SP, SP, 0x30
+BNEZ V0, .+16
+NOP
+JR RA
+NOP
+; displaced code
+ADDIU SP, SP, -0x20
+SW RA, 0x001C (SP)
+JR AT
+SW S0, 0x0018 (SP)
+
+.align 0x08
 main_bt_file_select_cursor_displaced:
 ADDIU SP, SP, -0x18
 SW RA, 0x0000 (SP)

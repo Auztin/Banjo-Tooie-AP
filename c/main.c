@@ -3,6 +3,7 @@
 #include "usb.h"
 #include "save.h"
 #include "ap.h"
+#include "ap_menu.h"
 
 #include <string.h>
 #include <stdlib.h>
@@ -35,11 +36,13 @@ void pre_draw_hud(bt_draw_ctx_t* draw_ctx) {
 
 void post_draw_hud(bt_draw_ctx_t* draw_ctx) {
   ap_draw_hud(draw_ctx);
+  ap_menu_draw(draw_ctx);
 }
 
 void pre_loop() {
   usb_check();
   ap_update();
+  ap_menu_update();
 }
 
 void post_loop() {
@@ -317,6 +320,41 @@ u8 main_bt_file_select_bottom_text(char* text, u16 dialog_id, u8 id) {
   return 1;
 }
 
+extern void main_bt_pause_state_change_displaced(u32, u32, u64, u64);
+u8 main_bt_pause_state_change(u32 _unknown_A0, u32 pause_ctx, u64 selected, u64 state) {
+  switch (state & 0xFF) {
+    case 0x0A:
+      pause_ctx += 0x23C;
+      pause_ctx = *((u32*)pause_ctx);
+      pause_ctx += 0x033;
+      strcpy((char*)pause_ctx, "ARCHIPELAGO");
+      break;
+  }
+  return 1;
+}
+
+extern void main_bt_pause_load_menu_displaced(bt_pause_ctx_t*);
+u8 main_bt_pause_load_menu(bt_pause_ctx_t* pause_ctx) {
+  switch (pause_ctx->pause_state) {
+    case 2:
+      if (pause_ctx->current_menu >= 2 && ap_menu.id == AP_MENU_NONE) {
+        ap_menu.id = AP_MENU_MAIN;
+        ap_menu.state = AP_MENU_STATE_INIT;
+        return 0;
+      }
+      break;
+    case 3:
+      if (ap_menu.id == AP_MENU_WAITTOTALS) {
+        if (pause_ctx->unpause) {
+          ap_menu.id = AP_MENU_NONE;
+          ap_menu.state = AP_MENU_STATE_NONE;
+        }
+      }
+      break;
+  }
+  return 1;
+}
+
 void pre_object_init(bt_object_t *obj) {
   if (!BT_IN_GAME && bt_current_map != BT_MAP_FILE_SELECT) return;
   switch (obj->objType) {
@@ -429,7 +467,12 @@ void pre_object_init(bt_object_t *obj) {
       break;
     case BT_OBJ_PAUSE_MENU:
       util_inject(UTIL_INJECT_RAW     , (u32)obj + 0x1CFC, 0, 0); // allow totals to show 0, fixes ui getting stuck onscreen
+      util_inject(UTIL_INJECT_RAW     , (u32)obj + 0x0998, 0x001F0821, 0);
+      util_inject(UTIL_INJECT_FUNCTION, (u32)obj + 0x099C, (u32)main_bt_pause_state_change_displaced, 1);
       util_inject(UTIL_INJECT_FUNCTION, (u32)obj + 0x0FE0, (u32)main_bt_paused_displaced, 1); // run our function while at main pause menu
+
+      util_inject(UTIL_INJECT_RAW     , (u32)obj + 0x06F4, 0x001F0821, 0);
+      util_inject(UTIL_INJECT_FUNCTION, (u32)obj + 0x06F8, (u32)main_bt_pause_load_menu_displaced, 1);
       break;
     case BT_OBJ_CAPTAIN_BLACKEYE:
       util_inject(UTIL_INJECT_RAW     , (u32)obj + 0x0D74, 0, 0); // prevent giving 2 doubloons

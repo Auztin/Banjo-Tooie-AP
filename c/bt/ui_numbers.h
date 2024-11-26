@@ -263,7 +263,7 @@ typedef struct {
 } bt_ui_number_t;
 #define bt_ui_numbers ((bt_ui_number_t*)0x8011AFB0)
 
-typedef u32 (*bt_fnt_ui_show_number)(u16, u16, u16);
+typedef u32 (*bt_fnt_ui_show_number)(u16, s16, s16);
 #define _bt_fn_ui_show_number ((bt_fnt_ui_show_number)0x800D24E8)
 #define bt_fn_ui_show_number(id, amount, max) _bt_fn_ui_show_number(id+0xC0, amount, max)
 
