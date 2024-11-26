@@ -44,6 +44,10 @@ void pre_loop() {
 
 void post_loop() {
   if (BT_IN_GAME) ap_check();
+  if (bt_current_map != ap_memory.n64.misc.current_map) {
+    ap_memory.n64.misc.current_map = bt_current_map;
+    usb.send.misc = 1;
+  }
 }
 
 void pre_load_scene(u16 *scene, u16 *exit) {

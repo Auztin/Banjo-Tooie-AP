@@ -667,10 +667,6 @@ void ap_check() {
     ap.death_link = 0;
     ap.death_link_queued = 0;
   }
-  if (bt_current_map != ap_memory.n64.misc.current_map) {
-    ap_memory.n64.misc.current_map = bt_current_map;
-    usb.send.misc = 1;
-  }
   if (bt_controllers[0].held.l) {
     if (bt_controllers[0].pressed.dup) { // REFILL
       bt_fn_increase_item(BT_ITEM_RED_FEATHERS, 999);
