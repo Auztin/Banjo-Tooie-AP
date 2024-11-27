@@ -116,7 +116,7 @@ private:
   nlohmann::json check_unlock_worlds();
   void unlock_world(int);
   void randomize_entrances(nlohmann::json);
-  void show_message(int);
+  void show_message(nlohmann::json);
   nlohmann::json check_page_locations();
   void obtain_pages();
   nlohmann::json check_cheato_locations();

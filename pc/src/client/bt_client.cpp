@@ -142,17 +142,14 @@ void BTClient::obtain_roysten_moves(int itemId)
         if(ap_memory.pc.items[AP_ITEM_DIVE] == 0)
         {
             obtain_bk_moves(1230810);
-            show_message(1230810);
         }
         else if(ap_memory.pc.items[AP_ITEM_DAIR] == 0)
         {
             ap_memory.pc.items[AP_ITEM_DAIR] = 1;
-            show_message(1230778);
         }
         else if(ap_memory.pc.items[AP_ITEM_FSWIM] == 0)
         {
             ap_memory.pc.items[AP_ITEM_FSWIM] = 1;
-            show_message(1230777);
         }
     }
     else if(itemId == 1230777)
@@ -458,11 +455,9 @@ void BTClient::obtain_progressive_moves(int itemId)
         if(!ap_memory.pc.items[AP_ITEM_BBUST])
         {
             obtain_bk_moves(1230820);
-            show_message(1230820);
         }
         else{
             ap_memory.pc.items[AP_ITEM_BDRILL] = 1;
-            show_message(1230757);
         }
     }
     else if(itemId == 1230829) // Progressive Eggs
@@ -470,22 +465,18 @@ void BTClient::obtain_progressive_moves(int itemId)
         if(!ap_memory.pc.items[AP_ITEM_FEGGS])
         {
             ap_memory.pc.items[AP_ITEM_FEGGS] = 1;
-            show_message(1230756);
         }
         else if(!ap_memory.pc.items[AP_ITEM_GEGGS])
         {
             ap_memory.pc.items[AP_ITEM_GEGGS] = 1;
-            show_message(1230759);
         }
         else if(!ap_memory.pc.items[AP_ITEM_IEGGS])
         {
             ap_memory.pc.items[AP_ITEM_IEGGS] = 1;
-            show_message(1230763);
         }
         else if(!ap_memory.pc.items[AP_ITEM_CEGGS])
         {
             ap_memory.pc.items[AP_ITEM_CEGGS] = 1;
-            show_message(1230767);
         }
     }
     else if(itemId == 1230830) // Progressive Shoes
@@ -493,22 +484,18 @@ void BTClient::obtain_progressive_moves(int itemId)
         if(!ap_memory.pc.items[AP_ITEM_SSTRIDE])
         {
             obtain_bk_moves(1230826);
-            show_message(1230826);
         }
         else if(!ap_memory.pc.items[AP_ITEM_TTRAIN])
         {
             obtain_bk_moves(1230821);
-            show_message(1230821);
         }
         else if(!ap_memory.pc.items[AP_ITEM_SPRINGB])
         {
             ap_memory.pc.items[AP_ITEM_SPRINGB] = 1;
-            show_message(1230768);
         }
         else if(!ap_memory.pc.items[AP_ITEM_CLAWBTS])
         {
             ap_memory.pc.items[AP_ITEM_CLAWBTS] = 1;
-            show_message(1230773);
         }
     }
     else if(itemId == 1230831)
@@ -520,12 +507,10 @@ void BTClient::obtain_progressive_moves(int itemId)
         if(!ap_memory.pc.items[AP_ITEM_GRAT])
         {
             obtain_bk_moves(1230824);
-            show_message(1230824);
         }
         else if(!ap_memory.pc.items[AP_ITEM_BBASH])
         {
             ap_memory.pc.items[AP_ITEM_BBASH] = 1;
-            show_message(1230800);
         }
     }
     return;
@@ -713,7 +698,7 @@ void BTClient::obtain_mumbo_token()
 {
     MUMBO_TOKENS++;
     ap_memory.pc.items[AP_ITEM_MUMBOTOKEN] = MUMBO_TOKENS;
-    if (GOAL_TYPE == 5 && MUMBO_TOKENS == TH_LENGTH) show_message(-2);
+    if (GOAL_TYPE == 5 && MUMBO_TOKENS == TH_LENGTH) show_message({{"message","You have found enough Mumbo Tokens! Time to head home!"}});
     return;
 }
 
@@ -771,7 +756,7 @@ void BTClient::initialize_bt()
     if(OPEN_HAG1 == true && GOAL_TYPE != 4)
     {
         ap_memory.pc.items[AP_ITEM_H1A] = 1;
-        show_message(-1);
+        show_message({{"message","HAG-1 is now open!"}});
     }
     else if(GOAL_TYPE != 4)
     {
@@ -904,12 +889,12 @@ nlohmann::json BTClient::check_unlock_worlds()
     if(GOAL_TYPE == 0 && TOTAL_JIGGIES >= 70 && OPEN_HAG1 == false)
     {
         ap_memory.pc.items[AP_ITEM_H1A] = 1;
-        show_message(-1);
+        show_message({{"message","HAG-1 is now open!"}});
     }
     if(GOAL_TYPE == 4 && MUMBO_TOKENS == 32)
     {
         ap_memory.pc.items[AP_ITEM_H1A] = 1;
-        show_message(-1);
+        show_message({{"message","HAG-1 is now open!"}});
     }
     return worlds_check;
 }
@@ -960,19 +945,100 @@ void BTClient::randomize_entrances(json entrance_table)
     }
 }
 
-void BTClient::show_message(int messageId) {
-    if (
-        (
-            (ap_memory.n64.misc.current_map && CUR_STATE == STATE_OK)
-            || messageId == -2 // always show "head home" message
-        )
-        && MESSAGE_IDS.count(messageId)
-    ) {
-        std::string message;
-        message += MESSAGE_IDS[messageId];
-        std::transform(message.begin(), message.end(), message.begin(), ::toupper);
-        MESSAGE_QUEUE.push(message);
+
+void BTClient::show_message(json data) {
+    std::string message;
+    if (data.contains("message")) {
+        message = data["message"];
+        goto add_message;
     }
+    if (!data.contains("item_id")) return;
+    switch ((int)data["item_id"]) {
+        case 1230753: // Grip Grab"
+        case 1230754: // Breegull Blaster"
+        case 1230755: // Egg Aim"
+        case 1230757: // Bill Drill"
+        case 1230758: // Beak Bayonet"
+        case 1230760: // Airborne Egg Aiming"
+        case 1230761: // Split Up"
+        case 1230764: // Wing Whack"
+        case 1230765: // Talon Torpedo"
+        case 1230766: // Sub-Aqua Egg Aiming"
+        case 1230774: // Shack Pack"
+        case 1230775: // Glide"
+        case 1230771: // Snooze Pack"
+        case 1230772: // Leg Spring"
+        case 1230773: // Claw Clamber Boots"
+        case 1230768: // Springy Step Shoes"
+        case 1230769: // Taxi Pack"
+        case 1230770: // Hatch"
+        case 1230762: // Pack Whack"
+        case 1230776: // Sack Pack"
+        case 1230777: // Fast Swimming"
+        case 1230800: // Breegull Bash"
+        case 1230802: // Homing Eggs Toggle"
+        case 1230779: // Amaze-O-Gaze"
+        case 1230780: // Baby T-Rex Roar"
+        case 1230810: // Dive"
+        case 1230811: // Flight Pad"
+        case 1230824: // Ground Rat-a-tat Rap"
+        case 1230814: // Roll"
+        case 1230822: // Air Rat-a-tat Rap"
+        case 1230825: // Beak Barge"
+        case 1230816: // Tall Jump"
+        case 1230818: // Flutter"
+        case 1230812: // Flap Flip"
+        case 1230817: // Climb"
+        case 1230815: // Talon Trot"
+        case 1230820: // Beak Buster"
+        case 1230819: // Wonderwing"
+        case 1230826: // Stilt Stride"
+        case 1230821: // Turbo Trainers"
+        case 1230827: // Beak Bomb"
+        case 1230813: // Third Person Egg Shooting"
+        case 1230855: // Mumbo: Golden Goliath"
+        case 1230856: // Mumbo: Levitate"
+        case 1230857: // Mumbo: Power"
+        case 1230858: // Mumbo: Oxygenate"
+        case 1230859: // Mumbo: Enlarge"
+        case 1230860: // Mumbo: EMP"
+        case 1230861: // Mumbo: Life Force"
+        case 1230862: // Mumbo: Rain Dance"
+        case 1230863: // Mumbo: Heal"
+        case 1230174: // Humba: Stony"
+        case 1230175: // Humba: Detonator"
+        case 1230176: // Humba: Money Van"
+        case 1230177: // Humba: Sub"
+        case 1230178: // Humba: T-Rex"
+        case 1230179: // Humba: Washing Machine"
+        case 1230180: // Humba: Snowball"
+        case 1230181: // Humba: Bee"
+        case 1230182: // Humba: Dragon"
+        case 1230794: // IoH: Train Station"
+        case 1230791: // TDL: Train Station"
+        case 1230790: // GI: Train Station"
+        case 1230792: // HFP: Lava Side Train Station"
+        case 1230793: // HFP: Icy Side Train Station"
+        case 1230795: // WW: Train Station"
+        case 1230796: // Chuffy"
+        case 1230944: // Mayahem Temple"
+        case 1230945: // Glitter Gulch Mine"
+        case 1230946: // Witchyworld"
+        case 1230947: // Jolly Roger's Lagoon"
+        case 1230948: // Terrydactyland"
+        case 1230949: // Grunty Industries"
+        case 1230950: // Hailfire Peaks"
+        case 1230951: // Cloud Cuckooland"
+        case 1230952: // Cauldron Keep"
+            break;
+        default: return;
+    }
+    if (data["player"] == PLAYER) message = "You have found your ";
+    else message = string{data["player"]} + " sent your ";
+    message += data["item"];
+add_message:
+    std::transform(message.begin(), message.end(), message.begin(), ::toupper);
+    MESSAGE_QUEUE.push(message);
 }
 
 // -------------- Archipelago Function -----------
@@ -1137,52 +1203,43 @@ void BTClient::printGoalInfo()
     // Shuffle the Encouragement and pick one.
     if(GOAL_TYPE == 0)
     {
-        std::cout << "You need to hunt down Grunty in her HAG1" << std::endl;
-        std::cout << "and put her back in the ground!" << encouragement[0] << std::endl;
+        show_message({{"message","You need to hunt down Grunty in her HAG1 and put her back in the ground! " + encouragement[0]}});
     }
     else if(GOAL_TYPE == 1 && MGH_LENGTH == 15)
     {
-        std::cout << "You are hunting down all 15 of the Mumbo Tokens" << std::endl;
-        std::cout << "found in Grunty's dastardly minigames! Good luck and" << encouragement[0] << std::endl;
+        show_message({{"message","You are hunting down all 15 of the Mumbo Tokens found in Grunty's dastardly minigames! Good luck and " + encouragement[0]}});
     }
     else if(GOAL_TYPE == 1 && MGH_LENGTH < 15)
     {
-        std::cout << "You are hunting for " << MGH_LENGTH << " Mumbo Tokens from" << std::endl;
-        std::cout << "Grunty's dastardly minigames! Good luck and" << encouragement[0] << std::endl;
+        show_message({{"message","You are hunting for " + std::to_string(MGH_LENGTH) + " Mumbo Tokens from Grunty's dastardly minigames! Good luck and " + encouragement[0]}});
     }
     else if(GOAL_TYPE == 2 && BH_LENGTH == 8)
     {
-        std::cout << "You are hunting down all 8 Mumbo Tokens from" << std::endl;
-        std::cout << "each world boss! Good Luck and" << encouragement[0] << std::endl;
+        show_message({{"message","You are hunting down all 8 Mumbo Tokens from each world boss! Good Luck and " + encouragement[0]}});
     }
     else if(GOAL_TYPE == 2 && BH_LENGTH < 8)
     {
-        std::cout << "You are hunting for " << BH_LENGTH << " Mumbo Tokens from" << std::endl;
-        std::cout << "the 8 world bosses! Good Luck and" << encouragement[0] << std::endl;
+        show_message({{"message","You are hunting for " + std::to_string(BH_LENGTH) + " Mumbo Tokens from the 8 world bosses! Good Luck and " + encouragement[0]}});
     }
     else if(GOAL_TYPE == 3 && JFR_LENGTH == 9)
     {
-        std::cout << "You are trying to rescue all 9 Jinjo families and" << std::endl;
-        std::cout << "retrieve their Mumbo Tokens! Good Luck and" << encouragement[0] << std::endl;
+        show_message({{"message","You are trying to rescue all 9 Jinjo families and retrieve their Mumbo Tokens! Good Luck and " + encouragement[0]}});
     }
     else if(GOAL_TYPE == 3 && JFR_LENGTH < 9)
     {
-        std::cout << "You are trying to rescue " << JFR_LENGTH << " of the 9 Jinjo families" << std::endl;
-        std::cout << "and retrieve their Mumbo Tokens! Good Luck and" << encouragement[0] << std::endl;
+        show_message({{"message","You are trying to rescue " + std::to_string(JFR_LENGTH) + " of the 9 Jinjo families and retrieve their Mumbo Tokens! Good Luck and " + encouragement[0]}});
     }
     else if(GOAL_TYPE == 4)
     {
-        std::cout << "You absolute mad lad! You're doing the Wonder Wing Challenge! Good Luck and" << std::endl;
+        show_message({{"message","You absolute mad lad! You're doing the Wonder Wing Challenge! Good Luck and " + encouragement[0]}});
     }
     else if(GOAL_TYPE == 5 && TH_LENGTH == 15)
     {
-        std::cout << "You are trying to find all 15 of Mumbo's Tokens scattered" << std::endl;
-        std::cout << "throughout the Isle of Hags! Good Luck and" << encouragement[0] << std::endl;
+        show_message({{"message","You are trying to find all 15 of Mumbo's Tokens scattered throughout the Isle of Hags! Good Luck and " + encouragement[0]}});
     }
     else if(GOAL_TYPE == 5 && TH_LENGTH < 15)
     {
-        std::cout << "You are trying to find " << TH_LENGTH << " of the 15 of Mumbo Tokens" << std::endl;
-        std::cout << "scattered throughout the Isle of Hags! Good Luck and" << encouragement[0] << std::endl;
+        show_message({{"message","You are trying to find " + std::to_string(TH_LENGTH) + " of the 15 of Mumbo Tokens scattered throughout the Isle of Hags! Good Luck and " + encouragement[0]}});
     }
     return;
 }
@@ -1217,13 +1274,13 @@ void BTClient::process_block(json bt_data)
     {
         processAGIItem(bt_data["items"]);
     }
-    // if(bt_data.contains(string{"messages"}) && bt_data["messages"] != "")
-    // {
-    //     for(auto msg : bt_data["messages"])
-    //     {
-    //         MESSAGE_TABLE.push_back(msg);
-    //     }
-    // }
+    if(bt_data.contains(string{"messages"}) && bt_data["messages"] != "")
+    {
+        for(auto msg : bt_data["messages"])
+        {
+            show_message(msg);
+        }
+    }
     if(bt_data.contains(string{"triggerDeath"}) && bt_data["triggerDeath"] == true && DEATH_LINK == true)
     {
         ap_memory.pc.misc.death_link_ap++;
@@ -1247,7 +1304,6 @@ void BTClient::processAGIItem(json item_data)
         auto itemId = item_data[ap_id];
         if (receive_map.count(ap_id)) continue;
         receive_map[ap_id] = itemId;
-        show_message(itemId);
         //Mumbo and Humba Magic
         if((itemId >= 1230855 && itemId <= 1230863) || (itemId >= 1230174 && itemId <= 1230182))
         {

@@ -21,5 +21,4 @@
     } world_entrance_t;
 
     extern std::map<std::string, world_entrance_t> WORLD_ENTRANCES;
-    extern std::map<int, std::string> MESSAGE_IDS;
 #endif
