@@ -128,6 +128,53 @@ u8 ap_set_jinjo(save_data_totals_t* totals, u8 color, u16 ui_entry, u8 value) {
   return value == max ? 2 : 1;
 }
 
+void ap_open_doors(u16 world) {
+  bt_fnt_object_get_data door_func1 = 0;
+  bt_fnt_object_get_data door_func2 = 0;
+  switch (world) {
+    case AP_ITEM_MTA:
+      door_func1 = (bt_fnt_object_get_data)0x80087088;
+      break;
+    case AP_ITEM_GGA:
+      door_func1 = (bt_fnt_object_get_data)0x80087098;
+      break;
+    case AP_ITEM_WWA:
+      door_func1 = (bt_fnt_object_get_data)0x800870C8;
+      break;
+    case AP_ITEM_JRA:
+      door_func1 = (bt_fnt_object_get_data)0x80087060;
+      break;
+    case AP_ITEM_TDA:
+      door_func1 = (bt_fnt_object_get_data)0x800870C0;
+      break;
+    case AP_ITEM_GIA:
+      door_func1 = (bt_fnt_object_get_data)0x800870D0;
+      door_func2 = (bt_fnt_object_get_data)0x800870D8;
+      break;
+    case AP_ITEM_HFA:
+      door_func1 = (bt_fnt_object_get_data)0x800870A0;
+      break;
+    case AP_ITEM_CCA:
+      door_func1 = (bt_fnt_object_get_data)0x80087648;
+      break;
+    case AP_ITEM_CKA:
+      door_func1 = (bt_fnt_object_get_data)0x800870F0;
+      break;
+    default: return;
+  }
+  s32 object_count = 0;
+  bt_fn_object_count(&object_count);
+  for (; object_count > 0;) {
+    bt_obj_instance_t* object_instance = bt_fn_object_instance(&object_count);
+    bt_fnt_object_get_data object_function = object_instance->fn_obj_init;
+    bt_obj_world_door_t* object_data;
+    if (door_func1 == object_function || (door_func2 && door_func2 == object_function)) {
+      object_data = (bt_obj_world_door_t*)object_function();
+      object_data->fn_play_anim(object_instance, 7, 3);
+    }
+  }
+}
+
 void ap_sync_items(u16 type, u8 value) {
   save_data_totals_t* totals = &(save_data.custom[bt_save_slot].totals);
   u16 current;
@@ -517,33 +564,43 @@ void ap_sync_items(u16 type, u8 value) {
       break;
     case AP_ITEM_MTA:
       bt_flags.mt_open = value > 0;
+      if (bt_flags.mt_open) ap_open_doors(type);
       break;
     case AP_ITEM_GGA:
       bt_flags.ggm_open = value > 0;
+      if (bt_flags.ggm_open) ap_open_doors(type);
       break;
     case AP_ITEM_WWA:
       bt_flags.ww_open = value > 0;
+      if (bt_flags.ww_open) ap_open_doors(type);
       break;
     case AP_ITEM_JRA:
       bt_flags.jrl_open = value > 0;
+      if (bt_flags.jrl_open) ap_open_doors(type);
       break;
     case AP_ITEM_TDA:
       bt_flags.tdl_open = value > 0;
+      if (bt_flags.tdl_open) ap_open_doors(type);
       break;
     case AP_ITEM_GIA:
       bt_flags.gi_open = value > 0;
+      if (bt_flags.gi_open) ap_open_doors(type);
       break;
     case AP_ITEM_HFA:
       bt_flags.hfp_open = value > 0;
+      if (bt_flags.hfp_open) ap_open_doors(type);
       break;
     case AP_ITEM_CCA:
       bt_flags.ccl_open = value > 0;
+      if (bt_flags.ccl_open) ap_open_doors(type);
       break;
     case AP_ITEM_CKA:
       bt_flags.ck_open = value > 0;
+      if (bt_flags.ck_open) ap_open_doors(type);
       break;
     case AP_ITEM_H1A:
       bt_flags.hag1_open = value > 0;
+      if (bt_flags.hag1_open) ap_open_doors(type);
       break;
   }
 }

@@ -59,4 +59,25 @@ typedef struct {
   u8 cursor_state;
 } bt_obj_file_select_ctx_t;
 
+typedef struct {
+} bt_obj_data_t;
+
+typedef bt_obj_data_t* (*bt_fnt_object_get_data)(void);
+typedef struct {
+  u32 _unknown[4];
+  bt_fnt_object_get_data fn_obj_init;
+} bt_obj_instance_t;
+
+typedef void (*bt_fnt_world_door_play_anim)(bt_obj_instance_t*, u32 anim, u32 speed);
+typedef struct {
+  u32 _unknown[16];
+  bt_fnt_world_door_play_anim fn_play_anim;
+} bt_obj_world_door_t;
+
+typedef void (*bt_fnt_object_count)(u32*);
+#define bt_fn_object_count ((bt_fnt_object_count)0x801067C4)
+
+typedef bt_obj_instance_t* (*bt_fnt_object_instance)(u32*);
+#define bt_fn_object_instance ((bt_fnt_object_instance)0x8010682C)
+
 #endif // BT_OBJECTS_H
