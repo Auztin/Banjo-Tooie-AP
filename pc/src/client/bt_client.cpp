@@ -1030,6 +1030,11 @@ void BTClient::show_message(json data) {
         case 1230950: // Hailfire Peaks"
         case 1230951: // Cloud Cuckooland"
         case 1230952: // Cauldron Keep"
+        case 1230828: // Progressive Beak Buster
+        case 1230829: // Progressive Eggs
+        case 1230830: // Progressive Shoes
+        case 1230831: // Progressive Water Training
+        case 1230832: // Progressive Bash Attack
             break;
         default: return;
     }
