@@ -703,6 +703,43 @@ void ap_update() {
   }
 }
 
+void ap_check_enough_notes(u16 start, u16 end) {
+  if (start == end || start > end) return;
+  u16 note_requirements[] = {
+    25,
+    30,
+    35,
+    45,
+    85,
+    95,
+    110,
+    160,
+    170,
+    180,
+    220,
+    265,
+    285,
+    290,
+    315,
+    390,
+    405,
+    420,
+    505,
+    525,
+    545,
+    640,
+    660,
+    765,
+  };
+  for (int i = 0; i < sizeof(note_requirements)/sizeof(*note_requirements); i++) {
+    u16 amount = note_requirements[i];
+    if (start < amount && end >= amount) {
+      strcpy(ap.internal_message, "YOU HAVE ENOUGH NOTES FOR A NEW MOVE!");
+      break;
+    }
+  }
+}
+
 void ap_check() {
   if (!bt_temp_flags.in_cutscene) {
     if (ap_memory.n64.misc.death_link_ap != ap_memory.pc.misc.death_link_ap && !bt_player_chars.died) {
@@ -728,12 +765,14 @@ void ap_check() {
       ap.zoombox = bt_fn_zoombox_new(200, ap_get_zb_icon(), 0, 1);
       bt_fn_zoombox_init(ap.zoombox);
     }
+    u16 total_notes = save_totals(6);
     for (int i = 0; i < AP_ITEM_MAX; i++) {
       if (ap.items[i] != ap_memory.pc.items[i]) {
         ap.items[i] = ap_memory.pc.items[i];
         ap_sync_items(i, ap_memory.pc.items[i]);
       }
     }
+    ap_check_enough_notes(total_notes, save_totals(6));
   }
   if (bt_player_chars.died) {
     if (!ap.death_link && !ap.death_link_queued) {
