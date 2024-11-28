@@ -47,6 +47,9 @@ typedef void (*bt_fnt_zoombox_clear_text)(bt_zoombox_t*);
 typedef void (*bt_fnt_zoombox_icon)(bt_zoombox_t*, u16); // instantly changes
 #define bt_fn_zoombox_icon ((bt_fnt_zoombox_icon)0x80087C00)
 
+typedef void (*bt_fnt_zoombox_queue_icon)(bt_zoombox_t*, u16); // smoothly changes on close
+#define bt_fn_zoombox_queue_icon ((bt_fnt_zoombox_queue_icon)0x80087C08)
+
 typedef void (*bt_fnt_zoombox_leave)(bt_zoombox_t*); // wont leave until closed
 #define bt_fn_zoombox_leave ((bt_fnt_zoombox_leave)0x80087B30)
 

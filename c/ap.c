@@ -638,6 +638,14 @@ bool ap_get_next_message() {
   return false;
 }
 
+u8 ap_get_zb_icon() {
+  u8 icon = ap_memory.pc.settings.dialog_character;
+  if (icon >= sizeof(ap_dialog_icons)) icon = BT_RANDOM % sizeof(ap_dialog_icons);
+  ap.zb_icon = icon;
+  icon = ap_dialog_icons[icon];
+  return icon;
+}
+
 void ap_update() {
   if (ap.zoombox) {
     bt_fn_zoombox_update(ap.zoombox);
@@ -655,7 +663,14 @@ void ap_update() {
         }
         break;
       case BT_ZOOMBOX_STATE_TEXT_PRINTED:
-        if (ap_get_next_message()) bt_fn_zoombox_append_lines(ap.zoombox, ap.message_lines+1, ap.messages);
+        if (ap_get_next_message()) {
+          if (ap.zb_icon != ap_memory.pc.settings.dialog_character) {
+            bt_fn_zoombox_queue_icon(ap.zoombox, ap_get_zb_icon());
+            bt_fn_zoombox_close(ap.zoombox);
+            bt_fn_zoombox_open(ap.zoombox);
+          }
+          bt_fn_zoombox_append_lines(ap.zoombox, ap.message_lines+1, ap.messages);
+        }
         else {
           bt_fn_zoombox_close(ap.zoombox);
           ap.message[0] = '\0';
@@ -700,10 +715,7 @@ void ap_check() {
       }
     }
     if (!ap.zoombox && ap_get_next_message()) {
-      u8 dialog_character = ap_memory.pc.settings.dialog_character;
-      if (dialog_character >= sizeof(ap_dialog_icons)) dialog_character = ap_dialog_icons[BT_RANDOM % sizeof(ap_dialog_icons)];
-      else dialog_character = ap_dialog_icons[dialog_character];
-      ap.zoombox = bt_fn_zoombox_new(200, dialog_character, 0, 1);
+      ap.zoombox = bt_fn_zoombox_new(200, ap_get_zb_icon(), 0, 1);
       bt_fn_zoombox_init(ap.zoombox);
     }
     for (int i = 0; i < AP_ITEM_MAX; i++) {

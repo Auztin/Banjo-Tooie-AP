@@ -9,8 +9,9 @@ typedef struct {
   u8 death_link_queued : 1;
   u8 smooth_banjo : 1;
   u8 zoombox_ready : 1;
-  bt_zoombox_t* zoombox;
+  u8 zb_icon;
   u8 message_lines;
+  bt_zoombox_t* zoombox;
   char* messages[5];
   char message[508];
   u8 items[AP_ITEM_MAX];
