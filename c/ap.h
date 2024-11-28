@@ -14,6 +14,7 @@ typedef struct {
   bt_zoombox_t* zoombox;
   char* messages[5];
   char message[508];
+  char internal_message[508];
   u8 items[AP_ITEM_MAX];
 } ap_t;
 extern ap_t ap;

@@ -609,31 +609,41 @@ void ap_draw_hud(bt_draw_ctx_t* draw_ctx) {
   if (ap.zoombox) bt_fn_zoombox_draw(ap.zoombox, draw_ctx);
 }
 
+bool ap_prepare_message(char* message) {
+  ap.message_lines = 0;
+  char* start = ap.message;
+  for (int i = 0; i < sizeof(ap.message); i++) {
+    switch (message[i]) {
+      case '\0':
+        ap.message[i] = '\0';
+        ap.messages[ap.message_lines] = start;
+        return true;
+      case '\n':
+        if (ap.message_lines < sizeof(ap.messages)) {
+          ap.message[i] = '\0';
+          ap.messages[ap.message_lines] = start;
+          start = ap.message+i+1;
+          ap.message_lines++;
+        }
+        else ap.message[i] = ' ';
+        break;
+      default:
+        ap.message[i] = message[i];
+    }
+  }
+  return false;
+}
+
 bool ap_get_next_message() {
   if (ap_memory.n64.misc.show_message != ap_memory.pc.misc.show_message) {
     ap_memory.n64.misc.show_message = ap_memory.pc.misc.show_message;
     usb.send.misc = 1;
-    ap.message_lines = 0;
-    char* start = ap.message;
-    for (int i = 0; i < sizeof(ap.message); i++) {
-      switch (ap_memory.pc.message[i]) {
-        case '\0':
-          ap.message[i] = '\0';
-          ap.messages[ap.message_lines] = start;
-          return true;
-        case '\n':
-          if (ap.message_lines < sizeof(ap.messages)) {
-            ap.message[i] = '\0';
-            ap.messages[ap.message_lines] = start;
-            start = ap.message+i+1;
-            ap.message_lines++;
-          }
-          else ap.message[i] = ' ';
-          break;
-        default:
-          ap.message[i] = ap_memory.pc.message[i];
-      }
-    }
+    return ap_prepare_message(ap_memory.pc.message);
+  }
+  else if (ap.internal_message[0]) {
+    bool ret = ap_prepare_message(ap.internal_message);
+    ap.internal_message[0] = '\0';
+    return ret;
   }
   return false;
 }
@@ -746,19 +756,29 @@ void ap_check() {
       if (bt_flags.ice_eggs) bt_fn_increase_item(BT_ITEM_ICE_EGGS, 999);
       if (bt_flags.clockwork_kazooie_eggs) bt_fn_increase_item(BT_ITEM_CLOCKWORK_EGGS, 999);
     }
+    char message[25] = {0};
     if (bt_controllers[0].pressed.dright) { // SUPER BANJO
       bt_flags.cheats_superbanjo_enabled = !bt_flags.cheats_superbanjo_enabled;
+      strcpy(message, "SUPER BANJO ");
+      strcat(message, bt_flags.cheats_superbanjo_enabled ? "ENABLED" : "DISABLED");
     }
     if (bt_controllers[0].pressed.dleft && bt_flags.cheats_homing_eggs_received) { // HOMING EGGS
       bt_flags.cheats_homing_eggs_enabled = !bt_flags.cheats_homing_eggs_enabled;
+      strcpy(message, "HOMING EGGS ");
+      strcat(message, bt_flags.cheats_homing_eggs_enabled ? "ENABLED" : "DISABLED");
     }
     if (bt_controllers[0].pressed.ddown && bt_flags.cheats_honeyback_received) { // HONEYBACK
       bt_flags.cheats_honeyback_enabled = !bt_flags.cheats_honeyback_enabled;
+      strcpy(message, "HONEYBACK ");
+      strcat(message, bt_flags.cheats_honeyback_enabled ? "ENABLED" : "DISABLED");
     }
     if (bt_controllers[0].released.start) { // SMOOTH BANJO
       ap.smooth_banjo = !ap.smooth_banjo;
       BT_FPS = ap.smooth_banjo ? 1 : 2;
+      strcpy(message, "SMOOTH BANJO ");
+      strcat(message, ap.smooth_banjo ? "ENABLED" : "DISABLED");
     }
+    if (message[0]) strcpy(ap.internal_message, message);
   }
   else {
     // if (bt_controllers[0].held.dup); // SNEAK
