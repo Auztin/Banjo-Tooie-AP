@@ -69,6 +69,7 @@ private:
 
   bool VERSION_ERR = false;
   bool DEBUG_NET = false;
+  bool SHOW_GOAL_INFO = false;
   std::map<int, int> receive_map;
   int TOTAL_JIGGIES = 0;
   int TOTAL_TREBLE = 0;

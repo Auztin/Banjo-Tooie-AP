@@ -1182,7 +1182,7 @@ asio::awaitable<void> BTClient::getSlotData()
         randomize_entrances(block["slot_zones"]);
     }
     if(SEED != 0){
-        printGoalInfo();
+        SHOW_GOAL_INFO = true;
         initialize_bt();
         if (CUR_STATE == STATE_INITIAL_CONNECTION_MADE) CUR_STATE = STATE_TENTATIVELY_CONNECTED;
     }
@@ -1191,6 +1191,7 @@ asio::awaitable<void> BTClient::getSlotData()
 
 void BTClient::printGoalInfo()
 {
+    SHOW_GOAL_INFO = false;
     std::vector<string> encouragement{
         " GUH-HUH!",
         " BREEE!",
@@ -1365,7 +1366,10 @@ void BTClient::processAGIItem(json item_data)
 
 asio::awaitable<void> BTClient::sendToBTClient()
 {
-    CURRENT_MAP = ap_memory.n64.misc.current_map;
+    if (CURRENT_MAP != ap_memory.n64.misc.current_map) {
+        CURRENT_MAP = ap_memory.n64.misc.current_map;
+        if (CURRENT_MAP == 0x0158 && SEED != 0) SHOW_GOAL_INFO = true;
+    }
     bool dead = false;
     json retTable = json({});
     if(ap_memory.pc.misc.death_link_us != ap_memory.n64.misc.death_link_us && DEATH_LINK && !DEATH_LINK_TRIGGERED)
@@ -1444,6 +1448,7 @@ asio::awaitable<void> BTClient::every_30frames() {
   if (check_state()) {
     co_await receive();
   }
+  if (SHOW_GOAL_INFO) printGoalInfo();
   if (ap_memory.n64.misc.current_map && ap_memory.n64.misc.show_message == ap_memory.pc.misc.show_message && !MESSAGE_QUEUE.empty()) {
     strcpy((char*)ap_memory.pc.message, MESSAGE_QUEUE.front().c_str());
     MESSAGE_QUEUE.pop();
