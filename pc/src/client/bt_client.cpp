@@ -945,14 +945,13 @@ void BTClient::randomize_entrances(json entrance_table)
     }
 }
 
-
 void BTClient::show_message(json data) {
     std::string message;
     if (data.contains("message")) {
         message = data["message"];
         goto add_message;
     }
-    if (!data.contains("item_id")) return;
+    if (!data.contains("item_id") || data["to_player"] != PLAYER) return;
     switch ((int)data["item_id"]) {
         case 1230753: // Grip Grab"
         case 1230754: // Breegull Blaster"
