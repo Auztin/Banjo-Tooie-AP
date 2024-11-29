@@ -123,7 +123,7 @@ void pre_load_scene(u16 *scene, u16 *exit) {
       if (ap_memory.pc.settings.backdoors) bt_flags.hfp_lava_stadium_opened_mt = 1;
       break;
     case BT_MAP_TDL_OOGLE_BOOGLE_CAVE:
-      if (ap_memory.pc.settings.backdoors) bt_flags.tdl_opened_oogle_boogle_cave = 1;
+      if (ap_memory.pc.settings.backdoors && *exit) bt_flags.tdl_opened_oogle_boogle_cave = 1;
       break;
   }
 }
