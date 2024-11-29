@@ -951,18 +951,13 @@ void ap_check() {
         case BT_PLAYER_CHAR_CLOCKWORK:
           bt_fn_hurt_player(bt_player_chars.control_index);
           break;
+        case BT_PLAYER_CHAR_KAZOOIE:
+          if (!bt_fn_get_health(bt_current_player_char)) break;
         default:
-          u8 health = bt_fn_get_health(bt_current_player_char);
-          if (health) {
-            bt_fn_increase_health(bt_current_player_char, -100);
-            if (bt_fn_hurt_player(bt_player_chars.control_index)) {
-              ap_memory.n64.misc.death_link_ap++;
-              usb.send.misc = 1;
-              ap.death_link = 1;
-              bt_fn_increase_health(bt_current_player_char, 100);
-            }
-            else bt_fn_increase_health(bt_current_player_char, health);
-          }
+          bt_fn_set_character_animation(bt_current_player_char, 0x54);
+          ap_memory.n64.misc.death_link_ap++;
+          usb.send.misc = 1;
+          ap.death_link = 1;
       }
     }
     if (!ap.zoombox && ap_get_next_message()) {
