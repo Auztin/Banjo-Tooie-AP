@@ -178,8 +178,23 @@ void ap_menu_select() {
           BT_FPS = ap.smooth_banjo ? 1 : 2;
           break;
         case AP_MENU_OPTION_RESPAWN:
-          ap_menu.id = AP_MENU_TORESPAWN;
-          ap_menu.state = AP_MENU_STATE_CLEAR;
+          if (bt_fn_character_touching_ground(bt_current_player_char) || bt_fn_character_in_water(bt_current_player_char)) {
+            ap_memory.n64.misc.death_link_ap--;
+            ap_menu.id = AP_MENU_UNPAUSE;
+            ap_menu.state = AP_MENU_STATE_CLEAR;
+          }
+          break;
+        case AP_MENU_OPTION_RESET:
+          if (
+               bt_player_chars.control_type == BT_PLAYER_CHAR_BANJO_KAZOOIE
+            && (bt_fn_character_touching_ground(bt_current_player_char) || bt_fn_character_in_water(bt_current_player_char))
+          ) {
+            bt_xyz_t point = {0, 0, 0};
+            bt_fn_character_move_to(&point, 0);
+            bt_fn_load_scene(BT_MAP_JINJO_VILLAGE, 3, 1);
+            ap_menu.id = AP_MENU_UNPAUSE;
+            ap_menu.state = AP_MENU_STATE_CLEAR;
+          }
           break;
       }
       return;
@@ -250,6 +265,19 @@ void ap_menu_update_zoombox(int i, bt_zoombox_t* zb) {
           case AP_MENU_OPTION_SMOOTH_BANJO:
             if (ap.smooth_banjo) bt_fn_zoombox_text_color(zb, &green);
             else bt_fn_zoombox_text_color(zb, &white);
+            break;
+          case AP_MENU_OPTION_RESPAWN:
+            if (bt_fn_character_touching_ground(bt_current_player_char) || bt_fn_character_in_water(bt_current_player_char)) {
+              bt_fn_zoombox_text_color(zb, &white);
+            }
+            else bt_fn_zoombox_text_color(zb, &red);
+            break;
+          case AP_MENU_OPTION_RESET:
+            if (
+                 bt_player_chars.control_type == BT_PLAYER_CHAR_BANJO_KAZOOIE
+              && (bt_fn_character_touching_ground(bt_current_player_char) || bt_fn_character_in_water(bt_current_player_char))
+            ) bt_fn_zoombox_text_color(zb, &white);
+            else bt_fn_zoombox_text_color(zb, &red);
             break;
         }
         break;
@@ -414,15 +442,6 @@ void ap_menu_update() {
             ap_menu.last_id = AP_MENU_TOTOTALS;
           }
           return;
-        case AP_MENU_TORESPAWN:
-          switch (bt_player_chars.control_type) {
-            case BT_PLAYER_CHAR_CLOCKWORK:
-              break;
-            case BT_PLAYER_CHAR_KAZOOIE:
-              if (!bt_fn_get_health(bt_current_player_char)) break;
-            default:
-              bt_fn_load_scene(bt_respawn_point.map, bt_respawn_point.exit, 1);
-          }
         case AP_MENU_UNPAUSE:
           ap_menu.id = AP_MENU_NONE;
           if (&bt_pause_ctx) {
@@ -516,7 +535,7 @@ void ap_menu_update() {
           ap_menu.last_y = 50;
           break;
         case AP_MENU_OPTIONS:
-          ap_menu.columns = 1;
+          ap_menu.columns = 2;
           ap_menu.last_zb = 1;
           ap_menu.last_y = 60;
           ap_menu.title = "OPTIONS";

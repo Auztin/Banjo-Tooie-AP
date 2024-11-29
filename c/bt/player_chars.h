@@ -50,6 +50,9 @@ typedef u32 (*bt_fnt_character_in_water)(u32);
 typedef u32 (*bt_fnt_character_touching_ground)(u32);
 #define bt_fn_character_touching_ground ((bt_fnt_character_touching_ground)0x8008E078)
 
+typedef u32 (*bt_fnt_character_move_to)(bt_xyz_t*, float);
+#define bt_fn_character_move_to ((bt_fnt_character_move_to)0x80090358)
+
 #define bt_fn_change_character(character, type) ({                                  \
   bt_fn_set_character(character, type);                                             \
   bt_fn_load_character_model(character);                                            \

@@ -11,6 +11,12 @@ typedef struct {
   u16 blue;
 } bt_color_t;
 
+typedef struct {
+  float x;
+  float y;
+  float z;
+} bt_xyz_t;
+
 #include "util.h"
 #include "bt/flags.h"
 #include "bt/items.h"
@@ -55,6 +61,5 @@ typedef struct {
   float progress3;
 } bt_pause_ctx_t;
 #define bt_pause_ctx (*(bt_pause_ctx_t*)(*(u32*)0x80128AF0))
-
 
 #endif // BT_H
