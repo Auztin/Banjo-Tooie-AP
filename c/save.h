@@ -30,6 +30,7 @@ typedef struct Save_Data_s {
 } save_data_t;
 extern save_data_t save_data;
 extern u8 save_dirty;
+#define bt_fake_flags (save_data.custom[bt_save_slot].fake_flags)
 
 void save_init();
 void save_sram_write();

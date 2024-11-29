@@ -547,8 +547,8 @@ void ap_sync_items(u16 type, u8 value) {
           && !bt_flags.train_at_hfp_icy
           && !bt_flags.train_at_ww
         ) bt_flags.train_at_ggm = 1;
-        save_data.custom[bt_save_slot].fake_flags.ggm_defeated_chuffy = 1;
-        save_data.custom[bt_save_slot].fake_flags.ggm_mumbo_train = 1;
+        bt_fake_flags.ggm_defeated_chuffy = 1;
+        bt_fake_flags.ggm_mumbo_train = 1;
       }
       else {
         bt_flags.train_at_ioh = 0;
@@ -558,8 +558,8 @@ void ap_sync_items(u16 type, u8 value) {
         bt_flags.train_at_hfp_icy = 0;
         bt_flags.train_at_ww = 0;
         bt_flags.train_at_ggm = 0;
-        save_data.custom[bt_save_slot].fake_flags.ggm_defeated_chuffy = 0;
-        save_data.custom[bt_save_slot].fake_flags.ggm_mumbo_train = 0;
+        bt_fake_flags.ggm_defeated_chuffy = 0;
+        bt_fake_flags.ggm_mumbo_train = 0;
       }
       break;
     case AP_ITEM_MTA:
@@ -1024,7 +1024,7 @@ void ap_check() {
 
   u8* real_in = (u8*)&bt_flags;
   u8* real_out = (u8*)&(ap_memory.n64.saves.real);
-  u8* fake_in = (u8*)&(save_data.custom[bt_save_slot].fake_flags);
+  u8* fake_in = (u8*)&(bt_fake_flags);
   u8* fake_out = (u8*)&(ap_memory.n64.saves.fake);
   for (int i = 0; i < sizeof(bt_save_flags_t); i++) {
     if (real_out[i] != real_in[i]) {

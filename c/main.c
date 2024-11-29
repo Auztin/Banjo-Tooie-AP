@@ -77,7 +77,7 @@ void pre_load_scene(u16 *scene, u16 *exit) {
   bt_temp_flags.bubble_cutscene = 0;
   bt_flags.ccl_open = ap_memory.pc.items[AP_ITEM_CCA] > 0;
   if (bt_flags.ck_opened_gun_chamber) bt_flags.tower_of_tragedy_completed = 0;
-  if (ap_memory.pc.settings.randomize_chuffy && !save_data.custom[bt_save_slot].fake_flags.ggm_defeated_chuffy) {
+  if (ap_memory.pc.settings.randomize_chuffy && !bt_fake_flags.ggm_defeated_chuffy) {
     bt_flags.train_at_ggm = 1;
     bt_flags.train_at_ioh = 0;
   }
@@ -111,7 +111,7 @@ void pre_load_scene(u16 *scene, u16 *exit) {
       if (bt_flags.ck_opened_gun_chamber) bt_flags.tower_of_tragedy_completed = 1;
       break;
     case BT_MAP_TRAIN_STATION_GGM:
-      if (ap_memory.pc.settings.randomize_chuffy && !save_data.custom[bt_save_slot].fake_flags.ggm_defeated_chuffy) {
+      if (ap_memory.pc.settings.randomize_chuffy && !bt_fake_flags.ggm_defeated_chuffy) {
         bt_flags.train_at_ggm = 0;
         bt_flags.train_at_ioh = 1;
       }

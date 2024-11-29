@@ -42,7 +42,7 @@ u32 save_eeprom_write(u32 _unused, u32 offset, u32 *ramAddr) {
 u32 save_fake_move_flags(u16 data, u8 setFlag, u8 flagState) {
   if (bt_save_slot > 2) return 0;
   data += 0xC5; // +0xED for move function, -0x28 for bit function
-  u32 save = (u32)&(save_data.custom[bt_save_slot].fake_flags);
+  u32 save = (u32)&(bt_fake_flags);
   if (setFlag) return bt_fn_set_bit(save, data, flagState);
   else return bt_fn_get_bit(save, data);
 }
@@ -81,7 +81,7 @@ u32 save_fake_bits(u16 data, u8 setFlag) {
     case 0x01D0: // hailfire peaks (fire side)
     case 0x0403: // isle o hags
       data -= 0x28;
-      u32 save = (u32)&(save_data.custom[bt_save_slot].fake_flags);
+      u32 save = (u32)&(bt_fake_flags);
       if (setFlag) return bt_fn_set_bit(save, data, 1);
       else return bt_fn_get_bit(save, data);
     default:
