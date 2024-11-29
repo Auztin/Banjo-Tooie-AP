@@ -1371,7 +1371,7 @@ void BTClient::processAGIItem(json item_data)
                 case 1230778: obtain_roysten_moves(1230778); break;
                 case 1230796: obtain_chuffy(); break;
                 case 1230797: obtain_notes(); break;
-                case 1230781: obtain_base(); break;
+                case 1230781: obtain_bass(); break;
                 case 1230831: obtain_roysten_moves(1230831); break;
                 case 1230779: obtain_amaze_o_gaze(); break;
                 case 1230780: obtain_roar(); break;

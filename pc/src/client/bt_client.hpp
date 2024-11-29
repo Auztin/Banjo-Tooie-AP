@@ -131,6 +131,7 @@ private:
   void obtain_doubloon();
   nlohmann::json check_notes_locations();
   void obtain_notes();
+  void obtain_bass();
   nlohmann::json check_jiggy_chunks_locations();
   nlohmann::json check_dino_kids_locations();
   void obtain_bk_moves(int);
