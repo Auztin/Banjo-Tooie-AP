@@ -125,6 +125,61 @@ void pre_load_scene(u16 *scene, u16 *exit) {
     case BT_MAP_TDL_OOGLE_BOOGLE_CAVE:
       if (ap_memory.pc.settings.backdoors && *exit) bt_flags.tdl_opened_oogle_boogle_cave = 1;
       break;
+    case BT_MAP_IOH_CLIFF_TOP:
+      bt_fake_flags.ioh_mumbo = 1;
+      break;
+    case BT_MAP_MT_MUMBO:
+      bt_fake_flags.mt_mumbo = 1;
+      break;
+    case BT_MAP_GGM_MUMBO:
+      bt_fake_flags.ggm_mumbo = 1;
+      break;
+    case BT_MAP_WW_MUMBO:
+      bt_fake_flags.ww_mumbo = 1;
+      break;
+    case BT_MAP_JRL_MUMBO:
+      bt_fake_flags.jrl_mumbo = 1;
+      break;
+    case BT_MAP_TDL_MUMBO:
+      bt_fake_flags.tdl_mumbo = 1;
+      break;
+    case BT_MAP_GI_MUMBO:
+      bt_fake_flags.gi_mumbo = 1;
+      break;
+    case BT_MAP_HFP_MUMBO:
+      bt_fake_flags.hfp_mumbo = 1;
+      break;
+    case BT_MAP_CCL_MUMBO:
+      bt_fake_flags.ccl_mumbo = 1;
+      break;
+    case BT_MAP_IOH_PINE_GROVE:
+      bt_fake_flags.humba_dragon_kazooie = 1;
+      break;
+    case BT_MAP_MT_HUMBA:
+      bt_fake_flags.mt_humba = 1;
+      break;
+    case BT_MAP_GGM_HUMBA:
+      bt_fake_flags.ggm_humba = 1;
+      break;
+    case BT_MAP_WW_HUMBA:
+      bt_fake_flags.ww_humba = 1;
+      break;
+    case BT_MAP_JRL_HUMBA:
+      bt_fake_flags.jrl_humba = 1;
+      break;
+    case BT_MAP_TDL_HUMBA:
+    case BT_MAP_TDL_HUMBA_ENLARGED:
+      bt_fake_flags.tdl_humba = 1;
+      break;
+    case BT_MAP_GI_HUMBA:
+      bt_fake_flags.gi_humba = 1;
+      break;
+    case BT_MAP_HFP_HUMBA:
+      bt_fake_flags.hfp_humba = 1;
+      break;
+    case BT_MAP_CCL_HUMBA:
+      bt_fake_flags.ccl_humba = 1;
+      break;
   }
 }
 

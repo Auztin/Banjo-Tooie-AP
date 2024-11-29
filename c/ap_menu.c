@@ -1,6 +1,7 @@
 #include "ap_menu.h"
 #include "ap_menu_data.h"
 #include "ap.h"
+#include "save.h"
 
 #include <string.h>
 #include <stdlib.h>
@@ -161,7 +162,7 @@ void ap_menu_select() {
       data = &ap_menu_options_data[ap_menu.selected-1];
       switch (data->item) {
         case AP_MENU_OPTION_DRAGON_KAZOOIE:
-          if (bt_flags.humba_dragon_kazooie) bt_flags.dragon_kazooie = !bt_flags.dragon_kazooie;
+          if (bt_flags.humba_dragon_kazooie && bt_fake_flags.humba_dragon_kazooie) bt_flags.dragon_kazooie = !bt_flags.dragon_kazooie;
           break;
         case AP_MENU_OPTION_SUPER_BANJO:
           bt_flags.cheats_superbanjo_enabled = !bt_flags.cheats_superbanjo_enabled;
@@ -222,7 +223,7 @@ void ap_menu_update_zoombox(int i, bt_zoombox_t* zb) {
         data = &ap_menu_options_data[i-1];
         switch (data->item) {
           case AP_MENU_OPTION_DRAGON_KAZOOIE:
-            if (bt_flags.humba_dragon_kazooie) {
+            if (bt_flags.humba_dragon_kazooie && bt_fake_flags.humba_dragon_kazooie) {
               if (bt_flags.dragon_kazooie) bt_fn_zoombox_text_color(zb, &green);
               else bt_fn_zoombox_text_color(zb, &white);
             }
