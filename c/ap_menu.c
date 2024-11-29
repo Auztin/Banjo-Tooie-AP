@@ -414,7 +414,14 @@ void ap_menu_update() {
           }
           return;
         case AP_MENU_TORESPAWN:
-          bt_fn_load_scene(bt_respawn_point.map, bt_respawn_point.exit, 1);
+          switch (bt_player_chars.control_type) {
+            case BT_PLAYER_CHAR_CLOCKWORK:
+              break;
+            case BT_PLAYER_CHAR_KAZOOIE:
+              if (!bt_fn_get_health(bt_current_player_char)) break;
+            default:
+              bt_fn_load_scene(bt_respawn_point.map, bt_respawn_point.exit, 1);
+          }
         case AP_MENU_UNPAUSE:
           ap_menu.id = AP_MENU_NONE;
           if (&bt_pause_ctx) {
