@@ -49,7 +49,7 @@ ap_menu_data_t ap_menu_received_moves_bk_data[] = {
   {.item=AP_ITEM_FLUTTER, .zb={.lines=1, .icon=BT_ZOOMBOX_ICON_BOTTLES, .text=(char*[]){"FLUTTER"}}},
   {.item=AP_ITEM_FFLIP, .zb={.lines=2, .icon=BT_ZOOMBOX_ICON_BOTTLES, .text=(char*[]){"FLAP","FLIP"}}},
   {.item=AP_ITEM_FPAD, .zb={.lines=1, .icon=BT_ZOOMBOX_ICON_BOTTLES, .text=(char*[]){"FLIGHT"}}},
-  {.item=AP_ITEM_TJUMP, .zb={.lines=2, .icon=BT_ZOOMBOX_ICON_BOTTLES, .text=(char*[]){"BASIC","JUMP"}}},
+  {.item=AP_ITEM_TJUMP, .zb={.lines=2, .icon=BT_ZOOMBOX_ICON_BOTTLES, .text=(char*[]){"TALL","JUMP"}}},
   {.item=AP_ITEM_ARAT, .zb={.lines=2, .icon=BT_ZOOMBOX_ICON_BOTTLES, .text=(char*[]){"AIR","RATATAT"}}},
   {.item=AP_ITEM_ROLL, .zb={.lines=1, .icon=BT_ZOOMBOX_ICON_BOTTLES, .text=(char*[]){"ROLL"}}},
   {.item=AP_ITEM_SSTRIDE, .zb={.lines=2, .icon=BT_ZOOMBOX_ICON_BOTTLES, .text=(char*[]){"STILT","STRIDE"}}},
