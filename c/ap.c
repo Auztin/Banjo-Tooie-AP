@@ -760,6 +760,7 @@ void ap_check_enough_notes(u16 start, u16 end) {
 void ap_cycle_character() {
   u16 to_form = 0;
   u16 from_form = bt_player_chars.control_type;
+  bt_respawn_point_t new_respawn = {0, };
   switch (bt_player_chars.control_type) {
     case BT_PLAYER_CHAR_BANJO_KAZOOIE:
       to_form = 0xFF;
@@ -794,7 +795,10 @@ void ap_cycle_character() {
       case 0x00B7: // MT - Mumbo's Skull
       case 0x00B9: // MT - Prison Compound
       case 0x00C5: // MT - Treasure Chamber
-        if (bt_flags.mt_humba && bt_fake_flags.mt_humba) to_form = BT_PLAYER_CHAR_STONY;
+        if (bt_flags.mt_humba && bt_fake_flags.mt_humba) {
+          new_respawn = (bt_respawn_point_t){.map=0x00C4, .exit=0x04};
+          to_form = BT_PLAYER_CHAR_STONY;
+        }
         break;
       // GLITTER GULCH MINE
       case 0x00C7: // GGM
@@ -807,7 +811,10 @@ void ap_cycle_character() {
       case 0x00D7: // GGM - Train Station
       case 0x00CD: // GGM - Water Storage
       case 0x00CE: // GGM - Waterfall Cavern
-        if (bt_flags.ggm_humba && bt_fake_flags.ggm_humba) to_form = BT_PLAYER_CHAR_DETONATOR;
+        if (bt_flags.ggm_humba && bt_fake_flags.ggm_humba) {
+          new_respawn = (bt_respawn_point_t){.map=0x00C7, .exit=0x0E};
+          to_form = BT_PLAYER_CHAR_DETONATOR;
+        }
         break;
       // WITCHYWORLD
       case 0x00D6: // WW
@@ -820,7 +827,10 @@ void ap_cycle_character() {
       case 0x0176: // WW - Mumbo Skull
       case 0x00D5: // WW - Wumba's Wigwam
       case 0x00EC: // WW - Train Station
-        if (bt_flags.ww_humba && bt_fake_flags.ww_humba) to_form = BT_PLAYER_CHAR_VAN;
+        if (bt_flags.ww_humba && bt_fake_flags.ww_humba) {
+          new_respawn = (bt_respawn_point_t){.map=0x00D6, .exit=0x0A};
+          to_form = BT_PLAYER_CHAR_VAN;
+        }
         break;
       // JOLLY ROGER'S LAGOON
       case 0x01A7: // JRL
@@ -828,25 +838,40 @@ void ap_cycle_character() {
       case 0x00FC: // JRL - Lord Woo Fak Fak
       case 0x01A9: // JRL - Sea Bottom
       case 0x0181: // JRL - Sea Botom Cavern
-        if (bt_flags.jrl_humba && bt_fake_flags.jrl_humba && in_water) to_form = BT_PLAYER_CHAR_SUB;
+        if (bt_flags.jrl_humba && bt_fake_flags.jrl_humba && in_water) {
+          new_respawn = (bt_respawn_point_t){.map=0x01A8, .exit=0x12};
+          to_form = BT_PLAYER_CHAR_SUB;
+        }
         break;
       // TERRYDACTYLAND
       case 0x0112: // TDL
       case 0x0117: // TDL - River Passage
       case 0x0114: // TDL - Train Station
-        if (bt_flags.mt_humba && bt_fake_flags.mt_humba) {
-          if (bt_flags.tdl_enlarged_wigwam) to_form = BT_PLAYER_CHAR_DADDY_TREX;
-          else to_form = BT_PLAYER_CHAR_TREX;
+        if (bt_flags.tdl_humba && bt_fake_flags.tdl_humba) {
+          if (bt_flags.tdl_enlarged_wigwam) {
+            new_respawn = (bt_respawn_point_t){.map=0x0112, .exit=0x16};
+            to_form = BT_PLAYER_CHAR_DADDY_TREX;
+          }
+          else {
+            new_respawn = (bt_respawn_point_t){.map=0x0112, .exit=0x06};
+            to_form = BT_PLAYER_CHAR_TREX;
+          }
         }
         break;
       // GRUNTY'S INDUSTRIES
       case 0x0106: // GI - Floor 2
       case 0x0108: // GI - Floor 3
-        if (bt_flags.mt_humba && bt_fake_flags.mt_humba) to_form = BT_PLAYER_CHAR_WASHER;
+        if (bt_flags.gi_humba && bt_fake_flags.gi_humba) {
+          new_respawn = (bt_respawn_point_t){.map=0x0106, .exit=0x0A};
+          to_form = BT_PLAYER_CHAR_WASHER;
+        }
         break;
       // HAILFIRE PEAKS
       case 0x0128: // HFP - Icy Side
-        if (bt_flags.mt_humba && bt_fake_flags.mt_humba) to_form = BT_PLAYER_CHAR_SNOWBALL;
+        if (bt_flags.hfp_humba && bt_fake_flags.hfp_humba) {
+          new_respawn = (bt_respawn_point_t){.map=0x0128, .exit=0x08};
+          to_form = BT_PLAYER_CHAR_SNOWBALL;
+        }
         break;
       // CLOUD CUCKOOLAND
       case 0x0136: // CCL
@@ -854,7 +879,10 @@ void ap_cycle_character() {
       case 0x013F: // CCL - Mingy Jongo's Skull
       case 0x013E: // CCL - Mumbo's Skull
       case 0x0140: // CCL - Wumba's Wigwam
-        if (bt_flags.mt_humba && bt_fake_flags.mt_humba) to_form = BT_PLAYER_CHAR_BEE;
+        if (bt_flags.ccl_humba && bt_fake_flags.ccl_humba) {
+          new_respawn = (bt_respawn_point_t){.map=0x0136, .exit=0x19};
+          to_form = BT_PLAYER_CHAR_BEE;
+        }
         break;
     }
     if (to_form == 0xFF) to_form = BT_PLAYER_CHAR_MUMBO;
@@ -864,7 +892,10 @@ void ap_cycle_character() {
     switch (bt_current_map) {
       // ISLE O' HAGS
       case 0x0155: // IoH - Cliff Top
-        if (bt_flags.ioh_mumbo && bt_fake_flags.ioh_mumbo) to_form = BT_PLAYER_CHAR_MUMBO;
+        if (bt_flags.ioh_mumbo && bt_fake_flags.ioh_mumbo) {
+          new_respawn = (bt_respawn_point_t){.map=0x0155, .exit=0x08};
+          to_form = BT_PLAYER_CHAR_MUMBO;
+        }
         break;
       // MAYAHEM TEMPLE
       case 0x00B8: // MT
@@ -872,7 +903,10 @@ void ap_cycle_character() {
       case 0x00BB: // MT - Mayan Kickball Stadium (Lobby)
       case 0x00B9: // MT - Prison Compound
       case 0x00C5: // MT - Treasure Chamber
-        if (bt_flags.mt_mumbo && bt_fake_flags.mt_mumbo) to_form = BT_PLAYER_CHAR_MUMBO;
+        if (bt_flags.mt_mumbo && bt_fake_flags.mt_mumbo) {
+          new_respawn = (bt_respawn_point_t){.map=0x00B8, .exit=0x05};
+          to_form = BT_PLAYER_CHAR_MUMBO;
+        }
         break;
       // GLITTER GULCH MINE
       case 0x00C7: // GM
@@ -885,7 +919,10 @@ void ap_cycle_character() {
       case 0x00D7: // GGM - Train Station
       case 0x00CD: // GGM - Water Storage
       case 0x00CE: // GGM - Waterfall Cavern
-        if (bt_flags.ggm_mumbo && bt_fake_flags.ggm_mumbo) to_form = BT_PLAYER_CHAR_MUMBO;
+        if (bt_flags.ggm_mumbo && bt_fake_flags.ggm_mumbo) {
+          new_respawn = (bt_respawn_point_t){.map=0x00C7, .exit=0x08};
+          to_form = BT_PLAYER_CHAR_MUMBO;
+        }
         break;
       // WITCHYWORLD
       case 0x00D6: // WW
@@ -897,7 +934,10 @@ void ap_cycle_character() {
       case 0x00E7: // WW - The Inferno
       case 0x00D5: // WW - Wumba's Wigwam
       case 0x00EC: // WW - Train Station
-        if (bt_flags.ww_mumbo && bt_fake_flags.ww_mumbo) to_form = BT_PLAYER_CHAR_MUMBO;
+        if (bt_flags.ww_mumbo && bt_fake_flags.ww_mumbo) {
+          new_respawn = (bt_respawn_point_t){.map=0x00E7, .exit=0x02};
+          to_form = BT_PLAYER_CHAR_MUMBO;
+        }
         break;
       // JOLLY ROGER'S LAGOON
       case 0x01A7: // JRL
@@ -905,34 +945,60 @@ void ap_cycle_character() {
       case 0x00ED: // JRL - Jolly's
       case 0x00EE: // JRL - Pawno's Emporium
       case 0x01A6: // JRL - Smuggler's cavern
-        if (bt_flags.jrl_mumbo && bt_fake_flags.jrl_mumbo) to_form = BT_PLAYER_CHAR_MUMBO;
+        if (bt_flags.jrl_mumbo && bt_fake_flags.jrl_mumbo) {
+          new_respawn = (bt_respawn_point_t){.map=0x01A7, .exit=0x0E};
+          to_form = BT_PLAYER_CHAR_MUMBO;
+        }
         break;
+      // GRUNTY INDUSTRIES
+        // new_respawn = (bt_respawn_point_t){.map=0x0108, .exit=0x0A};
       // TERRYDACTYLAND
       case 0x0112: // TDL
       case 0x0115: // TDL - Oogle Boogles' Cave
       case 0x0117: // TDL - River Passage
       case 0x0118: // TDL - Styracosaurus Family Cave
       case 0x0114: // TDL - Train Station
-        if (bt_flags.tdl_mumbo && bt_fake_flags.tdl_mumbo) to_form = BT_PLAYER_CHAR_MUMBO;
+        if (bt_flags.tdl_mumbo && bt_fake_flags.tdl_mumbo) {
+          new_respawn = (bt_respawn_point_t){.map=0x0112, .exit=0x04};
+          to_form = BT_PLAYER_CHAR_MUMBO;
+        }
         break;
       // HAILFIRE PEAKS
       case 0x0128: // HFP - Icy Side
       case 0x012D: // HFP - Kickball Stadium lobby
       case 0x0127: // HFP - Lava Side
-        if (bt_flags.hfp_mumbo && bt_fake_flags.hfp_mumbo) to_form = BT_PLAYER_CHAR_MUMBO;
+        if (bt_flags.hfp_mumbo && bt_fake_flags.hfp_mumbo) {
+          new_respawn = (bt_respawn_point_t){.map=0x0127, .exit=0x03};
+          to_form = BT_PLAYER_CHAR_MUMBO;
+        }
         break;
       // CLOUD CUCKOOLAND
       case 0x0136: // CCL
       case 0x013A: // CCL - Central Cavern
       case 0x0140: // CCL - Wumba's Wigwam
-        if (bt_flags.ccl_mumbo && bt_fake_flags.ccl_mumbo) to_form = BT_PLAYER_CHAR_MUMBO;
+        if (bt_flags.ccl_mumbo && bt_fake_flags.ccl_mumbo) {
+          new_respawn = (bt_respawn_point_t){.map=0x0136, .exit=0x16};
+          if (bt_flags.ccl_mumbo_location == 1) new_respawn.exit = 0x09;
+          to_form = BT_PLAYER_CHAR_MUMBO;
+        }
         break;
     }
     if (to_form == 0xFF || in_water) to_form = BT_PLAYER_CHAR_BANJO_KAZOOIE;
   }
   if (to_form == BT_PLAYER_CHAR_BANJO_KAZOOIE) ap.fake_transform = 0;
   else ap.fake_transform = 1;
-  if (from_form != to_form) bt_fn_change_character(bt_current_player_char, to_form);
+  if (from_form != to_form) {
+    if (from_form == BT_PLAYER_CHAR_BANJO_KAZOOIE) {
+      bt_respawn_point[1] = bt_respawn_point[0];
+      bt_respawn_point[0] = new_respawn;
+    }
+    else if (to_form == BT_PLAYER_CHAR_BANJO_KAZOOIE) {
+      bt_respawn_point[0] = bt_respawn_point[1];
+      bt_respawn_point[1] = (bt_respawn_point_t){0, };
+    }
+    else bt_respawn_point[0] = new_respawn;
+    bt_fn_change_character(bt_current_player_char, to_form);
+  }
 }
 
 void ap_check() {

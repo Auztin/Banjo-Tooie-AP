@@ -14,7 +14,7 @@ typedef struct {
   u16 map;
   u16 exit;
 } bt_respawn_point_t;
-#define bt_respawn_point (*(bt_respawn_point_t*)0x80127050)
+#define bt_respawn_point ((bt_respawn_point_t*)0x80127050)
 
 #define BT_MAP_CUTSCENE_OPENING       0x00A1
 #define BT_MAP_SPIRAL_MOUNTAIN        0x00AF
