@@ -158,6 +158,7 @@ enum {
   AP_MENU_OPTION_HOMING_EGGS,
   AP_MENU_OPTION_HONEYBACK,
   AP_MENU_OPTION_SMOOTH_BANJO,
+  AP_MENU_OPTION_RESPAWN,
 };
 
 ap_menu_data_t ap_menu_options_data[] = {
@@ -166,6 +167,7 @@ ap_menu_data_t ap_menu_options_data[] = {
   {.item=AP_MENU_OPTION_HOMING_EGGS, .zb={.lines=1, .icon=BT_ZOOMBOX_ICON_HEGGY, .text=(char*[]){"HOMING EGGS"}}},
   {.item=AP_MENU_OPTION_HONEYBACK, .zb={.lines=1, .icon=BT_ZOOMBOX_ICON_HONEYCOMB, .text=(char*[]){"HONEYBACK"}}},
   {.item=AP_MENU_OPTION_SMOOTH_BANJO, .zb={.lines=1, .icon=BT_ZOOMBOX_ICON_BANJO_KAZOOIE, .text=(char*[]){"SMOOTH BANJO"}}},
+  {.item=AP_MENU_OPTION_RESPAWN, .zb={.lines=1, .icon=BT_ZOOMBOX_ICON_EVIL_BOTTLES, .text=(char*[]){"RESPAWN"}}},
 };
 
 #endif // AP_MENU_DATA_H

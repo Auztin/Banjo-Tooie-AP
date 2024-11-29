@@ -176,7 +176,12 @@ void ap_menu_select() {
           ap.smooth_banjo = !ap.smooth_banjo;
           BT_FPS = ap.smooth_banjo ? 1 : 2;
           break;
+        case AP_MENU_OPTION_RESPAWN:
+          ap_menu.id = AP_MENU_TORESPAWN;
+          ap_menu.state = AP_MENU_STATE_CLEAR;
+          break;
       }
+      return;
     default: return;
   }
   ap_menu.progress = 0xFF;
@@ -408,6 +413,8 @@ void ap_menu_update() {
             ap_menu.last_id = AP_MENU_TOTOTALS;
           }
           return;
+        case AP_MENU_TORESPAWN:
+          bt_fn_load_scene(bt_respawn_point.map, bt_respawn_point.exit, 1);
         case AP_MENU_UNPAUSE:
           ap_menu.id = AP_MENU_NONE;
           if (&bt_pause_ctx) {
