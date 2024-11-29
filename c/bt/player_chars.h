@@ -35,8 +35,20 @@ typedef u32 (*bt_fnt_load_character_model)(u32);
 typedef u32 (*bt_fnt_set_character_animation)(u32, u16);
 #define bt_fn_set_character_animation ((bt_fnt_set_character_animation)0x8009E5C8)
 
+typedef u32 (*bt_fnt_get_character_animation)(u32);
+#define bt_fn_get_character_animation ((bt_fnt_get_character_animation)0x8009E6F8)
+
+typedef u32 (*bt_fnt_get_character_last_animation)(u32);
+#define bt_fn_get_character_last_animation ((bt_fnt_get_character_last_animation)0x8009E710)
+
 typedef u32 (*bt_fnt_get_default_animation)(u32);
 #define bt_fn_get_default_animation ((bt_fnt_get_default_animation)0x80084750)
+
+typedef u32 (*bt_fnt_character_in_water)(u32);
+#define bt_fn_character_in_water ((bt_fnt_character_in_water)0x8008E35C)
+
+typedef u32 (*bt_fnt_character_touching_ground)(u32);
+#define bt_fn_character_touching_ground ((bt_fnt_character_touching_ground)0x8008E078)
 
 #define bt_fn_change_character(character, type) ({                                  \
   bt_fn_set_character(character, type);                                             \

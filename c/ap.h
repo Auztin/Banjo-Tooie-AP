@@ -9,6 +9,7 @@ typedef struct {
   u8 death_link_queued : 1;
   u8 smooth_banjo : 1;
   u8 zoombox_ready : 1;
+  u8 fake_transform : 1;
   u8 zb_icon;
   u8 message_lines;
   bt_zoombox_t* zoombox;
