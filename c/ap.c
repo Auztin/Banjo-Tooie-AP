@@ -1254,6 +1254,14 @@ void ap_load_file() {
   if (ap_memory.pc.settings.randomize_chuffy) {
     bt_flags.ggm_mumbo_train = 1;
   }
+  if (ap_memory.pc.settings.backdoors) {
+    bt_flags.mt_opened_kickball_hfp = 1;
+    bt_flags.ww_opened_space_ggm = 1;
+    bt_flags.tdl_opened_unga_bunga_entrance = 1;
+    bt_flags.tdl_opened_oogle_boogle_ww = 1;
+    bt_flags.ccl_murdered_george = 1;
+    bt_flags.ioh_opened_bridge_hfp = 1;
+  }
   if (ap_memory.pc.settings.skip_klungo) {
     bt_flags.ioh_defeated_klungo1 = 1;
     bt_flags.ioh_defeated_klungo2 = 1;

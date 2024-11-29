@@ -119,6 +119,12 @@ void pre_load_scene(u16 *scene, u16 *exit) {
     case BT_MAP_CLOUD_CUCKOOLAND:
       bt_flags.ccl_open = 1; // needed for bubble to spawn
       break;
+    case BT_MAP_MT_KICKBALL_LOBBY:
+      if (ap_memory.pc.settings.backdoors) bt_flags.hfp_lava_stadium_opened_mt = 1;
+      break;
+    case BT_MAP_TDL_OOGLE_BOOGLE_CAVE:
+      if (ap_memory.pc.settings.backdoors) bt_flags.tdl_opened_oogle_boogle_cave = 1;
+      break;
   }
 }
 

@@ -33,6 +33,8 @@ typedef struct {
 #define BT_MAP_CK_GUN_CHAMBER         0x0160
 #define BT_MAP_FILE_SELECT            0x0158
 #define BT_MAP_TITLE_SCREEN           0x018B
+#define BT_MAP_MT_KICKBALL_LOBBY      0x00BB
+#define BT_MAP_TDL_OOGLE_BOOGLE_CAVE  0x0115
 
 typedef u32 (*bt_fnt_load_scene)(u16, u16, u8);
 #define bt_fn_load_scene ((bt_fnt_load_scene)0x800A7990)

@@ -53,6 +53,7 @@ private:
   bool ENABLE_AP_HONEYB_REWARDS = false;
   bool MINIGAMES = false;
   bool SKIP_PUZZLES = false;
+  bool BACKDOORS = false;
   bool SKIP_KLUNGO = false;
   bool OPEN_HAG1 = false;
   bool ENABLE_AP_CHUFFY = false;

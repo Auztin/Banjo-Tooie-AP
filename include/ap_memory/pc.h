@@ -35,6 +35,7 @@ typedef struct {
     u32 seed;
     u8 randomize_chuffy;
     u8 skip_puzzles;
+    u8 backdoors;
     u8 skip_klungo;
     u8 skip_tower_of_tragedy;
     u8 speed_up_minigames;

@@ -778,6 +778,10 @@ void BTClient::initialize_bt()
     {
         ap_memory.pc.settings.skip_klungo = 1;
     }
+    if(BACKDOORS == true)
+    {
+        ap_memory.pc.settings.backdoors = 1;
+    }
     //CHUFFY
     if(ENABLE_AP_CHUFFY == true)
     {
@@ -1120,6 +1124,11 @@ asio::awaitable<void> BTClient::getSlotData()
     {
         SKIP_PUZZLES = true;
         if(DEBUG_NET == true) { std::cout << "SKIP_PUZZLES is set" << std::endl; }
+    }
+    if(block.contains(string{"slot_backdoors"}) && block["slot_backdoors"] != "false")
+    {
+        BACKDOORS = true;
+        if(DEBUG_NET == true) { std::cout << "BACKDOORS is set" << std::endl; }
     }
     if(block.contains(string{"slot_skip_klungo"}) && block["slot_skip_klungo"] != "false")
     {
