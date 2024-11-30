@@ -8,6 +8,8 @@ typedef struct {
   u8 is_emulator : 1;
   u8 new_file : 1;
   u8 override_text : 1;
+  u8 credits_state;
+  bt_zoombox_t* zb_credits[2];
 } main_t;
 extern main_t main;
 

@@ -20,6 +20,14 @@ void post_init() {
   util_inject(UTIL_INJECT_RAW, 0x800D0C24, 0, 0); // dont show amount of notes when collected
   util_inject(UTIL_INJECT_RAW, 0x800D0C44, 0, 0); // dont show amount of jiggies when collected
   usb_init();
+  main.zb_credits[0] = bt_fn_zoombox_new(50, BT_ZOOMBOX_ICON_BANJO, 0, 1);
+  main.zb_credits[1] = bt_fn_zoombox_new(160, BT_ZOOMBOX_ICON_KAZOOIE, 0, 0);
+  for (int i = 0; i < 2; i++) {
+    bt_zoombox_t* zb = main.zb_credits[i];
+    bt_fn_zoombox_init(zb);
+    bt_fn_zoombox_text_speed(zb, 30);
+    bt_fn_zoombox_background_speed(zb, 0.15);
+  }
 }
 
 void pre_draw_objects(u8 type, bt_draw_ctx_t* draw_ctx) {
@@ -33,6 +41,18 @@ void post_draw_objects(u8 type, bt_draw_ctx_t* draw_ctx) {
 void pre_draw_hud(bt_draw_ctx_t* draw_ctx) {
 
 }
+
+struct main_credit_lines_t {
+  s16 icon;
+  char name[20];
+} main_credit_lines[] = {
+  {.icon=BT_ZOOMBOX_ICON_KAZOOIE_HIGH_PITCHED, .name="G0GOTBC..."},
+  {.icon=BT_ZOOMBOX_ICON_BOGGY, .name="FHNNHF..."},
+  {.icon=BT_ZOOMBOX_ICON_EVIL_BOTTLES, .name="AUSTIN..."},
+  {.icon=BT_ZOOMBOX_ICON_CANARY_MARY, .name="UNALIVE..."},
+  {.icon=BT_ZOOMBOX_ICON_SAFE, .name="OZONE..."},
+  {.icon=BT_ZOOMBOX_ICON_WELDAR, .name="AND JJJJ12212   "},
+};
 
 void post_draw_hud(bt_draw_ctx_t* draw_ctx) {
   ap_draw_hud(draw_ctx);
@@ -55,6 +75,75 @@ void post_draw_hud(bt_draw_ctx_t* draw_ctx) {
     bt_fn_text_reset_options();
     bt_text_options.appearance = BT_TEXT_TEXTURE_GOLD;
     bt_fn_text_big_draw(draw_ctx, 20, 215, version);
+    for (int i = 0; i < 2; i++) {
+      bt_zoombox_t* zb = main.zb_credits[i];
+      if (!zb) continue;
+      bt_fn_zoombox_update(zb);
+      bt_fn_zoombox_draw(zb, draw_ctx);
+      switch (bt_fn_zoombox_state(zb)) {
+        case BT_ZOOMBOX_STATE_READY:
+          switch (main.credits_state) {
+            case 0:
+              if (i) {
+                bt_fn_zoombox_open(zb);
+                bt_fn_zoombox_append_text(zb, "HEY BANJO, CHECK IT OUT! WE'RE ON THE TITLE SCREEN!");
+              }
+              break;
+            case 1:
+              if (!i) {
+                bt_fn_zoombox_open(zb);
+                bt_fn_zoombox_append_text(zb, "OH... I GUESS THAT MEANS SOMEONE ROMHACKED OUR GAME.");
+              }
+              break;
+          }
+          break;
+        case BT_ZOOMBOX_STATE_TEXT_PRINTED:
+          bt_fn_zoombox_close(zb);
+          break;
+        case BT_ZOOMBOX_STATE_CLOSED:
+          switch (main.credits_state) {
+            case 0:
+              if (i) main.credits_state++;
+              break;
+            case 1:
+              if (!i) {
+                main.credits_state++;
+                bt_fn_zoombox_leave(zb);
+              }
+              break;
+            case 2:
+              if (i) {
+                main.credits_state++;
+                bt_fn_zoombox_open(zb);
+                bt_fn_zoombox_append_text(zb, "YEAH, IT LOOKS LIKE THESE NERDS DID MOST OF THE WORK:");
+              }
+              break;
+            case 3:
+              if (i) {
+                bool all_done = true;
+                for (int i = 0; i < sizeof(main_credit_lines)/sizeof(*main_credit_lines); i++) {
+                  struct main_credit_lines_t* line = &main_credit_lines[i];
+                  if (line->icon >= 0) {
+                    bt_fn_zoombox_queue_icon(zb, line->icon);
+                    bt_fn_zoombox_open(zb);
+                    bt_fn_zoombox_append_text(zb, line->name);
+                    line->icon = -1;
+                    all_done = false;
+                    break;
+                  }
+                }
+                if (all_done) bt_fn_zoombox_leave(zb);
+              }
+              break;
+            default: bt_fn_zoombox_leave(zb);
+          }
+          break;
+        case BT_ZOOMBOX_STATE_DONE:
+          bt_fn_zoombox_free(zb);
+          main.zb_credits[i] = 0;
+          break;
+      }
+    }
   }
 }
 
@@ -73,7 +162,17 @@ void post_loop() {
 }
 
 void pre_load_scene(u16 *scene, u16 *exit) {
-  if (!BT_IN_GAME && bt_current_map != BT_MAP_FILE_SELECT) return;
+  if (!BT_IN_GAME && bt_current_map != BT_MAP_FILE_SELECT) {
+    if (*scene == BT_MAP_FILE_SELECT) {
+      for (int i = 0; i < 2; i++) {
+        bt_zoombox_t* zb = main.zb_credits[i];
+        if (!zb) continue;
+        bt_fn_zoombox_free(zb);
+        main.zb_credits[i] = 0;
+      }
+    }
+    return;
+  }
   bt_temp_flags.bubble_cutscene = 0;
   bt_flags.ccl_open = ap_memory.pc.items[AP_ITEM_CCA] > 0;
   if (bt_flags.ck_opened_gun_chamber) bt_flags.tower_of_tragedy_completed = 0;
