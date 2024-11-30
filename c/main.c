@@ -553,6 +553,12 @@ void pre_object_init(bt_object_t *obj) {
 
       util_inject(UTIL_INJECT_RAW     , (u32)obj + 0x06F4, 0x001F0821, 0);
       util_inject(UTIL_INJECT_FUNCTION, (u32)obj + 0x06F8, (u32)main_bt_pause_load_menu_displaced, 1);
+
+      bt_pause_main_entry_t* order = (bt_pause_main_entry_t*)((u32)obj + 0x21A0);
+      bt_pause_main_entry_t totals = order[3];
+      order[3] = order[2];
+      order[2] = order[1];
+      order[1] = totals;
       break;
     case BT_OBJ_CAPTAIN_BLACKEYE:
       util_inject(UTIL_INJECT_RAW     , (u32)obj + 0x0D74, 0, 0); // prevent giving 2 doubloons

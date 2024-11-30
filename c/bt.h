@@ -62,4 +62,10 @@ typedef struct {
 } bt_pause_ctx_t;
 #define bt_pause_ctx (*(bt_pause_ctx_t*)(*(u32*)0x80128AF0))
 
+typedef struct {
+  u16 icon;
+  u8 string_index;
+  u8 _unknown[3];
+} bt_pause_main_entry_t;
+
 #endif // BT_H
