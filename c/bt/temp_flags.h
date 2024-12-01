@@ -149,7 +149,7 @@ typedef struct {
 /* 0x12 */  u8 _unknown_0x12_7 : 1;
             u8 _unknown_0x12_6 : 1;
             u8 _unknown_0x12_5 : 1;
-            u8 _unknown_0x12_4 : 1;
+            u8 ccl_eyeballus_jiggium_plant_dialog : 1;
             u8 _unknown_0x12_3 : 1;
             u8 _unknown_0x12_2 : 1;
             u8 _unknown_0x12_1 : 1;
@@ -173,7 +173,7 @@ typedef struct {
 /* 0x15 */  u8 _unknown_0x15_7 : 1;
             u8 _unknown_0x15_6 : 1;
             u8 _unknown_0x15_5 : 1;
-            u8 _unknown_0x15_4 : 1;
+            u8 ccl_eyeballus_jiggium_plant_cutscene : 1;
             u8 _unknown_0x15_3 : 1;
             u8 _unknown_0x15_2 : 1;
             u8 _unknown_0x15_1 : 1;
