@@ -96,7 +96,7 @@ void ap_menu_select() {
           ap_menu.id = AP_MENU_TOTOTALS;
           break;
         case 3:
-          ap_menu.id = AP_MENU_ENTRANCES;
+          ap_menu.id = AP_MENU_WORLD_ENTRANCES;
           break;
         case 4:
           ap_menu.id = AP_MENU_OPTIONS;
@@ -117,9 +117,6 @@ void ap_menu_select() {
           break;
         case 4:
           ap_menu.id = AP_MENU_RECEIVED_TRAIN_STATIONS;
-          break;
-        case 5:
-          ap_menu.id = AP_MENU_RECEIVED_WORLDS;
           break;
         default: return;
       }
@@ -197,8 +194,8 @@ void ap_menu_update_zoombox(int i, bt_zoombox_t* zb) {
       case AP_MENU_RECEIVED_TRAIN_STATIONS:
         item = &ap_menu_received_train_stations_data[i-1].item;
         break;
-      case AP_MENU_RECEIVED_WORLDS:
-        item = &ap_menu_received_worlds_data[i-1].item;
+      case AP_MENU_WORLD_ENTRANCES:
+        item = &ap_menu_world_entrances_data[i-1].item;
         break;
       case AP_MENU_OPTIONS:
         data = &ap_menu_options_data[i-1];
@@ -274,42 +271,43 @@ void ap_menu_page_text(u16 icon) {
   ap_menu_add_entry(icon, 1, (char*[]){text});
 }
 
-void ap_menu_update_world_entrances(ap_menu_data_t* data, int data_size) {
-  for (int i = 0; i < data_size/sizeof(ap_menu_data_t); i++) {
+void ap_menu_update_world_entrances() {
+  ap_menu_data_t* data = ap_menu_world_entrances_data;
+  for (int i = 0; i < sizeof(ap_menu_world_entrances_data)/sizeof(*data); i++) {
     ap_menu_data_t* entry = &data[i];
     for (int i = 0; i < AP_MEMORY_EXIT_MAP_MAX; i++) {
       ap_memory_pc_exit_map_t* mapping = &(ap_memory.pc.exit_map[i]);
       if (!mapping->on_map) break;
       if (mapping->on_map != entry->exit_map.on_map) continue;
       if (mapping->og_map == entry->exit_map.og_map && mapping->og_exit == entry->exit_map.og_exit) {
-        char world[3] = {0, };
+        char world[3] = "???";
         switch (mapping->to_map) {
           case 0x0B8:
-            memcpy(world, " MT", 3);
+            if (bt_fake_flags.mt_visited) memcpy(world, " MT", 3);
             break;
           case 0x0C7:
-            memcpy(world, "GGM", 3);
+            if (bt_fake_flags.ggm_visited) memcpy(world, "GGM", 3);
             break;
           case 0x0D6:
-            memcpy(world, " WW", 3);
+            if (bt_fake_flags.ww_visited) memcpy(world, " WW", 3);
             break;
           case 0x1A7:
-            memcpy(world, "JRL", 3);
+            if (bt_fake_flags.jrl_visited) memcpy(world, "JRL", 3);
             break;
           case 0x112:
-            memcpy(world, "TDL", 3);
+            if (bt_fake_flags.tdl_visited) memcpy(world, "TDL", 3);
             break;
           case 0x100:
-            memcpy(world, " GI", 3);
+            if (bt_fake_flags.gi_visited) memcpy(world, " GI", 3);
             break;
           case 0x127:
-            memcpy(world, "HFP", 3);
+            if (bt_fake_flags.hfp_visited) memcpy(world, "HFP", 3);
             break;
           case 0x136:
-            memcpy(world, "CCL", 3);
+            if (bt_fake_flags.ccl_visited) memcpy(world, "CCL", 3);
             break;
           case 0x15D:
-            memcpy(world, " CK", 3);
+            if (bt_fake_flags.ck_visited) memcpy(world, " CK", 3);
             break;
         }
         memcpy(entry->zb.text[0]+6, world, 3);
@@ -342,7 +340,7 @@ void ap_menu_update() {
         case AP_MENU_TOTOTALS:
           ap_menu.selected = 2;
           break;
-        case AP_MENU_ENTRANCES:
+        case AP_MENU_WORLD_ENTRANCES:
           ap_menu.selected = 3;
           break;
         case AP_MENU_OPTIONS:
@@ -360,9 +358,6 @@ void ap_menu_update() {
           break;
         case AP_MENU_RECEIVED_TRAIN_STATIONS:
           ap_menu.selected = 4;
-          break;
-        case AP_MENU_RECEIVED_WORLDS:
-          ap_menu.selected = 5;
           break;
         default:
           ap_menu.selected = 1;
@@ -472,33 +467,15 @@ void ap_menu_update() {
           opt_data = ap_menu_received_train_stations_data;
           data_size = sizeof(ap_menu_received_train_stations_data);
           break;
-        case AP_MENU_RECEIVED_WORLDS:
+        case AP_MENU_WORLD_ENTRANCES:
           ap_menu.columns = 2;
           ap_menu.last_zb = 1;
           ap_menu.last_y = 60;
           ap_menu.selected = 0;
-          ap_menu.title = "OPENED WORLDS";
-          opt_data = ap_menu_received_worlds_data;
-          data_size = sizeof(ap_menu_received_worlds_data);
-          break;
-        case AP_MENU_ENTRANCES:
-          ap_menu.columns = 2;
-          ap_menu.selected = 0;
-          if (!ap_menu.page) ap_menu.page = 1;
-          ap_menu.page_max = 1;
-          switch (ap_menu.page) {
-            case 1:
-              ap_menu.title = "ENTRANCES - IOH";
-              opt_data = ap_menu_entrances_ioh_data;
-              data_size = sizeof(ap_menu_entrances_ioh_data);
-              break;
-            case 2:
-          }
-          if (opt_data) ap_menu_update_world_entrances(opt_data, data_size);
-          // ap_menu.last_y = 160;
-          // ap_menu_page_text(BT_ZOOMBOX_ICON_JIGGYWIGGY);
-          ap_menu.last_zb = 1;
-          ap_menu.last_y = 50;
+          ap_menu.title = "WORLD ENTRANCES";
+          opt_data = ap_menu_world_entrances_data;
+          data_size = sizeof(ap_menu_world_entrances_data);
+          ap_menu_update_world_entrances();
           break;
         case AP_MENU_OPTIONS:
           ap_menu.columns = 2;
@@ -552,7 +529,7 @@ void ap_menu_update() {
             ap_menu.id = AP_MENU_TOPAUSE;
             break;
           case AP_MENU_RECEIVED:
-          case AP_MENU_ENTRANCES:
+          case AP_MENU_WORLD_ENTRANCES:
           case AP_MENU_OPTIONS:
             ap_menu.id = AP_MENU_MAIN;
             break;
@@ -560,7 +537,6 @@ void ap_menu_update() {
           case AP_MENU_RECEIVED_MOVES_BT:
           case AP_MENU_RECEIVED_MUMBO_HUMBA:
           case AP_MENU_RECEIVED_TRAIN_STATIONS:
-          case AP_MENU_RECEIVED_WORLDS:
             ap_menu.id = AP_MENU_RECEIVED;
             break;
             break;

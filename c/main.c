@@ -161,6 +161,38 @@ void post_loop() {
   }
 }
 
+void main_visited_world(u16 scene) {
+  switch (scene) {
+    case 0x0B8:
+      bt_fake_flags.mt_visited = 1;
+      break;
+    case 0x0C7:
+      bt_fake_flags.ggm_visited = 1;
+      break;
+    case 0x0D6:
+      bt_fake_flags.ww_visited = 1;
+      break;
+    case 0x1A7:
+      bt_fake_flags.jrl_visited = 1;
+      break;
+    case 0x112:
+      bt_fake_flags.tdl_visited = 1;
+      break;
+    case 0x100:
+      bt_fake_flags.gi_visited = 1;
+      break;
+    case 0x127:
+      bt_fake_flags.hfp_visited = 1;
+      break;
+    case 0x136:
+      bt_fake_flags.ccl_visited = 1;
+      break;
+    case 0x15D:
+      bt_fake_flags.ck_visited = 1;
+      break;
+  }
+}
+
 void pre_load_scene(u16 *scene, u16 *exit) {
   if (!BT_IN_GAME && bt_current_map != BT_MAP_FILE_SELECT) {
     if (*scene == BT_MAP_FILE_SELECT) {
@@ -187,6 +219,8 @@ void pre_load_scene(u16 *scene, u16 *exit) {
     if (mapping->og_map == *scene && mapping->og_exit == *exit) {
       *scene = mapping->to_map;
       *exit = mapping->to_exit;
+      main_visited_world(mapping->on_map);
+      main_visited_world(mapping->to_map);
       break;
     }
   }

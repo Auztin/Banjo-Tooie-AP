@@ -8,17 +8,13 @@ typedef struct {
 } ap_menu_zb_data_t;
 
 typedef struct {
-  union {
-    struct {
-      u16 item;
-      u8  state;
-    };
-    struct {
-      u16 on_map;
-      u16 og_map;
-      u8  og_exit;
-    } exit_map;
-  };
+  u16 item;
+  u8  state;
+  struct {
+    u16 on_map;
+    u16 og_map;
+    u8  og_exit;
+  } exit_map;
   ap_menu_zb_data_t zb;
 } ap_menu_data_t;
 
@@ -26,7 +22,7 @@ ap_menu_zb_data_t ap_menu_main_data[] = {
   {.lines=1, .icon=BT_ZOOMBOX_ICON_JIGGYWIGGY, .text=(char*[]){"CHOOSE AN OPTION WITH \x87 AND GO BACK WITH \x86"}},
   {.lines=1, .icon=BT_ZOOMBOX_ICON_BANJO, .text=(char*[]){"RECEIVED ITEMS"}},
   {.lines=1, .icon=BT_ZOOMBOX_ICON_KAZOOIE, .text=(char*[]){"VIEW TOTALS"}},
-  {.lines=1, .icon=BT_ZOOMBOX_ICON_GRUNTY, .text=(char*[]){"ENTRANCES"}},
+  {.lines=1, .icon=BT_ZOOMBOX_ICON_GRUNTY, .text=(char*[]){"WORLD ENTRANCES"}},
   {.lines=1, .icon=BT_ZOOMBOX_ICON_GI_ANNOUNCER, .text=(char*[]){"OPTIONS"}},
 };
 
@@ -36,7 +32,6 @@ ap_menu_zb_data_t ap_menu_received_data[] = {
   {.lines=2, .icon=BT_ZOOMBOX_ICON_JAMJARS, .text=(char*[]){"MOVES FROM","BANJO-TOOIE"}},
   {.lines=1, .icon=BT_ZOOMBOX_ICON_GLOWBO, .text=(char*[]){"MUMBO AND HUMBA"}},
   {.lines=1, .icon=BT_ZOOMBOX_ICON_OLD_KING_COAL, .text=(char*[]){"TRAIN STATIONS AND CHUFFY"}},
-  {.lines=1, .icon=BT_ZOOMBOX_ICON_JIGGYWIGGY_DISCIPLE, .text=(char*[]){"OPENED WORLDS"}},
 };
 
 ap_menu_data_t ap_menu_received_moves_bk_data[] = {
@@ -127,29 +122,53 @@ ap_menu_data_t ap_menu_received_train_stations_data[] = {
   {.item=AP_ITEM_TRAINSWWW, .zb={.lines=1, .icon=BT_ZOOMBOX_ICON_MR_PATCH, .text=(char*[]){"WITCHYWORLD"}}},
 };
 
-ap_menu_data_t ap_menu_received_worlds_data[] = {
-  {.item=AP_ITEM_MTA, .zb={.lines=2, .icon=BT_ZOOMBOX_ICON_TARGITZAN, .text=(char*[]){"MAYAHEM","TEMPLE"}}},
-  {.item=AP_ITEM_GGA, .zb={.lines=2, .icon=BT_ZOOMBOX_ICON_OLD_KING_COAL, .text=(char*[]){"GLITTER","GULCH MINE"}}},
-  {.item=AP_ITEM_WWA, .zb={.lines=1, .icon=BT_ZOOMBOX_ICON_MR_PATCH, .text=(char*[]){"WITCHYWORLD"}}},
-  {.item=AP_ITEM_JRA, .zb={.lines=2, .icon=BT_ZOOMBOX_ICON_LORD_WOO_FAK_FAK, .text=(char*[]){"JOLLY ROGERS","LAGOON"}}},
-  {.item=AP_ITEM_TDA, .zb={.lines=2, .icon=BT_ZOOMBOX_ICON_TERRY, .text=(char*[]){"TERRY-","DACTYLAND"}}},
-  {.item=AP_ITEM_GIA, .zb={.lines=2, .icon=BT_ZOOMBOX_ICON_WELDAR, .text=(char*[]){"GRUNTY","INDUSTRIES"}}},
-  {.item=AP_ITEM_HFA, .zb={.lines=2, .icon=BT_ZOOMBOX_ICON_CHILLY_WILLY, .text=(char*[]){"HAILFIRE","PEAKS"}}},
-  {.item=AP_ITEM_CCA, .zb={.lines=2, .icon=BT_ZOOMBOX_ICON_CANARY_MARY, .text=(char*[]){"CLOUD","CUCKOOLAND"}}},
-  {.item=AP_ITEM_CKA, .zb={.lines=2, .icon=BT_ZOOMBOX_ICON_KLUNGO, .text=(char*[]){"CAULDRON","KEEP"}}},
-  {.item=AP_ITEM_H1A, .zb={.lines=1, .icon=BT_ZOOMBOX_ICON_GRUNTY, .text=(char*[]){"HAG1"}}},
-};
 
-ap_menu_data_t ap_menu_entrances_ioh_data[] = {
-  {.exit_map={.on_map=0x14F, .og_map=0x0B8, .og_exit=10}, .zb={.lines=1, .icon=BT_ZOOMBOX_ICON_TARGITZAN, .text=(char*[]){" MT -  MT"}}},
-  {.exit_map={.on_map=0x152, .og_map=0x0C7, .og_exit=17}, .zb={.lines=1, .icon=BT_ZOOMBOX_ICON_OLD_KING_COAL, .text=(char*[]){"GGM - GGM"}}},
-  {.exit_map={.on_map=0x154, .og_map=0x0D6, .og_exit=18}, .zb={.lines=1, .icon=BT_ZOOMBOX_ICON_MR_PATCH, .text=(char*[]){" WW -  WW"}}},
-  {.exit_map={.on_map=0x155, .og_map=0x1A7, .og_exit= 3}, .zb={.lines=1, .icon=BT_ZOOMBOX_ICON_LORD_WOO_FAK_FAK, .text=(char*[]){"JRL - JRL"}}},
-  {.exit_map={.on_map=0x15A, .og_map=0x112, .og_exit=23}, .zb={.lines=1, .icon=BT_ZOOMBOX_ICON_TERRY, .text=(char*[]){"TDL - TDL"}}},
-  {.exit_map={.on_map=0x15C, .og_map=0x100, .og_exit= 9}, .zb={.lines=1, .icon=BT_ZOOMBOX_ICON_WELDAR, .text=(char*[]){" GI -  GI"}}},
-  {.exit_map={.on_map=0x155, .og_map=0x127, .og_exit=21}, .zb={.lines=1, .icon=BT_ZOOMBOX_ICON_CHILLY_WILLY, .text=(char*[]){"HFP - HFP"}}},
-  {.exit_map={.on_map=0x15A, .og_map=0x136, .og_exit=20}, .zb={.lines=1, .icon=BT_ZOOMBOX_ICON_CANARY_MARY, .text=(char*[]){"CCL - CCL"}}},
-  {.exit_map={.on_map=0x15C, .og_map=0x15D, .og_exit= 1}, .zb={.lines=1, .icon=BT_ZOOMBOX_ICON_KLUNGO, .text=(char*[]){" CK -  CK"}}},
+ap_menu_data_t ap_menu_world_entrances_data[] = {
+  {
+    .item=AP_ITEM_MTA,
+    .exit_map={.on_map=0x14F, .og_map=0x0B8, .og_exit=10},
+    .zb={.lines=1, .icon=BT_ZOOMBOX_ICON_TARGITZAN, .text=(char*[]){" MT -  MT"}}
+  },
+  {
+    .item=AP_ITEM_GGA,
+    .exit_map={.on_map=0x152, .og_map=0x0C7, .og_exit=17},
+    .zb={.lines=1, .icon=BT_ZOOMBOX_ICON_OLD_KING_COAL, .text=(char*[]){"GGM - GGM"}}
+  },
+  {
+    .item=AP_ITEM_WWA,
+    .exit_map={.on_map=0x154, .og_map=0x0D6, .og_exit=18},
+    .zb={.lines=1, .icon=BT_ZOOMBOX_ICON_MR_PATCH, .text=(char*[]){" WW -  WW"}}
+  },
+  {
+    .item=AP_ITEM_JRA,
+    .exit_map={.on_map=0x155, .og_map=0x1A7, .og_exit= 3},
+    .zb={.lines=1, .icon=BT_ZOOMBOX_ICON_LORD_WOO_FAK_FAK, .text=(char*[]){"JRL - JRL"}}
+  },
+  {
+    .item=AP_ITEM_TDA,
+    .exit_map={.on_map=0x15A, .og_map=0x112, .og_exit=23},
+    .zb={.lines=1, .icon=BT_ZOOMBOX_ICON_TERRY, .text=(char*[]){"TDL - TDL"}}
+  },
+  {
+    .item=AP_ITEM_GIA,
+    .exit_map={.on_map=0x15C, .og_map=0x100, .og_exit= 9},
+    .zb={.lines=1, .icon=BT_ZOOMBOX_ICON_WELDAR, .text=(char*[]){" GI -  GI"}}
+  },
+  {
+    .item=AP_ITEM_HFA,
+    .exit_map={.on_map=0x155, .og_map=0x127, .og_exit=21},
+    .zb={.lines=1, .icon=BT_ZOOMBOX_ICON_CHILLY_WILLY, .text=(char*[]){"HFP - HFP"}}
+  },
+  {
+    .item=AP_ITEM_CCA,
+    .exit_map={.on_map=0x15A, .og_map=0x136, .og_exit=20},
+    .zb={.lines=1, .icon=BT_ZOOMBOX_ICON_CANARY_MARY, .text=(char*[]){"CCL - CCL"}}
+  },
+  {
+    .item=AP_ITEM_CKA,
+    .exit_map={.on_map=0x15C, .og_map=0x15D, .og_exit= 1},
+    .zb={.lines=1, .icon=BT_ZOOMBOX_ICON_KLUNGO, .text=(char*[]){" CK -  CK"}}
+  },
 };
 
 enum {
