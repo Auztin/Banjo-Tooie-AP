@@ -662,7 +662,10 @@ void ap_update() {
     bt_fn_zoombox_update(ap.zoombox);
     bool show = !bt_temp_flags.in_cutscene && !bt_dialog.textObjectPtr && !bt_loading_map.loading;
     if (!show) {
-      if (ap.zoombox_ready) bt_fn_zoombox_close(ap.zoombox);
+      if (ap.zoombox_ready) {
+        bt_fn_zoombox_clear_text(ap.zoombox);
+        bt_fn_zoombox_close(ap.zoombox);
+      }
       bt_fn_zoombox_selected(ap.zoombox, false);
     }
     switch (bt_fn_zoombox_state(ap.zoombox)) {
