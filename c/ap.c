@@ -660,7 +660,7 @@ u8 ap_get_zb_icon() {
 void ap_update() {
   if (ap.zoombox) {
     bt_fn_zoombox_update(ap.zoombox);
-    bool show = !bt_temp_flags.in_cutscene && !bt_dialog.textObjectPtr && !bt_loading_map.loading;
+    bool show = !bt_temp_flags.in_cutscene && !bt_dialog.textObjectPtr && !bt_loading_map.loading && !bt_player_chars.died;
     if (!show) {
       if (ap.zoombox_ready) {
         bt_fn_zoombox_clear_text(ap.zoombox);
