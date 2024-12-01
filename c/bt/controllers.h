@@ -26,9 +26,8 @@ typedef struct {
   bt_controller_buttons_t pressed;
   bt_controller_buttons_t released;
   struct {
-    // should be floats, but floats are broken at the moment
-    u32 x;
-    u32 y;
+    float x;
+    float y;
   } joystick;
 } bt_controller_t;
 #define bt_controllers ((bt_controller_t*)0x80079AF8)

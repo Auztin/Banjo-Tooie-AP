@@ -23,71 +23,37 @@ bt_zoombox_t* ap_menu_new_zoombox(bt_zoombox_t* zb, u16 icon, u16 x, u16 y, floa
   return zb;
 }
 
-/*
-  The math is hard coded since float math is wildly unpredictable and can crash on console with how this project is currently setup.
-  Once the issue is solved, this should be modified to let the code calculate the variables.
-*/
-
-#define SCREEN_WIDTH 304
-#define ZOOMBOX_WIDTH 214
-
-#define COLUMNS1_SCREEN_WIDTH (SCREEN_WIDTH/1)
-#define COLUMNS1_ZOOMBOX_SIZE 0.75
-#define COLUMNS1_ZOOMBOX_LENGTH 1
-#define COLUMNS1_ZOOMBOX_WIDTH (ZOOMBOX_WIDTH*COLUMNS1_ZOOMBOX_SIZE*COLUMNS1_ZOOMBOX_LENGTH)
-
-#define COLUMNS2_SCREEN_WIDTH (SCREEN_WIDTH/2)
-#define COLUMNS2_ZOOMBOX_SIZE 0.65
-#define COLUMNS2_ZOOMBOX_LENGTH 0.80
-#define COLUMNS2_ZOOMBOX_WIDTH (ZOOMBOX_WIDTH*COLUMNS2_ZOOMBOX_SIZE*COLUMNS2_ZOOMBOX_LENGTH)
-
-#define COLUMNS3_SCREEN_WIDTH (SCREEN_WIDTH/3)
-#define COLUMNS3_ZOOMBOX_SIZE 0.65
-#define COLUMNS3_ZOOMBOX_LENGTH 0.53
-#define COLUMNS3_ZOOMBOX_WIDTH (ZOOMBOX_WIDTH*COLUMNS3_ZOOMBOX_SIZE*COLUMNS3_ZOOMBOX_LENGTH)
-
-#define COLUMNS4_SCREEN_WIDTH (SCREEN_WIDTH/4)
-#define COLUMNS4_ZOOMBOX_SIZE 0.6
-#define COLUMNS4_ZOOMBOX_LENGTH 0.4
-#define COLUMNS4_ZOOMBOX_WIDTH (ZOOMBOX_WIDTH*COLUMNS4_ZOOMBOX_SIZE*COLUMNS4_ZOOMBOX_LENGTH)
-
 void ap_menu_add_entry(u16 icon, u8 lines, char** text) {
-  u16 column_width = SCREEN_WIDTH;
-  u16 x = (SCREEN_WIDTH-ZOOMBOX_WIDTH)/2;
+  float zoombox_width = 214;
+  u16 column_width = 304;
+  u16 x = (column_width-zoombox_width)/2;
   u16 height = 40;
   float size = 1;
   float length = 1;
   if (ap_menu.last_zb) {
     switch (ap_menu.columns) {
       case 1:
-        column_width = COLUMNS1_SCREEN_WIDTH;
-        x = (COLUMNS1_SCREEN_WIDTH-COLUMNS1_ZOOMBOX_WIDTH)/2;
-        height *= COLUMNS1_ZOOMBOX_SIZE;
-        size = COLUMNS1_ZOOMBOX_SIZE;
-        length = COLUMNS1_ZOOMBOX_LENGTH;
+        size = 0.75;
+        length = 1.0;
         break;
       case 2:
-        column_width = COLUMNS2_SCREEN_WIDTH;
-        x = (COLUMNS2_SCREEN_WIDTH-COLUMNS2_ZOOMBOX_WIDTH)/2;
-        height *= COLUMNS2_ZOOMBOX_SIZE;
-        size = COLUMNS2_ZOOMBOX_SIZE;
-        length = COLUMNS2_ZOOMBOX_LENGTH;
+        size = 0.65;
+        length = 0.80;
         break;
       case 3:
-        column_width = COLUMNS3_SCREEN_WIDTH;
-        x = (COLUMNS3_SCREEN_WIDTH-COLUMNS3_ZOOMBOX_WIDTH)/2;
-        height *= COLUMNS3_ZOOMBOX_SIZE;
-        size = COLUMNS3_ZOOMBOX_SIZE;
-        length = COLUMNS3_ZOOMBOX_LENGTH;
+        size = 0.65;
+        length = 0.53;
         break;
       case 4:
-        column_width = COLUMNS4_SCREEN_WIDTH;
-        x = (COLUMNS4_SCREEN_WIDTH-COLUMNS4_ZOOMBOX_WIDTH)/2;
-        height *= COLUMNS4_ZOOMBOX_SIZE;
-        size = COLUMNS4_ZOOMBOX_SIZE;
-        length = COLUMNS4_ZOOMBOX_LENGTH;
+        size = 0.60;
+        length = 0.40;
         break;
     }
+    height *= size;
+    zoombox_width *= size;
+    zoombox_width *= length;
+    column_width /= ap_menu.columns;
+    x = (column_width-zoombox_width)/2;
   }
   if (ap_menu.last_zb) {
     if (ap_menu.column == ap_menu.columns) {
@@ -606,37 +572,32 @@ void ap_menu_update() {
         ap_menu.id = AP_MENU_UNPAUSE;
       }
       bt_controller_t pad = bt_controllers[0];
-      // odd code below due to float issues
-      const u32 deadzone = 0x3F400000; // 0.75
-      const u32 padx = pad.joystick.x & ~0x80000000;
-      const u32 pady = pad.joystick.y & ~0x80000000;
-      const bool padxn = pad.joystick.x & 0x80000000;
-      const bool padyn = pad.joystick.y & 0x80000000;
+      const float deadzone = 0.75;
       if (ap_menu.delay_select) {
         if (
              !pad.held.dup
           && !pad.held.ddown
           && !pad.held.dleft
           && !pad.held.dright
-          && (padx < deadzone)
-          && (pady < deadzone)
+          && (pad.joystick.x < deadzone && pad.joystick.x > -deadzone)
+          && (pad.joystick.y < deadzone && pad.joystick.y > -deadzone)
         ) ap_menu.delay_select = 0;
         else ap_menu.delay_select--;
       }
       else if (ap_menu.selected) {
         u8 selected = ap_menu.selected;
         if (ap_menu.columns > 1) {
-          if (pad.held.dright || (!padxn && padx > deadzone)) {
+          if (pad.joystick.x > deadzone) {
             if (selected % ap_menu.columns) selected++;
           }
-          if (pad.held.dleft || (padxn && padx > deadzone)) {
+          if (pad.joystick.x < -deadzone) {
             if ((selected % ap_menu.columns) != 1) selected--;
           }
         }
-        if (pad.held.ddown || (padyn && pady > deadzone)) {
+        if (pad.joystick.y < -deadzone) {
           selected += ap_menu.columns;
         }
-        if (pad.held.dup || (!padyn && pady > deadzone)) {
+        if (pad.joystick.y > deadzone) {
           selected -= ap_menu.columns;
         }
         if (selected && ap_menu.selected != selected && selected < sizeof(ap_menu.zoombox)/4 && ap_menu.zoombox[selected]) {

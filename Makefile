@@ -4,8 +4,12 @@ LD = $(N64_INST)/bin/mips64-elf-ld
 ARMIPS = ./armips
 ED64ROMCONFIG = libdragon/tools/ed64romconfig
 
-CFLAGS = -O1 -G0 -fno-reorder-blocks -march=vr4300 -mtune=vr4300 -mno-gpopt -mdivide-breaks -mexplicit-relocs -I include
+CFLAGS = -O1 -G0 -fno-reorder-blocks -march=vr4300 -mtune=vr4300 -mno-gpopt -mdivide-breaks -mexplicit-relocs -msoft-float -I include
 CPPFLAGS = -DF3DEX_GBI_2
+LDFLAGS = -L .
+LDFLAGS+= -L mips64/opt/libdragon/mips64-elf/lib/soft-float
+LDFLAGS+= -L mips64/opt/libdragon/lib/gcc/mips64-elf/14.1.0/soft-float/
+LDLIBS = -lc -lgcc
 
 OUTDIR := build
 OBJDIR := build/bin
@@ -27,8 +31,8 @@ $(OBJECTS): | $(OBJDIR)
 
 bundle: $(OBJECTS)
 	$(CC) -o $(OBJDIR)/boot.o -c $(SRCDIR)/boot/boot.c $(CFLAGS) $(CPPFLAGS)
-	$(LD) -T linker_script.ld -o $(OUTDIR)/boot.o -i -L. -l:$(OBJDIR)/boot.o
-	$(LD) -T linker_script.ld -o $(OUTDIR)/bundle.o -i -L. $(patsubst %.o,-l:%.o,$(OBJECTS)) -L mips64/opt/libdragon/mips64-elf/lib -l c
+	$(LD) -T linker_script.ld -o $(OUTDIR)/boot.o -i $(LDFLAGS) $(LDLIBS) -l:$(OBJDIR)/boot.o
+	$(LD) -T linker_script.ld -o $(OUTDIR)/bundle.o -i $(patsubst %.o,-l:%.o,$(OBJECTS)) $(LDFLAGS) $(LDLIBS)
 
 asm: $(ARMIPS) build.asm
 	$(ARMIPS) -sym2 build/asm_symbols.txt build.asm
