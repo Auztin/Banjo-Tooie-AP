@@ -285,8 +285,9 @@ void ap_sync_items(u16 type, u8 value) {
       if (value != totals->mumbo_tokens) {
         bt_ui_numbers[BT_UI_NUMBERS_GRUNTY_TIMER_CENTER].position = BT_UI_NUMBER_POSITION_SHARED_BOTTOM_LEFT_LOWER;
         bt_ui_numbers[BT_UI_NUMBERS_GRUNTY_TIMER_CENTER].icon = BT_UI_ICONS_MINGY_JONGO;
-        bt_fn_ui_show_number(BT_UI_NUMBERS_GRUNTY_TIMER_CENTER, totals->mumbo_tokens, 0);
-        bt_fn_ui_show_number(BT_UI_NUMBERS_GRUNTY_TIMER_CENTER, value, 0);
+        bt_ui_numbers[BT_UI_NUMBERS_GRUNTY_TIMER_CENTER].format = BT_UI_NUMBER_FORMAT_MAX;
+        bt_fn_ui_show_number(BT_UI_NUMBERS_GRUNTY_TIMER_CENTER, totals->mumbo_tokens, ap_memory.pc.settings.max_mumbo_tokens);
+        bt_fn_ui_show_number(BT_UI_NUMBERS_GRUNTY_TIMER_CENTER, value, ap_memory.pc.settings.max_mumbo_tokens);
         totals->mumbo_tokens = value;
       }
       break;

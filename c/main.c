@@ -457,9 +457,12 @@ extern void main_bt_paused_displaced(u32 _unknown, u8 is_paused);
 void main_bt_paused(u32 _unknown, u8 is_paused) {
   if (bt_save_slot > 2) return;
   if (is_paused) {
-    bt_ui_numbers[BT_UI_NUMBERS_GRUNTY_TIMER_CENTER].position = BT_UI_NUMBER_POSITION_SHARED_BOTTOM_LEFT_LOWER;
-    bt_ui_numbers[BT_UI_NUMBERS_GRUNTY_TIMER_CENTER].icon = BT_UI_ICONS_MINGY_JONGO;
-    bt_fn_ui_show_number(BT_UI_NUMBERS_GRUNTY_TIMER_CENTER, save_data.custom[bt_save_slot].totals.mumbo_tokens, 0);
+    if (ap_memory.pc.settings.max_mumbo_tokens) {
+      bt_ui_numbers[BT_UI_NUMBERS_GRUNTY_TIMER_CENTER].position = BT_UI_NUMBER_POSITION_SHARED_BOTTOM_LEFT_LOWER;
+      bt_ui_numbers[BT_UI_NUMBERS_GRUNTY_TIMER_CENTER].icon = BT_UI_ICONS_MINGY_JONGO;
+      bt_ui_numbers[BT_UI_NUMBERS_GRUNTY_TIMER_CENTER].format = BT_UI_NUMBER_FORMAT_MAX;
+      bt_fn_ui_show_number(BT_UI_NUMBERS_GRUNTY_TIMER_CENTER, save_data.custom[bt_save_slot].totals.mumbo_tokens, ap_memory.pc.settings.max_mumbo_tokens);
+    }
   }
   else {
     bt_fn_ui_hide_number(BT_UI_NUMBERS_GRUNTY_TIMER_CENTER);

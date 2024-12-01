@@ -839,7 +839,25 @@ void BTClient::initialize_bt()
             ap_memory.pc.settings.open_silos[AP_SILO_QUAGMIRE] = 1;
         }
     }
-    //Randomize World Entrances
+    switch (GOAL_TYPE) {
+        case 1: // option_minigame_hunt
+            ap_memory.pc.settings.max_mumbo_tokens = MGH_LENGTH;
+            break;
+        case 2: // option_boss_hunt
+            ap_memory.pc.settings.max_mumbo_tokens = BH_LENGTH;
+            break;
+        case 3: // option_jinjo_family_rescue
+            ap_memory.pc.settings.max_mumbo_tokens = JFR_LENGTH;
+            break;
+        case 4: // option_wonder_wing_challenge
+            ap_memory.pc.settings.max_mumbo_tokens = 32;
+            break;
+        case 5: // option_token_hunt
+            ap_memory.pc.settings.max_mumbo_tokens = TH_LENGTH;
+            break;
+        default:
+            ap_memory.pc.settings.max_mumbo_tokens = 0;
+    }
 }
 
 void BTClient::world_order_cost(nlohmann::json world_order, nlohmann::json world_keys)
