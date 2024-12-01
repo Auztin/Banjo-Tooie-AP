@@ -62,10 +62,26 @@ typedef struct {
 typedef struct {
 } bt_obj_data_t;
 
+typedef struct {
+  u32 _unknown[5];
+  u16 type;
+} bt_obj_instance_data_t;
+
 typedef bt_obj_data_t* (*bt_fnt_object_get_data)(void);
 typedef struct {
-  u32 _unknown[4];
+  bt_obj_instance_data_t* data;
+  struct {
+    float x;
+    float y;
+    float z;
+  } pos;
   bt_fnt_object_get_data fn_obj_init;
+  u32 _unknown2[12];
+  struct {
+    float x;
+    float y;
+    float z;
+  } rot;
 } bt_obj_instance_t;
 
 typedef void (*bt_fnt_world_door_play_anim)(bt_obj_instance_t*, u32 anim, u32 speed);

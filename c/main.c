@@ -284,6 +284,38 @@ void pre_load_scene(u16 *scene, u16 *exit) {
 
 void post_load_scene(u16 scene, u16 exit) {
   BT_FPS = ap.smooth_banjo ? 1 : 2;
+
+  s32 object_count = 0;
+  bt_fn_object_count(&object_count);
+  for (; object_count > 0;) {
+    bt_obj_instance_t* object_instance = bt_fn_object_instance(&object_count);
+    switch (scene) {
+      case 0x00F4: // Ancient Swimming Baths
+        switch (object_instance->data->type) {
+          case 0x07E1: // Kazooie split up pad
+          case 0x07E2: // Banjo split up pad
+            object_instance->pos.y -= 75;
+            object_instance->pos.z += 450;
+            object_instance->rot.x = 0;
+            object_instance->rot.z = 0;
+            break;
+        }
+        break;
+      case 0x00D6: // Witchyworld
+        switch (object_instance->data->type) {
+          case 0x07E1: // Kazooie split up pad
+            object_instance->pos.x = -300;
+            object_instance->pos.y = -163;
+            object_instance->pos.z = -1855;
+            break;
+          case 0x07E2: // Banjo split up pad
+            object_instance->pos.x = 304;
+            object_instance->pos.y = -163;
+            object_instance->pos.z = -1855;
+            break;
+        }
+    }
+  }
 }
 
 void pre_load_save() {
