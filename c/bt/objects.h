@@ -82,6 +82,17 @@ typedef struct {
     float y;
     float z;
   } rot;
+  u32 _unknown3[7];
+  struct {
+    u32 id : 11;
+    u32 _unknown4 : 21;
+  };
+  u32 _unknown5;
+  u16 _unknown6;
+  struct {
+    u16 contents : 9;
+    u16 _unknown7 : 7;
+  };
 } bt_obj_instance_t;
 
 typedef void (*bt_fnt_world_door_play_anim)(bt_obj_instance_t*, u32 anim, u32 speed);

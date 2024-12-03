@@ -153,7 +153,7 @@ void ap_menu_select() {
             && (bt_fn_character_touching_ground(bt_current_player_char) || bt_fn_character_in_water(bt_current_player_char))
           ) {
             bt_xyz_t point = {0, 0, 0};
-            bt_fn_character_move_to(&point, 0);
+            bt_fn_character_move_to(&point, 0, 0);
             bt_fn_load_scene(BT_MAP_JINJO_VILLAGE, 3, 1);
             ap_menu.id = AP_MENU_UNPAUSE;
             ap_menu.state = AP_MENU_STATE_CLEAR;

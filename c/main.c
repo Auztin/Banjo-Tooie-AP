@@ -58,7 +58,7 @@ void post_draw_hud(bt_draw_ctx_t* draw_ctx) {
   ap_draw_hud(draw_ctx);
   ap_menu_draw(draw_ctx);
   if (bt_current_map == BT_MAP_TITLE_SCREEN) {
-    char version[15] = "V ";
+    char version[10] = "V";
     char major[3];
     char minor[3];
     char patch[3];
@@ -66,14 +66,15 @@ void post_draw_hud(bt_draw_ctx_t* draw_ctx) {
     itoa(AP_VERSION_MINOR, minor, 10);
     itoa(AP_VERSION_PATCH, patch, 10);
     strcat(version, major);
-    strcat(version, " . ");
+    strcat(version, ".");
     strcat(version, minor);
     if (AP_VERSION_PATCH) {
-      strcat(version, " . ");
+      strcat(version, ".");
       strcat(version, patch);
     }
     bt_fn_text_reset_options();
     bt_text_options.appearance = BT_TEXT_TEXTURE_GOLD;
+    bt_text_options.size = 0.70;
     bt_fn_text_big_draw(draw_ctx, 20, 215, version);
     for (int i = 0; i < 2; i++) {
       bt_zoombox_t* zb = main.zb_credits[i];
