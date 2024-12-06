@@ -42,6 +42,14 @@ void inject_draw_hud(bt_draw_ctx_t* draw_ctx) {
   post_draw_hud(draw_ctx);
 }
 
+extern bt_obj_instance_t* inject_spawn_prop_displaced(u16, bt_u32_xyz_t*, u16, bt_obj_setup_t*);
+bt_obj_instance_t* inject_spawn_prop(u16 id, bt_u32_xyz_t* pos, u16 yrot, bt_obj_setup_t* setup) {
+  pre_spawn_prop(&id, pos, &yrot, setup);
+  bt_obj_instance_t* ret = inject_spawn_prop_displaced(id, pos, yrot, setup);
+  post_spawn_prop(id, pos, yrot, setup, ret);
+  return ret;
+}
+
 u32 inject_load_save(u32 _unknown) {
   pre_load_save();
   u32 ret = bt_fn_load_save(_unknown);
@@ -90,6 +98,9 @@ u32 inject_init(u32 _unknown) {
 
   // replace game's draw hud function
   util_inject(UTIL_INJECT_JUMP, 0x800FA508, (u32)inject_draw_hud, 1);
+
+  // replace game's spawn prop function
+  util_inject(UTIL_INJECT_JUMP, 0x80108C90, (u32)inject_spawn_prop, 1);
 
   post_init();
   return ret;

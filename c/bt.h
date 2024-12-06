@@ -17,6 +17,12 @@ typedef struct {
   float z;
 } bt_xyz_t;
 
+typedef struct {
+  u32 x;
+  u32 y;
+  u32 z;
+} bt_u32_xyz_t;
+
 #include "util.h"
 #include "bt/flags.h"
 #include "bt/items.h"

@@ -64,7 +64,7 @@ typedef struct {
 
 typedef struct {
   u32 _unknown[5];
-  u16 type;
+  s16 type;
 } bt_obj_instance_data_t;
 
 typedef bt_obj_data_t* (*bt_fnt_object_get_data)(void);
@@ -93,6 +93,13 @@ typedef struct {
     u16 contents : 9;
     u16 _unknown7 : 7;
   };
+  u32 _unknown8[8];
+  struct {
+    u8 red;
+    u8 green;
+    u8 blue;
+    u8 alpha;
+  } color;
 } bt_obj_instance_t;
 
 typedef void (*bt_fnt_world_door_play_anim)(bt_obj_instance_t*, u32 anim, u32 speed);
@@ -100,6 +107,9 @@ typedef struct {
   u32 _unknown[16];
   bt_fnt_world_door_play_anim fn_play_anim;
 } bt_obj_world_door_t;
+
+typedef struct {
+} bt_obj_setup_t;
 
 typedef void (*bt_fnt_object_count)(u32*);
 #define bt_fn_object_count ((bt_fnt_object_count)0x801067C4)

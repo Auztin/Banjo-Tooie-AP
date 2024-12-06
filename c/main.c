@@ -148,6 +148,14 @@ void post_draw_hud(bt_draw_ctx_t* draw_ctx) {
   }
 }
 
+void pre_spawn_prop(u16* id, bt_u32_xyz_t* pos, u16* yrot, bt_obj_setup_t* setup) {
+
+}
+
+void post_spawn_prop(u16 id, bt_u32_xyz_t* pos, u16 yrot, bt_obj_setup_t* setup, bt_obj_instance_t* ret) {
+
+}
+
 void pre_loop() {
   usb_check();
   ap_update();
@@ -322,7 +330,7 @@ void post_load_scene(u16 scene, u16 exit) {
 
   s32 object_count = 0;
   bt_fn_object_count(&object_count);
-  for (; object_count > 0;) {
+  for (object_count++; object_count > 0;) {
     bt_obj_instance_t* object_instance = bt_fn_object_instance(&object_count);
     switch (scene) {
       case 0x00F4: // Ancient Swimming Baths

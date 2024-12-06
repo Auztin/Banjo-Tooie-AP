@@ -11,6 +11,12 @@ J 0x800FA510
 LUI T6, 0x8013
 
 .align 0x08
+inject_spawn_prop_displaced:
+ADDIU SP, SP, -0x28
+J 0x80108C98
+SW RA, 0x001C (SP)
+
+.align 0x08
 bt_fn_zoombox_new:
 ADDIU V0, R0, 0x0000
 J 0x80087B08

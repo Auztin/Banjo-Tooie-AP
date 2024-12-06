@@ -4,18 +4,19 @@ LD = $(N64_INST)/bin/mips64-elf-ld
 ARMIPS = ./armips
 ED64ROMCONFIG = libdragon/tools/ed64romconfig
 
-CFLAGS = -O1 -G0 -fno-reorder-blocks -march=vr4300 -mtune=vr4300 -mno-gpopt -mdivide-breaks -mexplicit-relocs -msoft-float -I include
-CPPFLAGS = -DF3DEX_GBI_2
-LDFLAGS = -L .
-LDFLAGS+= -L mips64/opt/libdragon/mips64-elf/lib/soft-float
-LDFLAGS+= -L mips64/opt/libdragon/lib/gcc/mips64-elf/14.1.0/soft-float/
-LDLIBS = -lc -lgcc
-
 OUTDIR := build
 OBJDIR := build/bin
 SRCDIR := c
 vpath %.c c
 vpath %.h c
+
+CFLAGS = -O1 -G0 -fno-reorder-blocks -march=vr4300 -mtune=vr4300 -mno-gpopt -mdivide-breaks -mexplicit-relocs -msoft-float
+CFLAGS+= -I include -I $(SRCDIR)
+CPPFLAGS = -DF3DEX_GBI_2
+LDFLAGS = -L .
+LDFLAGS+= -L mips64/opt/libdragon/mips64-elf/lib/soft-float
+LDFLAGS+= -L mips64/opt/libdragon/lib/gcc/mips64-elf/14.1.0/soft-float/
+LDLIBS = -lc -lgcc
 
 OBJECTS = $(patsubst $(SRCDIR)/%.c,$(OBJDIR)/%.o,$(sort $(wildcard $(SRCDIR)/*.c)))
 
