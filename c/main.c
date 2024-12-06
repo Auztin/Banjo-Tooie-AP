@@ -4,6 +4,7 @@
 #include "save.h"
 #include "ap.h"
 #include "ap_menu.h"
+#include "custom_flags.h"
 
 #include <string.h>
 #include <stdlib.h>
@@ -152,8 +153,70 @@ void pre_spawn_prop(u16* id, bt_u32_xyz_t* pos, u16* yrot, bt_obj_setup_t* setup
 
 }
 
-void post_spawn_prop(u16 id, bt_u32_xyz_t* pos, u16 yrot, bt_obj_setup_t* setup, bt_obj_instance_t* ret) {
-
+void post_spawn_prop(u16 id, bt_u32_xyz_t* pos, u16 yrot, bt_obj_setup_t* setup, bt_obj_instance_t* obj) {
+  if (!obj) return;
+  switch (id) {
+    case 0x01CA: // ice egg nest (seemee)
+    case 0x01CB: // grenade egg nest (seemee)
+    case 0x01CF: // gold feather nest (seemee)
+    case 0x01E9: // egg nest
+    case 0x04A6: // feather nest
+      if (!obj->id) {
+        switch (bt_current_map) {
+          case 0x00DB: // ggm canary cave
+            switch (pos->x) {
+              case 0xFFFFFD11: // left crate
+                obj->id = 0x07FF;
+                break;
+              case 0x0000027C: // right crate
+                obj->id = 0x07FE;
+                break;
+            }
+            break;
+          case 0x0106: // gi floor 2
+            switch (pos->x) {
+              case 0x00000208: // crate near humba
+                obj->id = 0x07FF;
+                break;
+              case 0xFFFFFCB9: // crate near floor 1 stairs
+                obj->id = 0x07FE;
+                break;
+            }
+            break;
+          case 0x010B: // gi floor 4
+            switch (pos->x) {
+              case 0xFFFFF39D: // crate near crushers warp pad
+                obj->id = 0x07FF;
+                break;
+            }
+            break;
+          case 0x01A8: // jrl atlantis
+            obj->id = 0x07FF; // ice egg seemee
+            break;
+          case 0x01A9: // jrl locker/big fish cavern
+            switch (id) {
+              case 0x01CB: // grenade egg seemee
+                obj->id = 0x07FF;
+                break;
+              case 0x01CF: // gold feather seemee
+                obj->id = 0x07FE;
+                break;
+            }
+            break;
+          case 0x0136: // ccl
+            switch (id) { // dirt piles
+              case 0x01E9:
+                obj->id = 0x07FF;
+                break;
+              case 0x04A6:
+                obj->id = 0x07FE;
+                break;
+            }
+            break;
+        }
+      }
+      break;
+  }
 }
 
 void pre_loop() {
