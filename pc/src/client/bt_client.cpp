@@ -520,6 +520,74 @@ void BTClient::obtain_progressive_moves(int itemId)
             ap_memory.pc.items[AP_ITEM_BBASH] = 1;
         }
     }
+    else if(itemId == 1230782) // Progressive Flight
+    {
+        if(!ap_memory.pc.items[AP_ITEM_FPAD])
+        {
+            obtain_bk_moves(1230811);
+        }
+        else if(!ap_memory.pc.items[AP_ITEM_BBOMB])
+        {
+            obtain_bk_moves(1230827);
+        }
+        else if(!ap_memory.pc.items[AP_ITEM_AIREAIM])
+        {
+            ap_memory.pc.items[AP_ITEM_AIREAIM] = 1;
+        }
+    }
+    else if(itemId == 1230783) // Progressive Egg Aim
+    {
+        if(!ap_memory.pc.items[AP_ITEM_EGGSHOOT])
+        {
+            obtain_bk_moves(1230813);
+        }
+        else if(!ap_memory.pc.items[AP_ITEM_EGGAIM])
+        {
+            ap_memory.pc.items[AP_ITEM_EGGAIM] = 1;
+        }
+    }
+    else if(itemId == 1230784) // Progressive Adv. Water Diving
+    {
+        if(!ap_memory.pc.items[AP_ITEM_DIVE])
+        {
+            ap_memory.pc.items[AP_ITEM_DIVE] = 1;
+        }
+        else if(!ap_memory.pc.items[AP_ITEM_AUQAIM])
+        {
+            ap_memory.pc.items[AP_ITEM_AUQAIM] = 1;
+        }
+        else if(!ap_memory.pc.items[AP_ITEM_TTORP])
+        {
+            ap_memory.pc.items[AP_ITEM_TTORP] = 1;
+        }
+        else if(!ap_memory.pc.items[AP_ITEM_DAIR])
+        {
+            ap_memory.pc.items[AP_ITEM_DAIR] = 1;
+        }
+        else if(!ap_memory.pc.items[AP_ITEM_FSWIM])
+        {
+            ap_memory.pc.items[AP_ITEM_FSWIM] = 1;
+        }
+    }
+    else if(itemId == 1230785) // Progressive Adv. Egg Aim
+    {
+        if(!ap_memory.pc.items[AP_ITEM_EGGSHOOT])
+        {
+            obtain_bk_moves(1230813);
+        }
+        else if(!ap_memory.pc.items[AP_ITEM_AMAZEOGAZE])
+        {
+            ap_memory.pc.items[AP_ITEM_AMAZEOGAZE] = 1;
+        }
+        else if(!ap_memory.pc.items[AP_ITEM_EGGAIM])
+        {
+            ap_memory.pc.items[AP_ITEM_EGGAIM] = 1;
+        }
+        else if(!ap_memory.pc.items[AP_ITEM_BBLASTER])
+        {
+            ap_memory.pc.items[AP_ITEM_BBLASTER] = 1;
+        }
+    }
     return;
 }
 
@@ -1353,6 +1421,10 @@ void BTClient::processAGIItem(json item_data)
             obtain_bk_moves(itemId);
         }
         else if((itemId >= 1230828 && itemId <= 1230832)) // Progressive Moves
+        {
+            obtain_progressive_moves(itemId);
+        }
+        else if((itemId >= 1230782 && itemId <= 1230875)) // Progressive Moves Pt 2
         {
             obtain_progressive_moves(itemId);
         }
