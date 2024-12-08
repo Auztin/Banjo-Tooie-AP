@@ -158,6 +158,10 @@ u8 save_worlds_jiggy_requirment(u8 world) {
   return ap_memory.pc.settings.jiggy_requirements[world];
 }
 
+u8 save_jamjar_silo_requirements(bt_jamjar_silos_t* silo_ptr, bt_jamjar_cost_t* silo_cost_ptr) {
+  return 0;
+}
+
 u16 save_totals(u8 type) {
   if (bt_save_slot > 2 || type > 8) return 0;
   u16 total = 0;

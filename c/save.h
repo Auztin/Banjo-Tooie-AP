@@ -28,6 +28,18 @@ typedef struct Save_Data_s {
     save_data_totals_t totals;
   } custom[3];
 } save_data_t;
+
+typedef struct {
+  u32 _unknown[21];
+  float silo_offset;
+} bt_jamjar_silos_t;
+
+typedef struct {
+  u32 _unkown[3];
+  u16 silo_cost;
+  u16 _unkown2;
+} bt_jamjar_cost_t;
+
 extern save_data_t save_data;
 extern u8 save_dirty;
 #define bt_fake_flags (save_data.custom[bt_save_slot].fake_flags)
@@ -49,6 +61,7 @@ void save_fake_give_breegull_bash();
 u32 save_fake_count_item(u16 data);
 u8 save_has_egg_type(u16 type);
 u8 save_worlds_jiggy_requirment(u8 world);
+u8 save_jamjar_silo_requirements();
 u16 save_totals(u8 type);
 u8 save_jinjo_family_count(u8 color);
 
