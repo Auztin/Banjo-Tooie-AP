@@ -61,7 +61,7 @@ void save_fake_give_breegull_bash();
 u32 save_fake_count_item(u16 data);
 u8 save_has_egg_type(u16 type);
 u8 save_worlds_jiggy_requirment(u8 world);
-u8 save_jamjar_silo_requirements();
+u16 save_jamjar_silo_requirements();
 u16 save_totals(u8 type);
 u8 save_jinjo_family_count(u8 color);
 
