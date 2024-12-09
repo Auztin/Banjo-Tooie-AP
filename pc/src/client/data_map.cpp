@@ -99,14 +99,14 @@ std::map<uint16_t, std::map<std::string, std::vector<std::string>>> ASSET_MAP_CH
                 "1230815",
             }},
             {"TREBLE", {"1230781"}},
-            {"SILO", {"1230754","1230755"}},
+            {"SILO", {"1230753","1230754"}},
         }},
         {0xC4, { //MT - Jade Snake Grove
             {"JIGGIES", {"1230601","1230605"}},
             {"JINJOS", {"1230551"}},
             {"PAGES", {"1230730"}},
             {"GLOWBO", {"1230687"}},
-            {"SILO", {"1230753",}},
+            {"SILO", {"1230755",}},
         }},
         {0xBB, { //MT - Mayan Kickball Stadium (Lobby)
             {"JIGGIES", {"1230598"}}
@@ -1132,9 +1132,9 @@ bool check_flag(std::string locationId) {
             case 1230777: return real->sm_opened_fish;
             case 1230778: return real->sm_opened_fish;
         //Jamjars + Amaze + roar
-            case 1230753: return fake->grip_grab;
+            case 1230753: return fake->egg_aim;
             case 1230754: return fake->breegull_blaster;
-            case 1230755: return fake->egg_aim;
+            case 1230755: return fake->grip_grab;
             case 1230756: return fake->fire_eggs;
             case 1230757: return fake->bill_drill;
             case 1230758: return fake->beak_bayonet;

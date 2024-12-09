@@ -15,7 +15,7 @@ CFLAGS+= -I include -I $(SRCDIR)
 CPPFLAGS = -DF3DEX_GBI_2
 LDFLAGS = -L .
 LDFLAGS+= -L mips64/opt/libdragon/mips64-elf/lib/soft-float
-LDFLAGS+= -L mips64/opt/libdragon/lib/gcc/mips64-elf/14.1.0/soft-float/
+LDFLAGS+= -L mips64/opt/libdragon/lib/gcc/mips64-elf/14.2.0/soft-float/
 LDLIBS = -lc -lgcc
 
 OBJECTS = $(patsubst $(SRCDIR)/%.c,$(OBJDIR)/%.o,$(sort $(wildcard $(SRCDIR)/*.c)))

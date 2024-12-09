@@ -43,6 +43,7 @@ typedef struct {
     u8 max_mumbo_tokens;
     u8 jiggy_requirements[11];
     u8 open_silos[AP_SILO_MAX];
+    u16 silo_requirements[24];
   } settings;
   u8 items[AP_ITEM_MAX];
   ap_memory_pc_exit_map_t exit_map[AP_MEMORY_EXIT_MAP_MAX];
