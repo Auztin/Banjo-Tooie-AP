@@ -164,13 +164,15 @@ void ap_open_doors(u16 world) {
   }
   s32 object_count = 0;
   bt_fn_object_count(&object_count);
-  for (object_count++; object_count > 0;) {
-    bt_obj_instance_t* object_instance = bt_fn_object_instance(&object_count);
-    bt_fnt_object_get_data object_function = object_instance->fn_obj_init;
-    bt_obj_world_door_t* object_data;
-    if (door_func1 == object_function || (door_func2 && door_func2 == object_function)) {
-      object_data = (bt_obj_world_door_t*)object_function();
-      object_data->fn_play_anim(object_instance, 7, 3);
+  if (object_count) {
+    for (object_count++; object_count > 0;) {
+      bt_obj_instance_t* object_instance = bt_fn_object_instance(&object_count);
+      bt_fnt_object_get_data object_function = object_instance->fn_obj_init;
+      bt_obj_world_door_t* object_data;
+      if (door_func1 == object_function || (door_func2 && door_func2 == object_function)) {
+        object_data = (bt_obj_world_door_t*)object_function();
+        object_data->fn_play_anim(object_instance, 7, 3);
+      }
     }
   }
 }
