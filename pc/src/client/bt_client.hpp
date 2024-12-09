@@ -115,6 +115,7 @@ private:
   bool check_roar_location();
   void obtain_roar();
   void world_order_cost(nlohmann::json, nlohmann::json);
+  void silo_cost(nlohmann::json);
   nlohmann::json check_unlock_worlds();
   void unlock_world(int);
   void randomize_entrances(nlohmann::json);
