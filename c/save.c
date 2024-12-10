@@ -158,6 +158,89 @@ u8 save_worlds_jiggy_requirment(u8 world) {
   return ap_memory.pc.settings.jiggy_requirements[world];
 }
 
+u16 save_jamjar_silo_requirements(bt_move_silo_t* silo_ptr, bt_move_silo_data_t* silo_data_ptr) {
+  u32 silo_offset = (u32)silo_ptr->offset;
+  u16 silo_cost = silo_data_ptr[silo_offset].cost;
+  u8 index = 0;
+  switch (silo_cost) {
+    case 25: // Egg Aim
+      index = 0;
+      break;
+    case 30: // Blaster
+      index = 1;
+      break;
+    case 35: // Grab
+      index = 2;
+      break;
+    case 45: // Fire Eggs
+      index = 3;
+      break;
+    case 85: // Bill Drill
+      index = 4;
+      break;
+    case 95: // Bayonet
+      index = 5;
+      break;
+    case 110: // Grenades
+      index = 6;
+      break;
+    case 160: // Split up
+      index = 7;
+      break;
+    case 170: // Pack Wack
+      index = 8;
+      break;
+    case 180: // Airborne Aim
+      index = 9;
+      break;
+    case 200: // Ice Eggs
+      index = 10;
+      break;
+    case 265: // Wing Wack
+      index = 11;
+      break;
+    case 285: // Aqua Aim
+      index = 12;
+      break;
+    case 290: // Torp
+      index = 13;
+      break;
+    case 315: // Clockwork
+      index = 14;
+      break;
+    case 390: // Spring boots
+      index = 15;
+      break;
+    case 405: // Taxi
+      index = 16;
+      break;
+    case 420: // Hatch
+      index = 17;
+      break;
+    case 505: // Claws
+      index = 18;
+      break;
+    case 525: // Snooze
+      index = 19;
+      break;
+    case 545: // Leg Spring
+      index = 20;
+      break;
+    case 640: // Shack
+      index = 21;
+      break;
+    case 660: // Glide
+      index = 22;
+      break;
+    case 765: // Sack
+      index = 23;
+      break;
+    default:
+      return 0;
+  }
+  return ap_memory.pc.settings.silo_requirements[index];
+}
+
 u16 save_totals(u8 type) {
   if (bt_save_slot > 2 || type > 8) return 0;
   u16 total = 0;
