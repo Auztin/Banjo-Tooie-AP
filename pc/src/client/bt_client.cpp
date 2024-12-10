@@ -767,6 +767,17 @@ nlohmann::json BTClient::check_jinjo_family_locations()
     return jinjo_fam_check;
 }
 
+nlohmann::json BTClient::check_nest_locations()
+{
+    nlohmann::json nests = json({});
+    for(auto&& [map, nests] : NEST_DATA) {
+        for(auto&& [locationId, saveId] : nests) {
+            nests[locationId] = check_custom_flag(ap_memory.n64.saves.nests, saveId);
+        }
+    }
+    return nests;
+}
+
 // -------------- MUMBO TOKENS -------------------
 
 void BTClient::obtain_mumbo_token()
@@ -854,6 +865,11 @@ void BTClient::initialize_bt()
     if(ENABLE_AP_CHUFFY == true)
     {
         ap_memory.pc.settings.randomize_chuffy = 1;
+    }
+    //NESTS
+    if(ENABLE_AP_NESTS == true)
+    {
+        ap_memory.pc.settings.randomize_nests = 1;
     }
     //TOT
     ap_memory.pc.settings.skip_tower_of_tragedy = SKIP_TOT;
@@ -978,7 +994,7 @@ void BTClient::silo_cost(nlohmann::json silo_cost_table)
     for (auto& [locationId, cost] : silo_cost_table.items())
     {
         int loc_id = std::stoi(locationId);
-        switch(loc_id) 
+        switch(loc_id)
         {
             case 1230753:
                 ap_memory.pc.settings.silo_requirements[0] = cost;
@@ -1325,6 +1341,11 @@ asio::awaitable<void> BTClient::getSlotData()
         ENABLE_AP_MYSTERY = true;
         if(DEBUG_NET == true) { std::cout << "StopNSwap is Randomized" << std::endl; }
     }
+    if(block.contains(string{"slot_nests"}) && block["slot_nests"] != "false")
+    {
+        ENABLE_AP_NESTS = true;
+        if(DEBUG_NET == true) { std::cout << "Nests are Randomized" << std::endl; }
+    }
     if(block.contains(string{"slot_goal_type"}) && block["slot_goal_type"] != "")
     {
         GOAL_TYPE = block["slot_goal_type"];
@@ -1603,6 +1624,7 @@ asio::awaitable<void> BTClient::sendToBTClient()
     retTable["goggles"] = check_amaze_o_gaze_location();
     retTable["roar"] = check_roar_location();
     retTable["dino_kids"] = check_dino_kids_locations();
+    retTable["nests"] = check_nest_locations();
     retTable["DEMO"] = false;
     retTable["banjo_map"] = CURRENT_MAP;
     retTable["sync_ready"] = "true";

@@ -9,6 +9,7 @@ typedef struct {
   struct {
     u8 saves_real : 1;
     u8 saves_fake : 1;
+    u8 saves_nests : 1;
     u8 misc : 1;
   } send;
   u8 status;

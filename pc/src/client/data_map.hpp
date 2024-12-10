@@ -12,6 +12,7 @@
     extern std::map<uint16_t, std::map<std::string, std::vector<std::string>>> ASSET_MAP_CHECK;
     // const std::map<std::string, std::string> ADDRESS_MAP;
     bool check_flag(std::string);
+    bool check_custom_flag(u8* data, u16 id);
 
     typedef struct {
         int mapId;
@@ -21,4 +22,6 @@
     } world_entrance_t;
 
     extern std::map<std::string, world_entrance_t> WORLD_ENTRANCES;
+
+    extern std::map<int, std::map<int, int> > NEST_DATA;
 #endif

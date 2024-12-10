@@ -183,6 +183,10 @@ void USBCom::process() {
           memcpy(&ap_memory.n64.saves.fake, packet.extra, packet.size);
           endian_swap_save(&ap_memory.n64.saves.fake);
           break;
+        case USB_CMD_N64_SAVES_NESTS:
+          log("[N64] USB_CMD_N64_SAVES_NESTS\n");
+          memcpy(&ap_memory.n64.saves.nests, packet.extra, packet.size);
+          break;
         default:
           log("[N64] Unexpected packet. Disconnected.\n");
           status = USB_STATUS_DISCONNECTED;

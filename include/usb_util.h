@@ -23,6 +23,7 @@ enum USB_CMD {
   USB_CMD_N64_MISC,
   USB_CMD_N64_SAVES_REAL,
   USB_CMD_N64_SAVES_FAKE,
+  USB_CMD_N64_SAVES_NESTS,
 };
 
 typedef struct {
