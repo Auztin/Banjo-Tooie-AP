@@ -149,7 +149,10 @@ void post_draw_hud(bt_draw_ctx_t* draw_ctx) {
   }
 }
 
-bt_obj_setup_t pre_spawn_prop(u16* id, bt_u32_xyz_t* pos, u16* yrot, bt_obj_setup_t* og_setup) {
+bt_obj_setup_t setup_cache[512];
+u32 setup_cache_count;
+
+bt_obj_setup_t pre_spawn_prop(u16* id, bt_s32_xyz_t* pos, u16* yrot, bt_obj_setup_t* og_setup) {
   // if (BT_IN_GAME && (*id > 0x3b0 || *id < 0x200) && (*id > 0x210 || *id < 0x230)) *id = 0x3ef;
   bt_obj_setup_t setup = {0, };
   if (og_setup) setup = *og_setup;
@@ -215,7 +218,7 @@ bt_obj_setup_t pre_spawn_prop(u16* id, bt_u32_xyz_t* pos, u16* yrot, bt_obj_setu
             break;
         }
       }
-      if (!save_custom_get_bit(save_data.custom[bt_save_slot].nests, custom_flag_nest(bt_current_map, setup.id))) {
+      if (setup.id && !save_custom_get_bit(save_data.custom[bt_save_slot].nests, custom_flag_nest(bt_current_map, setup.id))) {
         *id = 0x01E9;
       }
       break;
@@ -223,8 +226,9 @@ bt_obj_setup_t pre_spawn_prop(u16* id, bt_u32_xyz_t* pos, u16* yrot, bt_obj_setu
   return setup;
 }
 
-void post_spawn_prop(u16 id, bt_u32_xyz_t* pos, u16 yrot, bt_obj_setup_t* setup, bt_obj_instance_t* obj) {
+void post_spawn_prop(u16 id, bt_s32_xyz_t* pos, u16 yrot, bt_obj_setup_t* setup, bt_obj_instance_t* obj) {
   if (!obj || !BT_IN_GAME) return;
+  if (setup) setup_cache[setup_cache_count++] = *setup;
 }
 
 void pre_loop() {
@@ -274,6 +278,7 @@ void main_visited_world(u16 scene) {
 }
 
 void pre_load_scene(u16 *scene, u16 *exit) {
+  setup_cache_count = 0;
   if (!BT_IN_GAME && bt_current_map != BT_MAP_FILE_SELECT) {
     if (*scene == BT_MAP_FILE_SELECT) {
       for (int i = 0; i < 2; i++) {
@@ -690,18 +695,56 @@ bool main_collected_nest(bt_obj_instance_t* obj) {
   s32 flag = custom_flag_nest(bt_current_map, obj->id);
   if (flag >= 0) {
     bool collected = save_custom_set_bit(save_data.custom[bt_save_slot].nests, flag);
-    if (!collected) obj->state = 7;
+    if (!collected) {
+      obj->state = 7;
+      if (obj->data && obj->nests.respawn) {
+        for (int i = 0; i < setup_cache_count; i++) {
+          bt_obj_setup_t* setup = &setup_cache[i];
+          if (setup->id != obj->id) continue;
+          bt_s32_xyz_t pos = {.x=setup->pos.x, .y=setup->pos.y, .z=setup->pos.z};
+          bt_obj_instance_t* new_obj = bt_fn_spawn_prop(setup->type, &pos, 0, setup);
+          new_obj->obj_data = setup->obj_data;
+          new_obj->_unknown0x7B |= 0x20;
+          new_obj->state = 4;
+          new_obj->data->collectable = 0;
+          break;
+        }
+      }
+    }
     return collected;
   }
   return true;
 }
 
+void main_init_ap_nest(bt_obj_instance_t* obj) {
+  if (
+    obj->id && obj->data->type == 0x6EA
+    && !save_custom_get_bit(save_data.custom[bt_save_slot].nests, custom_flag_nest(bt_current_map, obj->id))
+  ) {
+    obj->sprite_index = 0xB;
+    obj->timer = 0;
+    obj->data->state = 0x738;
+  }
+}
+
 void main_init_nest(bt_obj_instance_t* obj) {
   if (!obj) return;
-  if (obj->data->type == 0x6EA && !save_custom_get_bit(save_data.custom[bt_save_slot].nests, custom_flag_nest(bt_current_map, obj->id))) {
-    obj->sprite_index = 0xB;
-    obj->sprite_mode = 3;
+  if (obj->state == 4) {
+    obj->timer = 5;
+    obj->obj_state = 0x10;
+    obj->_unknown0x7C = 0;
+    obj->display_state = 0xF0;
   }
+  main_init_ap_nest(obj);
+}
+
+void main_init_egg_nest(bt_obj_instance_t* obj) {
+  if (!obj) return;
+  if (obj->state == 4) {
+    obj->sprite_mode = 2;
+    obj->timer = 5;
+  }
+  main_init_ap_nest(obj);
 }
 
 void pre_object_init(bt_object_t *obj) {
@@ -736,7 +779,8 @@ void pre_object_init(bt_object_t *obj) {
 
       util_inject(UTIL_INJECT_RAW     , (u32)obj + 0x02F4, 0x001F0821, 0);
       util_inject(UTIL_INJECT_FUNCTION, (u32)obj + 0x02F8, (u32)main_collected_nest_displaced, 1);
-      util_inject(UTIL_INJECT_JUMP    , (u32)obj + 0x0DE4, (u32)main_init_nest, 0);
+      util_inject(UTIL_INJECT_JUMP    , (u32)obj + 0x0240, (u32)main_init_nest, 0);
+      util_inject(UTIL_INJECT_JUMP    , (u32)obj + 0x0DE4, (u32)main_init_egg_nest, 0);
       break;
     case BT_OBJ_MOVE_SILO:
       util_inject(UTIL_INJECT_FUNCTION, (u32)obj + 0x0440, (u32)save_fake_has_move, 0); // called when close enough for note count to show

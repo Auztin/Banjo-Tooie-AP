@@ -143,7 +143,7 @@ s32 custom_flag_nest(u16 scene, u16 id) {
     case 0x01780052: return 0x078;
     case 0x01780053: return 0x079;
     case 0x01780055: return 0x07A;
-    case 0x01780064: return 0x07B; // still gives golden eggs
+    case 0x01780064: return 0x07B;
     // MT Targitzan's Temple Lobby
     case 0x0179000C: return 0x07C;
     case 0x0179000D: return 0x07D;

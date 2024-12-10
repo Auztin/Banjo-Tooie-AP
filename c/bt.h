@@ -18,10 +18,16 @@ typedef struct {
 } bt_xyz_t;
 
 typedef struct {
-  u32 x;
-  u32 y;
-  u32 z;
-} bt_u32_xyz_t;
+  s16 x;
+  s16 y;
+  s16 z;
+} bt_s16_xyz_t;
+
+typedef struct {
+  s32 x;
+  s32 y;
+  s32 z;
+} bt_s32_xyz_t;
 
 #include "util.h"
 #include "bt/flags.h"

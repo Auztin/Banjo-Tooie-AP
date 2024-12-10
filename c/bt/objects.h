@@ -63,8 +63,14 @@ typedef struct {
 } bt_obj_data_t;
 
 typedef struct {
-  u32 _unknown[5];
+  u32 _unknown1[5];
   s16 type;
+  u16 _unknown2;
+  u32 _unknown3[3];
+  u16 state;
+  u16 _unknown4;
+  u16 _unknown6;
+  u8 collectable;
 } bt_obj_instance_data_t;
 
 typedef bt_obj_data_t* (*bt_fnt_object_get_data)(void);
@@ -98,21 +104,23 @@ typedef struct {
   u32 id : 11;
   u32 _unknown0x6C_0 : 21;
   u16 _unknown0x70;
-  u8 obj_state; // 0x10 respawn?
+  u8 obj_state;
   u8 _unknown0x73;
   u16 _unknown0x74;
   union {
     struct {
-      u16 contents : 9;
-      u16 _unknown0x76_0 : 7;
-    } crates;
+      u16 obj_data : 9;
+      u16 _unknown0x77_0 : 7;
+    };
     struct {
       u8 _unknown0x76;
       u8 respawn : 1;
       u8 _unknown0x77_0 : 7;
     } nests;
   };
-  u32 _unknown0x78;
+  u16 _unknown0x78;
+  u8 _unknown0x7A;
+  u8 _unknown0x7B;
   u16 _unknown0x7C;
   u8 display_state;
   u8 _unknown0x7F;
@@ -132,11 +140,14 @@ typedef struct {
 } bt_obj_world_door_t;
 
 typedef struct {
-  u32 _unknown1[4];
-  struct {
-    u32 id : 11;
-    u32 _unknown6 : 21;
-  };
+  bt_s16_xyz_t pos;
+  u16 obj_data : 9;
+  u16 _unknown1 : 7;
+  u16 type;
+  u16 _unknown2;
+  u32 _unknown3;
+  u32 id : 11;
+  u32 _unknown4 : 21;
 } bt_obj_setup_t;
 
 typedef struct {

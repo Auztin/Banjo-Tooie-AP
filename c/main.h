@@ -19,8 +19,8 @@ void pre_draw_objects(u8 type, bt_draw_ctx_t* draw_ctx);
 void post_draw_objects(u8 type, bt_draw_ctx_t* draw_ctx);
 void pre_draw_hud(bt_draw_ctx_t* draw_ctx);
 void post_draw_hud(bt_draw_ctx_t* draw_ctx);
-bt_obj_setup_t pre_spawn_prop(u16* id, bt_u32_xyz_t* pos, u16* yrot, bt_obj_setup_t* setup);
-void post_spawn_prop(u16 id, bt_u32_xyz_t* pos, u16 yrot, bt_obj_setup_t* setup, bt_obj_instance_t* obj);
+bt_obj_setup_t pre_spawn_prop(u16* id, bt_s32_xyz_t* pos, u16* yrot, bt_obj_setup_t* setup);
+void post_spawn_prop(u16 id, bt_s32_xyz_t* pos, u16 yrot, bt_obj_setup_t* setup, bt_obj_instance_t* obj);
 void pre_loop(); // before after frame
 void post_loop(); // after every frame
 void pre_load_scene(u16 *scene, u16 *exit); // before a scene load. scene and exit can be changed to load another scene/exit
