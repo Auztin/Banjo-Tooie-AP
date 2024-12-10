@@ -158,9 +158,9 @@ u8 save_worlds_jiggy_requirment(u8 world) {
   return ap_memory.pc.settings.jiggy_requirements[world];
 }
 
-u16 save_jamjar_silo_requirements(bt_jamjar_silos_t* silo_ptr, bt_jamjar_cost_t* silo_cost_ptr) {
-  u32 silo_offset = (u32)silo_ptr->silo_offset;
-  u16 silo_cost = silo_cost_ptr[silo_offset].silo_cost;
+u16 save_jamjar_silo_requirements(bt_move_silo_t* silo_ptr, bt_move_silo_data_t* silo_data_ptr) {
+  u32 silo_offset = (u32)silo_ptr->offset;
+  u16 silo_cost = silo_data_ptr[silo_offset].cost;
   u8 index = 0;
   switch (silo_cost) {
     case 25: // Egg Aim

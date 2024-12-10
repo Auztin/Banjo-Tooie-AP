@@ -655,6 +655,7 @@ void pre_object_init(bt_object_t *obj) {
       util_inject(UTIL_INJECT_FUNCTION, (u32)obj + 0x1B58, (u32)save_fake_has_move, 0);
 
       util_inject(UTIL_INJECT_FUNCTION, (u32)obj + 0x1D98, (u32)save_fake_set_move, 0); // called when taught move
+
       util_inject(UTIL_INJECT_JUMP    , (u32)obj + 0x0300, (u32)save_jamjar_silo_requirements, 1);
       break;
     case BT_OBJ_SWITCH:
