@@ -19,7 +19,7 @@ void pre_draw_objects(u8 type, bt_draw_ctx_t* draw_ctx);
 void post_draw_objects(u8 type, bt_draw_ctx_t* draw_ctx);
 void pre_draw_hud(bt_draw_ctx_t* draw_ctx);
 void post_draw_hud(bt_draw_ctx_t* draw_ctx);
-void pre_spawn_prop(u16* id, bt_u32_xyz_t* pos, u16* yrot, bt_obj_setup_t* setup);
+bt_obj_setup_t pre_spawn_prop(u16* id, bt_u32_xyz_t* pos, u16* yrot, bt_obj_setup_t* setup);
 void post_spawn_prop(u16 id, bt_u32_xyz_t* pos, u16 yrot, bt_obj_setup_t* setup, bt_obj_instance_t* obj);
 void pre_loop(); // before after frame
 void post_loop(); // after every frame
@@ -31,5 +31,7 @@ void pre_object_init(bt_object_t *obj); // just after an object is loaded into m
 void post_object_init(bt_object_t *obj); // just after an object is initialized
 void pre_load_data(u16 *id);
 void post_load_data(u16 id, u32 addr);
+void pre_get_data(u16 *id);
+void post_get_data(u16 id, u32 addr);
 
 #endif // MAIN_H

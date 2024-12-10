@@ -19,6 +19,7 @@ typedef struct {
   u8 items[AP_ITEM_MAX];
 } ap_t;
 extern ap_t ap;
+extern u16 AP_ICON[32][32];
 
 void ap_draw_hud(bt_draw_ctx_t* draw_ctx);
 void ap_update();

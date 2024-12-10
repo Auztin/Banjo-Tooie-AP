@@ -149,74 +149,82 @@ void post_draw_hud(bt_draw_ctx_t* draw_ctx) {
   }
 }
 
-void pre_spawn_prop(u16* id, bt_u32_xyz_t* pos, u16* yrot, bt_obj_setup_t* setup) {
-
-}
-
-void post_spawn_prop(u16 id, bt_u32_xyz_t* pos, u16 yrot, bt_obj_setup_t* setup, bt_obj_instance_t* obj) {
-  if (!obj) return;
-  switch (id) {
-    case 0x01CA: // ice egg nest (seemee)
-    case 0x01CB: // grenade egg nest (seemee)
-    case 0x01CF: // gold feather nest (seemee)
+bt_obj_setup_t pre_spawn_prop(u16* id, bt_u32_xyz_t* pos, u16* yrot, bt_obj_setup_t* og_setup) {
+  // if (BT_IN_GAME && (*id > 0x3b0 || *id < 0x200) && (*id > 0x210 || *id < 0x230)) *id = 0x3ef;
+  bt_obj_setup_t setup = {0, };
+  if (og_setup) setup = *og_setup;
+  if (!BT_IN_GAME) return setup;
+  switch (*id) {
+    case 0x01CA: // ice egg nest
+    case 0x01CB: // grenade egg nest
+    case 0x01CE: // red feather nest
+    case 0x01CF: // gold feather nest
     case 0x01E9: // egg nest
     case 0x04A6: // feather nest
-      if (!obj->id) {
+      if (!setup.id) {
         switch (bt_current_map) {
           case 0x00DB: // ggm canary cave
             switch (pos->x) {
               case 0xFFFFFD11: // left crate
-                obj->id = 0x07FF;
+                setup.id = 0x07FF;
                 break;
               case 0x0000027C: // right crate
-                obj->id = 0x07FE;
+                setup.id = 0x07FE;
                 break;
             }
             break;
           case 0x0106: // gi floor 2
             switch (pos->x) {
               case 0x00000208: // crate near humba
-                obj->id = 0x07FF;
+                setup.id = 0x07FF;
                 break;
               case 0xFFFFFCB9: // crate near floor 1 stairs
-                obj->id = 0x07FE;
+                setup.id = 0x07FE;
                 break;
             }
             break;
           case 0x010B: // gi floor 4
             switch (pos->x) {
               case 0xFFFFF39D: // crate near crushers warp pad
-                obj->id = 0x07FF;
+                setup.id = 0x07FF;
                 break;
             }
             break;
           case 0x01A8: // jrl atlantis
-            obj->id = 0x07FF; // ice egg seemee
+            setup.id = 0x07FF; // ice egg seemee
             break;
           case 0x01A9: // jrl locker/big fish cavern
-            switch (id) {
+            switch (*id) {
               case 0x01CB: // grenade egg seemee
-                obj->id = 0x07FF;
+                setup.id = 0x07FF;
                 break;
               case 0x01CF: // gold feather seemee
-                obj->id = 0x07FE;
+                setup.id = 0x07FE;
                 break;
             }
             break;
           case 0x0136: // ccl
-            switch (id) { // dirt piles
+            switch (*id) { // dirt piles
               case 0x01E9:
-                obj->id = 0x07FF;
+                setup.id = 0x07FF;
                 break;
               case 0x04A6:
-                obj->id = 0x07FE;
+                setup.id = 0x07FE;
                 break;
             }
             break;
         }
       }
+      if (!save_custom_get_bit(save_data.custom[bt_save_slot].nests, custom_flag_nest(bt_current_map, setup.id))) {
+        *id = 0x01E9;
+      }
       break;
   }
+  return setup;
+}
+
+void post_spawn_prop(u16 id, bt_u32_xyz_t* pos, u16 yrot, bt_obj_setup_t* setup, bt_obj_instance_t* obj) {
+  if (!obj || !BT_IN_GAME) return;
 }
 
 void pre_loop() {
@@ -677,6 +685,25 @@ u8 main_bt_pause_load_menu(bt_pause_ctx_t* pause_ctx) {
   return 1;
 }
 
+extern void main_collected_nest_displaced();
+bool main_collected_nest(bt_obj_instance_t* obj) {
+  s32 flag = custom_flag_nest(bt_current_map, obj->id);
+  if (flag >= 0) {
+    bool collected = save_custom_set_bit(save_data.custom[bt_save_slot].nests, flag);
+    if (!collected) obj->state = 7;
+    return collected;
+  }
+  return true;
+}
+
+void main_init_nest(bt_obj_instance_t* obj) {
+  if (!obj) return;
+  if (obj->data->type == 0x6EA && !save_custom_get_bit(save_data.custom[bt_save_slot].nests, custom_flag_nest(bt_current_map, obj->id))) {
+    obj->sprite_index = 0xB;
+    obj->sprite_mode = 3;
+  }
+}
+
 void pre_object_init(bt_object_t *obj) {
   if (!BT_IN_GAME && bt_current_map != BT_MAP_FILE_SELECT) return;
   switch (obj->objType) {
@@ -706,6 +733,10 @@ void pre_object_init(bt_object_t *obj) {
       // egg nests
       util_inject(UTIL_INJECT_FUNCTION, (u32)obj + 0x0388, (u32)main_increase_item, 0); // prevent receiving blue eggs if you dont have them
       util_inject(UTIL_INJECT_FUNCTION, (u32)obj + 0x0CB8, (u32)save_has_egg_type, 0); // fix egg nests hanging the game with no eggs
+
+      util_inject(UTIL_INJECT_RAW     , (u32)obj + 0x02F4, 0x001F0821, 0);
+      util_inject(UTIL_INJECT_FUNCTION, (u32)obj + 0x02F8, (u32)main_collected_nest_displaced, 1);
+      util_inject(UTIL_INJECT_JUMP    , (u32)obj + 0x0DE4, (u32)main_init_nest, 0);
       break;
     case BT_OBJ_MOVE_SILO:
       util_inject(UTIL_INJECT_FUNCTION, (u32)obj + 0x0440, (u32)save_fake_has_move, 0); // called when close enough for note count to show
@@ -833,6 +864,31 @@ void pre_load_data(u16 *id) {
 }
 
 void post_load_data(u16 id, u32 addr) {
+  if (!BT_IN_GAME) return;
+  const u32 draw_instructions[] = {
+    0x00000002, 0x00000000, 0x10000003, 0x00000000, 0x00000002, 0x00000000, 0x1004002E, 0x00000000,
+    0x00000000, 0x00000000, 0x00180001, 0x00000000, 0x41700000, 0x00000000, 0x00000003, 0x00000000,
+    0x01290002
+  };
+  switch (id) {
+    case 0x06EA: // egg nests
+      bt_nest_egg_sprites_t* data = (bt_nest_egg_sprites_t*)addr;
+      for (int w = 0; w < 32; w++) {
+        for (int h = 0; h < 32; h++) {
+          data->sprites[1].pixels[w][h] = AP_ICON[w][h];
+        }
+      }
+      memcpy(data->draw_instructions.mine_eggs, draw_instructions, sizeof(draw_instructions));
+      data->sprite_properties.mine_eggs.loc_size = 0x03C0;
+      break;
+  }
+}
+
+void pre_get_data(u16 *id) {
+
+}
+
+void post_get_data(u16 id, u32 addr) {
   if (!BT_IN_GAME) return;
   switch (id) {
     // train locations

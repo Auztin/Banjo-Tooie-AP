@@ -38,6 +38,9 @@ PAYLOAD_START:
 .importobj "build/bundle.o"
 .include "displaced.asm"
 
+AP_ICON:
+.incbin "ap-icon.btimg"
+
 PAYLOAD_END:
 .endarea ; payload max memory
 

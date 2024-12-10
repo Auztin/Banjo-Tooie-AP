@@ -76,24 +76,47 @@ typedef struct {
     float z;
   } pos;
   bt_fnt_object_get_data fn_obj_init;
-  u32 _unknown2[12];
+  u32 _unknown0x14_0x18[2];
+  u32 sprite_index;
+  u32 _unknown0x20_0x2C[4];
+  u32 sprite_mode;
+  u32 _unknown0x34_0x40[4];
   struct {
     float x;
     float y;
     float z;
   } rot;
-  u32 _unknown3[7];
-  struct {
-    u32 id : 11;
-    u32 _unknown4 : 21;
+  u32 _unknown0x50_0x54[2];
+  float timer;
+  u32 _unknown0x5C_0x60[2];
+  u8 _unknown0x64;
+  u8 _unknown0x65_4 : 4;
+  u8 state : 4; // 4 hidden, 5 normal, 7 delete
+  u8 _unknown0x66;
+  u8 _unknown0x67;
+  u32 _unknown0x68;
+  u32 id : 11;
+  u32 _unknown0x6C_0 : 21;
+  u16 _unknown0x70;
+  u8 obj_state; // 0x10 respawn?
+  u8 _unknown0x73;
+  u16 _unknown0x74;
+  union {
+    struct {
+      u16 contents : 9;
+      u16 _unknown0x76_0 : 7;
+    } crates;
+    struct {
+      u8 _unknown0x76;
+      u8 respawn : 1;
+      u8 _unknown0x77_0 : 7;
+    } nests;
   };
-  u32 _unknown5;
-  u16 _unknown6;
-  struct {
-    u16 contents : 9;
-    u16 _unknown7 : 7;
-  };
-  u32 _unknown8[8];
+  u32 _unknown0x78;
+  u16 _unknown0x7C;
+  u8 display_state;
+  u8 _unknown0x7F;
+  u32 _unknown0x80_0x94[6];
   struct {
     u8 red;
     u8 green;
@@ -109,7 +132,31 @@ typedef struct {
 } bt_obj_world_door_t;
 
 typedef struct {
+  u32 _unknown1[4];
+  struct {
+    u32 id : 11;
+    u32 _unknown6 : 21;
+  };
 } bt_obj_setup_t;
+
+typedef struct {
+  u32 _unknown1[36];
+  struct {
+    u16 pixels[32][32];
+  } sprites[6];
+  u32 _unknown2[0x2DC];
+  struct {
+    struct {
+      u32 _unknown1[29];
+      u16 _unknown2;
+      u16 loc_size;
+    } mine_eggs;
+  } sprite_properties;
+  u32 _unknown3[0x318];
+  struct {
+    u32 mine_eggs[28];
+  } draw_instructions;
+} bt_nest_egg_sprites_t;
 
 typedef void (*bt_fnt_object_count)(u32*);
 #define bt_fn_object_count ((bt_fnt_object_count)0x801067C4)

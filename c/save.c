@@ -134,6 +134,21 @@ u32 save_fake_count_item(u16 data) { // 0x800d1a04
   }
 }
 
+bool save_custom_get_bit(u8* data, u16 id) {
+  u8 byte = id/8;
+  u8 bit = 1 << (id % 8);
+  return data[byte] & bit;
+}
+
+bool save_custom_set_bit(u8* data, u16 id) {
+  u8 byte = id/8;
+  u8 bit = 1 << (id % 8);
+  bool ret = data[byte] & bit;
+  data[byte] |= bit;
+  save_dirty = true;
+  return ret;
+}
+
 u8 save_has_egg_type(u16 type) {
   switch (type) {
     case 0x0031: {

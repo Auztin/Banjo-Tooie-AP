@@ -11,6 +11,14 @@ u32 inject_load_scene(u16 scene, u16 exit, u32 _unknown_A2, u32 _unknown_A3) {
   return ret;
 }
 
+extern u32 inject_get_data_displaced(u16);
+u32 inject_get_data(u16 id) {
+  pre_get_data(&id);
+  u32 data = inject_get_data_displaced(id);
+  post_get_data(id, data);
+  return data;
+}
+
 extern u32 inject_load_data_displaced(u16);
 u32 inject_load_data(u16 id) {
   pre_load_data(&id);
@@ -44,9 +52,9 @@ void inject_draw_hud(bt_draw_ctx_t* draw_ctx) {
 
 extern bt_obj_instance_t* inject_spawn_prop_displaced(u16, bt_u32_xyz_t*, u16, bt_obj_setup_t*);
 bt_obj_instance_t* inject_spawn_prop(u16 id, bt_u32_xyz_t* pos, u16 yrot, bt_obj_setup_t* setup) {
-  pre_spawn_prop(&id, pos, &yrot, setup);
-  bt_obj_instance_t* ret = inject_spawn_prop_displaced(id, pos, yrot, setup);
-  post_spawn_prop(id, pos, yrot, setup, ret);
+  bt_obj_setup_t new_setup = pre_spawn_prop(&id, pos, &yrot, setup);
+  bt_obj_instance_t* ret = inject_spawn_prop_displaced(id, pos, yrot, &new_setup);
+  post_spawn_prop(id, pos, yrot, &new_setup, ret);
   return ret;
 }
 
@@ -91,7 +99,10 @@ u32 inject_init(u32 _unknown) {
   util_inject(UTIL_INJECT_JUMP, 0x800D1338, (u32)save_jinjo_family_count, 1);
 
   // replace game's load data function
-  util_inject(UTIL_INJECT_JUMP, 0x800D674C, (u32)inject_load_data, 1);
+  util_inject(UTIL_INJECT_JUMP, 0x800D5B34, (u32)inject_load_data, 1);
+
+  // replace game's get data function
+  util_inject(UTIL_INJECT_JUMP, 0x800D674C, (u32)inject_get_data, 1);
 
   // replace game's draw objects function
   util_inject(UTIL_INJECT_JUMP, 0x800EB51C, (u32)inject_draw_objects, 1);

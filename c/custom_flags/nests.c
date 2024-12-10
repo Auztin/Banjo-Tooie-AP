@@ -1,5 +1,4 @@
-s32 custom_flag_nest(u16 scene, bt_obj_instance_t* instance) {
-  u16 id = instance->id;
+s32 custom_flag_nest(u16 scene, u16 id) {
   u32 uid = (scene << 16) | id;
   switch (uid) {
     // Gruntilda's Lair

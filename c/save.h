@@ -26,6 +26,7 @@ typedef struct Save_Data_s {
     u32 seed;
     bt_save_flags_t fake_flags;
     save_data_totals_t totals;
+    u8 nests[59];
   } custom[3];
 } save_data_t;
 extern save_data_t save_data;
@@ -47,6 +48,8 @@ void save_fake_give_item(u16 data);
 void save_fake_give_homing_eggs();
 void save_fake_give_breegull_bash();
 u32 save_fake_count_item(u16 data);
+bool save_custom_get_bit(u8* data, u16 id);
+bool save_custom_set_bit(u8* data, u16 id);
 u8 save_has_egg_type(u16 type);
 u8 save_worlds_jiggy_requirment(u8 world);
 u16 save_totals(u8 type);
