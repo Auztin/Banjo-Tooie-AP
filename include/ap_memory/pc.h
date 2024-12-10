@@ -34,6 +34,7 @@ typedef struct {
   struct {
     u32 seed;
     u8 randomize_chuffy;
+    u8 randomize_nests;
     u8 skip_puzzles;
     u8 backdoors;
     u8 skip_klungo;

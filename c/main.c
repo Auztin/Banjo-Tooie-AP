@@ -218,7 +218,9 @@ bt_obj_setup_t pre_spawn_prop(u16* id, bt_s32_xyz_t* pos, u16* yrot, bt_obj_setu
             break;
         }
       }
-      if (setup.id && !save_custom_get_bit(save_data.custom[bt_save_slot].nests, custom_flag_nest(bt_current_map, setup.id))) {
+      if (
+           setup.id && ap_memory.pc.settings.randomize_nests
+        && !save_custom_get_bit(save_data.custom[bt_save_slot].nests, custom_flag_nest(bt_current_map, setup.id))) {
         *id = 0x01E9;
       }
       break;
@@ -692,34 +694,36 @@ u8 main_bt_pause_load_menu(bt_pause_ctx_t* pause_ctx) {
 
 extern void main_collected_nest_displaced();
 bool main_collected_nest(bt_obj_instance_t* obj) {
-  s32 flag = custom_flag_nest(bt_current_map, obj->id);
-  if (flag >= 0) {
-    bool collected = save_custom_set_bit(save_data.custom[bt_save_slot].nests, flag);
-    if (!collected) {
-      bt_fn_play_sound(BT_SOUND_COLLECTED_ITEM1, -1, 1, -1);
-      obj->state = 7;
-      if (obj->data && obj->nests.respawn) {
-        for (int i = 0; i < setup_cache_count; i++) {
-          bt_obj_setup_t* setup = &setup_cache[i];
-          if (setup->id != obj->id) continue;
-          bt_s32_xyz_t pos = {.x=setup->pos.x, .y=setup->pos.y, .z=setup->pos.z};
-          bt_obj_instance_t* new_obj = bt_fn_spawn_prop(setup->type, &pos, 0, setup);
-          new_obj->obj_data = setup->obj_data;
-          new_obj->_unknown0x7B |= 0x20;
-          new_obj->state = 4;
-          new_obj->data->collectable = 0;
-          break;
+  if (ap_memory.pc.settings.randomize_nests) {
+    s32 flag = custom_flag_nest(bt_current_map, obj->id);
+    if (flag >= 0) {
+      bool collected = save_custom_set_bit(save_data.custom[bt_save_slot].nests, flag);
+      if (!collected) {
+        bt_fn_play_sound(BT_SOUND_COLLECTED_ITEM1, -1, 1, -1);
+        obj->state = 7;
+        if (obj->data && obj->nests.respawn) {
+          for (int i = 0; i < setup_cache_count; i++) {
+            bt_obj_setup_t* setup = &setup_cache[i];
+            if (setup->id != obj->id) continue;
+            bt_s32_xyz_t pos = {.x=setup->pos.x, .y=setup->pos.y, .z=setup->pos.z};
+            bt_obj_instance_t* new_obj = bt_fn_spawn_prop(setup->type, &pos, 0, setup);
+            new_obj->obj_data = setup->obj_data;
+            new_obj->_unknown0x7B |= 0x20;
+            new_obj->state = 4;
+            new_obj->data->collectable = 0;
+            break;
+          }
         }
       }
+      return collected;
     }
-    return collected;
   }
   return true;
 }
 
 void main_init_ap_nest(bt_obj_instance_t* obj) {
   if (
-    obj->id && obj->data->type == 0x6EA
+    obj->id && obj->data->type == 0x6EA && ap_memory.pc.settings.randomize_nests
     && !save_custom_get_bit(save_data.custom[bt_save_slot].nests, custom_flag_nest(bt_current_map, obj->id))
   ) {
     obj->sprite_index = 0xB;
