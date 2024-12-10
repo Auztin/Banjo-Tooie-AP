@@ -169,6 +169,17 @@ typedef struct {
   } draw_instructions;
 } bt_nest_egg_sprites_t;
 
+typedef struct {
+  u32 _unknown[21];
+  float offset;
+} bt_move_silo_t;
+
+typedef struct {
+  u32 _unkown[3];
+  u16 cost;
+  u16 _unkown2;
+} bt_move_silo_data_t;
+
 typedef void (*bt_fnt_object_count)(u32*);
 #define bt_fn_object_count ((bt_fnt_object_count)0x801067C4)
 

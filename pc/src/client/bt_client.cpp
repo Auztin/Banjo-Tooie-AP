@@ -520,6 +520,74 @@ void BTClient::obtain_progressive_moves(int itemId)
             ap_memory.pc.items[AP_ITEM_BBASH] = 1;
         }
     }
+    else if(itemId == 1230782) // Progressive Flight
+    {
+        if(!ap_memory.pc.items[AP_ITEM_FPAD])
+        {
+            obtain_bk_moves(1230811);
+        }
+        else if(!ap_memory.pc.items[AP_ITEM_BBOMB])
+        {
+            obtain_bk_moves(1230827);
+        }
+        else if(!ap_memory.pc.items[AP_ITEM_AIREAIM])
+        {
+            ap_memory.pc.items[AP_ITEM_AIREAIM] = 1;
+        }
+    }
+    else if(itemId == 1230783) // Progressive Egg Aim
+    {
+        if(!ap_memory.pc.items[AP_ITEM_EGGSHOOT])
+        {
+            obtain_bk_moves(1230813);
+        }
+        else if(!ap_memory.pc.items[AP_ITEM_EGGAIM])
+        {
+            ap_memory.pc.items[AP_ITEM_EGGAIM] = 1;
+        }
+    }
+    else if(itemId == 1230784) // Progressive Adv. Water Diving
+    {
+        if(!ap_memory.pc.items[AP_ITEM_DIVE])
+        {
+            ap_memory.pc.items[AP_ITEM_DIVE] = 1;
+        }
+        else if(!ap_memory.pc.items[AP_ITEM_AUQAIM])
+        {
+            ap_memory.pc.items[AP_ITEM_AUQAIM] = 1;
+        }
+        else if(!ap_memory.pc.items[AP_ITEM_TTORP])
+        {
+            ap_memory.pc.items[AP_ITEM_TTORP] = 1;
+        }
+        else if(!ap_memory.pc.items[AP_ITEM_DAIR])
+        {
+            ap_memory.pc.items[AP_ITEM_DAIR] = 1;
+        }
+        else if(!ap_memory.pc.items[AP_ITEM_FSWIM])
+        {
+            ap_memory.pc.items[AP_ITEM_FSWIM] = 1;
+        }
+    }
+    else if(itemId == 1230785) // Progressive Adv. Egg Aim
+    {
+        if(!ap_memory.pc.items[AP_ITEM_EGGSHOOT])
+        {
+            obtain_bk_moves(1230813);
+        }
+        else if(!ap_memory.pc.items[AP_ITEM_AMAZEOGAZE])
+        {
+            ap_memory.pc.items[AP_ITEM_AMAZEOGAZE] = 1;
+        }
+        else if(!ap_memory.pc.items[AP_ITEM_EGGAIM])
+        {
+            ap_memory.pc.items[AP_ITEM_EGGAIM] = 1;
+        }
+        else if(!ap_memory.pc.items[AP_ITEM_BBLASTER])
+        {
+            ap_memory.pc.items[AP_ITEM_BBLASTER] = 1;
+        }
+    }
     return;
 }
 
@@ -905,6 +973,90 @@ void BTClient::world_order_cost(nlohmann::json world_order, nlohmann::json world
     }
 }
 
+void BTClient::silo_cost(nlohmann::json silo_cost_table)
+{
+    for (auto& [locationId, cost] : silo_cost_table.items())
+    {
+        int loc_id = std::stoi(locationId);
+        switch(loc_id) 
+        {
+            case 1230753:
+                ap_memory.pc.settings.silo_requirements[0] = cost;
+                break;
+            case 1230754:
+                ap_memory.pc.settings.silo_requirements[1] = cost;
+                break;
+            case 1230755:
+                ap_memory.pc.settings.silo_requirements[2] = cost;
+                break;
+            case 1230756:
+                ap_memory.pc.settings.silo_requirements[3] = cost;
+                break;
+            case 1230757:
+                ap_memory.pc.settings.silo_requirements[4] = cost;
+                break;
+            case 1230758:
+                ap_memory.pc.settings.silo_requirements[5] = cost;
+                break;
+            case 1230759:
+                ap_memory.pc.settings.silo_requirements[6] = cost;
+                break;
+            case 1230760:
+                ap_memory.pc.settings.silo_requirements[7] = cost;
+                break;
+            case 1230761:
+                ap_memory.pc.settings.silo_requirements[8] = cost;
+                break;
+            case 1230762:
+                ap_memory.pc.settings.silo_requirements[9] = cost;
+                break;
+            case 1230763:
+                ap_memory.pc.settings.silo_requirements[10] = cost;
+                break;
+            case 1230764:
+                ap_memory.pc.settings.silo_requirements[11] = cost;
+                break;
+            case 1230765:
+                ap_memory.pc.settings.silo_requirements[12] = cost;
+                break;
+            case 1230766:
+                ap_memory.pc.settings.silo_requirements[13] = cost;
+                break;
+            case 1230767:
+                ap_memory.pc.settings.silo_requirements[14] = cost;
+                break;
+            case 1230768:
+                ap_memory.pc.settings.silo_requirements[15] = cost;
+                break;
+            case 1230769:
+                ap_memory.pc.settings.silo_requirements[16] = cost;
+                break;
+            case 1230770:
+                ap_memory.pc.settings.silo_requirements[17] = cost;
+                break;
+            case 1230771:
+                ap_memory.pc.settings.silo_requirements[18] = cost;
+                break;
+            case 1230772:
+                ap_memory.pc.settings.silo_requirements[19] = cost;
+                break;
+            case 1230773:
+                ap_memory.pc.settings.silo_requirements[20] = cost;
+                break;
+            case 1230774:
+                ap_memory.pc.settings.silo_requirements[21] = cost;
+                break;
+            case 1230775:
+                ap_memory.pc.settings.silo_requirements[22] = cost;
+                break;
+            case 1230776:
+                ap_memory.pc.settings.silo_requirements[23] = cost;
+                break;
+        }
+
+    }
+}
+
 nlohmann::json BTClient::check_unlock_worlds()
 {
     nlohmann::json worlds_check = json({});
@@ -1198,6 +1350,10 @@ asio::awaitable<void> BTClient::getSlotData()
     {
         world_order_cost(block["slot_world_order"], block["slot_keys"]);
     }
+    if(block.contains(string{"slot_silo_costs"}))
+    {
+        silo_cost(block["slot_silo_costs"]);
+    }
     if(block.contains(string{"slot_open_silo"}))
     {
         OPEN_SILO = block["slot_open_silo"];
@@ -1353,6 +1509,10 @@ void BTClient::processAGIItem(json item_data)
             obtain_bk_moves(itemId);
         }
         else if((itemId >= 1230828 && itemId <= 1230832)) // Progressive Moves
+        {
+            obtain_progressive_moves(itemId);
+        }
+        else if((itemId >= 1230782 && itemId <= 1230875)) // Progressive Moves Pt 2
         {
             obtain_progressive_moves(itemId);
         }

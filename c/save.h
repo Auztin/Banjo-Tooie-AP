@@ -29,6 +29,7 @@ typedef struct Save_Data_s {
     u8 nests[59];
   } custom[3];
 } save_data_t;
+
 extern save_data_t save_data;
 extern u8 save_dirty;
 #define bt_fake_flags (save_data.custom[bt_save_slot].fake_flags)
@@ -52,6 +53,7 @@ bool save_custom_get_bit(u8* data, u16 id);
 bool save_custom_set_bit(u8* data, u16 id);
 u8 save_has_egg_type(u16 type);
 u8 save_worlds_jiggy_requirment(u8 world);
+u16 save_jamjar_silo_requirements(bt_move_silo_t* silo_ptr, bt_move_silo_data_t* silo_data_ptr);
 u16 save_totals(u8 type);
 u8 save_jinjo_family_count(u8 color);
 
