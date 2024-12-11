@@ -153,8 +153,10 @@ void ap_menu_select() {
             && (bt_fn_character_touching_ground(bt_current_player_char) || bt_fn_character_in_water(bt_current_player_char))
           ) {
             bt_xyz_t point = {0, 0, 0};
+            bt_fn_increase_health(bt_current_player_char, 100);
             bt_fn_character_move_to(&point, 0, 0);
-            bt_fn_load_scene(BT_MAP_JINJO_VILLAGE, 3, 1);
+            if (bt_flags.ioh_visited) bt_fn_load_scene(BT_MAP_JINJO_VILLAGE, 3, 1);
+            else bt_fn_load_scene(BT_MAP_SPIRAL_MOUNTAIN, 4, 1);
             ap_menu.id = AP_MENU_UNPAUSE;
             ap_menu.state = AP_MENU_STATE_CLEAR;
           }
