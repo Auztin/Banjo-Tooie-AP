@@ -395,6 +395,7 @@ void main_increase_item(u32 _unknown_A0, u16 type, s32 amount) {
   _bt_fn_increase_item(type, amount);
 }
 
+extern void main_train_change_station_displaced(u16 station);
 void main_train_change_station(u16 station) {
   bt_respawn_point[0].map = station;
   bt_respawn_point[0].exit = 2;
@@ -755,18 +756,14 @@ void pre_object_init(bt_object_t *obj) {
       util_inject(UTIL_INJECT_RAW     , (u32)obj + 0x4494, 0x001F0821, 0);
       util_inject(UTIL_INJECT_FUNCTION, (u32)obj + 0x4498, (u32)main_bt_file_select_bottom_text_displaced, 1);
       break;
+    case BT_OBJ_CHUFFY_CABIN:
+      util_inject(UTIL_INJECT_JUMP    , (u32)obj + 0x0668, (u32)main_train_change_station_displaced, 1);
+      break;
   }
 }
 
 void post_object_init(bt_object_t *obj) {
   if (!BT_IN_GAME) return;
-  switch (obj->objType) {
-    case BT_OBJ_CHUFFY_CABIN:
-      util_inject(UTIL_INJECT_FUNCTION, (u32)obj + 0x0668, (u32)main_train_change_station, 0);
-      util_inject(UTIL_INJECT_RAW     , (u32)obj + 0x066C, 0x86040000, 0);
-      util_inject(UTIL_INJECT_BRANCH  , (u32)obj + 0x0670, 0x6C, 1);
-      break;
-  }
 }
 
 void pre_load_data(u16 *id) {

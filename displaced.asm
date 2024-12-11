@@ -36,6 +36,15 @@ J 0x800D6754
 NOP
 
 .align 0x08
+main_train_change_station_displaced:
+LH A0, 0x0000 (S0)
+LW RA, 0x001C (SP)
+LW S0, 0x0014 (SP)
+LW S1, 0x0018 (SP)
+J main_train_change_station
+ADDIU SP, SP, 0x20
+
+.align 0x08
 main_bt_paused_displaced:
 ADDIU SP, SP, -0x08
 SW RA, 0x0000 (SP)
