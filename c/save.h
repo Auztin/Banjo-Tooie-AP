@@ -21,6 +21,7 @@ typedef struct {
 
 typedef struct Save_Data_s {
   u32 magic;
+  u32 version;
   u32 eeprom[512];
   struct {
     u32 seed;

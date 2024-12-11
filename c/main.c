@@ -15,8 +15,9 @@ void pre_init() {
 }
 
 void post_init() {
-  // allow immediately pressing start to skip title screen
-  (*(u8*)0x8012C78D) = 0x40;
+  // allow immediately pressing start to skip title screen if version matches
+  if (AP_VERSION.as_int == save_data.version) BT_TITLE_SCREEN = 0x40;
+
   util_inject(UTIL_INJECT_RAW, 0x800D0C24, 0, 0); // dont show amount of notes when collected
   util_inject(UTIL_INJECT_RAW, 0x800D0C44, 0, 0); // dont show amount of jiggies when collected
   usb_init();
@@ -58,6 +59,7 @@ void post_draw_hud(bt_draw_ctx_t* draw_ctx) {
   ap_draw_hud(draw_ctx);
   ap_menu_draw(draw_ctx);
   if (bt_current_map == BT_MAP_TITLE_SCREEN) {
+    if (bt_controllers[0].held.dup && bt_controllers[0].held.r && bt_controllers[0].pressed.start) BT_TITLE_SCREEN = 0x40;
     char version[10] = "V";
     char major[3];
     char minor[3];
@@ -205,6 +207,8 @@ void main_visited_world(u16 scene) {
 void pre_load_scene(u16 *scene, u16 *exit) {
   if (!BT_IN_GAME && bt_current_map != BT_MAP_FILE_SELECT) {
     if (*scene == BT_MAP_FILE_SELECT) {
+      save_data.version = AP_VERSION.as_int;
+      save_dirty = 1;
       for (int i = 0; i < 2; i++) {
         bt_zoombox_t* zb = main.zb_credits[i];
         if (!zb) continue;
