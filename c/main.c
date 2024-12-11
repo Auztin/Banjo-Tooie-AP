@@ -376,7 +376,7 @@ void post_load_save() {
     main.new_file = 0;
     ap_new_file();
   }
-  ap_load_file();
+  ap.load_file = 1;
   bt_temp_flags.hag1_phase4_intro = 1;
   bt_temp_flags.hag1_phase3_intro = 1;
   bt_temp_flags.hag1_phase2_intro = 1;

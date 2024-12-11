@@ -5,6 +5,7 @@
 #include "bt.h"
 
 typedef struct {
+  u8 load_file : 1;
   u8 death_link : 1;
   u8 death_link_queued : 1;
   u8 smooth_banjo : 1;

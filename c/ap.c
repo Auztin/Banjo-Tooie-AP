@@ -343,6 +343,7 @@ void ap_sync_items(u16 type, u8 value) {
       bt_flags.wing_whack = value > 0;
       break;
     case AP_ITEM_TTORP:
+      if (value && !bt_flags.flight && !bt_flags.talon_torpedo) bt_fn_increase_item(BT_ITEM_RED_FEATHERS, 999);
       bt_flags.talon_torpedo = value > 0;
       break;
     case AP_ITEM_AUQAIM:
@@ -417,6 +418,7 @@ void ap_sync_items(u16 type, u8 value) {
       bt_flags.diving = value > 0;
       break;
     case AP_ITEM_FPAD:
+      if (value && !bt_flags.flight && !bt_flags.talon_torpedo) bt_fn_increase_item(BT_ITEM_RED_FEATHERS, 999);
       bt_flags.flight = value > 0;
       break;
     case AP_ITEM_GRAT:
@@ -454,6 +456,7 @@ void ap_sync_items(u16 type, u8 value) {
       bt_flags.beak_buster_attack = value > 0;
       break;
     case AP_ITEM_WWING:
+      if (value && !bt_flags.wonder_wing) bt_fn_increase_item(BT_ITEM_GOLD_FEATHERS, 999);
       bt_flags.wonder_wing = value > 0;
       break;
     case AP_ITEM_SSTRIDE:
@@ -1087,6 +1090,7 @@ void ap_cycle_character() {
 
 void ap_check() {
   if (!bt_temp_flags.in_cutscene) {
+    if (ap.load_file) ap_load_file();
     if (ap_memory.n64.misc.death_link_ap != ap_memory.pc.misc.death_link_ap && !bt_player_chars.died) {
       switch (bt_player_chars.control_type) {
         case BT_PLAYER_CHAR_CLOCKWORK:
@@ -1386,9 +1390,28 @@ void ap_new_file() {
   bt_flags.hfp_visited = 1;
   bt_flags.gi_visited = 1;
   bt_flags.mt_opened_prison_door = 1;
+  bt_flags.diving = 0;
+  bt_flags.flight = 0;
+  bt_flags.basic_peck_attack = 0;
+  bt_flags.rolling_attack = 0;
+  bt_flags.airborne_peck_attack = 0;
+  bt_flags.beak_barge_attack = 0;
+  bt_flags.basic_jumping = 0;
+  bt_flags.feathery_flap = 0;
+  bt_flags.flap_flip = 0;
+  bt_flags.climbing = 0;
+  bt_flags.blue_eggs = 0;
+  bt_flags.talon_trot = 0;
+  bt_flags.beak_buster_attack = 0;
+  bt_flags.wonder_wing = 0;
+  bt_flags.wading_boots = 0;
+  bt_flags.turbo_trainers = 0;
+  bt_flags.beak_bomb_attack = 0;
+  bt_flags.egg_firing = 0;
 }
 
 void ap_load_file() {
+  ap.load_file = 0;
   for (int i = 0; i < AP_ITEM_MAX; i++) ap_sync_items(i, ap_memory.pc.items[i]);
   if (ap_memory.pc.settings.randomize_chuffy) {
     bt_flags.ggm_mumbo_train = 1;
