@@ -19,6 +19,7 @@ int main() {
   printf("    pc_settings = 0x%X,\n",                     calc(ptr, ptr.pc_settings));
   printf("        setting_seed = 0x%X,\n",                calc(mem.pc.settings, mem.pc.settings.seed));
   printf("        setting_chuffy = 0x%X,\n",              calc(mem.pc.settings, mem.pc.settings.randomize_chuffy));
+  printf("        setting_nests = 0x%X,\n",               calc(mem.pc.settings, mem.pc.settings.randomize_nests));
   printf("        setting_puzzle = 0x%X,\n",              calc(mem.pc.settings, mem.pc.settings.skip_puzzles));
   printf("        setting_backdoors = 0x%X,\n",           calc(mem.pc.settings, mem.pc.settings.backdoors));
   printf("        setting_klungo = 0x%X,\n",              calc(mem.pc.settings, mem.pc.settings.skip_klungo));
@@ -45,5 +46,6 @@ int main() {
   printf("        current_map = 0x%X,\n",                 calc(mem.n64.misc, mem.n64.misc.current_map));
   printf("    real_flags = 0x%X,\n",                      calc(ptr, ptr.n64_saves_real));
   printf("    fake_flags = 0x%X,\n",                      calc(ptr, ptr.n64_saves_fake));
+  printf("    nest_flags = 0x%X,\n",                      calc(ptr, ptr.n64_saves_nests));
   return 0;
 }
