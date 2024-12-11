@@ -64,6 +64,7 @@ private:
   int BH_LENGTH = 0; //Boss Token Length
   int JFR_LENGTH = 0; //Jinjo Token Length
   int TH_LENGTH = 0; //Token Hunt Length
+  int DIALOG_CHARACTER = 110;
   std::string OPEN_SILO = "NONE"; //Which Silo is Open
   std::string CLIENT_VERSION = "V0.0";
   /* EO Banjo-Tooie AP Settings */
@@ -91,7 +92,11 @@ private:
 
   std::map<std::string, int> WORLD_TABLE;
   std::map<std::string, std::string> RANDOM_ENTRANCES;
-  std::queue<std::string> MESSAGE_QUEUE;
+  typedef struct {
+    int character;
+    std::string text;
+  } message_t;
+  std::queue<message_t> MESSAGE_QUEUE;
 
 
   asio::awaitable<void> receive();
@@ -119,7 +124,7 @@ private:
   nlohmann::json check_unlock_worlds();
   void unlock_world(int);
   void randomize_entrances(nlohmann::json);
-  void show_message(nlohmann::json);
+  void show_message(int, nlohmann::json);
   nlohmann::json check_page_locations();
   void obtain_pages();
   nlohmann::json check_cheato_locations();

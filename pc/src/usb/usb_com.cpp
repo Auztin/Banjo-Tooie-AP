@@ -11,6 +11,7 @@ USBCom::USBCom(asio::io_context* io_context, BTClient* bt_client):
   check();
   ping(false);
   this->bt_client = bt_client;
+  ap_memory.pc.settings.dialog_character = 0xFF;
 }
 
 void USBCom::check() {
