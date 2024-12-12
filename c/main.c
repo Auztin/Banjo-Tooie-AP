@@ -18,8 +18,11 @@ void post_init() {
   // allow immediately pressing start to skip title screen if version matches
   if (AP_VERSION.as_int == save_data.version) BT_TITLE_SCREEN = 0x40;
 
-  util_inject(UTIL_INJECT_RAW, 0x800D0C24, 0, 0); // dont show amount of notes when collected
-  util_inject(UTIL_INJECT_RAW, 0x800D0C44, 0, 0); // dont show amount of jiggies when collected
+  util_inject(UTIL_INJECT_RAW , 0x800D0C24, 0, 0); // dont show amount of notes when collected
+  util_inject(UTIL_INJECT_RAW , 0x800D0C44, 0, 0); // dont show amount of jiggies when collected
+  util_inject(UTIL_INJECT_JUMP, 0x800A1718, (u32)ap_get_health, 1); // always return 2 health while trapping
+  util_inject(UTIL_INJECT_JUMP, 0x800A17A8, (u32)ap_increase_health, 1); // prevent decreasing health while trapping
+  util_inject(UTIL_INJECT_JUMP, 0x80096628, (u32)ap_ground_info, 1); // allow slipping on any surface
   usb_init();
   main.zb_credits[0] = bt_fn_zoombox_new(50, BT_ZOOMBOX_ICON_BANJO, 0, 1);
   main.zb_credits[1] = bt_fn_zoombox_new(160, BT_ZOOMBOX_ICON_KAZOOIE, 0, 0);
@@ -170,6 +173,7 @@ void post_loop() {
     ap_memory.n64.misc.current_map = bt_current_map;
     usb.send.misc = 1;
   }
+  main.frame_count_map++;
 }
 
 void main_visited_world(u16 scene) {
@@ -205,6 +209,7 @@ void main_visited_world(u16 scene) {
 }
 
 void pre_load_scene(u16 *scene, u16 *exit) {
+  main.frame_count_map = 0;
   if (!BT_IN_GAME && bt_current_map != BT_MAP_FILE_SELECT) {
     if (*scene == BT_MAP_FILE_SELECT) {
       save_data.version = AP_VERSION.as_int;

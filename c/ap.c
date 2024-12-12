@@ -2,6 +2,7 @@
 #include "bt.h"
 #include "save.h"
 #include "usb.h"
+#include "main.h"
 #include <string.h>
 
 ap_t ap = {0, };
@@ -611,6 +612,130 @@ void ap_sync_items(u16 type, u8 value) {
   }
 }
 
+bool ap_trap_trip(bool checking) {
+  if (checking && bt_fn_character_in_water(bt_current_player_char)) return false;
+  switch (bt_fn_get_character_animation(bt_current_player_char)) {
+    case 0x58:
+    case 0x20:
+      break;
+    default:
+      if (!checking && bt_fn_get_character_last_animation(bt_current_player_char) == 0x20) {
+        bt_fn_set_character_animation(bt_current_player_char, bt_fn_get_default_animation(bt_current_player_char));
+        ap.fn_trap = 0;
+      }
+      else {
+        switch (bt_player_chars.control_type) {
+          case BT_PLAYER_CHAR_BREEGULL_BLASTER:
+            break;
+          default:
+            bt_fn_set_character_animation(bt_current_player_char, 0x58);
+            return true;
+        }
+      }
+  }
+  return false;
+}
+
+bool ap_trap_slip(bool checking) {
+  if (
+    checking && (
+         !bt_fn_character_touching_ground(bt_current_player_char)
+      || bt_fn_character_in_water(bt_current_player_char)
+    )
+  ) return false;
+  if (ap.trap_timer) {
+    ap.trap_timer -= ap.smooth_banjo ? 1 : 2;
+    if (ap.trap_timer <= 0) {
+      ap.fn_trap = 0;
+      ap.trap_timer = 0;
+    }
+  }
+  else if (checking) {
+    switch (bt_player_chars.control_type) {
+      case BT_PLAYER_CHAR_KAZOOIE:
+        if (!bt_fn_get_health(bt_current_player_char)) return false;
+        break;
+      case BT_PLAYER_CHAR_SNOWBALL:
+      case BT_PLAYER_CHAR_BEE:
+      case BT_PLAYER_CHAR_BREEGULL_BLASTER:
+      case BT_PLAYER_CHAR_GOLDEN_GOLIATH:
+      case BT_PLAYER_CHAR_SUB:
+      case BT_PLAYER_CHAR_DETONATOR:
+      case BT_PLAYER_CHAR_TREX:
+      case BT_PLAYER_CHAR_DADDY_TREX:
+        return false;
+    }
+    ap.trap_timer = 300;
+    return true;
+  }
+  return false;
+}
+
+bool ap_trap_misfire(bool checking) {
+  if (checking) {
+    switch (bt_player_chars.control_type) {
+      case BT_PLAYER_CHAR_BREEGULL_BLASTER:
+        return false;
+    }
+    if (bt_fn_character_transform(bt_player_chars.control_index, bt_player_chars.control_type)) {
+      ap.fn_trap = 0;
+      return true;
+    }
+  }
+  return false;
+}
+
+void ap_sync_traps() {
+  if (
+       (main.frame_count_map < (ap.smooth_banjo ? 120 : 60))
+    || bt_loading_map.loading
+    || bt_player_chars.died
+  ) return;
+  if (ap.fn_trap) ap.fn_trap(false);
+  else {
+    for (int i = 0; i < AP_TRAP_MAX; i++) {
+      if (bt_custom_save.traps[i] != ap_memory.pc.traps[i]) {
+        switch (i) {
+          case AP_TRAP_TRIP:
+            ap.fn_trap = ap_trap_trip;
+            break;
+          case AP_TRAP_SLIP:
+            ap.fn_trap = ap_trap_slip;
+            break;
+          case AP_TRAP_MISFIRE:
+            ap.fn_trap = ap_trap_misfire;
+            break;
+          default:
+            continue;
+        }
+        if (ap.fn_trap(true)) {
+          bt_custom_save.traps[i]++;
+          break;
+        }
+        else ap.fn_trap = 0;
+      }
+    }
+  }
+}
+
+extern u32 ap_get_health_displaced(u32 character);
+u32 ap_get_health(u32 character) {
+  if (ap.fn_trap) return 2;
+  return ap_get_health_displaced(character);
+}
+
+extern void ap_increase_health_displaced(u32 character, s32 amount);
+void ap_increase_health(u32 character, s32 amount) {
+  if (ap.fn_trap && amount < 0) return;
+  ap_increase_health_displaced(character, amount);
+}
+
+extern u32 ap_ground_info_displaced(u32 character);
+u32 ap_ground_info(u32 character) {
+  if (ap.fn_trap == ap_trap_slip) return 0x40;
+  return ap_ground_info_displaced(character);
+}
+
 void ap_draw_hud(bt_draw_ctx_t* draw_ctx) {
   if (ap.zoombox) bt_fn_zoombox_draw(ap.zoombox, draw_ctx);
 }
@@ -1042,7 +1167,8 @@ void ap_cycle_character() {
   bt_respawn_point_t respawn = {0, };
   bool in_water = bt_fn_character_in_water(bt_current_player_char);
   if (
-       (from_form != BT_PLAYER_CHAR_BANJO_KAZOOIE && !ap.fake_transform)
+       ap.fn_trap
+    || (from_form != BT_PLAYER_CHAR_BANJO_KAZOOIE && !ap.fake_transform)
     || (!bt_fn_character_touching_ground(bt_current_player_char) && !in_water)
   ) return;
   switch (bt_player_chars.control_type) {
@@ -1117,6 +1243,7 @@ void ap_check() {
       }
     }
     ap_check_enough_notes(total_notes, save_totals(6));
+    ap_sync_traps();
     if (!bt_controllers[0].held.l && bt_controllers[0].pressed.dleft) ap_cycle_character();
   }
   if (bt_player_chars.died) {

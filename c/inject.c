@@ -121,6 +121,7 @@ u32 inject_hooks() {
   ap_memory_ptrs.pc_message = (u32)&ap_memory.pc.message;
   ap_memory_ptrs.pc_settings = (u32)&ap_memory.pc.settings;
   ap_memory_ptrs.pc_items = (u32)&ap_memory.pc.items;
+  ap_memory_ptrs.pc_traps = (u32)&ap_memory.pc.traps;
   ap_memory_ptrs.pc_exit_map = (u32)&ap_memory.pc.exit_map;
   ap_memory_ptrs.n64 = (u32)&ap_memory.n64;
   ap_memory_ptrs.n64_saves_real = (u32)&ap_memory.n64.saves.real;

@@ -27,12 +27,14 @@ typedef struct Save_Data_s {
     u32 seed;
     bt_save_flags_t fake_flags;
     save_data_totals_t totals;
+    u8 traps[AP_TRAP_MAX];
   } custom[3];
 } save_data_t;
 
 extern save_data_t save_data;
 extern u8 save_dirty;
-#define bt_fake_flags (save_data.custom[bt_save_slot].fake_flags)
+#define bt_custom_save (save_data.custom[bt_save_slot])
+#define bt_fake_flags (bt_custom_save.fake_flags)
 
 void save_init();
 void save_sram_write();

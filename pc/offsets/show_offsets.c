@@ -30,6 +30,7 @@ int main() {
   printf("        setting_open_silos = 0x%X,\n",          calc(mem.pc.settings, mem.pc.settings.open_silos));
   printf("        setting_silo_requirements = 0x%X,\n",   calc(mem.pc.settings, mem.pc.settings.silo_requirements));
   printf("    pc_items = 0x%X,\n",                        calc(ptr, ptr.pc_items));
+  printf("    pc_traps = 0x%X,\n",                        calc(ptr, ptr.pc_traps));
   printf("    pc_exit_map = 0x%X,\n",                     calc(ptr, ptr.pc_exit_map));
   printf("        exit_on_map = 0x%X,\n",                 calc(mem.pc.exit_map[0], mem.pc.exit_map[0].on_map));
   printf("        exit_og_map = 0x%X,\n",                 calc(mem.pc.exit_map[0], mem.pc.exit_map[0].og_map));

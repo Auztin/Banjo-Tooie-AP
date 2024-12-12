@@ -11,6 +11,7 @@ typedef struct {
   u32 pc_message;
   u32 pc_settings;
   u32 pc_items;
+  u32 pc_traps;
   u32 pc_exit_map;
   u32 n64;
   u32 n64_saves_real;

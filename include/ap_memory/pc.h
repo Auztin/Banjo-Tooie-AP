@@ -46,6 +46,7 @@ typedef struct {
     u16 silo_requirements[24];
   } settings;
   u8 items[AP_ITEM_MAX];
+  u8 traps[AP_TRAP_MAX];
   ap_memory_pc_exit_map_t exit_map[AP_MEMORY_EXIT_MAP_MAX];
 } ap_memory_pc_t;
 
