@@ -36,6 +36,7 @@ typedef struct {
 #include "bt/misc_functions.h"
 #include "bt/zoombox.h"
 #include "bt/text.h"
+#include "bt/audio.h"
 
 #define BT_IN_GAME (bt_save_slot != 0xFF && bt_current_map != BT_MAP_FILE_SELECT)
 #define BT_FPS          (*(u8 *)0x8007913F)

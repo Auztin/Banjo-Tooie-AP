@@ -1161,7 +1161,7 @@ bool ap_can_transform_mumbo(u16 map, bt_respawn_point_t* respawn) {
   return false;
 }
 
-void ap_cycle_character() {
+bool ap_cycle_character() {
   u16 to_form = 0;
   u16 from_form = bt_player_chars.control_type;
   bt_respawn_point_t respawn = {0, };
@@ -1170,7 +1170,7 @@ void ap_cycle_character() {
        ap.fn_trap
     || (from_form != BT_PLAYER_CHAR_BANJO_KAZOOIE && !ap.fake_transform)
     || (!bt_fn_character_touching_ground(bt_current_player_char) && !in_water)
-  ) return;
+  ) return false;
   switch (bt_player_chars.control_type) {
     case BT_PLAYER_CHAR_BANJO_KAZOOIE:
       if (
@@ -1188,16 +1188,16 @@ void ap_cycle_character() {
     case BT_PLAYER_CHAR_VAN:
     case BT_PLAYER_CHAR_TREX:
     case BT_PLAYER_CHAR_DADDY_TREX:
-      if (!ap_can_transform_humba(bt_current_map, &respawn, &to_form)) return;
+      if (!ap_can_transform_humba(bt_current_map, &respawn, &to_form)) return false;
       if (!ap_can_transform_mumbo(bt_current_map, &respawn)) to_form = BT_PLAYER_CHAR_BANJO_KAZOOIE;
       else to_form = BT_PLAYER_CHAR_MUMBO;
       break;
     case BT_PLAYER_CHAR_MUMBO:
-      if (!ap_can_transform_mumbo(bt_current_map, &respawn)) return;
+      if (!ap_can_transform_mumbo(bt_current_map, &respawn)) return false;
       to_form = BT_PLAYER_CHAR_BANJO_KAZOOIE;
       break;
   }
-  if (!to_form) return;
+  if (!to_form) return false;
   if (to_form == BT_PLAYER_CHAR_BANJO_KAZOOIE) ap.fake_transform = 0;
   else ap.fake_transform = 1;
   if (from_form != to_form) {
@@ -1211,7 +1211,9 @@ void ap_cycle_character() {
     }
     else bt_respawn_point[0] = respawn;
     bt_fn_change_character(bt_current_player_char, to_form);
+    return true;
   }
+  return false;
 }
 
 void ap_check() {
@@ -1244,7 +1246,9 @@ void ap_check() {
     }
     ap_check_enough_notes(total_notes, save_totals(6));
     ap_sync_traps();
-    if (!bt_controllers[0].held.l && bt_controllers[0].pressed.dleft) ap_cycle_character();
+    if (!bt_controllers[0].held.l && bt_controllers[0].pressed.dleft) {
+      if (!ap_cycle_character()) bt_fn_play_sound(BT_SOUND_WRONG, -1, 1, -1);
+    }
   }
   if (bt_player_chars.died) {
     if (!ap.death_link && !ap.death_link_queued) {
