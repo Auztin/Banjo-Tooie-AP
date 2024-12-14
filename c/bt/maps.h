@@ -36,8 +36,11 @@ typedef struct {
 #define BT_MAP_IOH_PLATEAU            0x0152
 #define BT_MAP_IOH_PINE_GROVE         0x0154
 #define BT_MAP_IOH_CLIFF_TOP          0x0155
+#define BT_MAP_IOH_WASTELAND          0x015A
 #define BT_MAP_MT_KICKBALL_LOBBY      0x00BB
 #define BT_MAP_TDL_OOGLE_BOOGLE_CAVE  0x0115
+#define BT_MAP_DIGGER_TUNNEL          0x0141
+#define BT_MAP_ANOTHER_DIGGER_TUNNEL  0x015B
 #define BT_MAP_IOH_MUMBO              0x0156
 #define BT_MAP_MT_MUMBO               0x00B7
 #define BT_MAP_GGM_MUMBO              0x00D9

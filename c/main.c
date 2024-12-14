@@ -354,6 +354,51 @@ void pre_load_scene(u16 *scene, u16 *exit) {
     case BT_MAP_TDL_OOGLE_BOOGLE_CAVE:
       if (ap_memory.pc.settings.backdoors && *exit) bt_flags.tdl_opened_oogle_boogle_cave = 1;
       break;
+    case BT_MAP_JINJO_VILLAGE:
+      if (
+           ap_memory.pc.settings.randomize_nests
+        && bt_current_map == BT_MAP_SPIRAL_MOUNTAIN
+        && *exit == 3
+        && !save_custom_get_bit(bt_custom_save.nests, 0x019)
+      ) {
+        *scene = BT_MAP_DIGGER_TUNNEL;
+        *exit = 1;
+      }
+      break;
+    case BT_MAP_SPIRAL_MOUNTAIN:
+      if (
+           ap_memory.pc.settings.randomize_nests
+        && bt_current_map == BT_MAP_JINJO_VILLAGE
+        && *exit == 3
+        && !save_custom_get_bit(bt_custom_save.nests, 0x019)
+      ) {
+        *scene = BT_MAP_DIGGER_TUNNEL;
+        *exit = 2;
+      }
+      break;
+    case BT_MAP_IOH_WASTELAND:
+      if (
+           ap_memory.pc.settings.randomize_nests
+        && bt_current_map == BT_MAP_IOH_PINE_GROVE
+        && *exit == 1
+        && (!save_custom_get_bit(bt_custom_save.nests, 0x051) || !save_custom_get_bit(bt_custom_save.nests, 0x052))
+      ) {
+        *scene = BT_MAP_ANOTHER_DIGGER_TUNNEL;
+        *exit = 1;
+      }
+      break;
+    case BT_MAP_IOH_PINE_GROVE:
+      if (
+           ap_memory.pc.settings.randomize_nests
+        && bt_current_map == BT_MAP_IOH_WASTELAND
+        && *exit == 3
+        && (!save_custom_get_bit(bt_custom_save.nests, 0x051) || !save_custom_get_bit(bt_custom_save.nests, 0x052))
+      ) {
+        *scene = BT_MAP_ANOTHER_DIGGER_TUNNEL;
+        *exit = 2;
+      }
+      bt_fake_flags.humba_dragon_kazooie = 1;
+      break;
     case BT_MAP_IOH_CLIFF_TOP:
       bt_fake_flags.ioh_mumbo = 1;
       break;
@@ -380,9 +425,6 @@ void pre_load_scene(u16 *scene, u16 *exit) {
       break;
     case BT_MAP_CCL_MUMBO:
       bt_fake_flags.ccl_mumbo = 1;
-      break;
-    case BT_MAP_IOH_PINE_GROVE:
-      bt_fake_flags.humba_dragon_kazooie = 1;
       break;
     case BT_MAP_MT_HUMBA:
       bt_fake_flags.mt_humba = 1;
