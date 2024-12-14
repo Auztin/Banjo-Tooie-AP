@@ -335,6 +335,9 @@ void USBCom::endian_swap_save(bt_save_flags_t* save) {
 
 void USBCom::endian_swap_apm(ap_memory_pc_t* apm) {
   endian_swap32(&apm->settings.seed);
+  for (int i = 0; i < sizeof(apm->settings.silo_requirements)/2; i++) {
+    endian_swap16(&apm->settings.silo_requirements[i]);
+  }
   for (int i = 0; i < AP_MEMORY_EXIT_MAP_MAX; i++) {
     ap_memory_pc_exit_map_t* map = &apm->exit_map[i];
     endian_swap16(&map->on_map);
