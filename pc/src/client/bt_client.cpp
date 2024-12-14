@@ -1628,6 +1628,9 @@ void BTClient::processAGIItem(json item_data)
                 case 1230779: obtain_amaze_o_gaze(); break;
                 case 1230780: obtain_roar(); break;
                 case 1230798: obtain_mumbo_token(); break;
+                case 1230786: ap_memory.pc.traps[AP_TRAP_TRIP]++; break;
+                case 1230787: ap_memory.pc.traps[AP_TRAP_SLIP]++; break;
+                case 1230788: ap_memory.pc.traps[AP_TRAP_MISFIRE]++; break;
             }
         }
     }

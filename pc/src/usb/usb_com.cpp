@@ -217,6 +217,7 @@ void USBCom::send() {
   bool misc = check_changes(&ap_memory.pc.misc, &apm_clone.misc, sizeof(apm_clone.misc));
   bool settings = check_changes(&ap_memory.pc.settings, &apm_clone.settings, sizeof(apm_clone.settings));
   bool items = check_changes(&ap_memory.pc.items, &apm_clone.items, sizeof(apm_clone.items));
+  bool traps = check_changes(&ap_memory.pc.traps, &apm_clone.traps, sizeof(apm_clone.traps));
   bool exit_map = check_changes(&ap_memory.pc.exit_map, &apm_clone.exit_map, sizeof(apm_clone.exit_map));
   memcpy(&apm_converted, &apm_clone, sizeof(ap_memory_pc_t));
   endian_swap_apm(&apm_converted);
@@ -235,6 +236,10 @@ void USBCom::send() {
   if (items) {
     memcpy(packet.extra, &apm_converted.items, sizeof(apm_converted.items));
     write(USB_CMD_PC_ITEMS, sizeof(apm_converted.items));
+  }
+  if (traps) {
+    memcpy(packet.extra, &apm_converted.traps, sizeof(apm_converted.traps));
+    write(USB_CMD_PC_TRAPS, sizeof(apm_converted.traps));
   }
   if (exit_map) {
     int size = sizeof(ap_memory_pc_exit_map_t);

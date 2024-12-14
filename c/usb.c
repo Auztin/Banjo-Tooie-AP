@@ -113,6 +113,10 @@ void usb_check() {
               memcpy(ap_memory.pc.items, usb.packet.extra, sizeof(ap_memory.pc.items));
               break;
             }
+            case USB_CMD_PC_TRAPS: {
+              memcpy(ap_memory.pc.traps, usb.packet.extra, sizeof(ap_memory.pc.traps));
+              break;
+            }
             case USB_CMD_PC_EXIT_MAP: {
               memcpy(ap_memory.pc.exit_map+usb.packet.exit_map.offset, usb.packet.exit_map.data, usb.packet.exit_map.size);
               break;
