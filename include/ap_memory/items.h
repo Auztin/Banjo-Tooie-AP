@@ -104,6 +104,11 @@ enum {
 
   AP_ITEM_CHUFFY,
 
+  // junk
+  AP_ITEM_GNEST,
+  AP_ITEM_ENEST,
+  AP_ITEM_FNEST,
+
   //event items
   AP_ITEM_MTA,
   AP_ITEM_GGA,

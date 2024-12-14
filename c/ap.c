@@ -177,6 +177,68 @@ void ap_open_doors(u16 world) {
   }
 }
 
+void ap_item_nest(bool feather_nest) {
+  struct nest_t {
+    u8 type;
+    u8 obtained;
+  } eggs[] = {
+    {.type=BT_ITEM_BLUE_EGGS, .obtained=bt_flags.blue_eggs},
+    {.type=BT_ITEM_FIRE_EGGS, .obtained=bt_flags.fire_eggs},
+    {.type=BT_ITEM_GRENADE_EGGS, .obtained=bt_flags.grenade_eggs},
+    {.type=BT_ITEM_ICE_EGGS, .obtained=bt_flags.ice_eggs},
+    {.type=BT_ITEM_CLOCKWORK_EGGS, .obtained=bt_flags.clockwork_kazooie_eggs},
+  }, feathers[] = {
+    {.type=BT_ITEM_RED_FEATHERS, .obtained=bt_flags.flight | bt_flags.talon_torpedo},
+    {.type=BT_ITEM_GOLD_FEATHERS, .obtained=bt_flags.wonder_wing},
+  };
+  struct nest_t* nests = eggs;
+  u8 elements = sizeof(eggs)/sizeof(*eggs);
+  if (feather_nest) {
+    nests = feathers;
+    elements = sizeof(feathers)/sizeof(*feathers);
+  }
+  s8 lowest = -1;
+  float current_percent = 2;
+  for (int i = 0; i < elements; i++) {
+    struct nest_t* nest = &nests[i];
+    if (!nest->obtained) continue;
+    u16 key = bt_item_keys[nest->type].key;
+    float amount = bt_items[nest->type] ^ key;
+    float max = bt_items_max[nest->type].value;
+    float percent = amount/max;
+    if (percent < current_percent) {
+      lowest = nest->type;
+      current_percent = percent;
+    }
+  }
+  u8 amount = 0;
+  switch (lowest) {
+    case BT_ITEM_BLUE_EGGS:
+      amount = 20;
+      break;
+    case BT_ITEM_FIRE_EGGS:
+      amount = 10;
+      break;
+    case BT_ITEM_GRENADE_EGGS:
+      amount = 10;
+      break;
+    case BT_ITEM_ICE_EGGS:
+      amount = 10;
+      break;
+    case BT_ITEM_CLOCKWORK_EGGS:
+      amount = 1;
+      break;
+    case BT_ITEM_RED_FEATHERS:
+      amount = 20;
+      break;
+    case BT_ITEM_GOLD_FEATHERS:
+      amount = 2;
+      break;
+    default: return;
+  }
+  bt_fn_increase_item(lowest, amount);
+}
+
 void ap_sync_items(u16 type, u8 value) {
   save_data_totals_t* totals = &(save_data.custom[bt_save_slot].totals);
   u16 current;
@@ -564,6 +626,16 @@ void ap_sync_items(u16 type, u8 value) {
         bt_fake_flags.ggm_defeated_chuffy = 0;
         bt_fake_flags.ggm_mumbo_train = 0;
       }
+      break;
+    case AP_ITEM_GNEST:
+      bt_fn_give_golden_eggs();
+      bt_custom_save.golden_egg_nests = value;
+      break;
+    case AP_ITEM_ENEST:
+      for (; bt_custom_save.egg_nests != value; bt_custom_save.egg_nests++) ap_item_nest(false);
+      break;
+    case AP_ITEM_FNEST:
+      for (; bt_custom_save.feather_nests != value; bt_custom_save.feather_nests++) ap_item_nest(true);
       break;
     case AP_ITEM_MTA:
       bt_flags.mt_open = value > 0;
