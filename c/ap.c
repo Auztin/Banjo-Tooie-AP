@@ -400,7 +400,10 @@ void ap_sync_items(u16 type, u8 value) {
       bt_flags.fast_swimming = value > 0;
       break;
     case AP_ITEM_DAIR:
-      if (value && !bt_flags.extra_bubbles) bt_fn_refill_air(1, 10);
+      if (value && !bt_flags.extra_bubbles) {
+        bt_fn_ui_hide_number(BT_UI_NUMBERS_BUBBLES);
+        bt_fn_refill_air(1, 10);
+      }
       bt_flags.extra_bubbles = value > 0;
       break;
     case AP_ITEM_BBASH:
