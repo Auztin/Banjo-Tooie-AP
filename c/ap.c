@@ -896,7 +896,7 @@ void ap_check_enough_notes(u16 start, u16 end) {
     180,
     200,
     265,
-    285,
+    275,
     290,
     315,
     390,
