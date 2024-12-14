@@ -21,11 +21,13 @@ typedef struct {
 
 typedef struct Save_Data_s {
   u32 magic;
+  u32 version;
   u32 eeprom[512];
   struct {
     u32 seed;
     bt_save_flags_t fake_flags;
     save_data_totals_t totals;
+    u8 traps[AP_TRAP_MAX];
     u8 nests[59];
     u8 golden_egg_nests;
     u8 egg_nests;

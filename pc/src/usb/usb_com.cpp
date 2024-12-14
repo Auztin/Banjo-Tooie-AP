@@ -11,6 +11,7 @@ USBCom::USBCom(asio::io_context* io_context, BTClient* bt_client):
   check();
   ping(false);
   this->bt_client = bt_client;
+  ap_memory.pc.settings.dialog_character = 0xFF;
 }
 
 void USBCom::check() {
@@ -152,9 +153,11 @@ void USBCom::process() {
           write(USB_CMD_PONG, packet.size);
           status = USB_STATUS_CONNECTED;
           ap_memory.n64.misc.show_message = 0;
-          ap_memory.pc.misc.show_message = 0;
+          ap_memory.n64.misc.death_link_us = 0;
+          ap_memory.n64.misc.death_link_ap = 0;
           ap_memory.pc.misc.death_link_us = 0;
           ap_memory.pc.misc.death_link_ap = 0;
+          ap_memory.pc.misc.show_message = 0;
           for (int i = 0; i < sizeof(ap_memory_pc_t); i++) ((u8*)&apm_clone)[i] = 0;
           break;
         default:
@@ -221,13 +224,13 @@ void USBCom::send() {
     memcpy(packet.message, &apm_converted.message, sizeof(apm_converted.message));
     write(USB_CMD_PC_MESSAGE, sizeof(packet.extra));
   }
-  if (misc) {
-    memcpy(packet.extra, &apm_converted.misc, sizeof(apm_converted.misc));
-    write(USB_CMD_PC_MISC, sizeof(apm_converted.misc));
-  }
   if (settings) {
     memcpy(packet.extra, &apm_converted.settings, sizeof(apm_converted.settings));
     write(USB_CMD_PC_SETTINGS, sizeof(apm_converted.settings));
+  }
+  if (misc) {
+    memcpy(packet.extra, &apm_converted.misc, sizeof(apm_converted.misc));
+    write(USB_CMD_PC_MISC, sizeof(apm_converted.misc));
   }
   if (items) {
     memcpy(packet.extra, &apm_converted.items, sizeof(apm_converted.items));
@@ -336,6 +339,9 @@ void USBCom::endian_swap_save(bt_save_flags_t* save) {
 
 void USBCom::endian_swap_apm(ap_memory_pc_t* apm) {
   endian_swap32(&apm->settings.seed);
+  for (int i = 0; i < sizeof(apm->settings.silo_requirements)/2; i++) {
+    endian_swap16(&apm->settings.silo_requirements[i]);
+  }
   for (int i = 0; i < AP_MEMORY_EXIT_MAP_MAX; i++) {
     ap_memory_pc_exit_map_t* map = &apm->exit_map[i];
     endian_swap16(&map->on_map);

@@ -45,8 +45,9 @@ typedef struct {
 #include "bt/audio.h"
 
 #define BT_IN_GAME (bt_save_slot != 0xFF && bt_current_map != BT_MAP_FILE_SELECT)
-#define BT_FPS    (*(u8 *)0x8007913F)
-#define BT_RANDOM (*(u32*)0x8012C7F0)
+#define BT_FPS          (*(u8 *)0x8007913F)
+#define BT_RANDOM       (*(u32*)0x8012C7F0)
+#define BT_TITLE_SCREEN (*(u8 *)0x8012C78D) // set to 0x40 to allow skipping
 
 enum {
   BT_JINJO_WHITE,

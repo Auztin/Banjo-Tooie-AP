@@ -16,10 +16,14 @@ void pre_init() {
 }
 
 void post_init() {
-  // allow immediately pressing start to skip title screen
-  (*(u8*)0x8012C78D) = 0x40;
-  util_inject(UTIL_INJECT_RAW, 0x800D0C24, 0, 0); // dont show amount of notes when collected
-  util_inject(UTIL_INJECT_RAW, 0x800D0C44, 0, 0); // dont show amount of jiggies when collected
+  // allow immediately pressing start to skip title screen if version matches
+  if (AP_VERSION.as_int == save_data.version) BT_TITLE_SCREEN = 0x40;
+
+  util_inject(UTIL_INJECT_RAW , 0x800D0C24, 0, 0); // dont show amount of notes when collected
+  util_inject(UTIL_INJECT_RAW , 0x800D0C44, 0, 0); // dont show amount of jiggies when collected
+  util_inject(UTIL_INJECT_JUMP, 0x800A1718, (u32)ap_get_health, 1); // always return 2 health while trapping
+  util_inject(UTIL_INJECT_JUMP, 0x800A17A8, (u32)ap_increase_health, 1); // prevent decreasing health while trapping
+  util_inject(UTIL_INJECT_JUMP, 0x80096628, (u32)ap_ground_info, 1); // allow slipping on any surface
   usb_init();
   main.zb_credits[0] = bt_fn_zoombox_new(50, BT_ZOOMBOX_ICON_BANJO, 0, 1);
   main.zb_credits[1] = bt_fn_zoombox_new(160, BT_ZOOMBOX_ICON_KAZOOIE, 0, 0);
@@ -59,6 +63,7 @@ void post_draw_hud(bt_draw_ctx_t* draw_ctx) {
   ap_draw_hud(draw_ctx);
   ap_menu_draw(draw_ctx);
   if (bt_current_map == BT_MAP_TITLE_SCREEN) {
+    if (bt_controllers[0].held.dup && bt_controllers[0].held.r && bt_controllers[0].pressed.start) BT_TITLE_SCREEN = 0x40;
     char version[10] = "V";
     char major[3];
     char minor[3];
@@ -245,6 +250,7 @@ void post_loop() {
     ap_memory.n64.misc.current_map = bt_current_map;
     usb.send.misc = 1;
   }
+  main.frame_count_map++;
 }
 
 void main_visited_world(u16 scene) {
@@ -280,9 +286,12 @@ void main_visited_world(u16 scene) {
 }
 
 void pre_load_scene(u16 *scene, u16 *exit) {
+  main.frame_count_map = 0;
   setup_cache_count = 0;
   if (!BT_IN_GAME && bt_current_map != BT_MAP_FILE_SELECT) {
     if (*scene == BT_MAP_FILE_SELECT) {
+      save_data.version = AP_VERSION.as_int;
+      save_dirty = 1;
       for (int i = 0; i < 2; i++) {
         bt_zoombox_t* zb = main.zb_credits[i];
         if (!zb) continue;
@@ -450,7 +459,7 @@ void post_load_save() {
     main.new_file = 0;
     ap_new_file();
   }
-  ap_load_file();
+  ap.load_file = 1;
   bt_temp_flags.hag1_phase4_intro = 1;
   bt_temp_flags.hag1_phase3_intro = 1;
   bt_temp_flags.hag1_phase2_intro = 1;
@@ -466,6 +475,8 @@ void post_load_save() {
   bt_temp_flags.hag1_phase5_intro = 1;
   bt_temp_flags.ccl_eyeballus_jiggium_plant_dialog = 1;
   bt_temp_flags.ccl_eyeballus_jiggium_plant_cutscene = 1;
+  bt_temp_flags.intro_pawno = 1;
+  bt_temp_flags.intro_ssslumber = 1;
 }
 
 void main_increase_item(u32 _unknown_A0, u16 type, s32 amount) {
@@ -473,6 +484,7 @@ void main_increase_item(u32 _unknown_A0, u16 type, s32 amount) {
   _bt_fn_increase_item(type, amount);
 }
 
+extern void main_train_change_station_displaced(u16 station);
 void main_train_change_station(u16 station) {
   bt_respawn_point[0].map = station;
   bt_respawn_point[0].exit = 2;
@@ -898,18 +910,14 @@ void pre_object_init(bt_object_t *obj) {
       util_inject(UTIL_INJECT_RAW     , (u32)obj + 0x4494, 0x001F0821, 0);
       util_inject(UTIL_INJECT_FUNCTION, (u32)obj + 0x4498, (u32)main_bt_file_select_bottom_text_displaced, 1);
       break;
+    case BT_OBJ_CHUFFY_CABIN:
+      util_inject(UTIL_INJECT_JUMP    , (u32)obj + 0x0668, (u32)main_train_change_station_displaced, 1);
+      break;
   }
 }
 
 void post_object_init(bt_object_t *obj) {
   if (!BT_IN_GAME) return;
-  switch (obj->objType) {
-    case BT_OBJ_CHUFFY_CABIN:
-      util_inject(UTIL_INJECT_FUNCTION, (u32)obj + 0x0668, (u32)main_train_change_station, 0);
-      util_inject(UTIL_INJECT_RAW     , (u32)obj + 0x066C, 0x86040000, 0);
-      util_inject(UTIL_INJECT_BRANCH  , (u32)obj + 0x0670, 0x6C, 1);
-      break;
-  }
 }
 
 void pre_load_data(u16 *id) {

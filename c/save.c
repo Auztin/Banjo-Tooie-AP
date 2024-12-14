@@ -214,7 +214,7 @@ u16 save_jamjar_silo_requirements(bt_move_silo_t* silo_ptr, bt_move_silo_data_t*
     case 265: // Wing Wack
       index = 11;
       break;
-    case 285: // Aqua Aim
+    case 275: // Aqua Aim
       index = 12;
       break;
     case 290: // Torp

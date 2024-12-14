@@ -2,6 +2,7 @@
 #include "bt.h"
 #include "save.h"
 #include "usb.h"
+#include "main.h"
 #include <string.h>
 
 ap_t ap = {0, };
@@ -405,6 +406,7 @@ void ap_sync_items(u16 type, u8 value) {
       bt_flags.wing_whack = value > 0;
       break;
     case AP_ITEM_TTORP:
+      if (value && !bt_flags.flight && !bt_flags.talon_torpedo) bt_fn_increase_item(BT_ITEM_RED_FEATHERS, 999);
       bt_flags.talon_torpedo = value > 0;
       break;
     case AP_ITEM_AUQAIM:
@@ -460,7 +462,10 @@ void ap_sync_items(u16 type, u8 value) {
       bt_flags.fast_swimming = value > 0;
       break;
     case AP_ITEM_DAIR:
-      if (value && !bt_flags.extra_bubbles) bt_fn_refill_air(1, 10);
+      if (value && !bt_flags.extra_bubbles) {
+        bt_fn_ui_hide_number(BT_UI_NUMBERS_BUBBLES);
+        bt_fn_refill_air(1, 10);
+      }
       bt_flags.extra_bubbles = value > 0;
       break;
     case AP_ITEM_BBASH:
@@ -479,6 +484,7 @@ void ap_sync_items(u16 type, u8 value) {
       bt_flags.diving = value > 0;
       break;
     case AP_ITEM_FPAD:
+      if (value && !bt_flags.flight && !bt_flags.talon_torpedo) bt_fn_increase_item(BT_ITEM_RED_FEATHERS, 999);
       bt_flags.flight = value > 0;
       break;
     case AP_ITEM_GRAT:
@@ -516,6 +522,7 @@ void ap_sync_items(u16 type, u8 value) {
       bt_flags.beak_buster_attack = value > 0;
       break;
     case AP_ITEM_WWING:
+      if (value && !bt_flags.wonder_wing) bt_fn_increase_item(BT_ITEM_GOLD_FEATHERS, 999);
       bt_flags.wonder_wing = value > 0;
       break;
     case AP_ITEM_SSTRIDE:
@@ -680,6 +687,130 @@ void ap_sync_items(u16 type, u8 value) {
   }
 }
 
+bool ap_trap_trip(bool checking) {
+  if (checking && bt_fn_character_in_water(bt_current_player_char)) return false;
+  switch (bt_fn_get_character_animation(bt_current_player_char)) {
+    case 0x58:
+    case 0x20:
+      break;
+    default:
+      if (!checking && bt_fn_get_character_last_animation(bt_current_player_char) == 0x20) {
+        bt_fn_set_character_animation(bt_current_player_char, bt_fn_get_default_animation(bt_current_player_char));
+        ap.fn_trap = 0;
+      }
+      else {
+        switch (bt_player_chars.control_type) {
+          case BT_PLAYER_CHAR_BREEGULL_BLASTER:
+            break;
+          default:
+            bt_fn_set_character_animation(bt_current_player_char, 0x58);
+            return true;
+        }
+      }
+  }
+  return false;
+}
+
+bool ap_trap_slip(bool checking) {
+  if (
+    checking && (
+         !bt_fn_character_touching_ground(bt_current_player_char)
+      || bt_fn_character_in_water(bt_current_player_char)
+    )
+  ) return false;
+  if (ap.trap_timer) {
+    ap.trap_timer -= ap.smooth_banjo ? 1 : 2;
+    if (ap.trap_timer <= 0) {
+      ap.fn_trap = 0;
+      ap.trap_timer = 0;
+    }
+  }
+  else if (checking) {
+    switch (bt_player_chars.control_type) {
+      case BT_PLAYER_CHAR_KAZOOIE:
+        if (!bt_fn_get_health(bt_current_player_char)) return false;
+        break;
+      case BT_PLAYER_CHAR_SNOWBALL:
+      case BT_PLAYER_CHAR_BEE:
+      case BT_PLAYER_CHAR_BREEGULL_BLASTER:
+      case BT_PLAYER_CHAR_GOLDEN_GOLIATH:
+      case BT_PLAYER_CHAR_SUB:
+      case BT_PLAYER_CHAR_DETONATOR:
+      case BT_PLAYER_CHAR_TREX:
+      case BT_PLAYER_CHAR_DADDY_TREX:
+        return false;
+    }
+    ap.trap_timer = 300;
+    return true;
+  }
+  return false;
+}
+
+bool ap_trap_misfire(bool checking) {
+  if (checking) {
+    switch (bt_player_chars.control_type) {
+      case BT_PLAYER_CHAR_BREEGULL_BLASTER:
+        return false;
+    }
+    if (bt_fn_character_transform(bt_player_chars.control_index, bt_player_chars.control_type)) {
+      ap.fn_trap = 0;
+      return true;
+    }
+  }
+  return false;
+}
+
+void ap_sync_traps() {
+  if (
+       (main.frame_count_map < (ap.smooth_banjo ? 120 : 60))
+    || bt_loading_map.loading
+    || bt_player_chars.died
+  ) return;
+  if (ap.fn_trap) ap.fn_trap(false);
+  else {
+    for (int i = 0; i < AP_TRAP_MAX; i++) {
+      if (bt_custom_save.traps[i] != ap_memory.pc.traps[i]) {
+        switch (i) {
+          case AP_TRAP_TRIP:
+            ap.fn_trap = ap_trap_trip;
+            break;
+          case AP_TRAP_SLIP:
+            ap.fn_trap = ap_trap_slip;
+            break;
+          case AP_TRAP_MISFIRE:
+            ap.fn_trap = ap_trap_misfire;
+            break;
+          default:
+            continue;
+        }
+        if (ap.fn_trap(true)) {
+          bt_custom_save.traps[i]++;
+          break;
+        }
+        else ap.fn_trap = 0;
+      }
+    }
+  }
+}
+
+extern u32 ap_get_health_displaced(u32 character);
+u32 ap_get_health(u32 character) {
+  if (ap.fn_trap) return 2;
+  return ap_get_health_displaced(character);
+}
+
+extern void ap_increase_health_displaced(u32 character, s32 amount);
+void ap_increase_health(u32 character, s32 amount) {
+  if (ap.fn_trap && amount < 0) return;
+  ap_increase_health_displaced(character, amount);
+}
+
+extern u32 ap_ground_info_displaced(u32 character);
+u32 ap_ground_info(u32 character) {
+  if (ap.fn_trap == ap_trap_slip) return 0x40;
+  return ap_ground_info_displaced(character);
+}
+
 void ap_draw_hud(bt_draw_ctx_t* draw_ctx) {
   if (ap.zoombox) bt_fn_zoombox_draw(ap.zoombox, draw_ctx);
 }
@@ -718,6 +849,7 @@ bool ap_get_next_message() {
   else if (ap.internal_message[0]) {
     bool ret = ap_prepare_message(ap.internal_message);
     ap.internal_message[0] = '\0';
+    ap.is_internal_message = 1;
     return ret;
   }
   return false;
@@ -725,6 +857,10 @@ bool ap_get_next_message() {
 
 u8 ap_get_zb_icon() {
   u8 icon = ap_memory.pc.settings.dialog_character;
+  if (icon == 110 && ap.is_internal_message) {
+    ap.is_internal_message = 0;
+    return ap.internal_icon;
+  }
   if (icon >= sizeof(ap_dialog_icons)) icon = BT_RANDOM % sizeof(ap_dialog_icons);
   ap.zb_icon = icon;
   icon = ap_dialog_icons[icon];
@@ -837,7 +973,7 @@ void ap_check_enough_notes(u16 start, u16 end) {
     180,
     200,
     265,
-    285,
+    275,
     290,
     315,
     390,
@@ -853,6 +989,7 @@ void ap_check_enough_notes(u16 start, u16 end) {
   for (int i = 0; i < sizeof(note_requirements)/sizeof(*note_requirements); i++) {
     u16 amount = note_requirements[i];
     if (start < amount && end >= amount) {
+      ap.internal_icon = BT_ZOOMBOX_ICON_JAMJARS;
       strcpy(ap.internal_message, "YOU HAVE ENOUGH NOTES FOR A NEW MOVE!");
       break;
     }
@@ -1105,15 +1242,16 @@ bool ap_can_transform_mumbo(u16 map, bt_respawn_point_t* respawn) {
   return false;
 }
 
-void ap_cycle_character() {
+bool ap_cycle_character() {
   u16 to_form = 0;
   u16 from_form = bt_player_chars.control_type;
   bt_respawn_point_t respawn = {0, };
   bool in_water = bt_fn_character_in_water(bt_current_player_char);
   if (
-       (from_form != BT_PLAYER_CHAR_BANJO_KAZOOIE && !ap.fake_transform)
+       ap.fn_trap
+    || (from_form != BT_PLAYER_CHAR_BANJO_KAZOOIE && !ap.fake_transform)
     || (!bt_fn_character_touching_ground(bt_current_player_char) && !in_water)
-  ) return;
+  ) return false;
   switch (bt_player_chars.control_type) {
     case BT_PLAYER_CHAR_BANJO_KAZOOIE:
       if (
@@ -1131,16 +1269,16 @@ void ap_cycle_character() {
     case BT_PLAYER_CHAR_VAN:
     case BT_PLAYER_CHAR_TREX:
     case BT_PLAYER_CHAR_DADDY_TREX:
-      if (!ap_can_transform_humba(bt_current_map, &respawn, &to_form)) return;
+      if (!ap_can_transform_humba(bt_current_map, &respawn, &to_form)) return false;
       if (!ap_can_transform_mumbo(bt_current_map, &respawn)) to_form = BT_PLAYER_CHAR_BANJO_KAZOOIE;
       else to_form = BT_PLAYER_CHAR_MUMBO;
       break;
     case BT_PLAYER_CHAR_MUMBO:
-      if (!ap_can_transform_mumbo(bt_current_map, &respawn)) return;
+      if (!ap_can_transform_mumbo(bt_current_map, &respawn)) return false;
       to_form = BT_PLAYER_CHAR_BANJO_KAZOOIE;
       break;
   }
-  if (!to_form) return;
+  if (!to_form) return false;
   if (to_form == BT_PLAYER_CHAR_BANJO_KAZOOIE) ap.fake_transform = 0;
   else ap.fake_transform = 1;
   if (from_form != to_form) {
@@ -1154,11 +1292,14 @@ void ap_cycle_character() {
     }
     else bt_respawn_point[0] = respawn;
     bt_fn_change_character(bt_current_player_char, to_form);
+    return true;
   }
+  return false;
 }
 
 void ap_check() {
   if (!bt_temp_flags.in_cutscene) {
+    if (ap.load_file) ap_load_file();
     if (ap_memory.n64.misc.death_link_ap != ap_memory.pc.misc.death_link_ap && !bt_player_chars.died) {
       switch (bt_player_chars.control_type) {
         case BT_PLAYER_CHAR_CLOCKWORK:
@@ -1185,7 +1326,10 @@ void ap_check() {
       }
     }
     ap_check_enough_notes(total_notes, save_totals(6));
-    if (!bt_controllers[0].held.l && bt_controllers[0].pressed.dleft) ap_cycle_character();
+    ap_sync_traps();
+    if (!bt_controllers[0].held.l && bt_controllers[0].pressed.dleft) {
+      if (!ap_cycle_character()) bt_fn_play_sound(BT_SOUND_WRONG, -1, 1, -1);
+    }
   }
   if (bt_player_chars.died) {
     if (!ap.death_link && !ap.death_link_queued) {
@@ -1211,22 +1355,26 @@ void ap_check() {
     char message[25] = {0};
     if (bt_controllers[0].pressed.dright) { // SUPER BANJO
       bt_flags.cheats_superbanjo_enabled = !bt_flags.cheats_superbanjo_enabled;
+      ap.internal_icon = BT_ZOOMBOX_ICON_BANJO;
       strcpy(message, "SUPER BANJO ");
       strcat(message, bt_flags.cheats_superbanjo_enabled ? "ENABLED" : "DISABLED");
     }
     if (bt_controllers[0].pressed.dleft && bt_flags.cheats_homing_eggs_received) { // HOMING EGGS
       bt_flags.cheats_homing_eggs_enabled = !bt_flags.cheats_homing_eggs_enabled;
+      ap.internal_icon = BT_ZOOMBOX_ICON_HEGGY;
       strcpy(message, "HOMING EGGS ");
       strcat(message, bt_flags.cheats_homing_eggs_enabled ? "ENABLED" : "DISABLED");
     }
     if (bt_controllers[0].pressed.ddown && bt_flags.cheats_honeyback_received) { // HONEYBACK
       bt_flags.cheats_honeyback_enabled = !bt_flags.cheats_honeyback_enabled;
+      ap.internal_icon = BT_ZOOMBOX_ICON_HONEYCOMB;
       strcpy(message, "HONEYBACK ");
       strcat(message, bt_flags.cheats_honeyback_enabled ? "ENABLED" : "DISABLED");
     }
     if (bt_controllers[0].released.start) { // SMOOTH BANJO
       ap.smooth_banjo = !ap.smooth_banjo;
       BT_FPS = ap.smooth_banjo ? 1 : 2;
+      ap.internal_icon = BT_ZOOMBOX_ICON_BANJO_KAZOOIE;
       strcpy(message, "SMOOTH BANJO ");
       strcat(message, ap.smooth_banjo ? "ENABLED" : "DISABLED");
     }
@@ -1466,9 +1614,28 @@ void ap_new_file() {
   bt_flags.hfp_visited = 1;
   bt_flags.gi_visited = 1;
   bt_flags.mt_opened_prison_door = 1;
+  bt_flags.diving = 0;
+  bt_flags.flight = 0;
+  bt_flags.basic_peck_attack = 0;
+  bt_flags.rolling_attack = 0;
+  bt_flags.airborne_peck_attack = 0;
+  bt_flags.beak_barge_attack = 0;
+  bt_flags.basic_jumping = 0;
+  bt_flags.feathery_flap = 0;
+  bt_flags.flap_flip = 0;
+  bt_flags.climbing = 0;
+  bt_flags.blue_eggs = 0;
+  bt_flags.talon_trot = 0;
+  bt_flags.beak_buster_attack = 0;
+  bt_flags.wonder_wing = 0;
+  bt_flags.wading_boots = 0;
+  bt_flags.turbo_trainers = 0;
+  bt_flags.beak_bomb_attack = 0;
+  bt_flags.egg_firing = 0;
 }
 
 void ap_load_file() {
+  ap.load_file = 0;
   for (int i = 0; i < AP_ITEM_MAX; i++) ap_sync_items(i, ap_memory.pc.items[i]);
   if (ap_memory.pc.settings.randomize_chuffy) {
     bt_flags.ggm_mumbo_train = 1;

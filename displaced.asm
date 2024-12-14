@@ -41,6 +41,33 @@ J 0x800D5B3C
 ADDIU V0, V0, 0xB7E6
 
 .align 0x08
+ap_increase_health_displaced:
+ADDIU SP, SP, -0x20
+J 0x800A17B0
+SW RA, 0x0014 (SP)
+
+.align 0x08
+ap_get_health_displaced:
+ADDIU SP, SP, -0x18
+J 0x800A1720
+SW RA, 0x0014 (SP)
+
+.align 0x08
+ap_ground_info_displaced:
+ADDIU SP, SP, -0x18
+J 0x80096630
+SW RA, 0x0014 (SP)
+
+.align 0x08
+main_train_change_station_displaced:
+LH A0, 0x0000 (S0)
+LW RA, 0x001C (SP)
+LW S0, 0x0014 (SP)
+LW S1, 0x0018 (SP)
+J main_train_change_station
+ADDIU SP, SP, 0x20
+
+.align 0x08
 main_bt_paused_displaced:
 ADDIU SP, SP, -0x08
 SW RA, 0x0000 (SP)

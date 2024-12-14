@@ -48,6 +48,7 @@ void BTClient::accept() {
 
 void BTClient::disconnected() {
   printf("Lost connection.\n");
+  if (CUR_STATE == STATE_OK && ap_memory.n64.misc.current_map) show_message(BT_ZOOMBOX_ICON_GI_ANNOUNCER, "Archipelago Connection Closed");
   CUR_STATE = STATE_UNINITIALIZED;
   PLAYER = "";
   SEED = 0;
@@ -784,7 +785,9 @@ void BTClient::obtain_mumbo_token()
 {
     MUMBO_TOKENS++;
     ap_memory.pc.items[AP_ITEM_MUMBOTOKEN] = MUMBO_TOKENS;
-    if (GOAL_TYPE == 5 && MUMBO_TOKENS == TH_LENGTH) show_message({{"message","You have found enough Mumbo Tokens! Time to head home!"}});
+    int character = DIALOG_CHARACTER;
+    if (character == 110) character = BT_ZOOMBOX_ICON_MUMBO;
+    if (GOAL_TYPE == 5 && MUMBO_TOKENS == TH_LENGTH) show_message(character, {{"message","You have found enough Mumbo Tokens! Time to head home!"}});
     return;
 }
 
@@ -842,7 +845,7 @@ void BTClient::initialize_bt()
     if(OPEN_HAG1 == true && GOAL_TYPE != 4)
     {
         ap_memory.pc.items[AP_ITEM_H1A] = 1;
-        show_message({{"message","HAG-1 is now open!"}});
+        show_message(BT_ZOOMBOX_ICON_DINGPOT, {{"message","HAG-1 is now open!"}});
     }
     else if(GOAL_TYPE != 4)
     {
@@ -1086,12 +1089,12 @@ nlohmann::json BTClient::check_unlock_worlds()
     if(GOAL_TYPE == 0 && TOTAL_JIGGIES >= 70 && OPEN_HAG1 == false)
     {
         ap_memory.pc.items[AP_ITEM_H1A] = 1;
-        show_message({{"message","HAG-1 is now open!"}});
+        show_message(BT_ZOOMBOX_ICON_DINGPOT, {{"message","HAG-1 is now open!"}});
     }
     if(GOAL_TYPE == 4 && MUMBO_TOKENS == 32)
     {
         ap_memory.pc.items[AP_ITEM_H1A] = 1;
-        show_message({{"message","HAG-1 is now open!"}});
+        show_message(BT_ZOOMBOX_ICON_DINGPOT, {{"message","HAG-1 is now open!"}});
     }
     return worlds_check;
 }
@@ -1142,10 +1145,11 @@ void BTClient::randomize_entrances(json entrance_table)
     }
 }
 
-void BTClient::show_message(json data) {
-    std::string message;
+void BTClient::show_message(int character, json data) {
+    message_t message;
+    int default_character = character;
     if (data.contains("message")) {
-        message = data["message"];
+        message.text = data["message"];
         goto add_message;
     }
     if (!data.contains("item_id") || data["to_player"] != PLAYER) return;
@@ -1170,11 +1174,21 @@ void BTClient::show_message(json data) {
         case 1230770: // Hatch"
         case 1230762: // Pack Whack"
         case 1230776: // Sack Pack"
+            default_character = BT_ZOOMBOX_ICON_JAMJARS;
+            break;
         case 1230777: // Fast Swimming"
+            default_character = BT_ZOOMBOX_ICON_ROYSTEN;
+            break;
         case 1230800: // Breegull Bash"
         case 1230802: // Homing Eggs Toggle"
+            default_character = BT_ZOOMBOX_ICON_HEGGY;
+            break;
         case 1230779: // Amaze-O-Gaze"
+            default_character = BT_ZOOMBOX_ICON_GOGGLES;
+            break;
         case 1230780: // Baby T-Rex Roar"
+            default_character = BT_ZOOMBOX_ICON_BARGASAURUS;
+            break;
         case 1230810: // Dive"
         case 1230811: // Flight Pad"
         case 1230824: // Ground Rat-a-tat Rap"
@@ -1192,6 +1206,8 @@ void BTClient::show_message(json data) {
         case 1230821: // Turbo Trainers"
         case 1230827: // Beak Bomb"
         case 1230813: // Third Person Egg Shooting"
+            default_character = BT_ZOOMBOX_ICON_BOTTLES;
+            break;
         case 1230855: // Mumbo: Golden Goliath"
         case 1230856: // Mumbo: Levitate"
         case 1230857: // Mumbo: Power"
@@ -1201,6 +1217,8 @@ void BTClient::show_message(json data) {
         case 1230861: // Mumbo: Life Force"
         case 1230862: // Mumbo: Rain Dance"
         case 1230863: // Mumbo: Heal"
+            default_character = BT_ZOOMBOX_ICON_MUMBO;
+            break;
         case 1230174: // Humba: Stony"
         case 1230175: // Humba: Detonator"
         case 1230176: // Humba: Money Van"
@@ -1210,6 +1228,8 @@ void BTClient::show_message(json data) {
         case 1230180: // Humba: Snowball"
         case 1230181: // Humba: Bee"
         case 1230182: // Humba: Dragon"
+            default_character = BT_ZOOMBOX_ICON_HUMBA;
+            break;
         case 1230794: // IoH: Train Station"
         case 1230791: // TDL: Train Station"
         case 1230790: // GI: Train Station"
@@ -1217,28 +1237,55 @@ void BTClient::show_message(json data) {
         case 1230793: // HFP: Icy Side Train Station"
         case 1230795: // WW: Train Station"
         case 1230796: // Chuffy"
+            default_character = BT_ZOOMBOX_ICON_OLD_KING_COAL;
+            break;
         case 1230944: // Mayahem Temple"
+            default_character = BT_ZOOMBOX_ICON_TARGITZAN;
+            break;
         case 1230945: // Glitter Gulch Mine"
+            default_character = BT_ZOOMBOX_ICON_CANARY_MARY;
+            break;
         case 1230946: // Witchyworld"
+            default_character = BT_ZOOMBOX_ICON_MR_PATCH;
+            break;
         case 1230947: // Jolly Roger's Lagoon"
+            default_character = BT_ZOOMBOX_ICON_LORD_WOO_FAK_FAK;
+            break;
         case 1230948: // Terrydactyland"
+            default_character = BT_ZOOMBOX_ICON_TERRY;
+            break;
         case 1230949: // Grunty Industries"
+            default_character = BT_ZOOMBOX_ICON_WELDAR;
+            break;
         case 1230950: // Hailfire Peaks"
+            default_character = BT_ZOOMBOX_ICON_CHILLI_BILLI;
+            break;
         case 1230951: // Cloud Cuckooland"
+            default_character = BT_ZOOMBOX_ICON_MINGY_JONGO;
+            break;
         case 1230952: // Cauldron Keep"
+            default_character = BT_ZOOMBOX_ICON_KLUNGO;
+            break;
         case 1230828: // Progressive Beak Buster
         case 1230829: // Progressive Eggs
         case 1230830: // Progressive Shoes
         case 1230831: // Progressive Water Training
         case 1230832: // Progressive Bash Attack
+        case 1230782: // Progrssive Flight
+        case 1230783: // Progressive Egg Aim
+        case 1230784: // Progressive Adv. Water Training
+        case 1230785: // Progressive Adv. Egg Aiming
+            default_character = BT_ZOOMBOX_ICON_BOTTLES;
             break;
         default: return;
     }
-    if (data["player"] == PLAYER) message = "You have found your ";
-    else message = string{data["player"]} + " sent your ";
-    message += data["item"];
+    if (character == 110) character = default_character;
+    if (data["player"] == PLAYER) message.text = "You have found your ";
+    else message.text = string{data["player"]} + " sent your ";
+    message.text += data["item"];
 add_message:
-    std::transform(message.begin(), message.end(), message.begin(), ::toupper);
+    message.character = character;
+    std::transform(message.text.begin(), message.text.end(), message.text.begin(), ::toupper);
     MESSAGE_QUEUE.push(message);
 }
 
@@ -1388,6 +1435,10 @@ asio::awaitable<void> BTClient::getSlotData()
             co_return;
         }
     }
+    if(block.contains(string{"slot_dialog_character"}) && block["slot_dialog_character"] != "")
+    {
+        DIALOG_CHARACTER = block["slot_dialog_character"];
+    }
     if(block.contains(string{"slot_zones"}))
     {
         randomize_entrances(block["slot_zones"]);
@@ -1417,45 +1468,47 @@ void BTClient::printGoalInfo()
     auto rng = std::default_random_engine { rd() };
     std::shuffle(std::begin(encouragement), std::end(encouragement), rng);
     // Shuffle the Encouragement and pick one.
+    int character = DIALOG_CHARACTER;
+    if (character == 110) character = BT_ZOOMBOX_ICON_BANJO;
     if(GOAL_TYPE == 0)
     {
-        show_message({{"message","You need to hunt down Grunty in her HAG1 and put her back in the ground! " + encouragement[0]}});
+        show_message(character, {{"message","You need to hunt down Grunty in her HAG1 and put her back in the ground! " + encouragement[0]}});
     }
     else if(GOAL_TYPE == 1 && MGH_LENGTH == 15)
     {
-        show_message({{"message","You are hunting down all 15 of the Mumbo Tokens found in Grunty's dastardly minigames! Good luck and " + encouragement[0]}});
+        show_message(character, {{"message","You are hunting down all 15 of the Mumbo Tokens found in Grunty's dastardly minigames! Good luck and " + encouragement[0]}});
     }
     else if(GOAL_TYPE == 1 && MGH_LENGTH < 15)
     {
-        show_message({{"message","You are hunting for " + std::to_string(MGH_LENGTH) + " Mumbo Tokens from Grunty's dastardly minigames! Good luck and " + encouragement[0]}});
+        show_message(character, {{"message","You are hunting for " + std::to_string(MGH_LENGTH) + " Mumbo Tokens from Grunty's dastardly minigames! Good luck and " + encouragement[0]}});
     }
     else if(GOAL_TYPE == 2 && BH_LENGTH == 8)
     {
-        show_message({{"message","You are hunting down all 8 Mumbo Tokens from each world boss! Good Luck and " + encouragement[0]}});
+        show_message(character, {{"message","You are hunting down all 8 Mumbo Tokens from each world boss! Good Luck and " + encouragement[0]}});
     }
     else if(GOAL_TYPE == 2 && BH_LENGTH < 8)
     {
-        show_message({{"message","You are hunting for " + std::to_string(BH_LENGTH) + " Mumbo Tokens from the 8 world bosses! Good Luck and " + encouragement[0]}});
+        show_message(character, {{"message","You are hunting for " + std::to_string(BH_LENGTH) + " Mumbo Tokens from the 8 world bosses! Good Luck and " + encouragement[0]}});
     }
     else if(GOAL_TYPE == 3 && JFR_LENGTH == 9)
     {
-        show_message({{"message","You are trying to rescue all 9 Jinjo families and retrieve their Mumbo Tokens! Good Luck and " + encouragement[0]}});
+        show_message(character, {{"message","You are trying to rescue all 9 Jinjo families and retrieve their Mumbo Tokens! Good Luck and " + encouragement[0]}});
     }
     else if(GOAL_TYPE == 3 && JFR_LENGTH < 9)
     {
-        show_message({{"message","You are trying to rescue " + std::to_string(JFR_LENGTH) + " of the 9 Jinjo families and retrieve their Mumbo Tokens! Good Luck and " + encouragement[0]}});
+        show_message(character, {{"message","You are trying to rescue " + std::to_string(JFR_LENGTH) + " of the 9 Jinjo families and retrieve their Mumbo Tokens! Good Luck and " + encouragement[0]}});
     }
     else if(GOAL_TYPE == 4)
     {
-        show_message({{"message","You absolute mad lad! You're doing the Wonder Wing Challenge! Good Luck and " + encouragement[0]}});
+        show_message(character, {{"message","You absolute mad lad! You're doing the Wonder Wing Challenge! Good Luck and " + encouragement[0]}});
     }
     else if(GOAL_TYPE == 5 && TH_LENGTH == 15)
     {
-        show_message({{"message","You are trying to find all 15 of Mumbo's Tokens scattered throughout the Isle of Hags! Good Luck and " + encouragement[0]}});
+        show_message(character, {{"message","You are trying to find all 15 of Mumbo's Tokens scattered throughout the Isle of Hags! Good Luck and " + encouragement[0]}});
     }
     else if(GOAL_TYPE == 5 && TH_LENGTH < 15)
     {
-        show_message({{"message","You are trying to find " + std::to_string(TH_LENGTH) + " of the 15 of Mumbo Tokens scattered throughout the Isle of Hags! Good Luck and " + encouragement[0]}});
+        show_message(character, {{"message","You are trying to find " + std::to_string(TH_LENGTH) + " of the 15 of Mumbo Tokens scattered throughout the Isle of Hags! Good Luck and " + encouragement[0]}});
     }
     return;
 }
@@ -1494,7 +1547,7 @@ void BTClient::process_block(json bt_data)
     {
         for(auto msg : bt_data["messages"])
         {
-            show_message(msg);
+            show_message(DIALOG_CHARACTER, msg);
         }
     }
     if(bt_data.contains(string{"triggerDeath"}) && bt_data["triggerDeath"] == true && DEATH_LINK == true)
@@ -1533,7 +1586,7 @@ void BTClient::processAGIItem(json item_data)
         {
             obtain_progressive_moves(itemId);
         }
-        else if((itemId >= 1230782 && itemId <= 1230875)) // Progressive Moves Pt 2
+        else if((itemId >= 1230782 && itemId <= 1230785)) // Progressive Moves Pt 2
         {
             obtain_progressive_moves(itemId);
         }
@@ -1588,11 +1641,33 @@ asio::awaitable<void> BTClient::sendToBTClient()
     }
     bool dead = false;
     json retTable = json({});
-    if(ap_memory.pc.misc.death_link_us != ap_memory.n64.misc.death_link_us && DEATH_LINK && !DEATH_LINK_TRIGGERED)
+    if(ap_memory.pc.misc.death_link_us != ap_memory.n64.misc.death_link_us)
     {
-        dead = true;
         ap_memory.pc.misc.death_link_us++;
-        DEATH_LINK_TRIGGERED = true;
+        if (DEATH_LINK && !DEATH_LINK_TRIGGERED) {
+            dead = true;
+            DEATH_LINK_TRIGGERED = true;
+        }
+        std::vector<string> death_messages {
+            "Did you hear that lovely clack,\nMy broomstick gave you such a whack!",
+            "AAAH! I see it makes you sad,\nTo know your skills are really bad!",
+            "I hit that bird right on the beak,\nLet it be the end of her cheek!",
+            "My fiery blast you just tasted,\nGrunty's spells on you are wasted!",
+            "Hopeless bear runs to and fro,\nBut takes a whack for being so slow!",
+            "So I got you there once more,\nI knew your skills were very poor!",
+            "Simply put I'm rather proud,\nYour yelps and screams I heard quite loud!",
+            "Grunty's fireball you did kiss,\nYou're so slow I can hardly miss!",
+            "In this world you breathe your last,\nNow your friends had better think fast!",
+            "This is fun it's quite a treat,\nTo see you suffer in defeat",
+            "That death just now, I saw coming,\nYour skill issues are rather stunning!",
+            "Seeing this pathetic display,\nIs serotonin in my day",
+            "What a selfish thing to do,\nYour friends just died because of you!",
+            "You tried something rather stupid,\nI hope no one will try what you did"
+        };
+        auto rd = std::random_device {};
+        auto rng = std::default_random_engine { rd() };
+        std::shuffle(std::begin(death_messages), std::end(death_messages), rng);
+        show_message(BT_ZOOMBOX_ICON_GRUNTY, {{"message", death_messages[0]}});
     }
     else
     {
@@ -1666,10 +1741,15 @@ asio::awaitable<void> BTClient::every_30frames() {
     co_await receive();
   }
   if (SHOW_GOAL_INFO) printGoalInfo();
-  if (ap_memory.n64.misc.current_map && ap_memory.n64.misc.show_message == ap_memory.pc.misc.show_message && !MESSAGE_QUEUE.empty()) {
-    strcpy((char*)ap_memory.pc.message, MESSAGE_QUEUE.front().c_str());
-    MESSAGE_QUEUE.pop();
-    ap_memory.pc.misc.show_message++;
+  if (ap_memory.n64.misc.current_map && ap_memory.n64.misc.show_message == ap_memory.pc.misc.show_message) {
+    if (MESSAGE_QUEUE.empty()) ap_memory.pc.settings.dialog_character = DIALOG_CHARACTER;
+    else {
+        message_t message = MESSAGE_QUEUE.front();
+        ap_memory.pc.settings.dialog_character = message.character;
+        strcpy((char*)ap_memory.pc.message, message.text.c_str());
+        MESSAGE_QUEUE.pop();
+        ap_memory.pc.misc.show_message++;
+    }
   }
 
   if(VERSION_ERR == true)

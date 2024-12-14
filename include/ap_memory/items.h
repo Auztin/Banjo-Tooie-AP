@@ -135,4 +135,12 @@ enum {
   AP_SILO_MAX,
 };
 
+enum {
+  AP_TRAP_TRIP,
+  AP_TRAP_SLIP,
+  AP_TRAP_MISFIRE,
+
+  AP_TRAP_MAX,
+};
+
 #endif // AP_MEMORY_ITEMS_H
