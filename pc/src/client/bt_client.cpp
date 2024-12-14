@@ -1130,7 +1130,7 @@ void BTClient::randomize_entrances(json entrance_table)
 }
 
 void BTClient::show_message(int character, json data) {
-    message_t message{.character=character};
+    message_t message;
     int default_character = character;
     if (data.contains("message")) {
         message.text = data["message"];
@@ -1158,20 +1158,20 @@ void BTClient::show_message(int character, json data) {
         case 1230770: // Hatch"
         case 1230762: // Pack Whack"
         case 1230776: // Sack Pack"
-            character = BT_ZOOMBOX_ICON_JAMJARS;
+            default_character = BT_ZOOMBOX_ICON_JAMJARS;
             break;
         case 1230777: // Fast Swimming"
-            character = BT_ZOOMBOX_ICON_ROYSTEN;
+            default_character = BT_ZOOMBOX_ICON_ROYSTEN;
             break;
         case 1230800: // Breegull Bash"
         case 1230802: // Homing Eggs Toggle"
-            character = BT_ZOOMBOX_ICON_HEGGY;
+            default_character = BT_ZOOMBOX_ICON_HEGGY;
             break;
         case 1230779: // Amaze-O-Gaze"
-            character = BT_ZOOMBOX_ICON_GOGGLES;
+            default_character = BT_ZOOMBOX_ICON_GOGGLES;
             break;
         case 1230780: // Baby T-Rex Roar"
-            character = BT_ZOOMBOX_ICON_BARGASAURUS;
+            default_character = BT_ZOOMBOX_ICON_BARGASAURUS;
             break;
         case 1230810: // Dive"
         case 1230811: // Flight Pad"
@@ -1190,7 +1190,7 @@ void BTClient::show_message(int character, json data) {
         case 1230821: // Turbo Trainers"
         case 1230827: // Beak Bomb"
         case 1230813: // Third Person Egg Shooting"
-            character = BT_ZOOMBOX_ICON_BOTTLES;
+            default_character = BT_ZOOMBOX_ICON_BOTTLES;
             break;
         case 1230855: // Mumbo: Golden Goliath"
         case 1230856: // Mumbo: Levitate"
@@ -1201,7 +1201,7 @@ void BTClient::show_message(int character, json data) {
         case 1230861: // Mumbo: Life Force"
         case 1230862: // Mumbo: Rain Dance"
         case 1230863: // Mumbo: Heal"
-            character = BT_ZOOMBOX_ICON_MUMBO;
+            default_character = BT_ZOOMBOX_ICON_MUMBO;
             break;
         case 1230174: // Humba: Stony"
         case 1230175: // Humba: Detonator"
@@ -1212,7 +1212,7 @@ void BTClient::show_message(int character, json data) {
         case 1230180: // Humba: Snowball"
         case 1230181: // Humba: Bee"
         case 1230182: // Humba: Dragon"
-            character = BT_ZOOMBOX_ICON_HUMBA;
+            default_character = BT_ZOOMBOX_ICON_HUMBA;
             break;
         case 1230794: // IoH: Train Station"
         case 1230791: // TDL: Train Station"
@@ -1221,34 +1221,34 @@ void BTClient::show_message(int character, json data) {
         case 1230793: // HFP: Icy Side Train Station"
         case 1230795: // WW: Train Station"
         case 1230796: // Chuffy"
-            character = BT_ZOOMBOX_ICON_OLD_KING_COAL;
+            default_character = BT_ZOOMBOX_ICON_OLD_KING_COAL;
             break;
         case 1230944: // Mayahem Temple"
-            character = BT_ZOOMBOX_ICON_TARGITZAN;
+            default_character = BT_ZOOMBOX_ICON_TARGITZAN;
             break;
         case 1230945: // Glitter Gulch Mine"
-            character = BT_ZOOMBOX_ICON_CANARY_MARY;
+            default_character = BT_ZOOMBOX_ICON_CANARY_MARY;
             break;
         case 1230946: // Witchyworld"
-            character = BT_ZOOMBOX_ICON_MR_PATCH;
+            default_character = BT_ZOOMBOX_ICON_MR_PATCH;
             break;
         case 1230947: // Jolly Roger's Lagoon"
-            character = BT_ZOOMBOX_ICON_LORD_WOO_FAK_FAK;
+            default_character = BT_ZOOMBOX_ICON_LORD_WOO_FAK_FAK;
             break;
         case 1230948: // Terrydactyland"
-            character = BT_ZOOMBOX_ICON_TERRY;
+            default_character = BT_ZOOMBOX_ICON_TERRY;
             break;
         case 1230949: // Grunty Industries"
-            character = BT_ZOOMBOX_ICON_WELDAR;
+            default_character = BT_ZOOMBOX_ICON_WELDAR;
             break;
         case 1230950: // Hailfire Peaks"
-            character = BT_ZOOMBOX_ICON_CHILLI_BILLI;
+            default_character = BT_ZOOMBOX_ICON_CHILLI_BILLI;
             break;
         case 1230951: // Cloud Cuckooland"
-            character = BT_ZOOMBOX_ICON_MINGY_JONGO;
+            default_character = BT_ZOOMBOX_ICON_MINGY_JONGO;
             break;
         case 1230952: // Cauldron Keep"
-            character = BT_ZOOMBOX_ICON_KLUNGO;
+            default_character = BT_ZOOMBOX_ICON_KLUNGO;
             break;
         case 1230828: // Progressive Beak Buster
         case 1230829: // Progressive Eggs
@@ -1259,7 +1259,7 @@ void BTClient::show_message(int character, json data) {
         case 1230783: // Progressive Egg Aim
         case 1230784: // Progressive Adv. Water Training
         case 1230785: // Progressive Adv. Egg Aiming
-            character = BT_ZOOMBOX_ICON_BOTTLES;
+            default_character = BT_ZOOMBOX_ICON_BOTTLES;
             break;
         default: return;
     }
@@ -1268,6 +1268,7 @@ void BTClient::show_message(int character, json data) {
     else message.text = string{data["player"]} + " sent your ";
     message.text += data["item"];
 add_message:
+    message.character = character;
     std::transform(message.text.begin(), message.text.end(), message.text.begin(), ::toupper);
     MESSAGE_QUEUE.push(message);
 }
@@ -1621,9 +1622,9 @@ asio::awaitable<void> BTClient::sendToBTClient()
     json retTable = json({});
     if(ap_memory.pc.misc.death_link_us != ap_memory.n64.misc.death_link_us)
     {
+        ap_memory.pc.misc.death_link_us++;
         if (DEATH_LINK && !DEATH_LINK_TRIGGERED) {
             dead = true;
-            ap_memory.pc.misc.death_link_us++;
             DEATH_LINK_TRIGGERED = true;
         }
         std::vector<string> death_messages {
@@ -1645,7 +1646,7 @@ asio::awaitable<void> BTClient::sendToBTClient()
         auto rd = std::random_device {};
         auto rng = std::default_random_engine { rd() };
         std::shuffle(std::begin(death_messages), std::end(death_messages), rng);
-        show_message(BT_ZOOMBOX_ICON_GRUNTY, death_messages[0]);
+        show_message(BT_ZOOMBOX_ICON_GRUNTY, {{"message", death_messages[0]}});
     }
     else
     {
@@ -1718,12 +1719,15 @@ asio::awaitable<void> BTClient::every_30frames() {
     co_await receive();
   }
   if (SHOW_GOAL_INFO) printGoalInfo();
-  if (ap_memory.n64.misc.current_map && ap_memory.n64.misc.show_message == ap_memory.pc.misc.show_message && !MESSAGE_QUEUE.empty()) {
-    message_t message = MESSAGE_QUEUE.front();
-    ap_memory.pc.settings.dialog_character = message.character;
-    strcpy((char*)ap_memory.pc.message, message.text.c_str());
-    MESSAGE_QUEUE.pop();
-    ap_memory.pc.misc.show_message++;
+  if (ap_memory.n64.misc.current_map && ap_memory.n64.misc.show_message == ap_memory.pc.misc.show_message) {
+    if (MESSAGE_QUEUE.empty()) ap_memory.pc.settings.dialog_character = DIALOG_CHARACTER;
+    else {
+        message_t message = MESSAGE_QUEUE.front();
+        ap_memory.pc.settings.dialog_character = message.character;
+        strcpy((char*)ap_memory.pc.message, message.text.c_str());
+        MESSAGE_QUEUE.pop();
+        ap_memory.pc.misc.show_message++;
+    }
   }
 
   if(VERSION_ERR == true)

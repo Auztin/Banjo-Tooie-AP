@@ -220,13 +220,13 @@ void USBCom::send() {
     memcpy(packet.message, &apm_converted.message, sizeof(apm_converted.message));
     write(USB_CMD_PC_MESSAGE, sizeof(packet.extra));
   }
-  if (misc) {
-    memcpy(packet.extra, &apm_converted.misc, sizeof(apm_converted.misc));
-    write(USB_CMD_PC_MISC, sizeof(apm_converted.misc));
-  }
   if (settings) {
     memcpy(packet.extra, &apm_converted.settings, sizeof(apm_converted.settings));
     write(USB_CMD_PC_SETTINGS, sizeof(apm_converted.settings));
+  }
+  if (misc) {
+    memcpy(packet.extra, &apm_converted.misc, sizeof(apm_converted.misc));
+    write(USB_CMD_PC_MISC, sizeof(apm_converted.misc));
   }
   if (items) {
     memcpy(packet.extra, &apm_converted.items, sizeof(apm_converted.items));
