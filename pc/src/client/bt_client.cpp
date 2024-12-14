@@ -1565,7 +1565,7 @@ void BTClient::processAGIItem(json item_data)
         {
             obtain_progressive_moves(itemId);
         }
-        else if((itemId >= 1230782 && itemId <= 1230875)) // Progressive Moves Pt 2
+        else if((itemId >= 1230782 && itemId <= 1230785)) // Progressive Moves Pt 2
         {
             obtain_progressive_moves(itemId);
         }
