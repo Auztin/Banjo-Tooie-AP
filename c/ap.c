@@ -777,6 +777,7 @@ bool ap_get_next_message() {
   else if (ap.internal_message[0]) {
     bool ret = ap_prepare_message(ap.internal_message);
     ap.internal_message[0] = '\0';
+    ap.is_internal_message = 1;
     return ret;
   }
   return false;
@@ -784,6 +785,10 @@ bool ap_get_next_message() {
 
 u8 ap_get_zb_icon() {
   u8 icon = ap_memory.pc.settings.dialog_character;
+  if (icon == 110 && ap.is_internal_message) {
+    ap.is_internal_message = 0;
+    return ap.internal_icon;
+  }
   if (icon >= sizeof(ap_dialog_icons)) icon = BT_RANDOM % sizeof(ap_dialog_icons);
   ap.zb_icon = icon;
   icon = ap_dialog_icons[icon];
@@ -912,6 +917,7 @@ void ap_check_enough_notes(u16 start, u16 end) {
   for (int i = 0; i < sizeof(note_requirements)/sizeof(*note_requirements); i++) {
     u16 amount = note_requirements[i];
     if (start < amount && end >= amount) {
+      ap.internal_icon = BT_ZOOMBOX_ICON_JAMJARS;
       strcpy(ap.internal_message, "YOU HAVE ENOUGH NOTES FOR A NEW MOVE!");
       break;
     }
@@ -1277,22 +1283,26 @@ void ap_check() {
     char message[25] = {0};
     if (bt_controllers[0].pressed.dright) { // SUPER BANJO
       bt_flags.cheats_superbanjo_enabled = !bt_flags.cheats_superbanjo_enabled;
+      ap.internal_icon = BT_ZOOMBOX_ICON_BANJO;
       strcpy(message, "SUPER BANJO ");
       strcat(message, bt_flags.cheats_superbanjo_enabled ? "ENABLED" : "DISABLED");
     }
     if (bt_controllers[0].pressed.dleft && bt_flags.cheats_homing_eggs_received) { // HOMING EGGS
       bt_flags.cheats_homing_eggs_enabled = !bt_flags.cheats_homing_eggs_enabled;
+      ap.internal_icon = BT_ZOOMBOX_ICON_HEGGY;
       strcpy(message, "HOMING EGGS ");
       strcat(message, bt_flags.cheats_homing_eggs_enabled ? "ENABLED" : "DISABLED");
     }
     if (bt_controllers[0].pressed.ddown && bt_flags.cheats_honeyback_received) { // HONEYBACK
       bt_flags.cheats_honeyback_enabled = !bt_flags.cheats_honeyback_enabled;
+      ap.internal_icon = BT_ZOOMBOX_ICON_HONEYCOMB;
       strcpy(message, "HONEYBACK ");
       strcat(message, bt_flags.cheats_honeyback_enabled ? "ENABLED" : "DISABLED");
     }
     if (bt_controllers[0].released.start) { // SMOOTH BANJO
       ap.smooth_banjo = !ap.smooth_banjo;
       BT_FPS = ap.smooth_banjo ? 1 : 2;
+      ap.internal_icon = BT_ZOOMBOX_ICON_BANJO_KAZOOIE;
       strcpy(message, "SMOOTH BANJO ");
       strcat(message, ap.smooth_banjo ? "ENABLED" : "DISABLED");
     }
