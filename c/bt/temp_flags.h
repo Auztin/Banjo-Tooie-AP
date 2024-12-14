@@ -50,7 +50,7 @@ typedef struct {
             u8 train_cutscene_ww : 1;
             u8 train_cutscene_ggm : 1;
             u8 _unknown_0x05_0 : 1;
-/* 0x06 */  u8 _unknown_0x06_7 : 1;
+/* 0x06 */  u8 intro_ssslumber : 1;
             u8 _unknown_0x06_6 : 1;
             u8 _unknown_0x06_5 : 1;
             u8 _unknown_0x06_4 : 1;
@@ -100,7 +100,7 @@ typedef struct {
             u8 _unknown_0x0B_0 : 1;
 /* 0x0C */  u8 _unknown_0x0C_7 : 1;
             u8 _unknown_0x0C_6 : 1;
-            u8 _unknown_0x0C_5 : 1; //
+            u8 intro_pawno : 1;
             u8 _unknown_0x0C_4 : 1;
             u8 _unknown_0x0C_3 : 1;
             u8 _unknown_0x0C_2 : 1;

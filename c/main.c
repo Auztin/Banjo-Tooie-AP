@@ -397,6 +397,8 @@ void post_load_save() {
   bt_temp_flags.hag1_phase5_intro = 1;
   bt_temp_flags.ccl_eyeballus_jiggium_plant_dialog = 1;
   bt_temp_flags.ccl_eyeballus_jiggium_plant_cutscene = 1;
+  bt_temp_flags.intro_pawno = 1;
+  bt_temp_flags.intro_ssslumber = 1;
 }
 
 void main_increase_item(u32 _unknown_A0, u16 type, s32 amount) {
