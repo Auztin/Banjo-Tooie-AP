@@ -456,6 +456,11 @@ void pre_load_scene(u16 *scene, u16 *exit) {
 
 void post_load_scene(u16 scene, u16 exit) {
   BT_FPS = ap.smooth_banjo ? 1 : 2;
+  if (ap.zoombox) {
+    bt_fn_zoombox_free(ap.zoombox);
+    ap.zoombox = bt_fn_zoombox_new(200, ap.last_icon, 0, 1);
+    bt_fn_zoombox_init(ap.zoombox);
+  }
 
   s32 object_count = 0;
   bt_fn_object_count(&object_count);

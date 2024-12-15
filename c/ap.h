@@ -14,6 +14,7 @@ typedef struct {
   u8 zoombox_ready : 1;
   u8 fake_transform : 1;
   u8 is_internal_message : 1;
+  u8 last_icon;
   u8 internal_icon;
   u8 zb_icon;
   u8 message_lines;

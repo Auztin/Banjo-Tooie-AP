@@ -864,6 +864,7 @@ u8 ap_get_zb_icon() {
   if (icon >= sizeof(ap_dialog_icons)) icon = BT_RANDOM % sizeof(ap_dialog_icons);
   ap.zb_icon = icon;
   icon = ap_dialog_icons[icon];
+  ap.last_icon = icon;
   return icon;
 }
 
