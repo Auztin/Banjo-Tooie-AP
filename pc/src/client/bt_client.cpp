@@ -1001,13 +1001,13 @@ void BTClient::silo_cost(nlohmann::json silo_cost_table)
         int loc_id = std::stoi(locationId);
         switch(loc_id)
         {
-            case 1230753:
+            case 1230755:
                 ap_memory.pc.settings.silo_requirements[0] = cost;
                 break;
             case 1230754:
                 ap_memory.pc.settings.silo_requirements[1] = cost;
                 break;
-            case 1230755:
+            case 1230753:
                 ap_memory.pc.settings.silo_requirements[2] = cost;
                 break;
             case 1230756:
@@ -1022,13 +1022,13 @@ void BTClient::silo_cost(nlohmann::json silo_cost_table)
             case 1230759:
                 ap_memory.pc.settings.silo_requirements[6] = cost;
                 break;
-            case 1230760:
+            case 1230761:
                 ap_memory.pc.settings.silo_requirements[7] = cost;
                 break;
-            case 1230761:
+            case 1230762:
                 ap_memory.pc.settings.silo_requirements[8] = cost;
                 break;
-            case 1230762:
+            case 1230760:
                 ap_memory.pc.settings.silo_requirements[9] = cost;
                 break;
             case 1230763:
@@ -1037,10 +1037,10 @@ void BTClient::silo_cost(nlohmann::json silo_cost_table)
             case 1230764:
                 ap_memory.pc.settings.silo_requirements[11] = cost;
                 break;
-            case 1230765:
+            case 1230766:
                 ap_memory.pc.settings.silo_requirements[12] = cost;
                 break;
-            case 1230766:
+            case 1230765:
                 ap_memory.pc.settings.silo_requirements[13] = cost;
                 break;
             case 1230767:
@@ -1055,13 +1055,13 @@ void BTClient::silo_cost(nlohmann::json silo_cost_table)
             case 1230770:
                 ap_memory.pc.settings.silo_requirements[17] = cost;
                 break;
-            case 1230771:
+            case 1230773:
                 ap_memory.pc.settings.silo_requirements[18] = cost;
                 break;
-            case 1230772:
+            case 1230771:
                 ap_memory.pc.settings.silo_requirements[19] = cost;
                 break;
-            case 1230773:
+            case 1230772:
                 ap_memory.pc.settings.silo_requirements[20] = cost;
                 break;
             case 1230774:
