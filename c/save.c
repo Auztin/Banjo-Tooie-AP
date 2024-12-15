@@ -145,7 +145,6 @@ bool save_custom_set_bit(u8* data, u16 id) {
   u8 bit = 1 << (id % 8);
   bool ret = data[byte] & bit;
   data[byte] |= bit;
-  save_dirty = true;
   return ret;
 }
 
