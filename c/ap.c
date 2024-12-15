@@ -1343,15 +1343,6 @@ void ap_check() {
     ap.death_link_queued = 0;
   }
   if (bt_controllers[0].held.l) {
-    if (bt_controllers[0].pressed.dup) { // REFILL
-      if (bt_flags.flight || bt_flags.talon_torpedo) bt_fn_increase_item(BT_ITEM_RED_FEATHERS, 999);
-      if (bt_flags.wonder_wing) bt_fn_increase_item(BT_ITEM_GOLD_FEATHERS, 999);
-      if (bt_flags.blue_eggs) bt_fn_increase_item(BT_ITEM_BLUE_EGGS, 999);
-      if (bt_flags.fire_eggs) bt_fn_increase_item(BT_ITEM_FIRE_EGGS, 999);
-      if (bt_flags.grenade_eggs) bt_fn_increase_item(BT_ITEM_GRENADE_EGGS, 999);
-      if (bt_flags.ice_eggs) bt_fn_increase_item(BT_ITEM_ICE_EGGS, 999);
-      if (bt_flags.clockwork_kazooie_eggs) bt_fn_increase_item(BT_ITEM_CLOCKWORK_EGGS, 999);
-    }
     char message[25] = {0};
     if (bt_controllers[0].pressed.dright) { // SUPER BANJO
       bt_flags.cheats_superbanjo_enabled = !bt_flags.cheats_superbanjo_enabled;
