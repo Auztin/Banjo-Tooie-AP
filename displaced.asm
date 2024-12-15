@@ -59,6 +59,12 @@ J 0x80096630
 SW RA, 0x0014 (SP)
 
 .align 0x08
+main_init_nest_displaced:
+LW A0, 0x0018 (SP)
+J main_init_nest
+ADDIU SP, SP, 0x18
+
+.align 0x08
 main_train_change_station_displaced:
 LH A0, 0x0000 (S0)
 LW RA, 0x001C (SP)

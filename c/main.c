@@ -788,6 +788,7 @@ void main_init_ap_nest(bt_obj_instance_t* obj) {
   }
 }
 
+extern void main_init_nest_displaced(bt_obj_instance_t* obj);
 void main_init_nest(bt_obj_instance_t* obj) {
   if (!obj) return;
   if (obj->state == 4) {
@@ -840,7 +841,7 @@ void pre_object_init(bt_object_t *obj) {
 
       util_inject(UTIL_INJECT_RAW     , (u32)obj + 0x02F4, 0x001F0821, 0);
       util_inject(UTIL_INJECT_FUNCTION, (u32)obj + 0x02F8, (u32)main_collected_nest_displaced, 1);
-      util_inject(UTIL_INJECT_JUMP    , (u32)obj + 0x0240, (u32)main_init_nest, 0);
+      util_inject(UTIL_INJECT_JUMP    , (u32)obj + 0x023C, (u32)main_init_nest_displaced, 1);
       util_inject(UTIL_INJECT_JUMP    , (u32)obj + 0x0DE4, (u32)main_init_egg_nest, 0);
       break;
     case BT_OBJ_MOVE_SILO:
