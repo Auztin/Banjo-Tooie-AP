@@ -73,6 +73,7 @@ void usb_check() {
             usb.send.misc = 1;
             usb.send.saves_real = 1;
             usb.send.saves_fake = 1;
+            usb.send.saves_nests = 1;
           }
         }
         break;

@@ -770,13 +770,15 @@ nlohmann::json BTClient::check_jinjo_family_locations()
 
 nlohmann::json BTClient::check_nest_locations()
 {
-    nlohmann::json nests = json({});
+    nlohmann::json nests_check = json({});
     for(auto&& [map, nests] : NEST_DATA) {
+        if (map != CURRENT_MAP) continue;
         for(auto&& [locationId, saveId] : nests) {
-            nests[locationId] = check_custom_flag(ap_memory.n64.saves.nests, saveId);
+            nests_check[std::to_string(locationId)] = check_custom_flag(ap_memory.n64.saves.nests, saveId);
         }
+        break;
     }
-    return nests;
+    return nests_check;
 }
 
 // -------------- MUMBO TOKENS -------------------
@@ -1388,7 +1390,7 @@ asio::awaitable<void> BTClient::getSlotData()
         ENABLE_AP_MYSTERY = true;
         if(DEBUG_NET == true) { std::cout << "StopNSwap is Randomized" << std::endl; }
     }
-    if(block.contains(string{"slot_nests"}) && block["slot_nests"] != "false")
+    if(block.contains(string{"slot_nestsanity"}) && block["slot_nestsanity"] != "false")
     {
         ENABLE_AP_NESTS = true;
         if(DEBUG_NET == true) { std::cout << "Nests are Randomized" << std::endl; }
@@ -1628,6 +1630,9 @@ void BTClient::processAGIItem(json item_data)
                 case 1230779: obtain_amaze_o_gaze(); break;
                 case 1230780: obtain_roar(); break;
                 case 1230798: obtain_mumbo_token(); break;
+                case 1230805: ap_memory.pc.items[AP_ITEM_GNEST]++; break;
+                case 1230806: ap_memory.pc.items[AP_ITEM_ENEST]++; break;
+                case 1230807: ap_memory.pc.items[AP_ITEM_FNEST]++; break;
                 case 1230786: ap_memory.pc.traps[AP_TRAP_TRIP]++; break;
                 case 1230787: ap_memory.pc.traps[AP_TRAP_SLIP]++; break;
                 case 1230788: ap_memory.pc.traps[AP_TRAP_MISFIRE]++; break;

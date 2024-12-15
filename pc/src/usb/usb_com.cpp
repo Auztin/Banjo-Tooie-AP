@@ -188,7 +188,7 @@ void USBCom::process() {
           break;
         case USB_CMD_N64_SAVES_NESTS:
           log("[N64] USB_CMD_N64_SAVES_NESTS\n");
-          memcpy(&ap_memory.n64.saves.nests, packet.extra, packet.size);
+          memcpy(ap_memory.n64.saves.nests, packet.extra, packet.size);
           break;
         default:
           log("[N64] Unexpected packet. Disconnected.\n");
