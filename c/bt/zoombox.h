@@ -2,6 +2,9 @@
 #define BT_ZOOMBOX_H
 
 typedef struct {
+  u32 _unknown0x000_0x16C[92];
+  u16 _unknown0x170;
+  u16 icon;
 } bt_zoombox_t;
 
 extern bt_zoombox_t* bt_fn_zoombox_new(u16 y, u16 icon, u8 unknown, bool flipped); // unknown == 2 == no audio
@@ -75,6 +78,9 @@ typedef void (*bt_fnt_zoombox_draw)(bt_zoombox_t*, bt_draw_ctx_t*);
 
 typedef void (*bt_fnt_zoombox_free)(bt_zoombox_t*);
 #define bt_fn_zoombox_free ((bt_fnt_zoombox_free)0x80087AE0)
+
+typedef void (*bt_fnt_zoomboxdata_play_sound)(u16 icon);
+#define bt_fn_zoomboxdata_play_sound ((bt_fnt_zoomboxdata_play_sound)0x80088410)
 
 enum {
   BT_ZOOMBOX_STATE_BUSY,

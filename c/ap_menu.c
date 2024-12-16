@@ -511,6 +511,7 @@ void ap_menu_update() {
         if (!zb) continue;
         bt_fn_zoombox_close(zb);
       }
+      if (ap_menu.selected && ap_menu.zoombox[ap_menu.selected]) bt_fn_zoomboxdata_play_sound(ap_menu.zoombox[ap_menu.selected]->icon);
       break;
     case AP_MENU_STATE_SHOW:
       if (ap_menu.title_y < 20) ap_menu.title_y += 10;
@@ -581,6 +582,7 @@ void ap_menu_update() {
         if (selected && ap_menu.selected != selected && selected < sizeof(ap_menu.zoombox)/4 && ap_menu.zoombox[selected]) {
           ap_menu.selected = selected;
           ap_menu.delay_select = 5 * (ap.smooth_banjo ? 2 : 1);
+          if (ap_menu.zoombox[selected]) bt_fn_zoomboxdata_play_sound(ap_menu.zoombox[selected]->icon);
         }
       }
       break;
