@@ -1301,7 +1301,7 @@ bool ap_cycle_character() {
 void ap_check() {
   if (!bt_temp_flags.in_cutscene) {
     if (ap.load_file) ap_load_file();
-    if (ap_memory.n64.misc.death_link_ap != ap_memory.pc.misc.death_link_ap && !bt_player_chars.died) {
+    if (ap_memory.n64.misc.death_link_ap != ap_memory.pc.misc.death_link_ap && !bt_player_chars.died && !bt_loading_map.loading) {
       switch (bt_player_chars.control_type) {
         case BT_PLAYER_CHAR_CLOCKWORK:
           bt_fn_hurt_player(bt_player_chars.control_index);
