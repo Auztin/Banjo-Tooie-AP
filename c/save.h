@@ -28,7 +28,7 @@ typedef struct Save_Data_s {
     bt_save_flags_t fake_flags;
     save_data_totals_t totals;
     u8 traps[AP_TRAP_MAX];
-    u8 nests[59];
+    u8 nests[60];
     u8 golden_egg_nests;
     u8 egg_nests;
     u8 feather_nests;
