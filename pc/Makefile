@@ -12,7 +12,7 @@ else
 	CXX:=g++
 endif
 CXXFLAGS+= -I src -I include -I ../shared/include
-CXXFLAGS+= -std=c++20 -g
+CXXFLAGS+= -std=c++20 -O3
 LDFLAGS += -L lib/vcp-driver/amd64 -L lib/vcp-driver/i386
 LDFLAGS += -l ftd2xx
 
