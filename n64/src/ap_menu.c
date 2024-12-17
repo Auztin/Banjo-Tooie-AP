@@ -155,8 +155,8 @@ void ap_menu_select() {
             bt_xyz_t point = {0, 0, 0};
             bt_fn_increase_health(bt_current_player_char, 100);
             bt_fn_character_move_to(&point, 0, 0);
-            if (bt_flags.ioh_visited) bt_fn_load_scene(BT_MAP_JINJO_VILLAGE, 3, 1);
-            else bt_fn_load_scene(BT_MAP_SPIRAL_MOUNTAIN, 4, 1);
+            if (bt_flags.jukebox_jv) bt_fn_load_scene(BT_MAP_JV, 3, 1);
+            else bt_fn_load_scene(BT_MAP_SM, 4, 1);
             ap_menu.id = AP_MENU_UNPAUSE;
             ap_menu.state = AP_MENU_STATE_CLEAR;
           }

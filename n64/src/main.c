@@ -323,12 +323,12 @@ void pre_load_scene(u16 *scene, u16 *exit) {
   switch (*scene) {
     case BT_MAP_CUTSCENE_OPENING:
       main.new_file = 1;
-      *scene = BT_MAP_SPIRAL_MOUNTAIN;
+      *scene = BT_MAP_SM;
       *exit = 0x0004;
       break;
     case BT_MAP_CUTSCENE_REVIVAL:
       if (bt_current_map == BT_MAP_FILE_SELECT) {
-        *scene = BT_MAP_JINJO_VILLAGE;
+        *scene = BT_MAP_JV;
         *exit = 0x0003;
       }
       else {
@@ -336,7 +336,7 @@ void pre_load_scene(u16 *scene, u16 *exit) {
         *exit = 0x0001;
       }
       break;
-    case BT_MAP_TOT_QUIZ_ROOM:
+    case BT_MAP_CK_TOT_QUIZ_ROOM:
       if (bt_flags.ck_opened_gun_chamber) bt_flags.tower_of_tragedy_completed = 1;
       break;
     case BT_MAP_TRAIN_STATION_GGM:
@@ -345,7 +345,7 @@ void pre_load_scene(u16 *scene, u16 *exit) {
         bt_flags.train_at_ioh = 1;
       }
       break;
-    case BT_MAP_CLOUD_CUCKOOLAND:
+    case BT_MAP_CCL:
       bt_flags.ccl_open = 1; // needed for bubble to spawn
       break;
     case BT_MAP_MT_KICKBALL_LOBBY:
@@ -354,10 +354,10 @@ void pre_load_scene(u16 *scene, u16 *exit) {
     case BT_MAP_TDL_OOGLE_BOOGLE_CAVE:
       if (ap_memory.pc.settings.backdoors && *exit) bt_flags.tdl_opened_oogle_boogle_cave = 1;
       break;
-    case BT_MAP_JINJO_VILLAGE:
+    case BT_MAP_JV:
       if (
            ap_memory.pc.settings.randomize_nests
-        && bt_current_map == BT_MAP_SPIRAL_MOUNTAIN
+        && bt_current_map == BT_MAP_SM
         && *exit == 3
         && !save_custom_get_bit(bt_custom_save.nests, 0x019)
       ) {
@@ -365,10 +365,10 @@ void pre_load_scene(u16 *scene, u16 *exit) {
         *exit = 1;
       }
       break;
-    case BT_MAP_SPIRAL_MOUNTAIN:
+    case BT_MAP_SM:
       if (
            ap_memory.pc.settings.randomize_nests
-        && bt_current_map == BT_MAP_JINJO_VILLAGE
+        && bt_current_map == BT_MAP_JV
         && *exit == 3
         && !save_custom_get_bit(bt_custom_save.nests, 0x019)
       ) {
@@ -579,7 +579,7 @@ void main_train_change_station(u16 station) {
       bt_flags.train_at_ww = 1;
       dialog = 0x0CF6;
       break;
-    case BT_MAP_TRAIN_STATION_IOH:
+    case BT_MAP_IOH_CLIFF_TOP:
       bt_flags.train_at_ioh = 1;
       dialog = 0x0CFB;
       break;
@@ -613,7 +613,7 @@ void main_train_summon(u32 _unknown_A0, u16 from, u16 to) {
     case BT_MAP_TRAIN_STATION_WW:
       bt_temp_flags.train_cutscene_ww = 1;
       break;
-    case BT_MAP_TRAIN_STATION_IOH:
+    case BT_MAP_IOH_CLIFF_TOP:
       bt_temp_flags.train_cutscene_ioh = 1;
       break;
     case BT_MAP_TRAIN_STATION_TDL:
