@@ -1,30 +1,30 @@
-ASMDIR = asm
-BOOTDIR = boot
-SRCDIR = src
-TOOLSDIR = tools
-ROMDIR = rom
-ASSETS = assets
-SHARED = ../shared
+ASMDIR:= asm
+BOOTDIR:= boot
+SRCDIR:= src
+TOOLSDIR:= tools
+ROMDIR:= rom
+ASSETS:= assets
+SHARED:= ../shared
 
 PATH+=:$(TOOLSDIR)/:$(TOOLSDIR)/mips64/opt/libdragon/bin/:$(TOOLSDIR)/libdragon/tools/
-CC = mips64-elf-gcc
-LD = mips64-elf-ld
-ARMIPS = armips
-ED64ROMCONFIG = ed64romconfig
+CC:= mips64-elf-gcc
+LD:= mips64-elf-ld
+ARMIPS:= armips
+ED64ROMCONFIG:= ed64romconfig
 
-CFLAGS = -O1 -G0 -fno-reorder-blocks -march=vr4300 -mtune=vr4300 -mno-gpopt -mdivide-breaks -mexplicit-relocs -msoft-float
+CFLAGS:= -O1 -G0 -fno-reorder-blocks -march=vr4300 -mtune=vr4300 -mno-gpopt -mdivide-breaks -mexplicit-relocs -msoft-float
 CFLAGS+= -I $(SHARED)/include -I $(SRCDIR)
-CPPFLAGS = -DF3DEX_GBI_2
-LDFLAGS = -L .
+CPPFLAGS:= -DF3DEX_GBI_2
+LDFLAGS:= -L .
 LDFLAGS+= -L $(TOOLSDIR)/mips64/opt/libdragon/mips64-elf/lib/soft-float
 LDFLAGS+= -L $(TOOLSDIR)/mips64/opt/libdragon/lib/gcc/mips64-elf/14.2.0/soft-float/
-LDLIBS = -lc -lgcc
+LDLIBS:= -lc -lgcc
 
-ASM = $(shell find $(ASMDIR)/ -type f -name '*.asm')
-BOOTSOURCE = $(shell find $(BOOTDIR)/ -type f -name '*.c')
+ASM:= $(shell find $(ASMDIR)/ -type f -name '*.asm')
+BOOTSOURCE:= $(shell find $(BOOTDIR)/ -type f -name '*.c')
 BOOTOBJS = $(shell find $(BOOTDIR)/ -type f -name '*.o')
 BOOTDEPS = $(shell find $(BOOTDIR)/ -type f -name '*.d')
-SOURCE = $(shell find $(SRCDIR)/ -type f -name '*.c')
+SOURCE:= $(shell find $(SRCDIR)/ -type f -name '*.c')
 OBJS = $(shell find $(SRCDIR)/ -type f -name '*.o')
 DEPS = $(shell find $(SRCDIR)/ -type f -name '*.d')
 CLEANUP = $(BOOTOBJS) $(BOOTDEPS) $(OBJS) $(DEPS)
