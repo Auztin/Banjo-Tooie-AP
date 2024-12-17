@@ -947,6 +947,7 @@ void BTClient::initialize_bt()
         default:
             ap_memory.pc.settings.max_mumbo_tokens = 0;
     }
+    ap_memory.pc.settings.victory_condition = GOAL_TYPE;
 }
 
 void BTClient::world_order_cost(nlohmann::json world_order, nlohmann::json world_keys)

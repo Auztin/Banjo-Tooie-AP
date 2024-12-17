@@ -33,6 +33,7 @@ typedef struct {
   u8 message[508];
   struct {
     u32 seed;
+    u8 victory_condition;
     u8 randomize_chuffy;
     u8 randomize_nests;
     u8 skip_puzzles;

@@ -399,6 +399,18 @@ void pre_load_scene(u16 *scene, u16 *exit) {
       }
       bt_fake_flags.humba_dragon_kazooie = 1;
       break;
+    case BT_MAP_BOTTLES_HOUSE:
+      if (bt_fake_flags.jukebox_bottles_house_party) break;
+      switch (ap_memory.pc.settings.victory_condition) {
+        case 3:
+        case 5:
+          if (bt_custom_save.totals.mumbo_tokens < ap_memory.pc.settings.max_mumbo_tokens) break;
+          bt_fake_flags.jukebox_bottles_house_party = 1;
+          *scene = BT_MAP_CUTSCENE_SAD_PARTY_AT_BOTTLES;
+          *exit = 0;
+          break;
+      }
+      break;
     case BT_MAP_IOH_CLIFF_TOP:
       bt_fake_flags.ioh_mumbo = 1;
       break;

@@ -18,6 +18,7 @@ int main() {
   printf("    pc_messages = 0x%X,\n",                     calc(ptr, ptr.pc_message));
   printf("    pc_settings = 0x%X,\n",                     calc(ptr, ptr.pc_settings));
   printf("        setting_seed = 0x%X,\n",                calc(mem.pc.settings, mem.pc.settings.seed));
+  printf("        setting_victory_condition = 0x%X,\n",   calc(mem.pc.settings, mem.pc.settings.victory_condition));
   printf("        setting_chuffy = 0x%X,\n",              calc(mem.pc.settings, mem.pc.settings.randomize_chuffy));
   printf("        setting_nests = 0x%X,\n",               calc(mem.pc.settings, mem.pc.settings.randomize_nests));
   printf("        setting_puzzle = 0x%X,\n",              calc(mem.pc.settings, mem.pc.settings.skip_puzzles));
