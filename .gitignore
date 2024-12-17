@@ -5,7 +5,7 @@ n64/tools/libdragon/
 n64/tools/mips64/
 n64/tools/armips
 n64/tools/armips.exe
-pc/main
-pc/main.exe
+pc/banjo_tooie_connector
+pc/banjo_tooie_connector.exe
 *.o
 *.d
