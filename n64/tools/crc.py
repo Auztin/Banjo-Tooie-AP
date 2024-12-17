@@ -1,6 +1,6 @@
 # taken from https://github.com/OoTRandomizer/OoT-Randomizer
 
-import itertools
+import sys, itertools
 
 from ntype import uint32, BigStream
 
@@ -39,10 +39,10 @@ def calculate_crc(data: BigStream) -> bytearray:
   return uint32.bytes(crc0) + uint32.bytes(crc1)
 
 
-with open("patched.n64", 'rb') as stream:
+with open(sys.argv[1], 'rb') as stream:
   rom = BigStream(bytearray(stream.read()))
   rom.write_bytes(0x20, bytearray("RANDO TOOIE", "utf-8"))
   crc = calculate_crc(rom)
   rom.write_bytes(0x10, crc)
-  with open("patched.n64", 'wb') as outfile:
+  with open(sys.argv[1], 'wb') as outfile:
     outfile.write(rom.buffer)

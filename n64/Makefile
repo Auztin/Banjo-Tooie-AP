@@ -1,48 +1,52 @@
-N64_INST = mips64/opt/libdragon
-CC = $(N64_INST)/bin/mips64-elf-gcc
-LD = $(N64_INST)/bin/mips64-elf-ld
-ARMIPS = ./armips
-ED64ROMCONFIG = libdragon/tools/ed64romconfig
+ASMDIR = asm
+BOOTDIR = boot
+SRCDIR = src
+TOOLSDIR = tools
+ROMDIR = rom
+ASSETS = assets
+SHARED = ../shared
 
-OUTDIR := build
-OBJDIR := build/bin
-SRCDIR := c
-vpath %.c c
-vpath %.h c
+PATH+=:$(TOOLSDIR)/:$(TOOLSDIR)/mips64/opt/libdragon/bin/:$(TOOLSDIR)/libdragon/tools/
+CC = mips64-elf-gcc
+LD = mips64-elf-ld
+ARMIPS = armips
+ED64ROMCONFIG = ed64romconfig
 
 CFLAGS = -O1 -G0 -fno-reorder-blocks -march=vr4300 -mtune=vr4300 -mno-gpopt -mdivide-breaks -mexplicit-relocs -msoft-float
-CFLAGS+= -I include -I $(SRCDIR)
+CFLAGS+= -I $(SHARED)/include -I $(SRCDIR)
 CPPFLAGS = -DF3DEX_GBI_2
 LDFLAGS = -L .
-LDFLAGS+= -L mips64/opt/libdragon/mips64-elf/lib/soft-float
-LDFLAGS+= -L mips64/opt/libdragon/lib/gcc/mips64-elf/14.2.0/soft-float/
+LDFLAGS+= -L $(TOOLSDIR)/mips64/opt/libdragon/mips64-elf/lib/soft-float
+LDFLAGS+= -L $(TOOLSDIR)/mips64/opt/libdragon/lib/gcc/mips64-elf/14.2.0/soft-float/
 LDLIBS = -lc -lgcc
 
-OBJECTS = $(patsubst $(SRCDIR)/%.c,$(OBJDIR)/%.o,$(sort $(wildcard $(SRCDIR)/*.c)))
+ASM = $(shell find $(ASMDIR)/ -type f -name '*.asm')
+BOOTSOURCE = $(shell find $(BOOTDIR)/ -type f -name '*.c')
+BOOTOBJS = $(shell find $(BOOTDIR)/ -type f -name '*.o')
+BOOTDEPS = $(shell find $(BOOTDIR)/ -type f -name '*.d')
+SOURCE = $(shell find $(SRCDIR)/ -type f -name '*.c')
+OBJS = $(shell find $(SRCDIR)/ -type f -name '*.o')
+DEPS = $(shell find $(SRCDIR)/ -type f -name '*.d')
+CLEANUP = $(BOOTOBJS) $(BOOTDEPS) $(OBJS) $(DEPS)
 
-all: clean .WAIT bundle .WAIT asm crc savetype
+$(ROMDIR)/Banjo-Tooie-Patched.n64: $(BOOTDIR)/bundle.o $(SRCDIR)/bundle.o $(ASM)
+	$(ARMIPS) -root $(ASMDIR) -sym2 ../$(ROMDIR)/asm_symbols.txt build.asm\
+		-strequ romfile ../$(ROMDIR)/Banjo-Tooie.n64 -strequ patchedfile ../$@\
+		-strequ bootbundle ../$(word 1,$^) -strequ srcbundle ../$(word 2,$^) -strequ assetsdir ../$(ASSETS)
+	python $(TOOLSDIR)/crc.py $@
+	$(ED64ROMCONFIG) -w sram256k $@
 
-$(OBJDIR)/%.o: %.c
-	$(CC) -o $@ -c $< $(CFLAGS) $(CPPFLAGS)
+$(BOOTDIR)/bundle.o: $(patsubst %.c,%.o,$(BOOTSOURCE))
+	$(LD) -T $(TOOLSDIR)/linker_script.ld -o $@ -i $(LDFLAGS) $(patsubst %.o,-l:%.o,$^) $(LDLIBS)
 
-$(OBJDIR):
-	mkdir -p $@
+$(SRCDIR)/bundle.o: $(patsubst %.c,%.o,$(SOURCE))
+	$(LD) -T $(TOOLSDIR)/linker_script.ld -o $@ -i $(LDFLAGS) $(patsubst %.o,-l:%.o,$^) $(LDLIBS)
 
-$(OBJECTS): | $(OBJDIR)
+include $(BOOTDEPS) $(DEPS)
 
-bundle: $(OBJECTS)
-	$(CC) -o $(OBJDIR)/boot.o -c $(SRCDIR)/boot/boot.c $(CFLAGS) $(CPPFLAGS)
-	$(LD) -T linker_script.ld -o $(OUTDIR)/boot.o -i $(LDFLAGS) $(LDLIBS) -l:$(OBJDIR)/boot.o
-	$(LD) -T linker_script.ld -o $(OUTDIR)/bundle.o -i $(patsubst %.o,-l:%.o,$(OBJECTS)) $(LDFLAGS) $(LDLIBS)
+%.o: %.c
+	$(CC) -o $@ -c $< $(CFLAGS) $(CPPFLAGS) -MMD
 
-asm: $(ARMIPS) build.asm
-	$(ARMIPS) -sym2 build/asm_symbols.txt build.asm
-
-crc: asm crc.py ntype.py
-	python crc.py
-
-savetype: crc
-	$(ED64ROMCONFIG) -w sram256k patched.n64
-
+.PHONY: clean
 clean:
-	rm -f $(OBJDIR)/*.o
+	$(RM) $(CLEANUP)

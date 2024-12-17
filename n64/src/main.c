@@ -4,7 +4,7 @@
 #include "save.h"
 #include "ap.h"
 #include "ap_menu.h"
-#include "custom_flags.h"
+#include "custom_flags/all.h"
 
 #include <string.h>
 #include <stdlib.h>

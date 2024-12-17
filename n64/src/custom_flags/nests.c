@@ -1,3 +1,5 @@
+#include "all.h"
+
 s32 custom_flag_nest(u16 scene, u16 id) {
   u32 uid = (scene << 16) | id;
   switch (uid) {
