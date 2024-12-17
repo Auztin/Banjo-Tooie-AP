@@ -1,4 +1,4 @@
-CFLAGS = -I ../../include
+CFLAGS = -I ../../shared/include -I ../../n64/src
 
 all: clean build
 

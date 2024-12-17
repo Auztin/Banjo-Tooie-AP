@@ -7,5 +7,7 @@ n64/tools/armips
 n64/tools/armips.exe
 pc/banjo_tooie_connector
 pc/banjo_tooie_connector.exe
+pc/offsets/show_offsets
+pc/offsets/show_offsets.exe
 *.o
 *.d

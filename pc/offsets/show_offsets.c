@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include <../c/util.h>
+#include <util.h>
 
 ap_memory_t ap_memory;
 ap_memory_ptr_t ap_memory_ptr;
