@@ -26,7 +26,7 @@ $(TARGET): $(patsubst %.cpp,%.o,$(SOURCE))
 
 include $(DEPS)
 
-%.o: %.cpp
+%.o: %.cpp Makefile
 	$(CXX) -o $@ -c $< $(CXXFLAGS) -MMD
 
 .PHONY: clean

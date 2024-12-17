@@ -44,7 +44,7 @@ $(SRCDIR)/bundle.o: $(patsubst %.c,%.o,$(SOURCE))
 
 include $(BOOTDEPS) $(DEPS)
 
-%.o: %.c
+%.o: %.c Makefile
 	$(CC) -o $@ -c $< $(CFLAGS) $(CPPFLAGS) -MMD
 
 .PHONY: clean
