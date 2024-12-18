@@ -2,6 +2,11 @@
 #define BT_PLAYER_CHAR_H
 
 typedef struct {
+  u8 unknown[0xE4];
+  bt_xyz_t* player_pos; 
+} bt_player_pos_t;
+
+typedef struct {
   u32 loaded[19];
   u32 control_index;
   u16 control_index2; // seems to be a copy?

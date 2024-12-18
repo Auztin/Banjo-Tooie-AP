@@ -243,12 +243,31 @@ void pre_loop() {
   ap_update();
   ap_menu_update();
 }
-
+typedef struct {
+  s32 x;
+  s32 y;
+  s32 z;
+} coords_t;
+typedef bt_obj_instance_t* (*bt_fnt_stomp_summon)(u16, coords_t*, u32, u32*);
+#define bt_fn_stomp_summon ((bt_fnt_stomp_summon)0x80108C90)
+bt_obj_instance_t* stompy_boi;
 void post_loop() {
   if (BT_IN_GAME) ap_check();
   if (bt_current_map != ap_memory.n64.misc.current_map) {
     ap_memory.n64.misc.current_map = bt_current_map;
     usb.send.misc = 1;
+  }
+  if (bt_controllers[0].pressed.dright)
+  {
+    // bt_xyz_t* pos = ((bt_player_pos_t*) bt_current_player_char)->player_pos;
+    // coords_t coords = {.x=pos->x, .y=pos->y-50, .z=pos->z};
+    coords_t coords = {.x=0, .y=0, .z=0};
+    u32 stompy[] = {0xFF40FF6A, 0xFDD9190C, 0x03620000, 0x00000064, 0x00400100};
+    stompy_boi = bt_fn_stomp_summon(0x362, &coords, 0x0, stompy);
+  }
+  if (bt_controllers[0].pressed.ddown)
+  {
+    stompy_boi->state= 7;
   }
   main.frame_count_map++;
 }
