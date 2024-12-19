@@ -259,11 +259,11 @@ void post_loop() {
   }
   if (bt_controllers[0].pressed.dright)
   {
-    // bt_xyz_t* pos = ((bt_player_pos_t*) bt_current_player_char)->player_pos;
+    bt_xyz_t* pos = ((bt_player_pos_t*) bt_current_player_char)->player_pos;
     // coords_t coords = {.x=pos->x, .y=pos->y-50, .z=pos->z};
     
     // Y affects how high or low the stomp is...
-    coords_t coords = {.x=0, .y=0, .z=0};
+    coords_t coords = {.x=0, .y=pos->y, .z=0};
     // u32 stompy[] = {0xFF40FF6A, 0xFDD9190C, 0x03620000, 0x00000064, 0x00400100};
     stompy_boi = bt_fn_stomp_summon(0x362, &coords, 0x0, 0);
   }
@@ -847,6 +847,10 @@ void main_init_egg_nest(bt_obj_instance_t* obj) {
   main_init_ap_nest(obj);
 }
 
+u8 GiveMeTheOne(){
+  return 1;
+} 
+
 void pre_object_init(bt_object_t *obj) {
   if (!BT_IN_GAME && bt_current_map != BT_MAP_FILE_SELECT) return;
   switch (obj->objType) {
@@ -1004,6 +1008,9 @@ void pre_object_init(bt_object_t *obj) {
       break;
     case BT_OBJ_CHUFFY_CABIN:
       util_inject(UTIL_INJECT_JUMP    , (u32)obj + 0x0668, (u32)main_train_change_station_displaced, 1);
+      break;
+    case BT_OBJ_STOMPONADON:
+      util_inject(UTIL_INJECT_JUMP, (u32)obj + 0x04B8, (u32)GiveMeTheOne, 1);
       break;
   }
 }
