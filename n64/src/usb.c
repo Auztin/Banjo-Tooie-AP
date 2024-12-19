@@ -32,6 +32,14 @@ u8 usb_write(u8 cmd, u32 len) {
   return ret;
 }
 
+void usb_apmemcpy(void* to, void* from, u32 size) {
+  if ((u32)to < (u32)&ap_memory || (u32)(to+size) > (u32)(&ap_memory+sizeof(ap_memory))) {
+    usb.status = USB_STATUS_DISCONNECTED;
+    return;
+  }
+  memcpy(to, from, size);
+}
+
 void usb_check() {
   if (!main.is_emulator) {
     if (usb.frame_count++ >= 15) usb.frame_count = 0;
@@ -99,27 +107,27 @@ void usb_check() {
               break;
             }
             case USB_CMD_PC_MISC: {
-              memcpy(&ap_memory.pc.misc, usb.packet.extra, sizeof(ap_memory.pc.misc));
+              usb_apmemcpy(&ap_memory.pc.misc, usb.packet.extra, sizeof(ap_memory.pc.misc));
               break;
             }
             case USB_CMD_PC_MESSAGE: {
-              memcpy(&ap_memory.pc.message, usb.packet.message, sizeof(ap_memory.pc.message));
+              usb_apmemcpy(&ap_memory.pc.message, usb.packet.message, sizeof(ap_memory.pc.message));
               break;
             }
             case USB_CMD_PC_SETTINGS: {
-              memcpy(&ap_memory.pc.settings, usb.packet.extra, sizeof(ap_memory.pc.settings));
+              usb_apmemcpy(&ap_memory.pc.settings, usb.packet.extra, sizeof(ap_memory.pc.settings));
               break;
             }
             case USB_CMD_PC_ITEMS: {
-              memcpy(ap_memory.pc.items, usb.packet.extra, sizeof(ap_memory.pc.items));
+              usb_apmemcpy(ap_memory.pc.items, usb.packet.extra, sizeof(ap_memory.pc.items));
               break;
             }
             case USB_CMD_PC_TRAPS: {
-              memcpy(ap_memory.pc.traps, usb.packet.extra, sizeof(ap_memory.pc.traps));
+              usb_apmemcpy(ap_memory.pc.traps, usb.packet.extra, sizeof(ap_memory.pc.traps));
               break;
             }
             case USB_CMD_PC_EXIT_MAP: {
-              memcpy(ap_memory.pc.exit_map+usb.packet.exit_map.offset, usb.packet.exit_map.data, usb.packet.exit_map.size);
+              usb_apmemcpy(ap_memory.pc.exit_map+usb.packet.exit_map.offset, usb.packet.exit_map.data, usb.packet.exit_map.size);
               break;
             }
           }
