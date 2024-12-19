@@ -635,7 +635,7 @@ void ap_sync_items(u16 type, u8 value) {
       }
       break;
     case AP_ITEM_GNEST:
-      bt_fn_give_golden_eggs();
+      if (bt_custom_save.golden_egg_nests < value) bt_fn_give_golden_eggs();
       bt_custom_save.golden_egg_nests = value;
       break;
     case AP_ITEM_ENEST:
