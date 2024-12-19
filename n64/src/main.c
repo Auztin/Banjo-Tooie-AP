@@ -669,7 +669,10 @@ u8 main_bt_file_select_cursor(bt_obj_file_select_ctx_t* ctx, u8 operation, u8 se
               u32 pc_seed = ap_memory.pc.settings.seed;
               u32* n64_seed = &save_data.custom[selected].seed;
               if (pc_seed == 0 || (pc_seed != *n64_seed && *n64_seed != 0)) {
-                if (!(bt_controllers[0].held.l && bt_controllers[0].held.r)) return 0;
+                if (!(bt_controllers[0].held.l && bt_controllers[0].held.r)) {
+                  bt_fn_play_sound(BT_SOUND_WRONG, -1, 1, -1);
+                  return 0;
+                }
               }
               *n64_seed = pc_seed;
               break;
