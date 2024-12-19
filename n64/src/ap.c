@@ -815,7 +815,7 @@ u32 ap_ground_info(u32 character) {
 }
 
 void ap_draw_hud(bt_draw_ctx_t* draw_ctx) {
-  if (ap.zoombox) bt_fn_zoombox_draw(ap.zoombox, draw_ctx);
+  if (ap.zoombox && main.frame_count_map >= (ap.smooth_banjo ? 60 : 30)) bt_fn_zoombox_draw(ap.zoombox, draw_ctx);
 }
 
 bool ap_prepare_message(char* message) {
@@ -872,7 +872,12 @@ u8 ap_get_zb_icon() {
 }
 
 void ap_update() {
-  if (ap.zoombox) {
+  if (ap.zoombox && main.frame_count_map >= (ap.smooth_banjo ? 60 : 30)) {
+    if (main.frame_count_map == (ap.smooth_banjo ? 60 : 30)) {
+      bt_fn_zoombox_free(ap.zoombox);
+      ap.zoombox = bt_fn_zoombox_new(200, ap.last_icon, 0, 1);
+      bt_fn_zoombox_init(ap.zoombox);
+    }
     bt_fn_zoombox_update(ap.zoombox);
     bool show = !bt_temp_flags.in_cutscene && !bt_dialog.textObjectPtr && !bt_loading_map.loading && !bt_player_chars.died;
     if (!show) {
@@ -1302,13 +1307,13 @@ bool ap_cycle_character() {
 }
 
 void ap_check() {
-  if (!bt_temp_flags.in_cutscene) {
+  if (
+    !bt_temp_flags.in_cutscene
+    && main.frame_count_map > (ap.smooth_banjo ? 60 : 30)
+    && !bt_player_chars.died && !bt_loading_map.loading
+  ) {
     if (ap.load_file) ap_load_file();
-    if (
-         ap_memory.n64.misc.death_link_ap != ap_memory.pc.misc.death_link_ap
-      && !bt_player_chars.died && !bt_loading_map.loading
-      && (main.frame_count_map < (ap.smooth_banjo ? 60 : 30))
-    ) {
+    if (ap_memory.n64.misc.death_link_ap != ap_memory.pc.misc.death_link_ap) {
       switch (bt_player_chars.control_type) {
         case BT_PLAYER_CHAR_CLOCKWORK:
           bt_fn_hurt_player(bt_player_chars.control_index);
