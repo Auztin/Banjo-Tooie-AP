@@ -762,7 +762,7 @@ bool ap_trap_misfire(bool checking) {
 
 void ap_sync_traps() {
   if (
-       (main.frame_count_map < (ap.smooth_banjo ? 120 : 60))
+       main.frame_count_map < (ap.smooth_banjo ? 120 : 60)
     || bt_loading_map.loading
     || bt_player_chars.died
   ) return;
@@ -785,6 +785,7 @@ void ap_sync_traps() {
         }
         if (ap.fn_trap(true)) {
           bt_custom_save.traps[i]++;
+          if (bt_custom_save.traps[i] > ap_memory.pc.traps[i]) bt_custom_save.traps[i] = ap_memory.pc.traps[i];
           break;
         }
         else ap.fn_trap = 0;
