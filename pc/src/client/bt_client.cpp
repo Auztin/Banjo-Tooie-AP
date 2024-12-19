@@ -1002,13 +1002,13 @@ void BTClient::silo_cost(nlohmann::json silo_cost_table)
         int loc_id = std::stoi(locationId);
         switch(loc_id)
         {
-            case 1230755:
+            case 1230753:
                 ap_memory.pc.settings.silo_requirements[0] = cost;
                 break;
             case 1230754:
                 ap_memory.pc.settings.silo_requirements[1] = cost;
                 break;
-            case 1230753:
+            case 1230755:
                 ap_memory.pc.settings.silo_requirements[2] = cost;
                 break;
             case 1230756:
