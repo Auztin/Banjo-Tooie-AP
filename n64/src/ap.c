@@ -808,7 +808,9 @@ void ap_increase_health(u32 character, s32 amount) {
 
 extern u32 ap_ground_info_displaced(u32 character);
 u32 ap_ground_info(u32 character) {
-  if (ap.fn_trap == ap_trap_slip) return 0x40;
+  if (main.frame_count_map > (ap.smooth_banjo ? 60 : 30)) {
+    if (ap.fn_trap == ap_trap_slip) return 0x40;
+  }
   return ap_ground_info_displaced(character);
 }
 
