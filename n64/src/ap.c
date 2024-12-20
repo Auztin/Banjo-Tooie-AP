@@ -712,20 +712,11 @@ bool ap_trap_trip(bool checking) {
 }
 
 bool ap_trap_slip(bool checking) {
-  if (
-    checking && (
+  if (checking) {
+    if (
          !bt_fn_character_touching_ground(bt_current_player_char)
       || bt_fn_character_in_water(bt_current_player_char)
-    )
-  ) return false;
-  if (ap.trap_timer) {
-    ap.trap_timer -= main.delta;
-    if (ap.trap_timer <= 0) {
-      ap.fn_trap = 0;
-      ap.trap_timer = 0;
-    }
-  }
-  else if (checking) {
+    ) return false;
     switch (bt_player_chars.control_type) {
       case BT_PLAYER_CHAR_KAZOOIE:
         if (!bt_fn_get_health(bt_current_player_char)) return false;
@@ -743,6 +734,11 @@ bool ap_trap_slip(bool checking) {
     ap.trap_timer = 5000;
     return true;
   }
+  ap.trap_timer -= main.delta;
+  if (ap.trap_timer <= 0) {
+    ap.fn_trap = 0;
+    ap.trap_timer = 0;
+  }
   return false;
 }
 
@@ -753,9 +749,15 @@ bool ap_trap_misfire(bool checking) {
         return false;
     }
     if (bt_fn_character_transform(bt_player_chars.control_index, bt_player_chars.control_type)) {
-      ap.fn_trap = 0;
+      ap.trap_timer = 7000;
       return true;
     }
+    return false;
+  }
+  ap.trap_timer -= main.delta;
+  if (ap.trap_timer <= 0) {
+    ap.fn_trap = 0;
+    ap.trap_timer = 0;
   }
   return false;
 }
