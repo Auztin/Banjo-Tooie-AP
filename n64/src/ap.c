@@ -790,6 +790,7 @@ void ap_sync_traps() {
   ) return;
   if (ap.fn_trap) ap.fn_trap(false);
   else {
+    ap.trap_type = AP_TRAP_MAX;
     for (int i = 0; i < AP_TRAP_MAX; i++) {
       if (bt_custom_save.traps[i] != ap_memory.pc.traps[i]) {
         switch (i) {
@@ -809,6 +810,7 @@ void ap_sync_traps() {
             continue;
         }
         if (ap.fn_trap(true)) {
+          if (ap.fn_trap) ap.trap_type = i;
           bt_custom_save.traps[i]++;
           if (bt_custom_save.traps[i] > ap_memory.pc.traps[i]) bt_custom_save.traps[i] = ap_memory.pc.traps[i];
           break;
@@ -821,35 +823,38 @@ void ap_sync_traps() {
 
 extern u32 ap_get_health_displaced(u32 character);
 u32 ap_get_health(u32 character) {
-  if (ap.fn_trap && ap.fn_trap != ap_trap_squish) return 2;
+  switch (ap.trap_type) {
+    case AP_TRAP_TRIP:
+      return 2;
+  }
   return ap_get_health_displaced(character);
 }
 
 extern void ap_increase_health_displaced(u32 character, s32 amount);
 void ap_increase_health(u32 character, s32 amount) {
-  if (ap.fn_trap && amount < 0 && ap.fn_trap != ap_trap_squish) return;
+  switch (ap.trap_type) {
+    case AP_TRAP_TRIP:
+      if (amount < 0) return;
+      break;
+  }
   ap_increase_health_displaced(character, amount);
 }
 
 extern u32 ap_ground_info_displaced(u32 character);
 u32 ap_ground_info(u32 character) {
   if (main.milliseconds_on_map > 1000) {
-    if (ap.fn_trap == ap_trap_slip) return 0x40;
+    switch (ap.trap_type) {
+      case AP_TRAP_SLIP:
+        return 0x40;
+    }
   }
   return ap_ground_info_displaced(character);
 }
 
-bool ap_stomponadon_stomp(bt_obj_instance_t* dinofoot)
-{
-  if(ap.fn_trap == ap_trap_squish)
-  {
-    return true;
-  }
-  else
-  {
-    dinofoot->state = 7;
-    return false;
-  }
+bool ap_stomponadon_stomp(bt_obj_instance_t* dinofoot) {
+  if (ap.trap_type == AP_TRAP_SQUISH) return true;
+  dinofoot->state = 7;
+  return false;
 }
 
 void ap_draw_hud(bt_draw_ctx_t* draw_ctx) {

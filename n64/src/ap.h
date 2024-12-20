@@ -23,6 +23,7 @@ typedef struct {
   char message[508];
   char internal_message[508];
   u8 items[AP_ITEM_MAX];
+  u8 trap_type;
   ap_fnt_trap fn_trap;
   s32 trap_timer;
 } ap_t;
