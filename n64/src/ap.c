@@ -771,7 +771,7 @@ bool ap_trap_squish(bool checking) {
     bt_xyz_t* pos = bt_current_player_char->pos;
     bt_s32_xyz_t coords = {.x=9000, .y=pos->y+25, .z=9000};
     bt_fn_spawn_prop(0x362, &coords, 0x0, 0);
-    ap.trap_timer = 1000;
+    ap.trap_timer = 5000;
     return true;
   }
   ap.trap_timer -= main.delta;
@@ -784,7 +784,7 @@ bool ap_trap_squish(bool checking) {
 
 void ap_sync_traps() {
   if (
-       main.milliseconds_on_map < 1000
+       main.milliseconds_on_map < 3000
     || bt_loading_map.loading
     || bt_player_chars.died
   ) return;
@@ -852,7 +852,8 @@ u32 ap_ground_info(u32 character) {
 }
 
 bool ap_stomponadon_stomp(bt_obj_instance_t* dinofoot) {
-  if (ap.trap_type == AP_TRAP_SQUISH) return true;
+  if (ap.trap_type == AP_TRAP_SQUISH && ap.trap_timer > 2500) return true;
+  ap.trap_timer = 0;
   dinofoot->state = 7;
   return false;
 }
