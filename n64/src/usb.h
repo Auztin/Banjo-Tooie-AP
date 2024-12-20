@@ -13,8 +13,7 @@ typedef struct {
     u8 misc : 1;
   } send;
   u8 status;
-  u8 frame_count;
-  u8 ping_frame;
+  s16 ping_timer;
 } usb_t;
 extern usb_t usb;
 
