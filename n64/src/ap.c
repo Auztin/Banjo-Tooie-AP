@@ -768,7 +768,7 @@ bool ap_trap_squish(bool checking) {
       case BT_MAP_STOMPING_PLAINS:
         return false;
     }
-    bt_xyz_t* pos = ((bt_player_pos_t*) bt_current_player_char)->player_pos;
+    bt_xyz_t* pos = bt_current_player_char->pos;
     bt_s32_xyz_t coords = {.x=9000, .y=pos->y+25, .z=9000};
     bt_fn_spawn_prop(0x362, &coords, 0x0, 0);
     ap.trap_timer = 1000;
