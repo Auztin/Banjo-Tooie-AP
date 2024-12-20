@@ -9,7 +9,9 @@ typedef struct {
   u8 new_file : 1;
   u8 override_text : 1;
   u8 credits_state;
-  u32 frame_count_map;
+  u32 last_c0_count;
+  u32 delta; // milliseconds since last frame
+  u32 milliseconds_on_map;
   bt_zoombox_t* zb_credits[2];
 } main_t;
 extern main_t main;

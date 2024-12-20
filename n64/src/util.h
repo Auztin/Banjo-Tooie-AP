@@ -31,4 +31,12 @@ enum UTIL_INJECT {
 
 void util_inject(enum UTIL_INJECT type, u32 addr, u32 data, u8 addNOP);
 
+#define TICKS_PER_MILLISECOND (93750000/2/1000)
+
+#define C0_COUNT() ({ \
+    uint32_t x; \
+    asm volatile("mfc0 %0,$9":"=r"(x)); \
+    x; \
+})
+
 #endif // UTIL_H

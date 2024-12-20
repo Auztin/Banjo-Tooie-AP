@@ -719,7 +719,7 @@ bool ap_trap_slip(bool checking) {
     )
   ) return false;
   if (ap.trap_timer) {
-    ap.trap_timer -= ap.smooth_banjo ? 1 : 2;
+    ap.trap_timer -= main.delta;
     if (ap.trap_timer <= 0) {
       ap.fn_trap = 0;
       ap.trap_timer = 0;
@@ -740,7 +740,7 @@ bool ap_trap_slip(bool checking) {
       case BT_PLAYER_CHAR_DADDY_TREX:
         return false;
     }
-    ap.trap_timer = 300;
+    ap.trap_timer = 5000;
     return true;
   }
   return false;
@@ -762,7 +762,7 @@ bool ap_trap_misfire(bool checking) {
 
 void ap_sync_traps() {
   if (
-       main.frame_count_map < (ap.smooth_banjo ? 120 : 60)
+       main.milliseconds_on_map < 1000
     || bt_loading_map.loading
     || bt_player_chars.died
   ) return;
@@ -808,14 +808,14 @@ void ap_increase_health(u32 character, s32 amount) {
 
 extern u32 ap_ground_info_displaced(u32 character);
 u32 ap_ground_info(u32 character) {
-  if (main.frame_count_map > (ap.smooth_banjo ? 60 : 30)) {
+  if (main.milliseconds_on_map > 1000) {
     if (ap.fn_trap == ap_trap_slip) return 0x40;
   }
   return ap_ground_info_displaced(character);
 }
 
 void ap_draw_hud(bt_draw_ctx_t* draw_ctx) {
-  if (ap.zoombox && main.frame_count_map >= (ap.smooth_banjo ? 60 : 30)) bt_fn_zoombox_draw(ap.zoombox, draw_ctx);
+  if (ap.zoombox && main.milliseconds_on_map >= 1000) bt_fn_zoombox_draw(ap.zoombox, draw_ctx);
 }
 
 bool ap_prepare_message(char* message) {
@@ -872,56 +872,58 @@ u8 ap_get_zb_icon() {
 }
 
 void ap_update() {
-  if (ap.zoombox && main.frame_count_map >= (ap.smooth_banjo ? 60 : 30)) {
-    if (main.frame_count_map == (ap.smooth_banjo ? 60 : 30)) {
+  if (ap.zoombox) {
+    if (!main.milliseconds_on_map) {
       bt_fn_zoombox_free(ap.zoombox);
       ap.zoombox = bt_fn_zoombox_new(200, ap.last_icon, 0, 1);
       bt_fn_zoombox_init(ap.zoombox);
     }
-    bt_fn_zoombox_update(ap.zoombox);
-    bool show = !bt_temp_flags.in_cutscene && !bt_dialog.textObjectPtr && !bt_loading_map.loading && !bt_player_chars.died;
-    if (!show) {
-      if (ap.zoombox_ready) {
-        bt_fn_zoombox_clear_text(ap.zoombox);
-        bt_fn_zoombox_close(ap.zoombox);
-      }
-      bt_fn_zoombox_selected(ap.zoombox, false);
-    }
-    switch (bt_fn_zoombox_state(ap.zoombox)) {
-      case BT_ZOOMBOX_STATE_READY:
-        ap.zoombox_ready = 1;
-        if (show) {
-          bt_fn_zoombox_open(ap.zoombox);
-          bt_fn_zoombox_append_lines(ap.zoombox, ap.message_lines+1, ap.messages);
-        }
-        break;
-      case BT_ZOOMBOX_STATE_TEXT_PRINTED:
-        if (ap_get_next_message()) {
-          if (ap.zb_icon != ap_memory.pc.settings.dialog_character) {
-            bt_fn_zoombox_queue_icon(ap.zoombox, ap_get_zb_icon());
-            bt_fn_zoombox_close(ap.zoombox);
-            bt_fn_zoombox_open(ap.zoombox);
-          }
-          bt_fn_zoombox_append_lines(ap.zoombox, ap.message_lines+1, ap.messages);
-        }
-        else {
+    else if (main.milliseconds_on_map >= 5000) {
+      bt_fn_zoombox_update(ap.zoombox);
+      bool show = !bt_temp_flags.in_cutscene && !bt_dialog.textObjectPtr && !bt_loading_map.loading && !bt_player_chars.died;
+      if (!show) {
+        if (ap.zoombox_ready) {
+          bt_fn_zoombox_clear_text(ap.zoombox);
           bt_fn_zoombox_close(ap.zoombox);
-          ap.message[0] = '\0';
         }
-        break;
-      case BT_ZOOMBOX_STATE_CLOSED:
-        if (ap.message[0] == '\0') bt_fn_zoombox_leave(ap.zoombox);
-        else if (show) {
-          bt_fn_zoombox_selected(ap.zoombox, true);
-          bt_fn_zoombox_open(ap.zoombox);
-          bt_fn_zoombox_append_lines(ap.zoombox, ap.message_lines+1, ap.messages);
-        }
-        break;
-      case BT_ZOOMBOX_STATE_DONE:
-        bt_fn_zoombox_free(ap.zoombox);
-        ap.zoombox = 0;
-        ap.zoombox_ready = 0;
-        break;
+        bt_fn_zoombox_selected(ap.zoombox, false);
+      }
+      switch (bt_fn_zoombox_state(ap.zoombox)) {
+        case BT_ZOOMBOX_STATE_READY:
+          ap.zoombox_ready = 1;
+          if (show) {
+            bt_fn_zoombox_open(ap.zoombox);
+            bt_fn_zoombox_append_lines(ap.zoombox, ap.message_lines+1, ap.messages);
+          }
+          break;
+        case BT_ZOOMBOX_STATE_TEXT_PRINTED:
+          if (ap_get_next_message()) {
+            if (ap.zb_icon != ap_memory.pc.settings.dialog_character) {
+              bt_fn_zoombox_queue_icon(ap.zoombox, ap_get_zb_icon());
+              bt_fn_zoombox_close(ap.zoombox);
+              bt_fn_zoombox_open(ap.zoombox);
+            }
+            bt_fn_zoombox_append_lines(ap.zoombox, ap.message_lines+1, ap.messages);
+          }
+          else {
+            bt_fn_zoombox_close(ap.zoombox);
+            ap.message[0] = '\0';
+          }
+          break;
+        case BT_ZOOMBOX_STATE_CLOSED:
+          if (ap.message[0] == '\0') bt_fn_zoombox_leave(ap.zoombox);
+          else if (show) {
+            bt_fn_zoombox_selected(ap.zoombox, true);
+            bt_fn_zoombox_open(ap.zoombox);
+            bt_fn_zoombox_append_lines(ap.zoombox, ap.message_lines+1, ap.messages);
+          }
+          break;
+        case BT_ZOOMBOX_STATE_DONE:
+          bt_fn_zoombox_free(ap.zoombox);
+          ap.zoombox = 0;
+          ap.zoombox_ready = 0;
+          break;
+      }
     }
   }
   if (bt_loading_map.loading) {
@@ -1309,7 +1311,7 @@ bool ap_cycle_character() {
 void ap_check() {
   if (
     !bt_temp_flags.in_cutscene
-    && main.frame_count_map > (ap.smooth_banjo ? 60 : 30)
+    && main.milliseconds_on_map > 1000
     && !bt_player_chars.died && !bt_loading_map.loading
   ) {
     if (ap.load_file) ap_load_file();

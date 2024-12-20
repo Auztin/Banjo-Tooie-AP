@@ -238,6 +238,11 @@ void pre_loop() {
   usb_check();
   ap_update();
   ap_menu_update();
+
+  u32 c0_count = C0_COUNT();
+  main.delta = (c0_count-main.last_c0_count)/TICKS_PER_MILLISECOND;
+  main.milliseconds_on_map += main.delta;
+  main.last_c0_count = c0_count;
 }
 
 void post_loop() {
@@ -246,7 +251,6 @@ void post_loop() {
     ap_memory.n64.misc.current_map = bt_current_map;
     usb.send.misc = 1;
   }
-  main.frame_count_map++;
 }
 
 void main_visited_world(u16 scene) {
@@ -282,7 +286,7 @@ void main_visited_world(u16 scene) {
 }
 
 void pre_load_scene(u16 *scene, u16 *exit) {
-  main.frame_count_map = 0;
+  main.milliseconds_on_map = 0;
   setup_cache_count = 0;
   if (!BT_IN_GAME && bt_current_map != BT_MAP_FILE_SELECT) {
     if (*scene == BT_MAP_FILE_SELECT) {
