@@ -767,10 +767,17 @@ bool ap_trap_squish(bool checking) {
         return false;
     }
     bt_xyz_t* pos = ((bt_player_pos_t*) bt_current_player_char)->player_pos;    
-    bt_s32_xyz_t coords = {.x=9000, .y=pos->y+100, .z=9000};
+    bt_s32_xyz_t coords = {.x=9000, .y=pos->y+25, .z=9000};
     bt_fn_spawn_prop(0x362, &coords, 0x0, 0);
-    ap.trap_timer = 1;
+    ap.trap_timer = 60;
     return true;
+  } 
+  else if (ap.trap_timer) {
+    ap.trap_timer -= ap.smooth_banjo ? 1 : 2;
+    if (ap.trap_timer <= 0) {
+      ap.fn_trap = 0;
+      ap.trap_timer = 0;
+    }
   }
   return false;
 }
@@ -834,15 +841,13 @@ u32 ap_ground_info(u32 character) {
 
 bool ap_stomponadon_stomp(bt_obj_instance_t* dinofoot)
 {
-  if(ap.trap_timer)
+  if(ap.fn_trap == ap_trap_squish)
   {
-    ap.trap_timer = 0;
     return true;
   }
   else
   {
     dinofoot->state = 7;
-    ap.fn_trap = 0;
     return false;
   }
 }

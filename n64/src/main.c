@@ -246,14 +246,6 @@ void post_loop() {
     ap_memory.n64.misc.current_map = bt_current_map;
     usb.send.misc = 1;
   }
-  if(bt_controllers[0].pressed.dright)
-  {
-    ap_memory.pc.traps[AP_TRAP_SQUISH]++;
-  }
-  if(bt_controllers[0].pressed.ddown)
-  {
-    ap_memory.pc.traps[AP_TRAP_MISFIRE]++;
-  }
   main.frame_count_map++;
 }
 
