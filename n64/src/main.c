@@ -243,33 +243,20 @@ void pre_loop() {
   ap_update();
   ap_menu_update();
 }
-typedef struct {
-  s32 x;
-  s32 y;
-  s32 z;
-} coords_t;
-typedef bt_obj_instance_t* (*bt_fnt_stomp_summon)(u16, coords_t*, u32, u32*);
-#define bt_fn_stomp_summon ((bt_fnt_stomp_summon)0x80108C90)
-bt_obj_instance_t* stompy_boi;
+
 void post_loop() {
   if (BT_IN_GAME) ap_check();
   if (bt_current_map != ap_memory.n64.misc.current_map) {
     ap_memory.n64.misc.current_map = bt_current_map;
     usb.send.misc = 1;
   }
-  if (bt_controllers[0].pressed.dright)
+  if(bt_controllers[0].pressed.dright)
   {
-    bt_xyz_t* pos = ((bt_player_pos_t*) bt_current_player_char)->player_pos;
-    // coords_t coords = {.x=pos->x, .y=pos->y-50, .z=pos->z};
-    
-    // Y affects how high or low the stomp is...
-    coords_t coords = {.x=0, .y=pos->y, .z=0};
-    // u32 stompy[] = {0xFF40FF6A, 0xFDD9190C, 0x03620000, 0x00000064, 0x00400100};
-    stompy_boi = bt_fn_stomp_summon(0x362, &coords, 0x0, 0);
+    ap_memory.pc.traps[AP_TRAP_SQUISH]++;
   }
-  if (bt_controllers[0].pressed.ddown)
+  if(bt_controllers[0].pressed.ddown)
   {
-    stompy_boi->state= 7;
+    ap_memory.pc.traps[AP_TRAP_MISFIRE]++;
   }
   main.frame_count_map++;
 }
@@ -847,10 +834,6 @@ void main_init_egg_nest(bt_obj_instance_t* obj) {
   main_init_ap_nest(obj);
 }
 
-u8 GiveMeTheOne(){
-  return 1;
-} 
-
 void pre_object_init(bt_object_t *obj) {
   if (!BT_IN_GAME && bt_current_map != BT_MAP_FILE_SELECT) return;
   switch (obj->objType) {
@@ -1010,7 +993,7 @@ void pre_object_init(bt_object_t *obj) {
       util_inject(UTIL_INJECT_JUMP    , (u32)obj + 0x0668, (u32)main_train_change_station_displaced, 1);
       break;
     case BT_OBJ_STOMPONADON:
-      util_inject(UTIL_INJECT_JUMP, (u32)obj + 0x04B8, (u32)GiveMeTheOne, 1);
+      util_inject(UTIL_INJECT_JUMP, (u32)obj + 0x04B8, (u32)ap_stomponadon_stomp, 1);
       break;
   }
 }

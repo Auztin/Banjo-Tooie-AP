@@ -32,6 +32,7 @@ extern u16 AP_ICON[32][32];
 u32 ap_get_health(u32 character);
 void ap_increase_health(u32 character, s32 amount);
 u32 ap_ground_info(u32 character);
+bool ap_stomponadon_stomp(bt_obj_instance_t* dinofoot);
 void ap_draw_hud(bt_draw_ctx_t* draw_ctx);
 void ap_update();
 void ap_check();

@@ -121,7 +121,7 @@ enum {
   BT_MAP_0x117, // TDL - River Passage
   BT_MAP_0x118, // TDL - Styracosaurus Family Cave
   BT_MAP_0x119, // TDL - Unga Bunga's Cave
-  BT_MAP_0x11A, // TDL - Stomping Plains
+  BT_MAP_STOMPING_PLAINS, // TDL - Stomping Plains
   BT_MAP_0x11B, // TDL - Bonfire Cavern
   BT_MAP_TDL_HUMBA = 0x11E, // TDL - Wumba's Wigwam (Small)
   BT_MAP_GI_HUMBA, // GI - Wumba's Wigwam
