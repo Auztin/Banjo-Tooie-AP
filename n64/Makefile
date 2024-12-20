@@ -6,6 +6,10 @@ ROMDIR:= rom
 ASSETS:= assets
 SHARED:= ../shared
 
+OGROM:=$(ROMDIR)/Banjo-Tooie.n64
+PATCHEDROM:=$(ROMDIR)/Banjo-Tooie-Patched.n64
+PATCHFILE:=$(ROMDIR)/Banjo-Tooie.patch
+
 PATH+=:$(TOOLSDIR)/:$(TOOLSDIR)/mips64/opt/libdragon/bin/:$(TOOLSDIR)/libdragon/tools/
 CC:= mips64-elf-gcc
 LD:= mips64-elf-ld
@@ -29,9 +33,9 @@ OBJS = $(shell find $(SRCDIR)/ -type f -name '*.o')
 DEPS = $(shell find $(SRCDIR)/ -type f -name '*.d')
 CLEANUP = $(BOOTOBJS) $(BOOTDEPS) $(OBJS) $(DEPS)
 
-$(ROMDIR)/Banjo-Tooie-Patched.n64: $(BOOTDIR)/bundle.o $(SRCDIR)/bundle.o $(ASM)
+$(PATCHEDROM): $(BOOTDIR)/bundle.o $(SRCDIR)/bundle.o $(ASM)
 	$(ARMIPS) -root $(ASMDIR) -sym2 ../$(ROMDIR)/asm_symbols.txt build.asm\
-		-strequ romfile ../$(ROMDIR)/Banjo-Tooie.n64 -strequ patchedfile ../$@\
+		-strequ romfile ../$(OGROM) -strequ patchedfile ../$@\
 		-strequ bootbundle ../$(word 1,$^) -strequ srcbundle ../$(word 2,$^) -strequ assetsdir ../$(ASSETS)
 	python $(TOOLSDIR)/crc.py $@
 	$(ED64ROMCONFIG) -w sram256k $@
@@ -46,6 +50,12 @@ include $(BOOTDEPS) $(DEPS)
 
 %.o: %.c Makefile
 	$(CC) -o $@ -c $< $(CFLAGS) $(CPPFLAGS) -MMD
+
+.PHONY: patch
+patch: $(PATCHFILE)
+
+$(PATCHFILE): $(PATCHEDROM)
+	python $(TOOLSDIR)/patch.py $(OGROM) $(PATCHEDROM) $(PATCHFILE)
 
 .PHONY: clean
 clean:
