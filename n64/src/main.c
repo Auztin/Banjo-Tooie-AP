@@ -789,9 +789,10 @@ bool main_collected_nest(bt_obj_instance_t* obj) {
 }
 
 void main_init_ap_nest(bt_obj_instance_t* obj) {
+  s32 flag = custom_flag_nest(bt_current_map, obj->id);
   if (
-    obj->id && obj->data->type == 0x6EA && ap_memory.pc.settings.randomize_nests
-    && !save_custom_get_bit(save_data.custom[bt_save_slot].nests, custom_flag_nest(bt_current_map, obj->id))
+    obj->id && obj->data->type == 0x6EA && ap_memory.pc.settings.randomize_nests && flag >= 0
+    && !save_custom_get_bit(save_data.custom[bt_save_slot].nests, flag)
   ) {
     obj->sprite_index = 0xB;
     obj->timer = 0;
