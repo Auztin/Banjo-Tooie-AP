@@ -125,33 +125,55 @@ void ap_menu_select() {
       data = &ap_menu_options_data[ap_menu.selected-1];
       switch (data->item) {
         case AP_MENU_OPTION_DRAGON_KAZOOIE:
-          if (bt_flags.humba_dragon_kazooie && bt_fake_flags.humba_dragon_kazooie) bt_flags.dragon_kazooie = !bt_flags.dragon_kazooie;
+          if (bt_flags.humba_dragon_kazooie && bt_fake_flags.humba_dragon_kazooie) {
+            if (!bt_flags.dragon_kazooie) bt_fn_play_sound(BT_SOUND_INCREASE, -1, 1, -1);
+            else bt_fn_play_sound(BT_SOUND_DECREASE, -1, 1, -1);
+            bt_flags.dragon_kazooie = !bt_flags.dragon_kazooie;
+          }
+          else bt_fn_play_sound(BT_SOUND_WRONG, -1, 1, -1);
           break;
         case AP_MENU_OPTION_SUPER_BANJO:
+          if (!bt_flags.cheats_superbanjo_enabled) bt_fn_play_sound(BT_SOUND_INCREASE, -1, 1, -1);
+          else bt_fn_play_sound(BT_SOUND_DECREASE, -1, 1, -1);
           bt_flags.cheats_superbanjo_enabled = !bt_flags.cheats_superbanjo_enabled;
           break;
         case AP_MENU_OPTION_HOMING_EGGS:
-          if (bt_flags.cheats_homing_eggs_received) bt_flags.cheats_homing_eggs_enabled = !bt_flags.cheats_homing_eggs_enabled;
+          if (bt_flags.cheats_homing_eggs_received) {
+            if (!bt_flags.cheats_homing_eggs_enabled) bt_fn_play_sound(BT_SOUND_INCREASE, -1, 1, -1);
+            else bt_fn_play_sound(BT_SOUND_DECREASE, -1, 1, -1);
+            bt_flags.cheats_homing_eggs_enabled = !bt_flags.cheats_homing_eggs_enabled;
+          }
+          else bt_fn_play_sound(BT_SOUND_WRONG, -1, 1, -1);
           break;
         case AP_MENU_OPTION_HONEYBACK:
-          if (bt_flags.cheats_honeyback_received) bt_flags.cheats_honeyback_enabled = !bt_flags.cheats_honeyback_enabled;
+          if (bt_flags.cheats_honeyback_received) {
+            if (!bt_flags.cheats_honeyback_enabled) bt_fn_play_sound(BT_SOUND_INCREASE, -1, 1, -1);
+            else bt_fn_play_sound(BT_SOUND_DECREASE, -1, 1, -1);
+            bt_flags.cheats_honeyback_enabled = !bt_flags.cheats_honeyback_enabled;
+          }
+          else bt_fn_play_sound(BT_SOUND_WRONG, -1, 1, -1);
           break;
         case AP_MENU_OPTION_SMOOTH_BANJO:
+          if (!ap.smooth_banjo) bt_fn_play_sound(BT_SOUND_INCREASE, -1, 1, -1);
+          else bt_fn_play_sound(BT_SOUND_DECREASE, -1, 1, -1);
           ap.smooth_banjo = !ap.smooth_banjo;
           BT_FPS = ap.smooth_banjo ? 1 : 2;
           break;
         case AP_MENU_OPTION_RESPAWN:
           if (bt_fn_character_touching_ground(bt_current_player_char) || bt_fn_character_in_water(bt_current_player_char)) {
+            bt_fn_play_sound(BT_SOUND_COLLECTED_ITEM1, -1, 1, -1);
             ap_memory.n64.misc.death_link_ap--;
             ap_menu.id = AP_MENU_UNPAUSE;
             ap_menu.state = AP_MENU_STATE_CLEAR;
           }
+          else bt_fn_play_sound(BT_SOUND_WRONG, -1, 1, -1);
           break;
         case AP_MENU_OPTION_RESET:
           if (
                bt_player_chars.control_type == BT_PLAYER_CHAR_BANJO_KAZOOIE
             && (bt_fn_character_touching_ground(bt_current_player_char) || bt_fn_character_in_water(bt_current_player_char))
           ) {
+            bt_fn_play_sound(BT_SOUND_COLLECTED_ITEM1, -1, 1, -1);
             bt_xyz_t point = {0, 0, 0};
             bt_fn_increase_health(bt_current_player_char, 100);
             bt_fn_character_move_to(&point, 0, 0);
@@ -160,6 +182,7 @@ void ap_menu_select() {
             ap_menu.id = AP_MENU_UNPAUSE;
             ap_menu.state = AP_MENU_STATE_CLEAR;
           }
+          else bt_fn_play_sound(BT_SOUND_WRONG, -1, 1, -1);
           break;
       }
       return;

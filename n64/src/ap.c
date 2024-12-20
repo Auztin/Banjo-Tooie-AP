@@ -635,7 +635,7 @@ void ap_sync_items(u16 type, u8 value) {
       }
       break;
     case AP_ITEM_GNEST:
-      bt_fn_give_golden_eggs();
+      if (bt_custom_save.golden_egg_nests < value) bt_fn_give_golden_eggs();
       bt_custom_save.golden_egg_nests = value;
       break;
     case AP_ITEM_ENEST:
@@ -777,7 +777,7 @@ bool ap_trap_squish(bool checking) {
 
 void ap_sync_traps() {
   if (
-       (main.frame_count_map < (ap.smooth_banjo ? 120 : 60))
+       main.frame_count_map < (ap.smooth_banjo ? 120 : 60)
     || bt_loading_map.loading
     || bt_player_chars.died
   ) return;
@@ -803,6 +803,7 @@ void ap_sync_traps() {
         }
         if (ap.fn_trap(true)) {
           bt_custom_save.traps[i]++;
+          if (bt_custom_save.traps[i] > ap_memory.pc.traps[i]) bt_custom_save.traps[i] = ap_memory.pc.traps[i];
           break;
         }
         else ap.fn_trap = 0;
@@ -825,7 +826,9 @@ void ap_increase_health(u32 character, s32 amount) {
 
 extern u32 ap_ground_info_displaced(u32 character);
 u32 ap_ground_info(u32 character) {
-  if (ap.fn_trap == ap_trap_slip) return 0x40;
+  if (main.frame_count_map > (ap.smooth_banjo ? 60 : 30)) {
+    if (ap.fn_trap == ap_trap_slip) return 0x40;
+  }
   return ap_ground_info_displaced(character);
 }
 
@@ -845,7 +848,7 @@ bool ap_stomponadon_stomp(bt_obj_instance_t* dinofoot)
 }
 
 void ap_draw_hud(bt_draw_ctx_t* draw_ctx) {
-  if (ap.zoombox) bt_fn_zoombox_draw(ap.zoombox, draw_ctx);
+  if (ap.zoombox && main.frame_count_map >= (ap.smooth_banjo ? 60 : 30)) bt_fn_zoombox_draw(ap.zoombox, draw_ctx);
 }
 
 bool ap_prepare_message(char* message) {
@@ -902,7 +905,12 @@ u8 ap_get_zb_icon() {
 }
 
 void ap_update() {
-  if (ap.zoombox) {
+  if (ap.zoombox && main.frame_count_map >= (ap.smooth_banjo ? 60 : 30)) {
+    if (main.frame_count_map == (ap.smooth_banjo ? 60 : 30)) {
+      bt_fn_zoombox_free(ap.zoombox);
+      ap.zoombox = bt_fn_zoombox_new(200, ap.last_icon, 0, 1);
+      bt_fn_zoombox_init(ap.zoombox);
+    }
     bt_fn_zoombox_update(ap.zoombox);
     bool show = !bt_temp_flags.in_cutscene && !bt_dialog.textObjectPtr && !bt_loading_map.loading && !bt_player_chars.died;
     if (!show) {
@@ -1332,13 +1340,13 @@ bool ap_cycle_character() {
 }
 
 void ap_check() {
-  if (!bt_temp_flags.in_cutscene) {
+  if (
+    !bt_temp_flags.in_cutscene
+    && main.frame_count_map > (ap.smooth_banjo ? 60 : 30)
+    && !bt_player_chars.died && !bt_loading_map.loading
+  ) {
     if (ap.load_file) ap_load_file();
-    if (
-         ap_memory.n64.misc.death_link_ap != ap_memory.pc.misc.death_link_ap
-      && !bt_player_chars.died && !bt_loading_map.loading
-      && (main.frame_count_map < (ap.smooth_banjo ? 60 : 30))
-    ) {
+    if (ap_memory.n64.misc.death_link_ap != ap_memory.pc.misc.death_link_ap) {
       switch (bt_player_chars.control_type) {
         case BT_PLAYER_CHAR_CLOCKWORK:
           bt_fn_hurt_player(bt_player_chars.control_index);

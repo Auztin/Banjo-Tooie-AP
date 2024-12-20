@@ -52,9 +52,12 @@ void inject_draw_hud(bt_draw_ctx_t* draw_ctx) {
 
 extern bt_obj_instance_t* inject_spawn_prop_displaced(u16, bt_s32_xyz_t*, u16, bt_obj_setup_t*);
 bt_obj_instance_t* inject_spawn_prop(u16 id, bt_s32_xyz_t* pos, u16 yrot, bt_obj_setup_t* setup) {
-  bt_obj_setup_t new_setup = pre_spawn_prop(&id, pos, &yrot, setup);
-  bt_obj_instance_t* ret = inject_spawn_prop_displaced(id, pos, yrot, &new_setup);
-  post_spawn_prop(id, pos, yrot, &new_setup, ret);
+  bt_obj_setup_t new_setup = {0, };
+  if (!setup) setup = &new_setup;
+  pre_spawn_prop(&id, pos, &yrot, setup);
+  if (!setup->id && setup == &new_setup) setup = 0;
+  bt_obj_instance_t* ret = inject_spawn_prop_displaced(id, pos, yrot, setup);
+  post_spawn_prop(id, pos, yrot, setup, ret);
   return ret;
 }
 

@@ -157,11 +157,8 @@ void post_draw_hud(bt_draw_ctx_t* draw_ctx) {
 bt_obj_setup_t setup_cache[512];
 u32 setup_cache_count;
 
-bt_obj_setup_t pre_spawn_prop(u16* id, bt_s32_xyz_t* pos, u16* yrot, bt_obj_setup_t* og_setup) {
-  // if (BT_IN_GAME && (*id > 0x3b0 || *id < 0x200) && (*id > 0x210 || *id < 0x230)) *id = 0x3ef;
-  bt_obj_setup_t setup = {0, };
-  if (og_setup) setup = *og_setup;
-  if (!BT_IN_GAME) return setup;
+void pre_spawn_prop(u16* id, bt_s32_xyz_t* pos, u16* yrot, bt_obj_setup_t* setup) {
+  if (!BT_IN_GAME) return;
   switch (*id) {
     case 0x01CA: // ice egg nest
     case 0x01CB: // grenade egg nest
@@ -169,73 +166,72 @@ bt_obj_setup_t pre_spawn_prop(u16* id, bt_s32_xyz_t* pos, u16* yrot, bt_obj_setu
     case 0x01CF: // gold feather nest
     case 0x01E9: // egg nest
     case 0x04A6: // feather nest
-      if (!setup.id) {
+      if (!setup->id) {
         switch (bt_current_map) {
           case 0x00DB: // ggm canary cave
             switch (pos->x) {
               case 0xFFFFFD11: // left crate
-                setup.id = 0x07FF;
+                setup->id = 0x07FF;
                 break;
               case 0x0000027C: // right crate
-                setup.id = 0x07FE;
+                setup->id = 0x07FE;
                 break;
             }
             break;
           case 0x0106: // gi floor 2
             switch (pos->x) {
               case 0x00000208: // crate near humba
-                setup.id = 0x07FF;
+                setup->id = 0x07FF;
                 break;
               case 0xFFFFFCB9: // crate near floor 1 stairs
-                setup.id = 0x07FE;
+                setup->id = 0x07FE;
                 break;
             }
             break;
           case 0x010B: // gi floor 4
             switch (pos->x) {
               case 0xFFFFF39D: // crate near crushers warp pad
-                setup.id = 0x07FF;
+                setup->id = 0x07FF;
                 break;
             }
             break;
           case 0x01A8: // jrl atlantis
-            setup.id = 0x07FF; // ice egg seemee
+            setup->id = 0x07FF; // ice egg seemee
             break;
           case 0x01A9: // jrl locker/big fish cavern
             switch (*id) {
               case 0x01CB: // grenade egg seemee
-                setup.id = 0x07FF;
+                setup->id = 0x07FF;
                 break;
               case 0x01CF: // gold feather seemee
-                setup.id = 0x07FE;
+                setup->id = 0x07FE;
                 break;
             }
             break;
           case 0x0136: // ccl
             switch (*id) { // dirt piles
               case 0x01E9:
-                setup.id = 0x07FF;
+                setup->id = 0x07FF;
                 break;
               case 0x04A6:
-                setup.id = 0x07FE;
+                setup->id = 0x07FE;
                 break;
             }
             break;
         }
       }
       if (
-           setup.id && ap_memory.pc.settings.randomize_nests
-        && !save_custom_get_bit(save_data.custom[bt_save_slot].nests, custom_flag_nest(bt_current_map, setup.id))) {
+           setup->id && ap_memory.pc.settings.randomize_nests
+        && !save_custom_get_bit(save_data.custom[bt_save_slot].nests, custom_flag_nest(bt_current_map, setup->id))) {
         *id = 0x01E9;
       }
       break;
   }
-  return setup;
 }
 
 void post_spawn_prop(u16 id, bt_s32_xyz_t* pos, u16 yrot, bt_obj_setup_t* setup, bt_obj_instance_t* obj) {
   if (!obj || !BT_IN_GAME) return;
-  if (setup) setup_cache[setup_cache_count++] = *setup;
+  if (setup && setup_cache_count < sizeof(setup_cache)/sizeof(*setup_cache)) setup_cache[setup_cache_count++] = *setup;
 }
 
 void pre_loop() {
@@ -476,11 +472,6 @@ void pre_load_scene(u16 *scene, u16 *exit) {
 
 void post_load_scene(u16 scene, u16 exit) {
   BT_FPS = ap.smooth_banjo ? 1 : 2;
-  if (ap.zoombox) {
-    bt_fn_zoombox_free(ap.zoombox);
-    ap.zoombox = bt_fn_zoombox_new(200, ap.last_icon, 0, 1);
-    bt_fn_zoombox_init(ap.zoombox);
-  }
 
   s32 object_count = 0;
   bt_fn_object_count(&object_count);
@@ -686,7 +677,10 @@ u8 main_bt_file_select_cursor(bt_obj_file_select_ctx_t* ctx, u8 operation, u8 se
               u32 pc_seed = ap_memory.pc.settings.seed;
               u32* n64_seed = &save_data.custom[selected].seed;
               if (pc_seed == 0 || (pc_seed != *n64_seed && *n64_seed != 0)) {
-                if (!(bt_controllers[0].held.l && bt_controllers[0].held.r)) return 0;
+                if (!(bt_controllers[0].held.l && bt_controllers[0].held.r)) {
+                  bt_fn_play_sound(BT_SOUND_WRONG, -1, 1, -1);
+                  return 0;
+                }
               }
               *n64_seed = pc_seed;
               break;
@@ -803,9 +797,10 @@ bool main_collected_nest(bt_obj_instance_t* obj) {
 }
 
 void main_init_ap_nest(bt_obj_instance_t* obj) {
+  s32 flag = custom_flag_nest(bt_current_map, obj->id);
   if (
-    obj->id && obj->data->type == 0x6EA && ap_memory.pc.settings.randomize_nests
-    && !save_custom_get_bit(save_data.custom[bt_save_slot].nests, custom_flag_nest(bt_current_map, obj->id))
+    obj->id && obj->data->type == 0x6EA && ap_memory.pc.settings.randomize_nests && flag >= 0
+    && !save_custom_get_bit(save_data.custom[bt_save_slot].nests, flag)
   ) {
     obj->sprite_index = 0xB;
     obj->timer = 0;
