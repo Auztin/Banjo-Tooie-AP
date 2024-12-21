@@ -719,7 +719,7 @@ bool ap_trap_slip(bool checking) {
     ) return false;
     switch (bt_player_chars.control_type) {
       case BT_PLAYER_CHAR_KAZOOIE:
-        if (!bt_fn_get_health(bt_current_player_char)) return false;
+        if (bt_player_chars.character_state == 3) return false;
         break;
       case BT_PLAYER_CHAR_SNOWBALL:
       case BT_PLAYER_CHAR_BEE:
@@ -766,6 +766,15 @@ bool ap_trap_squish(bool checking) {
   if (checking) {
     switch (bt_current_map) {
       case BT_MAP_STOMPING_PLAINS:
+        return false;
+    }
+    switch (bt_player_chars.control_type) {
+      case BT_PLAYER_CHAR_KAZOOIE:
+        if (bt_player_chars.character_state == 3) return false;
+        break;
+      case BT_PLAYER_CHAR_CLOCKWORK:
+      case BT_PLAYER_CHAR_GOLDEN_GOLIATH:
+      case BT_PLAYER_CHAR_DADDY_TREX:
         return false;
     }
     bt_xyz_t* pos = bt_current_player_char->pos;
@@ -823,6 +832,7 @@ void ap_sync_traps() {
 
 extern u32 ap_get_health_displaced(u32 character);
 u32 ap_get_health(u32 character) {
+  if (bt_player_chars.control_type == BT_PLAYER_CHAR_KAZOOIE && bt_player_chars.character_state == 3) return 2;
   switch (ap.trap_type) {
     case AP_TRAP_TRIP:
       return 2;
@@ -1365,7 +1375,7 @@ void ap_check() {
           bt_fn_hurt_player(bt_player_chars.control_index);
           break;
         case BT_PLAYER_CHAR_KAZOOIE:
-          if (!bt_fn_get_health(bt_current_player_char)) break;
+          if (bt_player_chars.character_state == 3) break;
         default:
           bt_fn_set_character_animation(bt_current_player_char, 0x54);
           ap_memory.n64.misc.death_link_ap++;

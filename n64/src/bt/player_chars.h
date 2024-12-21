@@ -12,7 +12,7 @@ typedef struct {
   u16 control_index2; // seems to be a copy?
   u16 control_type;
   u32 _unknown1[5];
-  u8 total_loaded;
+  u8 character_state;
   u8 died;
 } bt_player_chars_t;
 #define bt_player_chars (*(bt_player_chars_t*)0x80135490)
