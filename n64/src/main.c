@@ -13,6 +13,7 @@ main_t main = {0, };
 
 void pre_init() {
   main.is_emulator = io_read(0xA4100010) == 0 ? 1 : 0;
+  ap.trap_type = AP_TRAP_MAX;
 }
 
 void post_init() {

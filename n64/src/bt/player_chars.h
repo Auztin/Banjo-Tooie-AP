@@ -58,6 +58,9 @@ typedef u32 (*bt_fnt_get_character_last_animation)(bt_player_t*);
 typedef u32 (*bt_fnt_get_default_animation)(bt_player_t*);
 #define bt_fn_get_default_animation ((bt_fnt_get_default_animation)0x80084750)
 
+typedef u32 (*bt_fnt_get_drone_animation)(bt_player_t*);
+#define bt_fn_get_drone_animation ((bt_fnt_get_drone_animation)0x800846E8)
+
 typedef u32 (*bt_fnt_character_in_water)(bt_player_t*);
 #define bt_fn_character_in_water ((bt_fnt_character_in_water)0x8008E35C)
 
@@ -67,8 +70,11 @@ typedef u32 (*bt_fnt_character_touching_ground)(bt_player_t*);
 typedef u32 (*bt_fnt_character_move_to)(bt_xyz_t*, float speed, u32 callback);
 #define bt_fn_character_move_to ((bt_fnt_character_move_to)0x80090358)
 
-typedef bool (*bt_fnt_character_transform_animation)(u32 control_index, u8 character);
-#define bt_fn_character_transform ((bt_fnt_character_transform_animation)0x800F8730)
+typedef bool (*bt_fnt_character_transform)(u32 control_index, u8 character);
+#define bt_fn_character_transform ((bt_fnt_character_transform)0x800F8730)
+
+typedef bool (*bt_fnt_character_enemy_can_target)(u32 control_index);
+#define bt_fn_character_enemy_can_target ((bt_fnt_character_enemy_can_target)0x800F6478)
 
 #define bt_fn_change_character(character, type) ({                                  \
   bt_fn_set_character(character, type);                                             \

@@ -748,16 +748,10 @@ bool ap_trap_misfire(bool checking) {
       case BT_PLAYER_CHAR_BREEGULL_BLASTER:
         return false;
     }
-    if (bt_fn_character_transform(bt_player_chars.control_index, bt_player_chars.control_type)) {
-      ap.trap_timer = 7000;
-      return true;
-    }
-    return false;
+    return bt_fn_character_transform(bt_player_chars.control_index, bt_player_chars.control_type);
   }
-  ap.trap_timer -= main.delta;
-  if (ap.trap_timer <= 0) {
+  if (bt_fn_get_character_animation(bt_current_player_char) != bt_fn_get_drone_animation(bt_current_player_char)) {
     ap.fn_trap = 0;
-    ap.trap_timer = 0;
   }
   return false;
 }
@@ -793,9 +787,10 @@ bool ap_trap_squish(bool checking) {
 
 void ap_sync_traps() {
   if (
-       main.milliseconds_on_map < 3000
+       main.milliseconds_on_map < 5000
     || bt_loading_map.loading
     || bt_player_chars.died
+    || !bt_fn_character_enemy_can_target(bt_player_chars.control_index)
   ) return;
   if (ap.fn_trap) ap.fn_trap(false);
   else {
@@ -818,13 +813,16 @@ void ap_sync_traps() {
           default:
             continue;
         }
+        ap.trap_type = i;
         if (ap.fn_trap(true)) {
-          if (ap.fn_trap) ap.trap_type = i;
           bt_custom_save.traps[i]++;
           if (bt_custom_save.traps[i] > ap_memory.pc.traps[i]) bt_custom_save.traps[i] = ap_memory.pc.traps[i];
           break;
         }
-        else ap.fn_trap = 0;
+        else {
+          ap.fn_trap = 0;
+          ap.trap_type = AP_TRAP_MAX;
+        }
       }
     }
   }
@@ -852,7 +850,7 @@ void ap_increase_health(u32 character, s32 amount) {
 
 extern u32 ap_ground_info_displaced(u32 character);
 u32 ap_ground_info(u32 character) {
-  if (main.milliseconds_on_map > 1000) {
+  if (main.milliseconds_on_map > 3000) {
     switch (ap.trap_type) {
       case AP_TRAP_SLIP:
         return 0x40;
@@ -862,7 +860,7 @@ u32 ap_ground_info(u32 character) {
 }
 
 bool ap_stomponadon_stomp(bt_obj_instance_t* dinofoot) {
-  if (ap.trap_type == AP_TRAP_SQUISH && ap.trap_timer > 2500) {
+  if (ap.trap_type == AP_TRAP_SQUISH && ap.trap_timer > 4500) {
     dinofoot->pos.y = bt_current_player_char->pos->y+25;
     return true;
   }
@@ -1319,6 +1317,7 @@ bool ap_cycle_character() {
        ap.fn_trap
     || (from_form != BT_PLAYER_CHAR_BANJO_KAZOOIE && !ap.fake_transform)
     || (!bt_fn_character_touching_ground(bt_current_player_char) && !in_water)
+    || !bt_fn_character_enemy_can_target(bt_player_chars.control_index)
   ) return false;
   switch (bt_player_chars.control_type) {
     case BT_PLAYER_CHAR_BANJO_KAZOOIE:
