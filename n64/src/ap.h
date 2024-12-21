@@ -23,6 +23,7 @@ typedef struct {
   char message[508];
   char internal_message[508];
   u8 items[AP_ITEM_MAX];
+  u8 trap_type;
   ap_fnt_trap fn_trap;
   s32 trap_timer;
 } ap_t;
@@ -32,6 +33,7 @@ extern u16 AP_ICON[32][32];
 u32 ap_get_health(u32 character);
 void ap_increase_health(u32 character, s32 amount);
 u32 ap_ground_info(u32 character);
+bool ap_stomponadon_stomp(bt_obj_instance_t* dinofoot);
 void ap_draw_hud(bt_draw_ctx_t* draw_ctx);
 void ap_update();
 void ap_check();

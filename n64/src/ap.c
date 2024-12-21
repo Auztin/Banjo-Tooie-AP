@@ -719,7 +719,7 @@ bool ap_trap_slip(bool checking) {
     ) return false;
     switch (bt_player_chars.control_type) {
       case BT_PLAYER_CHAR_KAZOOIE:
-        if (!bt_fn_get_health(bt_current_player_char)) return false;
+        if (bt_player_chars.character_state == 3) return false;
         break;
       case BT_PLAYER_CHAR_SNOWBALL:
       case BT_PLAYER_CHAR_BEE:
@@ -762,14 +762,44 @@ bool ap_trap_misfire(bool checking) {
   return false;
 }
 
+bool ap_trap_squish(bool checking) {
+  if (checking) {
+    switch (bt_current_map) {
+      case BT_MAP_STOMPING_PLAINS:
+        return false;
+    }
+    switch (bt_player_chars.control_type) {
+      case BT_PLAYER_CHAR_KAZOOIE:
+        if (bt_player_chars.character_state == 3) return false;
+        break;
+      case BT_PLAYER_CHAR_CLOCKWORK:
+      case BT_PLAYER_CHAR_GOLDEN_GOLIATH:
+      case BT_PLAYER_CHAR_DADDY_TREX:
+        return false;
+    }
+    bt_xyz_t* pos = bt_current_player_char->pos;
+    bt_s32_xyz_t coords = {.x=pos->x, .y=pos->y+9000, .z=pos->z};
+    bt_fn_spawn_prop(0x362, &coords, 0x0, 0);
+    ap.trap_timer = 5000;
+    return true;
+  }
+  ap.trap_timer -= main.delta;
+  if (ap.trap_timer <= 0) {
+    ap.fn_trap = 0;
+    ap.trap_timer = 0;
+  }
+  return false;
+}
+
 void ap_sync_traps() {
   if (
-       main.milliseconds_on_map < 1000
+       main.milliseconds_on_map < 3000
     || bt_loading_map.loading
     || bt_player_chars.died
   ) return;
   if (ap.fn_trap) ap.fn_trap(false);
   else {
+    ap.trap_type = AP_TRAP_MAX;
     for (int i = 0; i < AP_TRAP_MAX; i++) {
       if (bt_custom_save.traps[i] != ap_memory.pc.traps[i]) {
         switch (i) {
@@ -782,10 +812,14 @@ void ap_sync_traps() {
           case AP_TRAP_MISFIRE:
             ap.fn_trap = ap_trap_misfire;
             break;
+          case AP_TRAP_SQUISH:
+            ap.fn_trap = ap_trap_squish;
+            break;
           default:
             continue;
         }
         if (ap.fn_trap(true)) {
+          if (ap.fn_trap) ap.trap_type = i;
           bt_custom_save.traps[i]++;
           if (bt_custom_save.traps[i] > ap_memory.pc.traps[i]) bt_custom_save.traps[i] = ap_memory.pc.traps[i];
           break;
@@ -798,22 +832,43 @@ void ap_sync_traps() {
 
 extern u32 ap_get_health_displaced(u32 character);
 u32 ap_get_health(u32 character) {
-  if (ap.fn_trap) return 2;
+  if (bt_player_chars.control_type == BT_PLAYER_CHAR_KAZOOIE && bt_player_chars.character_state == 3) return 2;
+  switch (ap.trap_type) {
+    case AP_TRAP_TRIP:
+      return 2;
+  }
   return ap_get_health_displaced(character);
 }
 
 extern void ap_increase_health_displaced(u32 character, s32 amount);
 void ap_increase_health(u32 character, s32 amount) {
-  if (ap.fn_trap && amount < 0) return;
+  switch (ap.trap_type) {
+    case AP_TRAP_TRIP:
+      if (amount < 0) return;
+      break;
+  }
   ap_increase_health_displaced(character, amount);
 }
 
 extern u32 ap_ground_info_displaced(u32 character);
 u32 ap_ground_info(u32 character) {
   if (main.milliseconds_on_map > 1000) {
-    if (ap.fn_trap == ap_trap_slip) return 0x40;
+    switch (ap.trap_type) {
+      case AP_TRAP_SLIP:
+        return 0x40;
+    }
   }
   return ap_ground_info_displaced(character);
+}
+
+bool ap_stomponadon_stomp(bt_obj_instance_t* dinofoot) {
+  if (ap.trap_type == AP_TRAP_SQUISH && ap.trap_timer > 2500) {
+    dinofoot->pos.y = bt_current_player_char->pos->y+25;
+    return true;
+  }
+  ap.trap_timer = 0;
+  dinofoot->state = 7;
+  return false;
 }
 
 void ap_draw_hud(bt_draw_ctx_t* draw_ctx) {
@@ -1323,7 +1378,7 @@ void ap_check() {
           bt_fn_hurt_player(bt_player_chars.control_index);
           break;
         case BT_PLAYER_CHAR_KAZOOIE:
-          if (!bt_fn_get_health(bt_current_player_char)) break;
+          if (bt_player_chars.character_state == 3) break;
         default:
           bt_fn_set_character_animation(bt_current_player_char, 0x54);
           ap_memory.n64.misc.death_link_ap++;

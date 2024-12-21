@@ -983,6 +983,10 @@ void pre_object_init(bt_object_t *obj) {
     case BT_OBJ_CHUFFY_CABIN:
       util_inject(UTIL_INJECT_JUMP    , (u32)obj + 0x0668, (u32)main_train_change_station_displaced, 1);
       break;
+    case BT_OBJ_STOMPONADON:
+      if (bt_current_map == BT_MAP_STOMPING_PLAINS) break;
+      util_inject(UTIL_INJECT_JUMP, (u32)obj + 0x04B8, (u32)ap_stomponadon_stomp, 1);
+      break;
   }
 }
 

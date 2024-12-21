@@ -1637,6 +1637,7 @@ void BTClient::processAGIItem(json item_data)
                 case 1230786: ap_memory.pc.traps[AP_TRAP_TRIP]++; break;
                 case 1230787: ap_memory.pc.traps[AP_TRAP_SLIP]++; break;
                 case 1230788: ap_memory.pc.traps[AP_TRAP_MISFIRE]++; break;
+                case 1230789: ap_memory.pc.traps[AP_TRAP_SQUISH]++; break;
             }
         }
     }
