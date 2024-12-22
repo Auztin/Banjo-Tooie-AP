@@ -28,4 +28,7 @@ typedef u32 (*bt_fnt_get_save_bit)(u16);
 typedef bt_obj_instance_t* (*bt_fnt_spawn_prop)(u16 id, bt_s32_xyz_t* pos, u16 yrot, bt_obj_setup_t* setup);
 #define bt_fn_spawn_prop ((bt_fnt_spawn_prop)0x80108C90)
 
+typedef bool (*bt_fnt_transition_done)();
+#define bt_fn_transition_done ((bt_fnt_transition_done)0x800C95D4)
+
 #endif // BT_FN_INJECTED_H

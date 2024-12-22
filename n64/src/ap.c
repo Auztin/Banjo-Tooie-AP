@@ -787,7 +787,7 @@ bool ap_trap_squish(bool checking) {
 
 void ap_sync_traps() {
   if (
-       main.milliseconds_on_map < 5000
+       !bt_fn_transition_done()
     || bt_loading_map.loading
     || bt_player_chars.died
     || !bt_fn_character_enemy_can_target(bt_player_chars.control_index)
@@ -828,31 +828,36 @@ void ap_sync_traps() {
   }
 }
 
-extern u32 ap_get_health_displaced(u32 character);
-u32 ap_get_health(u32 character) {
-  if (bt_player_chars.control_type == BT_PLAYER_CHAR_KAZOOIE && bt_player_chars.character_state == 3) return 2;
-  switch (ap.trap_type) {
-    case AP_TRAP_TRIP:
-      return 2;
+extern u32 ap_get_health_displaced(bt_player_t* character);
+u32 ap_get_health(bt_player_t* character) {
+  if (character == bt_current_player_char) {
+    if (bt_player_chars.control_type == BT_PLAYER_CHAR_KAZOOIE && bt_player_chars.character_state == 3) return 2;
+    switch (ap.trap_type) {
+      case AP_TRAP_TRIP:
+        return 2;
+    }
   }
   return ap_get_health_displaced(character);
 }
 
-extern void ap_increase_health_displaced(u32 character, s32 amount);
-void ap_increase_health(u32 character, s32 amount) {
-  switch (ap.trap_type) {
-    case AP_TRAP_TRIP:
-      if (amount < 0) return;
-      break;
+extern void ap_increase_health_displaced(bt_player_t* character, s32 amount);
+void ap_increase_health(bt_player_t* character, s32 amount) {
+  if (character == bt_current_player_char) {
+    switch (ap.trap_type) {
+      case AP_TRAP_TRIP:
+        if (amount < 0) return;
+        break;
+    }
   }
   ap_increase_health_displaced(character, amount);
 }
 
-extern u32 ap_ground_info_displaced(u32 character);
-u32 ap_ground_info(u32 character) {
-  if (main.milliseconds_on_map > 3000) {
+extern u32 ap_ground_info_displaced(bt_player_t* character);
+u32 ap_ground_info(bt_player_t* character) {
+  if (character == bt_current_player_char && bt_fn_transition_done()) {
     switch (ap.trap_type) {
       case AP_TRAP_SLIP:
+        character->slope->timer = 1;
         return 0x40;
     }
   }
@@ -870,7 +875,7 @@ bool ap_stomponadon_stomp(bt_obj_instance_t* dinofoot) {
 }
 
 void ap_draw_hud(bt_draw_ctx_t* draw_ctx) {
-  if (ap.zoombox && main.milliseconds_on_map >= 1000) bt_fn_zoombox_draw(ap.zoombox, draw_ctx);
+  if (ap.zoombox && bt_fn_transition_done()) bt_fn_zoombox_draw(ap.zoombox, draw_ctx);
 }
 
 bool ap_prepare_message(char* message) {
@@ -933,7 +938,7 @@ void ap_update() {
       ap.zoombox = bt_fn_zoombox_new(200, ap.last_icon, 0, 1);
       bt_fn_zoombox_init(ap.zoombox);
     }
-    else if (main.milliseconds_on_map >= 5000) {
+    else if (bt_fn_transition_done()) {
       bt_fn_zoombox_update(ap.zoombox);
       bool show = !bt_temp_flags.in_cutscene && !bt_dialog.textObjectPtr && !bt_loading_map.loading && !bt_player_chars.died;
       if (!show) {
@@ -1367,7 +1372,7 @@ bool ap_cycle_character() {
 void ap_check() {
   if (
     !bt_temp_flags.in_cutscene
-    && main.milliseconds_on_map > 1000
+    && bt_fn_transition_done()
     && !bt_player_chars.died && !bt_loading_map.loading
   ) {
     if (ap.load_file) ap_load_file();

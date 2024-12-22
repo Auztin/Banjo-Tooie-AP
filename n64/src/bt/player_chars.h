@@ -2,7 +2,12 @@
 #define BT_PLAYER_CHAR_H
 
 typedef struct {
-  u8 unknown[0xE4];
+  u32 _unknown0x00_0x9C[40];
+  struct {
+    u32 _unknown0x00_0x34[14];
+    float timer;
+  } *slope;
+  u32 _unknown0xA4_0xE0[16];
   bt_xyz_t* pos;
 } bt_player_t;
 
