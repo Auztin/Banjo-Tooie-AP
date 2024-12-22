@@ -1031,34 +1031,8 @@ void ap_update() {
 
 void ap_check_enough_notes(u16 start, u16 end) {
   if (start == end || start > end) return;
-  u16 note_requirements[] = {
-    25,
-    30,
-    35,
-    45,
-    85,
-    95,
-    110,
-    160,
-    170,
-    180,
-    200,
-    265,
-    275,
-    290,
-    315,
-    390,
-    405,
-    420,
-    505,
-    525,
-    545,
-    640,
-    660,
-    765,
-  };
-  for (int i = 0; i < sizeof(note_requirements)/sizeof(*note_requirements); i++) {
-    u16 amount = note_requirements[i];
+  for (int i = 0; i < sizeof(ap_memory.pc.settings.silo_requirements)/sizeof(*ap_memory.pc.settings.silo_requirements); i++) {
+    u16 amount = ap_memory.pc.settings.silo_requirements[i];
     if (start < amount && end >= amount) {
       ap.internal_icon = BT_ZOOMBOX_ICON_JAMJARS;
       strcpy(ap.internal_message, "YOU HAVE ENOUGH NOTES FOR A NEW MOVE!");
