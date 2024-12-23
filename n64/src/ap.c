@@ -687,6 +687,13 @@ void ap_sync_items(u16 type, u8 value) {
   }
 }
 
+void ap_increment_trap() {
+  bt_custom_save.traps[ap.trap_type]++;
+  if (bt_custom_save.traps[ap.trap_type] > ap_memory.pc.traps[ap.trap_type]) {
+    bt_custom_save.traps[ap.trap_type] = ap_memory.pc.traps[ap.trap_type];
+  }
+}
+
 bool ap_trap_trip(bool checking) {
   if (checking && bt_fn_character_in_water(bt_current_player_char)) return false;
   switch (bt_fn_get_character_animation(bt_current_player_char)) {
@@ -697,6 +704,7 @@ bool ap_trap_trip(bool checking) {
       if (!checking && bt_fn_get_character_last_animation(bt_current_player_char) == 0x20) {
         bt_fn_set_character_animation(bt_current_player_char, bt_fn_get_default_animation(bt_current_player_char));
         ap.fn_trap = 0;
+        ap_increment_trap();
       }
       else {
         switch (bt_player_chars.control_type) {
@@ -738,6 +746,7 @@ bool ap_trap_slip(bool checking) {
   if (ap.trap_timer <= 0) {
     ap.fn_trap = 0;
     ap.trap_timer = 0;
+    ap_increment_trap();
   }
   return false;
 }
@@ -752,6 +761,7 @@ bool ap_trap_misfire(bool checking) {
   }
   if (bt_fn_get_character_animation(bt_current_player_char) != bt_fn_get_drone_animation(bt_current_player_char)) {
     ap.fn_trap = 0;
+    ap_increment_trap();
   }
   return false;
 }
@@ -814,11 +824,7 @@ void ap_sync_traps() {
             continue;
         }
         ap.trap_type = i;
-        if (ap.fn_trap(true)) {
-          bt_custom_save.traps[i]++;
-          if (bt_custom_save.traps[i] > ap_memory.pc.traps[i]) bt_custom_save.traps[i] = ap_memory.pc.traps[i];
-          break;
-        }
+        if (ap.fn_trap(true)) break;
         else {
           ap.fn_trap = 0;
           ap.trap_type = AP_TRAP_MAX;
@@ -867,6 +873,7 @@ u32 ap_ground_info(bt_player_t* character) {
 bool ap_stomponadon_stomp(bt_obj_instance_t* dinofoot) {
   if (ap.trap_type == AP_TRAP_SQUISH && ap.trap_timer > 4500) {
     dinofoot->pos.y = bt_current_player_char->pos->y+25;
+    ap_increment_trap();
     return true;
   }
   ap.trap_timer = 0;
