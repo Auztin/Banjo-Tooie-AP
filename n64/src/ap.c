@@ -881,7 +881,7 @@ bool ap_stomponadon_stomp(bt_obj_instance_t* dinofoot) {
 }
 
 void ap_draw_hud(bt_draw_ctx_t* draw_ctx) {
-  if (ap.zoombox && bt_fn_transition_done()) bt_fn_zoombox_draw(ap.zoombox, draw_ctx);
+  if (ap.zoombox) bt_fn_zoombox_draw(ap.zoombox, draw_ctx);
 }
 
 bool ap_prepare_message(char* message) {
