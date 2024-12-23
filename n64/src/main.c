@@ -721,7 +721,8 @@ u8 main_bt_file_select_bottom_text(char* text, u16 dialog_id, u8 id) {
       strcpy(text, "JIGGIES: ");
       text = itoa(jiggies, text+9, 10);
       for (; *text != 0; text++);
-      if (ap_memory.pc.settings.seed != save_data.custom[slot].seed) strcpy(text, ", SEED: WRONG");
+      if (!ap_memory.pc.settings.seed) strcpy(text, ", BTCLIENT: D/C");
+      else if (ap_memory.pc.settings.seed != save_data.custom[slot].seed) strcpy(text, ", SEED: WRONG");
       else strcpy(text, ", SEED: MATCH");
       return 0;
     }
