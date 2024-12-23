@@ -895,37 +895,37 @@ void BTClient::initialize_bt()
             ap_memory.pc.settings.open_silos[AP_SILO_CLIFF_TOP] = 1;
             ap_memory.pc.settings.open_silos[AP_SILO_WASTELAND] = 1;
             ap_memory.pc.settings.open_silos[AP_SILO_QUAGMIRE] = 1;
-
+            show_message(BT_ZOOMBOX_ICON_JAMJARS, {{"message", "All Isle O' Hags Silos are Open"}});
         }
         else if(OPEN_SILO == "Isle O Hags - Plateau")
         {
             ap_memory.pc.settings.open_silos[AP_SILO_JINJO_VILLAGE] = 1;
             ap_memory.pc.settings.open_silos[AP_SILO_PLATEAU] = 1;
-        }
-        else if(OPEN_SILO == "Isle O Hags - Plateau")
-        {
-            ap_memory.pc.settings.open_silos[AP_SILO_JINJO_VILLAGE] = 1;
-            ap_memory.pc.settings.open_silos[AP_SILO_PLATEAU] = 1;
+            show_message(BT_ZOOMBOX_ICON_JAMJARS, {{"message", "The Isle O' Hags Plateau Silo is open"}});
         }
         else if(OPEN_SILO == "Isle O Hags - Pine Grove")
         {
             ap_memory.pc.settings.open_silos[AP_SILO_JINJO_VILLAGE] = 1;
             ap_memory.pc.settings.open_silos[AP_SILO_PINE_GROVE] = 1;
+            show_message(BT_ZOOMBOX_ICON_JAMJARS, {{"message", "The Isle O' Hags Pine Grove Silo is open"}});
         }
         else if(OPEN_SILO == "Isle O Hags - Cliff Top")
         {
             ap_memory.pc.settings.open_silos[AP_SILO_JINJO_VILLAGE] = 1;
             ap_memory.pc.settings.open_silos[AP_SILO_CLIFF_TOP] = 1;
+            show_message(BT_ZOOMBOX_ICON_JAMJARS, {{"message", "The Isle O' Hags Cliff Top Silo is open"}});
         }
         else if(OPEN_SILO == "Isle O Hags - Wasteland")
         {
             ap_memory.pc.settings.open_silos[AP_SILO_JINJO_VILLAGE] = 1;
             ap_memory.pc.settings.open_silos[AP_SILO_WASTELAND] = 1;
+            show_message(BT_ZOOMBOX_ICON_JAMJARS, {{"message", "The Isle O' Hags Wasteland Silo is open"}});
         }
         else if(OPEN_SILO == "Isle O Hags - Quagmire")
         {
             ap_memory.pc.settings.open_silos[AP_SILO_JINJO_VILLAGE] = 1;
             ap_memory.pc.settings.open_silos[AP_SILO_QUAGMIRE] = 1;
+            show_message(BT_ZOOMBOX_ICON_JAMJARS, {{"message", "The Isle O' Hags Quagmire Silo is open"}});
         }
     }
     switch (GOAL_TYPE) {
@@ -1148,7 +1148,7 @@ void BTClient::randomize_entrances(json entrance_table)
     }
 }
 
-void BTClient::show_message(int character, json data) {
+void BTClient::show_message(int character, json data, bool force) {
     message_t message;
     int default_character = character;
     if (data.contains("message")) {
@@ -1156,6 +1156,9 @@ void BTClient::show_message(int character, json data) {
         goto add_message;
     }
     if (!data.contains("item_id") || data["to_player"] != PLAYER) return;
+    if (data["player"] == PLAYER) message.text = "You have found your ";
+    else message.text = string{data["player"]} + " sent your ";
+    message.text += data["item"];
     switch ((int)data["item_id"]) {
         case 1230753: // Grip Grab"
         case 1230754: // Breegull Blaster"
@@ -1239,8 +1242,11 @@ void BTClient::show_message(int character, json data) {
         case 1230792: // HFP: Lava Side Train Station"
         case 1230793: // HFP: Icy Side Train Station"
         case 1230795: // WW: Train Station"
+            default_character = BT_ZOOMBOX_ICON_OLD_KING_COAL;
+            break;
         case 1230796: // Chuffy"
             default_character = BT_ZOOMBOX_ICON_OLD_KING_COAL;
+            message.text += "\nDon't forget that you can call Chuffy at any unlocked station.";
             break;
         case 1230944: // Mayahem Temple"
             default_character = BT_ZOOMBOX_ICON_TARGITZAN;
@@ -1282,11 +1288,16 @@ void BTClient::show_message(int character, json data) {
             break;
         default: return;
     }
-    if (character == 110) character = default_character;
-    if (data["player"] == PLAYER) message.text = "You have found your ";
-    else message.text = string{data["player"]} + " sent your ";
-    message.text += data["item"];
 add_message:
+    if (!force) {
+        switch (DIALOG_CHARACTER) {
+            case 110:
+                character = default_character;
+                break;
+            default:
+                character = DIALOG_CHARACTER;
+        }
+    }
     message.character = character;
     std::transform(message.text.begin(), message.text.end(), message.text.begin(), ::toupper);
     MESSAGE_QUEUE.push(message);
@@ -1677,7 +1688,7 @@ asio::awaitable<void> BTClient::sendToBTClient()
         auto rd = std::random_device {};
         auto rng = std::default_random_engine { rd() };
         std::shuffle(std::begin(death_messages), std::end(death_messages), rng);
-        show_message(BT_ZOOMBOX_ICON_GRUNTY, {{"message", death_messages[0]}});
+        show_message(BT_ZOOMBOX_ICON_GRUNTY, {{"message", death_messages[0]}}, true);
     }
     else
     {
