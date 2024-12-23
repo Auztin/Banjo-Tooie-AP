@@ -797,8 +797,7 @@ bool ap_trap_squish(bool checking) {
 
 void ap_sync_traps() {
   if (
-       !bt_fn_transition_done()
-    || bt_loading_map.loading
+       bt_loading_map.loading
     || bt_player_chars.died
     || !bt_fn_character_enemy_can_target(bt_player_chars.control_index)
   ) return;
@@ -1354,7 +1353,7 @@ bool ap_cycle_character() {
 void ap_check() {
   if (
     !bt_temp_flags.in_cutscene
-    && bt_fn_transition_done()
+    && bt_fn_transition_done() && main.milliseconds_on_map > 1000
     && !bt_player_chars.died && !bt_loading_map.loading
   ) {
     if (ap.load_file) ap_load_file();
