@@ -67,7 +67,7 @@ void enable_interrupts() {
   if (interrupt_depth == 0) return;
   interrupt_depth--;
   if (!interrupt_depth) {
-    C0_WRITE_STATUS(C0_STATUS() | (interrupt_sr & C0_STATUS_IE));
+    C0_WRITE_STATUS(interrupt_sr);
   }
 }
 
