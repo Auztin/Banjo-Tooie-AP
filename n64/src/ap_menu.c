@@ -157,7 +157,7 @@ void ap_menu_select() {
           if (!ap.smooth_banjo) bt_fn_play_sound(BT_SOUND_INCREASE, -1, 1, -1);
           else bt_fn_play_sound(BT_SOUND_DECREASE, -1, 1, -1);
           ap.smooth_banjo = !ap.smooth_banjo;
-          BT_FPS = ap.smooth_banjo ? 1 : 2;
+          BT_FPS = (ap.smooth_banjo && bt_player_chars.control_type != BT_PLAYER_CHAR_WASHER) ? 1 : 2;
           break;
         case AP_MENU_OPTION_RESPAWN:
           if (bt_fn_character_touching_ground(bt_current_player_char) || bt_fn_character_in_water(bt_current_player_char)) {

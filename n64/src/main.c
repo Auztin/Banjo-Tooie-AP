@@ -468,7 +468,7 @@ void pre_load_scene(u16 *scene, u16 *exit) {
 }
 
 void post_load_scene(u16 scene, u16 exit) {
-  BT_FPS = ap.smooth_banjo ? 1 : 2;
+  BT_FPS = (ap.smooth_banjo && bt_player_chars.control_type != BT_PLAYER_CHAR_WASHER) ? 1 : 2;
 
   s32 object_count = 0;
   bt_fn_object_count(&object_count);

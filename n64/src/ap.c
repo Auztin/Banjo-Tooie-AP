@@ -1338,6 +1338,7 @@ bool ap_cycle_character() {
     }
     else bt_respawn_point[0] = respawn;
     bt_fn_change_character(bt_current_player_char, to_form);
+    BT_FPS = (ap.smooth_banjo && bt_player_chars.control_type != BT_PLAYER_CHAR_WASHER) ? 1 : 2;
     return true;
   }
   return false;
@@ -1414,7 +1415,7 @@ void ap_check() {
     }
     if (bt_controllers[0].released.start) { // SMOOTH BANJO
       ap.smooth_banjo = !ap.smooth_banjo;
-      BT_FPS = ap.smooth_banjo ? 1 : 2;
+      BT_FPS = (ap.smooth_banjo && bt_player_chars.control_type != BT_PLAYER_CHAR_WASHER) ? 1 : 2;
       ap.internal_icon = BT_ZOOMBOX_ICON_BANJO_KAZOOIE;
       strcpy(message, "SMOOTH BANJO ");
       strcat(message, ap.smooth_banjo ? "ENABLED" : "DISABLED");
