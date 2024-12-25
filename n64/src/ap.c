@@ -841,7 +841,7 @@ void ap_sync_traps() {
 
 extern u32 ap_get_health_displaced(bt_player_t* character);
 u32 ap_get_health(bt_player_t* character) {
-  if (character == bt_current_player_char) {
+  if (ap.fn_trap && character == bt_current_player_char) {
     if (bt_player_chars.control_type == BT_PLAYER_CHAR_KAZOOIE && bt_player_chars.character_state == 3) return 2;
     switch (ap.trap_type) {
       case AP_TRAP_TRIP:
@@ -853,7 +853,7 @@ u32 ap_get_health(bt_player_t* character) {
 
 extern void ap_increase_health_displaced(bt_player_t* character, s32 amount);
 void ap_increase_health(bt_player_t* character, s32 amount) {
-  if (character == bt_current_player_char) {
+  if (ap.fn_trap && character == bt_current_player_char) {
     switch (ap.trap_type) {
       case AP_TRAP_TRIP:
         if (amount < 0) return;
@@ -865,7 +865,7 @@ void ap_increase_health(bt_player_t* character, s32 amount) {
 
 extern u32 ap_ground_info_displaced(bt_player_t* character);
 u32 ap_ground_info(bt_player_t* character) {
-  if (character == bt_current_player_char && bt_fn_transition_done()) {
+  if (ap.fn_trap && character == bt_current_player_char && bt_fn_transition_done()) {
     switch (ap.trap_type) {
       case AP_TRAP_SLIP:
         character->slope->timer = 1;
