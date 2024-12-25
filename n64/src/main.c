@@ -775,6 +775,7 @@ bool main_collected_nest(bt_obj_instance_t* obj) {
       bool collected = save_custom_set_bit(save_data.custom[bt_save_slot].nests, flag);
       if (!collected) {
         bt_fn_play_sound(BT_SOUND_COLLECTED_ITEM1, -1, 1, -1);
+        bt_fn_sparkle(&obj->pos, 5);
         obj->state = 7;
         if (obj->data && obj->nests.respawn) {
           for (int i = 0; i < setup_cache_count; i++) {

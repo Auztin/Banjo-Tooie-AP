@@ -77,11 +77,7 @@ typedef struct {
 typedef bt_obj_data_t* (*bt_fnt_object_get_data)(void);
 typedef struct {
   bt_obj_instance_data_t* data;
-  struct {
-    float x;
-    float y;
-    float z;
-  } pos;
+  bt_xyz_t pos;
   bt_fnt_object_get_data fn_obj_init;
   u32 _unknown0x14_0x18[2];
   u32 sprite_index;

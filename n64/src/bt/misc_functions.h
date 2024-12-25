@@ -31,4 +31,7 @@ typedef bt_obj_instance_t* (*bt_fnt_spawn_prop)(u16 id, bt_s32_xyz_t* pos, u16 y
 typedef bool (*bt_fnt_transition_done)();
 #define bt_fn_transition_done ((bt_fnt_transition_done)0x800C95D4)
 
+typedef bool (*bt_fnt_sparkle)(bt_xyz_t*, u16 type);
+#define bt_fn_sparkle ((bt_fnt_sparkle)0x800888C8)
+
 #endif // BT_FN_INJECTED_H
