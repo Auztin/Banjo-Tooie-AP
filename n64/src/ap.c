@@ -1350,6 +1350,7 @@ bool ap_cycle_character() {
     }
     else bt_respawn_point[0] = respawn;
     bt_fn_change_character(bt_current_player_char, to_form);
+    bt_fn_sparkle(bt_current_player_char->pos, 10);
     BT_FPS = (ap.smooth_banjo && bt_player_chars.control_type != BT_PLAYER_CHAR_WASHER) ? 1 : 2;
     return true;
   }
