@@ -895,37 +895,31 @@ void BTClient::initialize_bt()
             ap_memory.pc.settings.open_silos[AP_SILO_CLIFF_TOP] = 1;
             ap_memory.pc.settings.open_silos[AP_SILO_WASTELAND] = 1;
             ap_memory.pc.settings.open_silos[AP_SILO_QUAGMIRE] = 1;
-            show_message(BT_ZOOMBOX_ICON_JAMJARS, {{"message", "All Isle O' Hags Silos are Open"}});
         }
         else if(OPEN_SILO == "Isle O Hags - Plateau")
         {
             ap_memory.pc.settings.open_silos[AP_SILO_JINJO_VILLAGE] = 1;
             ap_memory.pc.settings.open_silos[AP_SILO_PLATEAU] = 1;
-            show_message(BT_ZOOMBOX_ICON_JAMJARS, {{"message", "The Isle O' Hags Plateau Silo is open"}});
         }
         else if(OPEN_SILO == "Isle O Hags - Pine Grove")
         {
             ap_memory.pc.settings.open_silos[AP_SILO_JINJO_VILLAGE] = 1;
             ap_memory.pc.settings.open_silos[AP_SILO_PINE_GROVE] = 1;
-            show_message(BT_ZOOMBOX_ICON_JAMJARS, {{"message", "The Isle O' Hags Pine Grove Silo is open"}});
         }
         else if(OPEN_SILO == "Isle O Hags - Cliff Top")
         {
             ap_memory.pc.settings.open_silos[AP_SILO_JINJO_VILLAGE] = 1;
             ap_memory.pc.settings.open_silos[AP_SILO_CLIFF_TOP] = 1;
-            show_message(BT_ZOOMBOX_ICON_JAMJARS, {{"message", "The Isle O' Hags Cliff Top Silo is open"}});
         }
         else if(OPEN_SILO == "Isle O Hags - Wasteland")
         {
             ap_memory.pc.settings.open_silos[AP_SILO_JINJO_VILLAGE] = 1;
             ap_memory.pc.settings.open_silos[AP_SILO_WASTELAND] = 1;
-            show_message(BT_ZOOMBOX_ICON_JAMJARS, {{"message", "The Isle O' Hags Wasteland Silo is open"}});
         }
         else if(OPEN_SILO == "Isle O Hags - Quagmire")
         {
             ap_memory.pc.settings.open_silos[AP_SILO_JINJO_VILLAGE] = 1;
             ap_memory.pc.settings.open_silos[AP_SILO_QUAGMIRE] = 1;
-            show_message(BT_ZOOMBOX_ICON_JAMJARS, {{"message", "The Isle O' Hags Quagmire Silo is open"}});
         }
     }
     switch (GOAL_TYPE) {
@@ -1659,8 +1653,35 @@ void BTClient::processAGIItem(json item_data)
 asio::awaitable<void> BTClient::sendToBTClient()
 {
     if (CURRENT_MAP != ap_memory.n64.misc.current_map) {
+        int old_map = CURRENT_MAP;
         CURRENT_MAP = ap_memory.n64.misc.current_map;
         if (CURRENT_MAP == 0x0158 && SEED != 0) SHOW_GOAL_INFO = true;
+        if (old_map == 0x0158 && CURRENT_MAP == 0x00AF && SEED != 0) { // most likely new file
+            if(OPEN_SILO == "ALL")
+            {
+                show_message(BT_ZOOMBOX_ICON_JAMJARS, {{"message", "All Isle O' Hags Silos are Open"}});
+            }
+            else if(OPEN_SILO == "Isle O Hags - Plateau")
+            {
+                show_message(BT_ZOOMBOX_ICON_JAMJARS, {{"message", "The Isle O' Hags Plateau Silo is open"}});
+            }
+            else if(OPEN_SILO == "Isle O Hags - Pine Grove")
+            {
+                show_message(BT_ZOOMBOX_ICON_JAMJARS, {{"message", "The Isle O' Hags Pine Grove Silo is open"}});
+            }
+            else if(OPEN_SILO == "Isle O Hags - Cliff Top")
+            {
+                show_message(BT_ZOOMBOX_ICON_JAMJARS, {{"message", "The Isle O' Hags Cliff Top Silo is open"}});
+            }
+            else if(OPEN_SILO == "Isle O Hags - Wasteland")
+            {
+                show_message(BT_ZOOMBOX_ICON_JAMJARS, {{"message", "The Isle O' Hags Wasteland Silo is open"}});
+            }
+            else if(OPEN_SILO == "Isle O Hags - Quagmire")
+            {
+                show_message(BT_ZOOMBOX_ICON_JAMJARS, {{"message", "The Isle O' Hags Quagmire Silo is open"}});
+            }
+        }
     }
     bool dead = false;
     json retTable = json({});
