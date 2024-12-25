@@ -179,7 +179,7 @@ enum {
   BT_MAP_IOH_PINE_GROVE, // IoH - Pine Grove
   BT_MAP_IOH_CLIFF_TOP, // IoH - Cliff Top
   BT_MAP_IOH_MUMBO, // IoH - Cliff Top - Mumbo's Skull
-  BT_MAP_0x157, // IoH - Pine Grove - Wumba's Wigwam
+  BT_MAP_IOH_HUMBA, // IoH - Pine Grove - Wumba's Wigwam
   BT_MAP_FILE_SELECT, // Game Select Screen
   BT_MAP_0x159, // Cutscene - Opening cutscene
   BT_MAP_IOH_WASTELAND, // IoH - Wasteland
