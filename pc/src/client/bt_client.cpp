@@ -1089,15 +1089,17 @@ nlohmann::json BTClient::check_unlock_worlds()
             worlds_check[locationId] = true;
         }
     }
-    if(GOAL_TYPE == 0 && TOTAL_JIGGIES >= 70 && OPEN_HAG1 == false)
-    {
-        ap_memory.pc.items[AP_ITEM_H1A] = 1;
-        show_message(BT_ZOOMBOX_ICON_DINGPOT, {{"message","HAG-1 is now open!"}});
-    }
-    if(GOAL_TYPE == 4 && MUMBO_TOKENS == 32)
-    {
-        ap_memory.pc.items[AP_ITEM_H1A] = 1;
-        show_message(BT_ZOOMBOX_ICON_DINGPOT, {{"message","HAG-1 is now open!"}});
+    if (!ap_memory.pc.items[AP_ITEM_H1A]) {
+        if(GOAL_TYPE == 0 && TOTAL_JIGGIES >= 70 && OPEN_HAG1 == false)
+        {
+            ap_memory.pc.items[AP_ITEM_H1A] = 1;
+            show_message(BT_ZOOMBOX_ICON_DINGPOT, {{"message","HAG-1 is now open!"}});
+        }
+        if(GOAL_TYPE == 4 && MUMBO_TOKENS == 32)
+        {
+            ap_memory.pc.items[AP_ITEM_H1A] = 1;
+            show_message(BT_ZOOMBOX_ICON_DINGPOT, {{"message","HAG-1 is now open!"}});
+        }
     }
     return worlds_check;
 }
