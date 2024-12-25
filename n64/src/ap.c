@@ -757,10 +757,16 @@ bool ap_trap_misfire(bool checking) {
       case BT_PLAYER_CHAR_BREEGULL_BLASTER:
         return false;
     }
-    return bt_fn_character_transform(bt_player_chars.control_index, bt_player_chars.control_type);
+    if (bt_fn_character_transform(bt_player_chars.control_index, bt_player_chars.control_type)) {
+      ap.trap_timer = bt_fn_get_health(bt_current_player_char);
+      return true;
+    }
+    return false;
   }
   if (bt_fn_get_character_animation(bt_current_player_char) != bt_fn_get_drone_animation(bt_current_player_char)) {
     ap.fn_trap = 0;
+    bt_fn_increase_health(bt_current_player_char, ap.trap_timer-bt_fn_get_health(bt_current_player_char));
+    ap.trap_timer = 0;
     ap_increment_trap();
   }
   return false;
