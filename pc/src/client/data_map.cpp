@@ -460,12 +460,12 @@ std::map<uint16_t, std::map<std::string, std::vector<std::string>>> ASSET_MAP_CH
             {"SILO", {"1230772"}},
         }},
         {0x108,	{ //GI - Floor 3
-            {"JIGGIES", {"1230649"}},
             {"HONEYCOMB", {"1230718"}},
             {"GLOWBO", {"1230697"}},
             {"NOTES", {"1230894","1230895"}}
         }},
         {0x109,	{ //GI - Floor 3 (Boiler Plant)
+            {"JIGGIES", {"1230649"}},
             {"JINJOS", {"1230579"}}
         }},
         {0x10A,	{ //GI - Floor 3 (Packing Room)
