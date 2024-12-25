@@ -1248,7 +1248,7 @@ void BTClient::show_message(int character, json data, bool force) {
             break;
         case 1230796: // Chuffy"
             default_character = BT_ZOOMBOX_ICON_OLD_KING_COAL;
-            message.text += "\nDon't forget that you can call Chuffy at any unlocked station.";
+            if (ENABLE_AP_CHUFFY) message.text += "\nDon't forget that you can call Chuffy at any unlocked station.";
             break;
         case 1230944: // Mayahem Temple"
             default_character = BT_ZOOMBOX_ICON_TARGITZAN;
