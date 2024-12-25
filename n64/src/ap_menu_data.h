@@ -183,7 +183,7 @@ enum {
 
 ap_menu_data_t ap_menu_options_data[] = {
   {.item=AP_MENU_OPTION_RESPAWN, .zb={.lines=1, .icon=BT_ZOOMBOX_ICON_BOTTLES_DEAD, .text=(char*[]){"RESPAWN"}}},
-  {.item=AP_MENU_OPTION_RESET, .zb={.lines=1, .icon=BT_ZOOMBOX_ICON_KING_JINGALING, .text=(char*[]){"RESET"}}},
+  {.item=AP_MENU_OPTION_RESET, .zb={.lines=2, .icon=BT_ZOOMBOX_ICON_KING_JINGALING, .text=(char*[]){"BACK TO","JINJO VILLAGE"}}},
   {.item=AP_MENU_OPTION_DRAGON_KAZOOIE, .zb={.lines=2, .icon=BT_ZOOMBOX_ICON_KAZOOIE, .text=(char*[]){"DRAGON","KAZOOIE"}}},
   {.item=AP_MENU_OPTION_SMOOTH_BANJO, .zb={.lines=1, .icon=BT_ZOOMBOX_ICON_BANJO_KAZOOIE, .text=(char*[]){"SMOOTH BANJO"}}},
   {.item=AP_MENU_OPTION_SUPER_BANJO, .zb={.lines=1, .icon=BT_ZOOMBOX_ICON_BANJO, .text=(char*[]){"SUPER BANJO"}}},

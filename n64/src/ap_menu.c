@@ -170,15 +170,14 @@ void ap_menu_select() {
           break;
         case AP_MENU_OPTION_RESET:
           if (
-               bt_player_chars.control_type == BT_PLAYER_CHAR_BANJO_KAZOOIE
+               bt_player_chars.control_type == BT_PLAYER_CHAR_BANJO_KAZOOIE && bt_flags.jukebox_jv
             && (bt_fn_character_touching_ground(bt_current_player_char) || bt_fn_character_in_water(bt_current_player_char))
           ) {
             bt_fn_play_sound(BT_SOUND_COLLECTED_ITEM1, -1, 1, -1);
             bt_xyz_t point = {0, 0, 0};
             bt_fn_increase_health(bt_current_player_char, 100);
             bt_fn_character_move_to(&point, 0, 0);
-            if (bt_flags.jukebox_jv) bt_fn_load_scene(BT_MAP_JV, 3, 1);
-            else bt_fn_load_scene(BT_MAP_SM, 4, 1);
+            bt_fn_load_scene(BT_MAP_JV, 3, 1);
             ap_menu.id = AP_MENU_UNPAUSE;
             ap_menu.state = AP_MENU_STATE_CLEAR;
           }
@@ -262,7 +261,7 @@ void ap_menu_update_zoombox(int i, bt_zoombox_t* zb) {
             break;
           case AP_MENU_OPTION_RESET:
             if (
-                 bt_player_chars.control_type == BT_PLAYER_CHAR_BANJO_KAZOOIE
+                 bt_player_chars.control_type == BT_PLAYER_CHAR_BANJO_KAZOOIE && bt_flags.jukebox_jv
               && (bt_fn_character_touching_ground(bt_current_player_char) || bt_fn_character_in_water(bt_current_player_char))
             ) bt_fn_zoombox_text_color(zb, &white);
             else bt_fn_zoombox_text_color(zb, &red);
