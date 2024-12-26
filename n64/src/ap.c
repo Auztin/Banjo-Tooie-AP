@@ -765,7 +765,8 @@ bool ap_trap_misfire(bool checking) {
   }
   if (bt_fn_get_character_animation(bt_current_player_char) != bt_fn_get_drone_animation(bt_current_player_char)) {
     ap.fn_trap = 0;
-    bt_fn_increase_health(bt_current_player_char, ap.trap_timer-bt_fn_get_health(bt_current_player_char));
+    u8 health = bt_fn_get_health(bt_current_player_char);
+    if (ap.trap_timer != health) bt_fn_increase_health(bt_current_player_char, ap.trap_timer-health);
     ap.trap_timer = 0;
     ap_increment_trap();
   }
