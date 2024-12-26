@@ -38,7 +38,7 @@ enum {
   BT_MAP_SM, // SM - Spiral Mountain
   BT_MAP_MT_HUMBA = 0x0B6, // MT - Wumba's Wigwam
   BT_MAP_MT_MUMBO, // MT - Mumbo's Skull
-  BT_MAP_0x0B8, // MT
+  BT_MAP_MT, // MT
   BT_MAP_0x0B9, // MT - Prison Compound
   BT_MAP_0x0BA, // MT - Columns Vault
   BT_MAP_MT_KICKBALL_LOBBY, // MT - Mayan Kickball Stadium (Lobby)

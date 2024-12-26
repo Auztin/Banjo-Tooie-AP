@@ -1352,6 +1352,24 @@ bool ap_cycle_character() {
     bt_fn_change_character(bt_current_player_char, to_form);
     bt_fn_sparkle(bt_current_player_char->pos, 10);
     BT_FPS = (ap.smooth_banjo && bt_player_chars.control_type != BT_PLAYER_CHAR_WASHER) ? 1 : 2;
+    if (to_form == BT_PLAYER_CHAR_STONY && bt_current_map == BT_MAP_MT) {
+      s32 object_count = 0;
+      bt_fn_object_count(&object_count);
+      if (object_count) {
+        for (object_count++; object_count > 0;) {
+          bt_obj_instance_t* obj = bt_fn_object_instance(&object_count);
+          if (obj->data->type == 0x0661) { // UNOGOPAZ
+            switch (obj->obj_state) {
+              case 0x08:
+              case 0x0C:
+                obj->obj_state = 0x04;
+                break;
+            }
+            break;
+          }
+        }
+      }
+    }
     return true;
   }
   return false;
