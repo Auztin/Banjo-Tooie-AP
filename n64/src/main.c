@@ -158,7 +158,7 @@ void post_draw_hud(bt_draw_ctx_t* draw_ctx) {
 bt_obj_setup_t setup_cache[512];
 u32 setup_cache_count;
 
-void pre_spawn_prop(u16* id, bt_s32_xyz_t* pos, u16* yrot, bt_obj_setup_t* setup) {
+void pre_spawn_prop(u16* id, bt_s32_xyz_t* pos, u32* yrot, bt_obj_setup_t* setup) {
   if (!BT_IN_GAME) return;
   switch (*id) {
     case 0x01CA: // ice egg nest
@@ -230,7 +230,7 @@ void pre_spawn_prop(u16* id, bt_s32_xyz_t* pos, u16* yrot, bt_obj_setup_t* setup
   }
 }
 
-void post_spawn_prop(u16 id, bt_s32_xyz_t* pos, u16 yrot, bt_obj_setup_t* setup, bt_obj_instance_t* obj) {
+void post_spawn_prop(u16 id, bt_s32_xyz_t* pos, u32 yrot, bt_obj_setup_t* setup, bt_obj_instance_t* obj) {
   if (!obj || !BT_IN_GAME) return;
   if (setup && setup_cache_count < sizeof(setup_cache)/sizeof(*setup_cache)) setup_cache[setup_cache_count++] = *setup;
 }
