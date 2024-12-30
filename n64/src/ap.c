@@ -803,6 +803,12 @@ bool ap_trap_squish(bool checking) {
 }
 
 void ap_sync_traps() {
+  switch (bt_current_map) {
+    case BT_MAP_CCL_MINIGAME_CANARY_MARY:
+    case BT_MAP_GGM_MINIGAME_CANARY_MARY1:
+    case BT_MAP_GGM_MINIGAME_CANARY_MARY2:
+      return;
+  }
   if (
        bt_loading_map.loading
     || bt_player_chars.died

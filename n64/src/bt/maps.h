@@ -189,7 +189,7 @@ enum {
   BT_MAP_0x15E, // CK - The Gatehouse
   BT_MAP_CK_TOT_QUIZ_ROOM, // CK - Tower of Tragedy
   BT_MAP_CK_GUN_CHAMBER, // CK - Gun Chamber
-  BT_MAP_0x161, // CCL - Canary Mary Race
+  BT_MAP_CCL_MINIGAME_CANARY_MARY, // CCL - Canary Mary Race
   BT_MAP_0x162, // GI - Floor 4 (Clinker's Cavern)
   BT_MAP_0x163, // GGM - Ordnance Storage Entrance
   BT_MAP_0x164, // GI - Clinker's Cavern (multiplayer)
@@ -199,8 +199,8 @@ enum {
   BT_MAP_0x168, // HFP - Icy Side (character parade)
   BT_MAP_0x169, // JV - Bottles' House (character parade)
   BT_MAP_0x16A, // CK - Gun Chamber (character parade)
-  BT_MAP_0x16F = 0x16F, // GGM - Canary Mary Race (1)
-  BT_MAP_0x170, // GGM - Canary Mary Race (2)
+  BT_MAP_GGM_MINIGAME_CANARY_MARY1 = 0x16F, // GGM - Canary Mary Race (1)
+  BT_MAP_GGM_MINIGAME_CANARY_MARY2, // GGM - Canary Mary Race (2)
   BT_MAP_TDL_MUMBO, // TDL - Mumbo's Skull
   BT_MAP_GI_MUMBO, // GI - Mumbo's Skull
   BT_MAP_0x173, // SM - Banjo's House
