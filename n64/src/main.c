@@ -158,7 +158,7 @@ void post_draw_hud(bt_draw_ctx_t* draw_ctx) {
 bt_obj_setup_t setup_cache[512];
 u32 setup_cache_count;
 
-void pre_spawn_prop(u16* id, bt_s32_xyz_t* pos, u16* yrot, bt_obj_setup_t* setup) {
+void pre_spawn_prop(u16* id, bt_s32_xyz_t* pos, u32* yrot, bt_obj_setup_t* setup) {
   if (!BT_IN_GAME) return;
   switch (*id) {
     case 0x01CA: // ice egg nest
@@ -230,7 +230,7 @@ void pre_spawn_prop(u16* id, bt_s32_xyz_t* pos, u16* yrot, bt_obj_setup_t* setup
   }
 }
 
-void post_spawn_prop(u16 id, bt_s32_xyz_t* pos, u16 yrot, bt_obj_setup_t* setup, bt_obj_instance_t* obj) {
+void post_spawn_prop(u16 id, bt_s32_xyz_t* pos, u32 yrot, bt_obj_setup_t* setup, bt_obj_instance_t* obj) {
   if (!obj || !BT_IN_GAME) return;
   if (setup && setup_cache_count < sizeof(setup_cache)/sizeof(*setup_cache)) setup_cache[setup_cache_count++] = *setup;
 }
@@ -287,7 +287,6 @@ void main_visited_world(u16 scene) {
 }
 
 void pre_load_scene(u16 *scene, u16 *exit) {
-  main.milliseconds_on_map = 0;
   setup_cache_count = 0;
   if (!BT_IN_GAME && bt_current_map != BT_MAP_FILE_SELECT) {
     if (*scene == BT_MAP_FILE_SELECT) {
@@ -470,6 +469,8 @@ void pre_load_scene(u16 *scene, u16 *exit) {
 }
 
 void post_load_scene(u16 scene, u16 exit) {
+  main.milliseconds_on_map = 0;
+  main.last_c0_count = C0_COUNT();
   BT_FPS = (ap.smooth_banjo && bt_player_chars.control_type != BT_PLAYER_CHAR_WASHER) ? 1 : 2;
 
   s32 object_count = 0;
@@ -775,6 +776,7 @@ bool main_collected_nest(bt_obj_instance_t* obj) {
       bool collected = save_custom_set_bit(save_data.custom[bt_save_slot].nests, flag);
       if (!collected) {
         bt_fn_play_sound(BT_SOUND_COLLECTED_ITEM1, -1, 1, -1);
+        bt_fn_sparkle(&obj->pos, 5);
         obj->state = 7;
         if (obj->data && obj->nests.respawn) {
           for (int i = 0; i < setup_cache_count; i++) {

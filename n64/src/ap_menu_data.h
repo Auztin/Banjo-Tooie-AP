@@ -88,7 +88,7 @@ ap_menu_data_t ap_menu_received_moves_bt2_data[] = {
   {.item=AP_ITEM_BBASH, .zb={.lines=2, .icon=BT_ZOOMBOX_ICON_HEGGY, .text=(char*[]){"BREEGULL","BASH"}}},
   {.item=AP_ITEM_HOMINGEGGS, .zb={.lines=2, .icon=BT_ZOOMBOX_ICON_HEGGY, .text=(char*[]){"HOMING","EGGS"}}},
   {.item=AP_ITEM_AMAZEOGAZE, .zb={.lines=2, .icon=BT_ZOOMBOX_ICON_GOGGLES, .text=(char*[]){"AMAZE","O GAZE"}}},
-  {.item=AP_ITEM_ROAR, .zb={.lines=2, .icon=BT_ZOOMBOX_ICON_BARGASAURUS, .text=(char*[]){"TREX","ROAR"}}},
+  {.item=AP_ITEM_ROAR, .zb={.lines=2, .icon=BT_ZOOMBOX_ICON_BARGASAURUS, .text=(char*[]){"T-REX","ROAR"}}},
 };
 
 ap_menu_data_t ap_menu_received_mumbo_humba_data[] = {
@@ -183,7 +183,7 @@ enum {
 
 ap_menu_data_t ap_menu_options_data[] = {
   {.item=AP_MENU_OPTION_RESPAWN, .zb={.lines=1, .icon=BT_ZOOMBOX_ICON_BOTTLES_DEAD, .text=(char*[]){"RESPAWN"}}},
-  {.item=AP_MENU_OPTION_RESET, .zb={.lines=1, .icon=BT_ZOOMBOX_ICON_KING_JINGALING, .text=(char*[]){"RESET"}}},
+  {.item=AP_MENU_OPTION_RESET, .zb={.lines=2, .icon=BT_ZOOMBOX_ICON_KING_JINGALING, .text=(char*[]){"BACK TO","JINJO VILLAGE"}}},
   {.item=AP_MENU_OPTION_DRAGON_KAZOOIE, .zb={.lines=2, .icon=BT_ZOOMBOX_ICON_KAZOOIE, .text=(char*[]){"DRAGON","KAZOOIE"}}},
   {.item=AP_MENU_OPTION_SMOOTH_BANJO, .zb={.lines=1, .icon=BT_ZOOMBOX_ICON_BANJO_KAZOOIE, .text=(char*[]){"SMOOTH BANJO"}}},
   {.item=AP_MENU_OPTION_SUPER_BANJO, .zb={.lines=1, .icon=BT_ZOOMBOX_ICON_BANJO, .text=(char*[]){"SUPER BANJO"}}},

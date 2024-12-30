@@ -77,11 +77,7 @@ typedef struct {
 typedef bt_obj_data_t* (*bt_fnt_object_get_data)(void);
 typedef struct {
   bt_obj_instance_data_t* data;
-  struct {
-    float x;
-    float y;
-    float z;
-  } pos;
+  bt_xyz_t pos;
   bt_fnt_object_get_data fn_obj_init;
   u32 _unknown0x14_0x18[2];
   u32 sprite_index;
@@ -186,5 +182,8 @@ typedef void (*bt_fnt_object_count)(u32*);
 
 typedef bt_obj_instance_t* (*bt_fnt_object_instance)(u32*);
 #define bt_fn_object_instance ((bt_fnt_object_instance)0x8010682C)
+
+typedef void (*bt_fnt_object_anim)(u32 id, u32 anim, u32 speed);
+#define bt_fn_object_anim ((bt_fnt_object_anim)0x80101180)
 
 #endif // BT_OBJECTS_H

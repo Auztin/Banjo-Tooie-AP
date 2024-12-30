@@ -765,7 +765,8 @@ bool ap_trap_misfire(bool checking) {
   }
   if (bt_fn_get_character_animation(bt_current_player_char) != bt_fn_get_drone_animation(bt_current_player_char)) {
     ap.fn_trap = 0;
-    bt_fn_increase_health(bt_current_player_char, ap.trap_timer-bt_fn_get_health(bt_current_player_char));
+    u8 health = bt_fn_get_health(bt_current_player_char);
+    if (ap.trap_timer != health) bt_fn_increase_health(bt_current_player_char, ap.trap_timer-health);
     ap.trap_timer = 0;
     ap_increment_trap();
   }
@@ -802,10 +803,17 @@ bool ap_trap_squish(bool checking) {
 }
 
 void ap_sync_traps() {
+  switch (bt_current_map) {
+    case BT_MAP_CCL_MINIGAME_CANARY_MARY:
+    case BT_MAP_GGM_MINIGAME_CANARY_MARY1:
+    case BT_MAP_GGM_MINIGAME_CANARY_MARY2:
+      return;
+  }
   if (
        bt_loading_map.loading
     || bt_player_chars.died
     || !bt_fn_character_enemy_can_target(bt_player_chars.control_index)
+    || BT_IS_PAUSED
   ) return;
   if (ap.fn_trap) ap.fn_trap(false);
   else {
@@ -1024,15 +1032,21 @@ void ap_update() {
       case BT_PLAYER_CHAR_BANJO_KAZOOIE: {
         u32 map_exit = (bt_loading_map.map << 8) | bt_loading_map.exit;
         switch (map_exit) {
-          case 0x01010F:
-          case 0x01060F:
-          case 0x010809:
-          case 0x010B09:
-          case 0x010E09:
+          case (BT_MAP_GI_FLOOR1 << 8) | 0x0F:
+          case (BT_MAP_GI_FLOOR2 << 8) | 0x0F:
+          case (BT_MAP_GI_FLOOR3 << 8) | 0x09:
+          case (BT_MAP_GI_FLOOR4 << 8) | 0x09:
+          case (BT_MAP_GI_FLOOR5 << 8) | 0x09:
             bt_fn_change_character(bt_current_player_char, BT_PLAYER_CHAR_WASHER);
             ap.fake_transform = 1;
             bt_respawn_point[1] = bt_respawn_point[0];
             bt_respawn_point[0] = (bt_respawn_point_t){.map=0x0106, .exit=0x0A};
+            break;
+          case (BT_MAP_CCL_ZUBBAS_NEST << 8) | 0x01:
+            bt_fn_change_character(bt_current_player_char, BT_PLAYER_CHAR_BEE);
+            ap.fake_transform = 1;
+            bt_respawn_point[1] = bt_respawn_point[0];
+            bt_respawn_point[0] = (bt_respawn_point_t){.map=0x0136, .exit=0x19};
             break;
         }
         break;
@@ -1350,7 +1364,33 @@ bool ap_cycle_character() {
     }
     else bt_respawn_point[0] = respawn;
     bt_fn_change_character(bt_current_player_char, to_form);
+    bt_fn_sparkle(bt_current_player_char->pos, 10);
     BT_FPS = (ap.smooth_banjo && bt_player_chars.control_type != BT_PLAYER_CHAR_WASHER) ? 1 : 2;
+    switch (to_form) {
+      case BT_PLAYER_CHAR_STONY:
+        if (bt_current_map == BT_MAP_MT) {
+          s32 object_count = 0;
+          bt_fn_object_count(&object_count);
+          if (object_count) {
+            for (object_count++; object_count > 0;) {
+              bt_obj_instance_t* obj = bt_fn_object_instance(&object_count);
+              if (obj->data->type == 0x0661) { // UNOGOPAZ
+                switch (obj->obj_state) {
+                  case 0x08:
+                  case 0x0C:
+                    obj->obj_state = 0x04;
+                    break;
+                }
+                break;
+              }
+            }
+          }
+        }
+        break;
+      case BT_PLAYER_CHAR_BEE:
+        if (bt_current_map == BT_MAP_CCL && bt_flags.ccl_opened_zzzubas) bt_fn_object_anim(0x411, 7, 0);
+        break;
+    }
     return true;
   }
   return false;
