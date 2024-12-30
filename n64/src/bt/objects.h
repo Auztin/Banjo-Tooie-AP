@@ -183,4 +183,7 @@ typedef void (*bt_fnt_object_count)(u32*);
 typedef bt_obj_instance_t* (*bt_fnt_object_instance)(u32*);
 #define bt_fn_object_instance ((bt_fnt_object_instance)0x8010682C)
 
+typedef void (*bt_fnt_object_anim)(u32 id, u32 anim, u32 speed);
+#define bt_fn_object_anim ((bt_fnt_object_anim)0x80101180)
+
 #endif // BT_OBJECTS_H
