@@ -287,7 +287,6 @@ void main_visited_world(u16 scene) {
 }
 
 void pre_load_scene(u16 *scene, u16 *exit) {
-  main.milliseconds_on_map = 0;
   setup_cache_count = 0;
   if (!BT_IN_GAME && bt_current_map != BT_MAP_FILE_SELECT) {
     if (*scene == BT_MAP_FILE_SELECT) {
@@ -470,6 +469,8 @@ void pre_load_scene(u16 *scene, u16 *exit) {
 }
 
 void post_load_scene(u16 scene, u16 exit) {
+  main.milliseconds_on_map = 0;
+  main.last_c0_count = C0_COUNT();
   BT_FPS = (ap.smooth_banjo && bt_player_chars.control_type != BT_PLAYER_CHAR_WASHER) ? 1 : 2;
 
   s32 object_count = 0;
