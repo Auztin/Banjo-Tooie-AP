@@ -1032,15 +1032,21 @@ void ap_update() {
       case BT_PLAYER_CHAR_BANJO_KAZOOIE: {
         u32 map_exit = (bt_loading_map.map << 8) | bt_loading_map.exit;
         switch (map_exit) {
-          case 0x01010F:
-          case 0x01060F:
-          case 0x010809:
-          case 0x010B09:
-          case 0x010E09:
+          case (BT_MAP_GI_FLOOR1 << 8) | 0x0F:
+          case (BT_MAP_GI_FLOOR2 << 8) | 0x0F:
+          case (BT_MAP_GI_FLOOR3 << 8) | 0x09:
+          case (BT_MAP_GI_FLOOR4 << 8) | 0x09:
+          case (BT_MAP_GI_FLOOR5 << 8) | 0x09:
             bt_fn_change_character(bt_current_player_char, BT_PLAYER_CHAR_WASHER);
             ap.fake_transform = 1;
             bt_respawn_point[1] = bt_respawn_point[0];
             bt_respawn_point[0] = (bt_respawn_point_t){.map=0x0106, .exit=0x0A};
+            break;
+          case (BT_MAP_CCL_ZUBBAS_NEST << 8) | 0x01:
+            bt_fn_change_character(bt_current_player_char, BT_PLAYER_CHAR_BEE);
+            ap.fake_transform = 1;
+            bt_respawn_point[1] = bt_respawn_point[0];
+            bt_respawn_point[0] = (bt_respawn_point_t){.map=0x0136, .exit=0x19};
             break;
         }
         break;

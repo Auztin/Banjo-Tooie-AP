@@ -96,20 +96,20 @@ enum {
   BT_MAP_0x0FC = 0x0FC, // JRL - Lord Woo Fak Fak
   BT_MAP_0x0FF = 0x0FF, // JRL - Blubber's Wave Race Hire
   BT_MAP_0x100, // GI
-  BT_MAP_0x101, // GI - Floor 1
+  BT_MAP_GI_FLOOR1, // GI - Floor 1
   BT_MAP_TRAIN_STATION_GI, // GI - Train Station
   BT_MAP_0x103, // GI - Workers' Quarters
   BT_MAP_0x104, // GI - Trash Compactor
   BT_MAP_0x105, // GI - Elevator shaft
-  BT_MAP_0x106, // GI - Floor 2
+  BT_MAP_GI_FLOOR2, // GI - Floor 2
   BT_MAP_0x107, // GI - Floor 2 (Electromagnet Chamber)
-  BT_MAP_0x108, // GI - Floor 3
+  BT_MAP_GI_FLOOR3, // GI - Floor 3
   BT_MAP_0x109, // GI - Floor 3 (Boiler Plant)
   BT_MAP_0x10A, // GI - Floor 3 (Packing Room)
-  BT_MAP_0x10B, // GI - Floor 4
+  BT_MAP_GI_FLOOR4, // GI - Floor 4
   BT_MAP_0x10C, // GI - Floor 4 (Cable Room)
   BT_MAP_0x10D, // GI - Floor 4 (Quality Control)
-  BT_MAP_0x10E, // GI - Floor 5
+  BT_MAP_GI_FLOOR5, // GI - Floor 5
   BT_MAP_0x10F, // GI - Basement
   BT_MAP_0x110, // GI - Basement (Repair Depot)
   BT_MAP_0x111, // GI - Basement (Waste Disposal)
@@ -150,7 +150,7 @@ enum {
   BT_MAP_CCL, // CCL
   BT_MAP_0x137, // CCL - Inside the Trash Can
   BT_MAP_0x138, // CCL - Inside the Cheese Wedge
-  BT_MAP_0x139, // CCL - Zubbas' Nest
+  BT_MAP_CCL_ZUBBAS_NEST, // CCL - Zubbas' Nest
   BT_MAP_0x13A, // CCL - Central Cavern
   BT_MAP_0x13B, // WW - Crazy Castle Stockade (Saucer)
   BT_MAP_0x13C, // WW - Star Spinner (Saucer)
