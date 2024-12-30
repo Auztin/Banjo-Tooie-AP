@@ -813,6 +813,7 @@ void ap_sync_traps() {
        bt_loading_map.loading
     || bt_player_chars.died
     || !bt_fn_character_enemy_can_target(bt_player_chars.control_index)
+    || BT_IS_PAUSED
   ) return;
   if (ap.fn_trap) ap.fn_trap(false);
   else {
