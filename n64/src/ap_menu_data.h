@@ -88,7 +88,7 @@ ap_menu_data_t ap_menu_received_moves_bt2_data[] = {
   {.item=AP_ITEM_BBASH, .zb={.lines=2, .icon=BT_ZOOMBOX_ICON_HEGGY, .text=(char*[]){"BREEGULL","BASH"}}},
   {.item=AP_ITEM_HOMINGEGGS, .zb={.lines=2, .icon=BT_ZOOMBOX_ICON_HEGGY, .text=(char*[]){"HOMING","EGGS"}}},
   {.item=AP_ITEM_AMAZEOGAZE, .zb={.lines=2, .icon=BT_ZOOMBOX_ICON_GOGGLES, .text=(char*[]){"AMAZE","O GAZE"}}},
-  {.item=AP_ITEM_ROAR, .zb={.lines=2, .icon=BT_ZOOMBOX_ICON_BARGASAURUS, .text=(char*[]){"TREX","ROAR"}}},
+  {.item=AP_ITEM_ROAR, .zb={.lines=2, .icon=BT_ZOOMBOX_ICON_BARGASAURUS, .text=(char*[]){"T-REX","ROAR"}}},
 };
 
 ap_menu_data_t ap_menu_received_mumbo_humba_data[] = {
