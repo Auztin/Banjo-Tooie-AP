@@ -41,7 +41,8 @@ void usb_apmemcpy(void* to, void* from, u32 size) {
 }
 
 void usb_check() {
-  if (!main.is_emulator) {
+  disable_interrupts();
+  if (!main.is_emulator && !dma_busy()) {
     usb.ping_timer += main.delta;
     if (usb.ping_timer >= 500) usb.ping_timer = 0;
     switch (usb.status & ~USB_STATUS_PINGED) {
@@ -159,4 +160,5 @@ void usb_check() {
       }
     }
   }
+  enable_interrupts();
 }
