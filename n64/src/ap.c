@@ -955,8 +955,14 @@ void ap_update() {
   if (ap.zoombox) {
     if (!main.milliseconds_on_map) {
       bt_fn_zoombox_free(ap.zoombox);
-      ap.zoombox = bt_fn_zoombox_new(200, ap.last_icon, 0, 1);
-      bt_fn_zoombox_init(ap.zoombox);
+      if (ap.message[0] != '\0') {
+        ap.zoombox = bt_fn_zoombox_new(200, ap.last_icon, 0, 1);
+        bt_fn_zoombox_init(ap.zoombox);
+      }
+      else {
+        ap.zoombox = 0;
+        ap.zoombox_ready = 0;
+      }
     }
     else if (bt_fn_transition_done()) {
       bt_fn_zoombox_update(ap.zoombox);
