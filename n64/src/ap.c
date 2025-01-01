@@ -1726,6 +1726,10 @@ void ap_new_file() {
   bt_flags.turbo_trainers = 0;
   bt_flags.beak_bomb_attack = 0;
   bt_flags.egg_firing = 0;
+  bt_flags.mt_opened_kickball_door1 = 1;
+  bt_flags.ww_paid_dodgem = 1;
+  bt_flags.ww_opened_dodgem1 = 1;
+  bt_flags.hfp_lava_opened_kickball_door1 = 1;
 }
 
 void ap_load_file() {
@@ -1762,18 +1766,14 @@ void ap_load_file() {
     }
   }
   if (ap_memory.pc.settings.speed_up_minigames) {
-    bt_flags.mt_opened_kickball_door1 = 1;
     bt_flags.mt_opened_kickball_door2 = 1;
     bt_flags.mt_opened_kickball_door3 = 1;
 
-    bt_flags.ww_paid_dodgem = 1;
-    bt_flags.ww_opened_dodgem1 = 1;
     bt_flags.ww_opened_dodgem2 = 1;
     bt_flags.ww_opened_dodgem3 = 1;
     bt_flags.ww_won_dodgem1 = 1;
     bt_flags.ww_won_dodgem2 = 1;
 
-    bt_flags.hfp_lava_opened_kickball_door1 = 1;
     bt_flags.hfp_lava_opened_kickball_door2 = 1;
     bt_flags.hfp_lava_opened_kickball_door3 = 1;
   }
