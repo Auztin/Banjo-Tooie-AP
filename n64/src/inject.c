@@ -141,7 +141,7 @@ u32 inject_hooks() {
   ap_memory_ptrs.n64_saves_real = (u32)&ap_memory.n64.saves.real;
   ap_memory_ptrs.n64_saves_fake = (u32)&ap_memory.n64.saves.fake;
   ap_memory_ptrs.n64_saves_nests = (u32)&ap_memory.n64.saves.nests;
-  ap_memory.pc.settings.dialog_character = 0xFF;
+  ap_memory.pc.settings.dialog_character = 110;
   AP_MEMORY_PTR = &ap_memory_ptrs;
 
   // replace game's init function
