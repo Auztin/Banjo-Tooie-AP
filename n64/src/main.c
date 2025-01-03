@@ -410,6 +410,12 @@ void pre_load_scene(u16 *scene, u16 *exit) {
           break;
       }
       break;
+    case BT_MAP_CK:
+      if (ap_memory.pc.settings.victory_condition == 4) {
+        bt_flags.hag1_open = ap_memory.pc.items[AP_ITEM_H1A] > 0;
+        if (!bt_flags.hag1_open && bt_flags.jiggywiggy_completed_challenges > 9) bt_flags.jiggywiggy_completed_challenges = 9;
+      }
+      break;
     case BT_MAP_IOH_MUMBO:
       if (bt_player_chars.control_type == BT_PLAYER_CHAR_BANJO_KAZOOIE) bt_fake_flags.ioh_mumbo = 1;
       break;

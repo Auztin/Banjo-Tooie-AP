@@ -185,7 +185,7 @@ enum {
   BT_MAP_IOH_WASTELAND, // IoH - Wasteland
   BT_MAP_ANOTHER_DIGGER_TUNNEL, // IoH - Inside another digger tunnel
   BT_MAP_0x15C, // IoH - Quagmire
-  BT_MAP_0x15D, // CK
+  BT_MAP_CK, // CK
   BT_MAP_0x15E, // CK - The Gatehouse
   BT_MAP_CK_TOT_QUIZ_ROOM, // CK - Tower of Tragedy
   BT_MAP_CK_GUN_CHAMBER, // CK - Gun Chamber
