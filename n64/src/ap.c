@@ -1073,8 +1073,21 @@ void ap_check_enough_notes(u16 start, u16 end) {
   }
 }
 
-bool ap_can_transform_humba(u16 map, bt_respawn_point_t* respawn, u16* form) {
-  switch (map) {
+typedef struct {
+  u16 map;
+  u16 form;
+  bt_respawn_point_t respawn;
+  u8 allowed;
+  u8 flag;
+  u8 visited;
+} ap_can_transform_t;
+
+bool ap_can_transform_humba(ap_can_transform_t* data) {
+  data->flag = 0;
+  data->visited = 0;
+  data->respawn = (bt_respawn_point_t){0, };
+  data->form = 0;
+  switch (data->map) {
     // MAYAHEM TEMPLE
     case 0x00B8: // MT
     case 0x00C4: // MT - Jade Snake Grove
@@ -1083,11 +1096,10 @@ bool ap_can_transform_humba(u16 map, bt_respawn_point_t* respawn, u16* form) {
     case 0x00B9: // MT - Prison Compound
     case 0x00B6: // MT - Wumba's Wigwam
     case 0x00BC: // MT - Code Chamber
-      if (bt_flags.mt_humba && bt_fake_flags.mt_humba) {
-        *respawn = (bt_respawn_point_t){.map=0x00C4, .exit=0x04};
-        *form = BT_PLAYER_CHAR_STONY;
-        return true;
-      }
+      data->flag = bt_flags.mt_humba;
+      data->visited = bt_fake_flags.mt_humba;
+      data->respawn = (bt_respawn_point_t){.map=0x00C4, .exit=0x04};
+      data->form = BT_PLAYER_CHAR_STONY;
       break;
     // GLITTER GULCH MINE
     case 0x00C7: // GGM
@@ -1104,11 +1116,10 @@ bool ap_can_transform_humba(u16 map, bt_respawn_point_t* respawn, u16* form) {
     case 0x00CE: // GGM - Waterfall Cavern
     case 0x00E9: // GGM - Wumba's Wigwam
     case 0x00CB: // GGM - Crushing Shed
-      if (bt_flags.ggm_humba && bt_fake_flags.ggm_humba) {
-        *respawn = (bt_respawn_point_t){.map=0x00C7, .exit=0x0E};
-        *form = BT_PLAYER_CHAR_DETONATOR;
-        return true;
-      }
+      data->flag = bt_flags.ggm_humba;
+      data->visited = bt_fake_flags.ggm_humba;
+      data->respawn = (bt_respawn_point_t){.map=0x00C7, .exit=0x0E};
+      data->form = BT_PLAYER_CHAR_DETONATOR;
       break;
     // WITCHYWORLD
     case 0x00D6: // WW
@@ -1123,11 +1134,10 @@ bool ap_can_transform_humba(u16 map, bt_respawn_point_t* respawn, u16* form) {
     case 0x0176: // WW - Mumbo Skull
     case 0x00D5: // WW - Wumba's Wigwam
     case 0x00EC: // WW - Train Station
-      if (bt_flags.ww_humba && bt_fake_flags.ww_humba) {
-        *respawn = (bt_respawn_point_t){.map=0x00D6, .exit=0x0A};
-        *form = BT_PLAYER_CHAR_VAN;
-        return true;
-      }
+      data->flag = bt_flags.ww_humba;
+      data->visited = bt_fake_flags.ww_humba;
+      data->respawn = (bt_respawn_point_t){.map=0x00D6, .exit=0x0A};
+      data->form = BT_PLAYER_CHAR_VAN;
       break;
     // JOLLY ROGER'S LAGOON
     case 0x01A7: // JRL
@@ -1139,11 +1149,10 @@ bool ap_can_transform_humba(u16 map, bt_respawn_point_t* respawn, u16* form) {
     case 0x01A9: // JRL - Sea Bottom
     case 0x00FA: // JRL - Temple of the Fishes
     case 0x0120: // JRL - Wumba's Wigwam
-      if (bt_flags.jrl_humba && bt_fake_flags.jrl_humba) {
-        *respawn = (bt_respawn_point_t){.map=0x01A8, .exit=0x12};
-        *form = BT_PLAYER_CHAR_SUB;
-        return true;
-      }
+      data->flag = bt_flags.jrl_humba;
+      data->visited = bt_fake_flags.jrl_humba;
+      data->respawn = (bt_respawn_point_t){.map=0x01A8, .exit=0x12};
+      data->form = BT_PLAYER_CHAR_SUB;
       break;
     // TERRYDACTYLAND
     case 0x0112: // TDL
@@ -1155,36 +1164,33 @@ bool ap_can_transform_humba(u16 map, bt_respawn_point_t* respawn, u16* form) {
     case 0x0114: // TDL - Train Station
     case 0x011E: // TDL - Wumba's Wigwam, Small
     case 0x0122: // TDL - Wumba's Wigwam, Big
-      if (bt_flags.tdl_humba && bt_fake_flags.tdl_humba) {
-        if (bt_flags.tdl_enlarged_wigwam) {
-          *respawn = (bt_respawn_point_t){.map=0x0112, .exit=0x16};
-          *form = BT_PLAYER_CHAR_DADDY_TREX;
-        }
-        else {
-          *respawn = (bt_respawn_point_t){.map=0x0112, .exit=0x06};
-          *form = BT_PLAYER_CHAR_TREX;
-        }
-        return true;
+      data->flag = bt_flags.tdl_humba;
+      data->visited = bt_fake_flags.tdl_humba;
+      if (bt_flags.tdl_enlarged_wigwam) {
+        data->respawn = (bt_respawn_point_t){.map=0x0112, .exit=0x16};
+        data->form = BT_PLAYER_CHAR_DADDY_TREX;
+      }
+      else {
+        data->respawn = (bt_respawn_point_t){.map=0x0112, .exit=0x06};
+        data->form = BT_PLAYER_CHAR_TREX;
       }
       break;
     // GRUNTY'S INDUSTRIES
     case 0x0106: // GI - Floor 2
     case 0x011F: // GI - Wumba's Wigwam
-      if (bt_flags.gi_humba && bt_fake_flags.gi_humba) {
-        *respawn = (bt_respawn_point_t){.map=0x0106, .exit=0x0A};
-        *form = BT_PLAYER_CHAR_WASHER;
-        return true;
-      }
+      data->flag = bt_flags.gi_humba;
+      data->visited = bt_fake_flags.gi_humba;
+      data->respawn = (bt_respawn_point_t){.map=0x0106, .exit=0x0A};
+      data->form = BT_PLAYER_CHAR_WASHER;
       break;
     // HAILFIRE PEAKS
     case 0x0132: // HFP - Icicle Grotto
     case 0x0128: // HFP - Icy Side
     case 0x0135: // HFP - Wumba's Wigwam
-      if (bt_flags.hfp_humba && bt_fake_flags.hfp_humba) {
-        *respawn = (bt_respawn_point_t){.map=0x0128, .exit=0x08};
-        *form = BT_PLAYER_CHAR_SNOWBALL;
-        return true;
-      }
+      data->flag = bt_flags.hfp_humba;
+      data->visited = bt_fake_flags.hfp_humba;
+      data->respawn = (bt_respawn_point_t){.map=0x0128, .exit=0x08};
+      data->form = BT_PLAYER_CHAR_SNOWBALL;
       break;
     // CLOUD CUCKOOLAND
     case 0x0136: // CCL
@@ -1192,24 +1198,26 @@ bool ap_can_transform_humba(u16 map, bt_respawn_point_t* respawn, u16* form) {
     case 0x013F: // CCL - Mingy Jongo's Skull
     case 0x013E: // CCL - Mumbo's Skull
     case 0x0140: // CCL - Wumba's Wigwam
-      if (bt_flags.ccl_humba && bt_fake_flags.ccl_humba) {
-        *respawn = (bt_respawn_point_t){.map=0x0136, .exit=0x19};
-        *form = BT_PLAYER_CHAR_BEE;
-        return true;
-      }
+      data->flag = bt_flags.ccl_humba;
+      data->visited = bt_fake_flags.ccl_humba;
+      data->respawn = (bt_respawn_point_t){.map=0x0136, .exit=0x19};
+      data->form = BT_PLAYER_CHAR_BEE;
       break;
   }
-  return false;
+  data->allowed = data->flag && data->visited;
+  return data->allowed;
 }
 
-bool ap_can_transform_mumbo(u16 map, bt_respawn_point_t* respawn) {
-  switch (map) {
+bool ap_can_transform_mumbo(ap_can_transform_t* data) {
+  data->flag = 0;
+  data->visited = 0;
+  data->respawn = (bt_respawn_point_t){0, };
+  switch (data->map) {
     // ISLE O' HAGS
     case 0x0155: // IoH - Cliff Top
-      if (bt_flags.ioh_mumbo && bt_fake_flags.ioh_mumbo) {
-        *respawn = (bt_respawn_point_t){.map=0x0155, .exit=0x08};
-        return true;
-      }
+      data->flag = bt_flags.ioh_mumbo;
+      data->visited = bt_fake_flags.ioh_mumbo;
+      data->respawn = (bt_respawn_point_t){.map=0x0155, .exit=0x08};
       break;
     // MAYAHEM TEMPLE
     case 0x00B8: // MT
@@ -1218,10 +1226,9 @@ bool ap_can_transform_mumbo(u16 map, bt_respawn_point_t* respawn) {
     case 0x00B9: // MT - Prison Compound
     case 0x00B6: // MT - Wumba's Wigwam
     case 0x00BC: // MT - Code Chamber
-      if (bt_flags.mt_mumbo && bt_fake_flags.mt_mumbo) {
-        *respawn = (bt_respawn_point_t){.map=0x00B8, .exit=0x05};
-        return true;
-      }
+      data->flag = bt_flags.mt_mumbo;
+      data->visited = bt_fake_flags.mt_mumbo;
+      data->respawn = (bt_respawn_point_t){.map=0x00B8, .exit=0x05};
       break;
     // GLITTER GULCH MINE
     case 0x00C7: // GM
@@ -1238,10 +1245,9 @@ bool ap_can_transform_mumbo(u16 map, bt_respawn_point_t* respawn) {
     case 0x00CE: // GGM - Waterfall Cavern
     case 0x00E9: // GGM - Wumba's Wigwam
     case 0x00CB: // GGM - Crushing Shed
-      if (bt_flags.ggm_mumbo && bt_fake_flags.ggm_mumbo) {
-        *respawn = (bt_respawn_point_t){.map=0x00C7, .exit=0x08};
-        return true;
-      }
+      data->flag = bt_flags.ggm_mumbo;
+      data->visited = bt_fake_flags.ggm_mumbo;
+      data->respawn = (bt_respawn_point_t){.map=0x00C7, .exit=0x08};
       break;
     // WITCHYWORLD
     case 0x00D6: // WW
@@ -1255,20 +1261,18 @@ bool ap_can_transform_mumbo(u16 map, bt_respawn_point_t* respawn) {
     case 0x00E7: // WW - The Inferno
     case 0x00D5: // WW - Wumba's Wigwam
     case 0x00EC: // WW - Train Station
-      if (bt_flags.ww_mumbo && bt_fake_flags.ww_mumbo) {
-        *respawn = (bt_respawn_point_t){.map=0x00E7, .exit=0x02};
-        return true;
-      }
+      data->flag = bt_flags.ww_mumbo;
+      data->visited = bt_fake_flags.ww_mumbo;
+      data->respawn = (bt_respawn_point_t){.map=0x00E7, .exit=0x02};
       break;
     // JOLLY ROGER'S LAGOON
     case 0x01A7: // JRL
     case 0x00FF: // JRL - Blubber's Wave Race Hire
     case 0x00ED: // JRL - Jolly's
     case 0x00EE: // JRL - Pawno's Emporium
-      if (bt_flags.jrl_mumbo && bt_fake_flags.jrl_mumbo) {
-        *respawn = (bt_respawn_point_t){.map=0x01A7, .exit=0x0E};
-        return true;
-      }
+      data->flag = bt_flags.jrl_mumbo;
+      data->visited = bt_fake_flags.jrl_mumbo;
+      data->respawn = (bt_respawn_point_t){.map=0x01A7, .exit=0x0E};
       break;
     // TERRYDACTYLAND
     case 0x0112: // TDL
@@ -1280,18 +1284,16 @@ bool ap_can_transform_mumbo(u16 map, bt_respawn_point_t* respawn) {
     case 0x0114: // TDL - Train Station
     case 0x011E: // TDL - Wumba's Wigwam, Small
     case 0x0122: // TDL - Wumba's Wigwam, Big
-      if (bt_flags.tdl_mumbo && bt_fake_flags.tdl_mumbo) {
-        *respawn = (bt_respawn_point_t){.map=0x0112, .exit=0x04};
-        return true;
-      }
+      data->flag = bt_flags.tdl_mumbo;
+      data->visited = bt_fake_flags.tdl_mumbo;
+      data->respawn = (bt_respawn_point_t){.map=0x0112, .exit=0x04};
       break;
     // GRUNTY INDUSTRIES
     case 0x0108: // GI - Floor 3
     case 0x010B: // GI - Floor 4
-      if (bt_flags.gi_mumbo && bt_fake_flags.gi_mumbo) {
-        *respawn = (bt_respawn_point_t){.map=0x0108, .exit=0x0A};
-        return true;
-      }
+      data->flag = bt_flags.gi_mumbo;
+      data->visited = bt_fake_flags.gi_mumbo;
+      data->respawn = (bt_respawn_point_t){.map=0x0108, .exit=0x0A};
       break;
     // HAILFIRE PEAKS
     case 0x0131: // HFP - Boggy's Igloo
@@ -1300,29 +1302,28 @@ bool ap_can_transform_mumbo(u16 map, bt_respawn_point_t* respawn) {
     case 0x012D: // HFP - Kickball Stadium lobby
     case 0x0127: // HFP - Lava Side
     case 0x0135: // HFP - Wumba's Wigwam
-      if (bt_flags.hfp_mumbo && bt_fake_flags.hfp_mumbo) {
-        *respawn = (bt_respawn_point_t){.map=0x0127, .exit=0x03};
-        return true;
-      }
+      data->flag = bt_flags.hfp_mumbo;
+      data->visited = bt_fake_flags.hfp_mumbo;
+      data->respawn = (bt_respawn_point_t){.map=0x0127, .exit=0x03};
       break;
     // CLOUD CUCKOOLAND
     case 0x0136: // CCL
     case 0x013A: // CCL - Central Cavern
     case 0x0140: // CCL - Wumba's Wigwam
-      if (bt_flags.ccl_mumbo && bt_fake_flags.ccl_mumbo) {
-        *respawn = (bt_respawn_point_t){.map=0x0136, .exit=0x16};
-        if (bt_flags.ccl_mumbo_location == 1) respawn->exit = 0x09;
-        return true;
-      }
+      data->flag = bt_flags.ccl_mumbo;
+      data->visited = bt_fake_flags.ccl_mumbo;
+      data->respawn = (bt_respawn_point_t){.map=0x0136, .exit=0x16};
+      if (bt_flags.ccl_mumbo_location == 1) data->respawn.exit = 0x09;
       break;
   }
-  return false;
+  data->form = BT_PLAYER_CHAR_MUMBO;
+  data->allowed = data->flag && data->visited;
+  return data->allowed;
 }
 
-bool ap_cycle_character() {
-  u16 to_form = 0;
+bool ap_cycle_character(ap_can_transform_t* data) {
+  data->map = bt_current_map;
   u16 from_form = bt_player_chars.control_type;
-  bt_respawn_point_t respawn = {0, };
   bool in_water = bt_fn_character_in_water(bt_current_player_char);
   if (
        ap.fn_trap
@@ -1333,10 +1334,13 @@ bool ap_cycle_character() {
   switch (bt_player_chars.control_type) {
     case BT_PLAYER_CHAR_BANJO_KAZOOIE:
       if (
-        ap_can_transform_humba(bt_current_map, &respawn, &to_form)
-        && to_form == BT_PLAYER_CHAR_SUB && !in_water
-      ) to_form = 0;
-      if (!to_form && ap_can_transform_mumbo(bt_current_map, &respawn)) to_form = BT_PLAYER_CHAR_MUMBO;
+        ap_can_transform_humba(data)
+        && data->form == BT_PLAYER_CHAR_SUB && !in_water
+      ) data->allowed = 0;
+      if (!data->allowed) {
+        ap_can_transform_t _data = *data;
+        if (ap_can_transform_mumbo(&_data) || !data->flag) *data = _data;
+      }
       break;
     case BT_PLAYER_CHAR_SNOWBALL:
     case BT_PLAYER_CHAR_BEE:
@@ -1347,32 +1351,31 @@ bool ap_cycle_character() {
     case BT_PLAYER_CHAR_VAN:
     case BT_PLAYER_CHAR_TREX:
     case BT_PLAYER_CHAR_DADDY_TREX:
-      if (!ap_can_transform_humba(bt_current_map, &respawn, &to_form)) return false;
-      if (!ap_can_transform_mumbo(bt_current_map, &respawn)) to_form = BT_PLAYER_CHAR_BANJO_KAZOOIE;
-      else to_form = BT_PLAYER_CHAR_MUMBO;
+      if (!ap_can_transform_humba(data)) return false;
+      if (!ap_can_transform_mumbo(data)) data->form = BT_PLAYER_CHAR_BANJO_KAZOOIE;
       break;
     case BT_PLAYER_CHAR_MUMBO:
-      if (!ap_can_transform_mumbo(bt_current_map, &respawn)) return false;
-      to_form = BT_PLAYER_CHAR_BANJO_KAZOOIE;
+      if (!ap_can_transform_mumbo(data)) return false;
+      data->form = BT_PLAYER_CHAR_BANJO_KAZOOIE;
       break;
   }
-  if (!to_form) return false;
-  if (to_form == BT_PLAYER_CHAR_BANJO_KAZOOIE) ap.fake_transform = 0;
+  if (!data->allowed) return false;
+  if (data->form == BT_PLAYER_CHAR_BANJO_KAZOOIE) ap.fake_transform = 0;
   else ap.fake_transform = 1;
-  if (from_form != to_form) {
+  if (from_form != data->form) {
     if (from_form == BT_PLAYER_CHAR_BANJO_KAZOOIE) {
       bt_respawn_point[1] = bt_respawn_point[0];
-      bt_respawn_point[0] = respawn;
+      bt_respawn_point[0] = data->respawn;
     }
-    else if (to_form == BT_PLAYER_CHAR_BANJO_KAZOOIE) {
+    else if (data->form == BT_PLAYER_CHAR_BANJO_KAZOOIE) {
       bt_respawn_point[0] = bt_respawn_point[1];
       bt_respawn_point[1] = (bt_respawn_point_t){0, };
     }
-    else bt_respawn_point[0] = respawn;
-    bt_fn_change_character(bt_current_player_char, to_form);
+    else bt_respawn_point[0] = data->respawn;
+    bt_fn_change_character(bt_current_player_char, data->form);
     bt_fn_sparkle(bt_current_player_char->pos, 10);
     BT_FPS = (ap.smooth_banjo && bt_player_chars.control_type != BT_PLAYER_CHAR_WASHER) ? 1 : 2;
-    switch (to_form) {
+    switch (data->form) {
       case BT_PLAYER_CHAR_STONY:
         if (bt_current_map == BT_MAP_MT) {
           s32 object_count = 0;
@@ -1437,7 +1440,20 @@ void ap_check() {
     ap_check_enough_notes(total_notes, save_totals(6));
     ap_sync_traps();
     if (!bt_controllers[0].held.l && bt_controllers[0].pressed.dleft) {
-      if (!ap_cycle_character()) bt_fn_play_sound(BT_SOUND_WRONG, -1, 1, -1);
+      ap_can_transform_t data;
+      if (!ap_cycle_character(&data)) {
+        bt_fn_play_sound(BT_SOUND_WRONG, -1, 1, -1);
+        if (data.flag && !data.visited) {
+          if (data.form == BT_PLAYER_CHAR_MUMBO) {
+            ap.internal_icon = BT_ZOOMBOX_ICON_MUMBO;
+            strcpy(ap.internal_message, "ENTER MUMBO'S SKULL AS BEAR AND BIRD FIRST...");
+          }
+          else {
+            ap.internal_icon = BT_ZOOMBOX_ICON_HUMBA;
+            strcpy(ap.internal_message, "ENTER WUMBA'S WIGWAM AS BEAR AND BIRD FIRST...");
+          }
+        }
+      }
     }
   }
   if (bt_player_chars.died) {
