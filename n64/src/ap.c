@@ -1352,7 +1352,10 @@ bool ap_cycle_character(ap_can_transform_t* data) {
     case BT_PLAYER_CHAR_TREX:
     case BT_PLAYER_CHAR_DADDY_TREX:
       if (!ap_can_transform_humba(data)) return false;
-      if (!ap_can_transform_mumbo(data)) data->form = BT_PLAYER_CHAR_BANJO_KAZOOIE;
+      if (!ap_can_transform_mumbo(data)) {
+        data->allowed = 1;
+        data->form = BT_PLAYER_CHAR_BANJO_KAZOOIE;
+      }
       break;
     case BT_PLAYER_CHAR_MUMBO:
       if (!ap_can_transform_mumbo(data)) return false;
