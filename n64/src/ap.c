@@ -802,16 +802,45 @@ bool ap_trap_squish(bool checking) {
   return false;
 }
 
-void ap_sync_traps() {
+bool ap_in_minigame() {
   switch (bt_current_map) {
-    case BT_MAP_CCL_MINIGAME_CANARY_MARY:
+    case BT_MAP_MT_MINIGAME_KICKBALL1:
+    case BT_MAP_MT_MINIGAME_KICKBALL2:
+    case BT_MAP_MT_MINIGAME_KICKBALL3:
+    case BT_MAP_MT_MINIGAME_KICKBALL4:
     case BT_MAP_GGM_MINIGAME_CANARY_MARY1:
     case BT_MAP_GGM_MINIGAME_CANARY_MARY2:
-      return;
+    case BT_MAP_WW_MINIGAME_DODGEM1:
+    case BT_MAP_WW_MINIGAME_DODGEM2:
+    case BT_MAP_WW_MINIGAME_DODGEM3:
+    case BT_MAP_WW_MINIGAME_DODGEM4:
+    // case BT_MAP_WW_MINIGAME_BALLOON_BURST:
+    // case BT_MAP_WW_MINIGAME_HOOP_HURRY:
+    case BT_MAP_WW_MINIGAME_UFO_WW:
+    case BT_MAP_WW_MINIGAME_UFO_CRAZY_CASTLE:
+    case BT_MAP_WW_MINIGAME_UFO_STAR_SPINNER:
+    case BT_MAP_JRL_MINIGAME_SUB:
+    // case BT_MAP_TDL_MINIGAME_CHOMPA:
+    case BT_MAP_GI_MINIGAME_PACKING:
+    case BT_MAP_HFP_MINIGAME_KICKBALL1:
+    case BT_MAP_HFP_MINIGAME_KICKBALL2:
+    case BT_MAP_HFP_MINIGAME_KICKBALL3:
+    case BT_MAP_HFP_MINIGAME_KICKBALL4:
+    case BT_MAP_CCL_MINIGAME_CANARY_MARY:
+    // case BT_MAP_CCL_MINIGAME_POT_O_GOLD:
+    case BT_MAP_CCL_MINIGAME_ZUBBAS_NEST:
+    // case BT_MAP_CCL_MINIGAME_TRASH_CAN:
+      return true;
+    default:
+      return false;
   }
+}
+
+void ap_sync_traps() {
   if (
        bt_loading_map.loading
     || bt_player_chars.died
+    || ap_in_minigame()
     || !bt_fn_character_enemy_can_target(bt_player_chars.control_index)
     || BT_IS_PAUSED
   ) return;
@@ -1048,7 +1077,7 @@ void ap_update() {
             bt_respawn_point[1] = bt_respawn_point[0];
             bt_respawn_point[0] = (bt_respawn_point_t){.map=0x0106, .exit=0x0A};
             break;
-          case (BT_MAP_CCL_ZUBBAS_NEST << 8) | 0x01:
+          case (BT_MAP_CCL_MINIGAME_ZUBBAS_NEST << 8) | 0x01:
             bt_fn_change_character(bt_current_player_char, BT_PLAYER_CHAR_BEE);
             ap.fake_transform = 1;
             bt_respawn_point[1] = bt_respawn_point[0];
@@ -1415,7 +1444,7 @@ void ap_check() {
     && !bt_player_chars.died && !bt_loading_map.loading
   ) {
     if (ap.load_file) ap_load_file();
-    if (ap_memory.n64.misc.death_link_ap != ap_memory.pc.misc.death_link_ap) {
+    if (ap_memory.n64.misc.death_link_ap != ap_memory.pc.misc.death_link_ap && !ap_in_minigame()) {
       switch (bt_player_chars.control_type) {
         case BT_PLAYER_CHAR_CLOCKWORK:
           bt_fn_hurt_player(bt_player_chars.control_index);

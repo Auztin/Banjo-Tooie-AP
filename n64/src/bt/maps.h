@@ -45,10 +45,10 @@ enum {
   BT_MAP_0x0BC, // MT - Code Chamber
   BT_MAP_0x0C4 = 0x0C4, // MT - Jade Snake Grove
   BT_MAP_0x0C5, // MT - Treasure Chamber
-  BT_MAP_0x0C6, // MT - Kickball Arena 1
+  BT_MAP_MT_MINIGAME_KICKBALL1, // MT - Kickball Arena 1
   BT_MAP_0x0C7, // GGM
-  BT_MAP_0x0C8, // MT - Kickball Arena 2
-  BT_MAP_0x0C9, // MT - Kickball Arena 3
+  BT_MAP_MT_MINIGAME_KICKBALL2, // MT - Kickball Arena 2
+  BT_MAP_MT_MINIGAME_KICKBALL3, // MT - Kickball Arena 3
   BT_MAP_0x0CA, // GGM - Fuel Depot
   BT_MAP_0x0CB, // GGM - Crushing Shed
   BT_MAP_0x0CC, // GGM - Flooded Caves
@@ -69,14 +69,14 @@ enum {
   BT_MAP_0x0DB, // GGM - Canary Cave
   BT_MAP_0x0DC, // GGM - Ordnance Storage
   BT_MAP_0x0DD, // WW - Dodgem Dome Lobby
-  BT_MAP_0x0DE, // WW - Dodgem Challenge 1 vs 1
-  BT_MAP_0x0DF, // WW - Dodgem Challenge 2 vs 1
-  BT_MAP_0x0E0, // WW - Dodgem Challenge 3 vs 1
+  BT_MAP_WW_MINIGAME_DODGEM1, // WW - Dodgem Challenge 1 vs 1
+  BT_MAP_WW_MINIGAME_DODGEM2, // WW - Dodgem Challenge 2 vs 1
+  BT_MAP_WW_MINIGAME_DODGEM3, // WW - Dodgem Challenge 3 vs 1
   BT_MAP_0x0E1, // WW - Crazy Castle Stockade
   BT_MAP_0x0E2, // WW - Crazy Castle Lobby
   BT_MAP_0x0E3, // WW - Crazy Castle Pump Room
-  BT_MAP_0x0E4, // WW - Balloon Burst Game
-  BT_MAP_0x0E5, // WW - Hoop Hurry
+  BT_MAP_WW_MINIGAME_BALLOON_BURST, // WW - Balloon Burst Game
+  BT_MAP_WW_MINIGAME_HOOP_HURRY, // WW - Hoop Hurry
   BT_MAP_0x0E6, // WW - Star Spinner
   BT_MAP_0x0E7, // WW - The Inferno
   BT_MAP_GGM_HUMBA = 0x0E9, // GGM - Wumba's Wigwam
@@ -105,7 +105,7 @@ enum {
   BT_MAP_0x107, // GI - Floor 2 (Electromagnet Chamber)
   BT_MAP_GI_FLOOR3, // GI - Floor 3
   BT_MAP_0x109, // GI - Floor 3 (Boiler Plant)
-  BT_MAP_0x10A, // GI - Floor 3 (Packing Room)
+  BT_MAP_GI_MINIGAME_PACKING, // GI - Floor 3 (Packing Room)
   BT_MAP_GI_FLOOR4, // GI - Floor 4
   BT_MAP_0x10C, // GI - Floor 4 (Cable Room)
   BT_MAP_0x10D, // GI - Floor 4 (Quality Control)
@@ -128,8 +128,8 @@ enum {
   BT_MAP_JRL_HUMBA, // JRL - Wumba's Wigwam
   BT_MAP_0x121, // GGM - Inside Chuffy's Wagon
   BT_MAP_TDL_HUMBA_ENLARGED, // TDL - Wumba's Wigwam (Big)
-  BT_MAP_0x123, // TDL - Inside Chompa's Belly
-  BT_MAP_0x124, // WW - Saucer of Peril
+  BT_MAP_TDL_MINIGAME_CHOMPA, // TDL - Inside Chompa's Belly
+  BT_MAP_WW_MINIGAME_UFO_WW, // WW - Saucer of Peril
   BT_MAP_0x125, // GI - Water Supply Pipe
   BT_MAP_0x126, // GGM - Water Supply Pipe
   BT_MAP_0x127, // HFP - Lava Side
@@ -139,22 +139,22 @@ enum {
   BT_MAP_0x12B, // HFP - Chilli Billi
   BT_MAP_0x12C, // HFP - Chilly Willy
   BT_MAP_0x12D, // HFP - Kickball Stadium lobby
-  BT_MAP_0x12E, // HFP - Kickball Stadium 1
-  BT_MAP_0x12F, // HFP - Kickball Stadium 2
-  BT_MAP_0x130, // HFP - Kickball Stadium 3
+  BT_MAP_HFP_MINIGAME_KICKBALL1, // HFP - Kickball Stadium 1
+  BT_MAP_HFP_MINIGAME_KICKBALL2, // HFP - Kickball Stadium 2
+  BT_MAP_HFP_MINIGAME_KICKBALL3, // HFP - Kickball Stadium 3
   BT_MAP_0x131, // HFP - Boggy's Igloo
   BT_MAP_0x132, // HFP - Icicle Grotto
   BT_MAP_0x133, // HFP - Inside the Volcano
   BT_MAP_HFP_MUMBO, // HFP - Mumbo's Skull
   BT_MAP_HFP_HUMBA, // HFP - Wumba's Wigwam
   BT_MAP_CCL, // CCL
-  BT_MAP_0x137, // CCL - Inside the Trash Can
+  BT_MAP_CCL_MINIGAME_TRASH_CAN, // CCL - Inside the Trash Can
   BT_MAP_0x138, // CCL - Inside the Cheese Wedge
-  BT_MAP_CCL_ZUBBAS_NEST, // CCL - Zubbas' Nest
+  BT_MAP_CCL_MINIGAME_ZUBBAS_NEST, // CCL - Zubbas' Nest
   BT_MAP_0x13A, // CCL - Central Cavern
-  BT_MAP_0x13B, // WW - Crazy Castle Stockade (Saucer)
-  BT_MAP_0x13C, // WW - Star Spinner (Saucer)
-  BT_MAP_0x13D, // CCL - Inside the Pot o' Gold
+  BT_MAP_WW_MINIGAME_UFO_CRAZY_CASTLE, // WW - Crazy Castle Stockade (Saucer)
+  BT_MAP_WW_MINIGAME_UFO_STAR_SPINNER, // WW - Star Spinner (Saucer)
+  BT_MAP_CCL_MINIGAME_POT_O_GOLD, // CCL - Inside the Pot o' Gold
   BT_MAP_CCL_MUMBO, // CCL - Mumbo's Skull
   BT_MAP_CCL_MINGY_JONGO, // CCL - Mingy Jongo's Skull
   BT_MAP_CCL_HUMBA, // CCL - Wumba's Wigwam
@@ -213,13 +213,13 @@ enum {
   BT_MAP_0x17C, // WW - Hoop Hurry (multiplayer)
   BT_MAP_0x17D, // GI - Packing Game
   BT_MAP_0x17E, // Cutscene - Zombified Throne Room
-  BT_MAP_0x17F, // MT - Kickball Arena 4
-  BT_MAP_0x180, // HFP - Kickball Arena
-  BT_MAP_0x181, // JRL - Sea Bottom Cavern
+  BT_MAP_MT_MINIGAME_KICKBALL4, // MT - Kickball Arena 4
+  BT_MAP_HFP_MINIGAME_KICKBALL4, // HFP - Kickball Arena
+  BT_MAP_JRL_MINIGAME_SUB, // JRL - Sea Bottom Cavern
   BT_MAP_0x182, // JRL - Sub Shootout (multiplayer)
   BT_MAP_0x183, // TDL - Chompa's Belly Shootout (multiplayer)
   BT_MAP_0x185 = 0x185, // CCL - Trash Can Mini
-  BT_MAP_0x186, // WW - Dodgems
+  BT_MAP_WW_MINIGAME_DODGEM4, // WW - Dodgems
   BT_MAP_0x187, // GI - Sewer Entrance
   BT_MAP_0x188, // CCL - Zubbas' Nest (multiplayer)
   BT_MAP_0x189, // CK - Tower of Tragedy Quiz (Multiplayer)
