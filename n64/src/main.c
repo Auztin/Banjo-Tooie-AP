@@ -5,6 +5,7 @@
 #include "ap.h"
 #include "ap_menu.h"
 #include "custom_flags/all.h"
+#include "debug/debug.h"
 
 #include <string.h>
 #include <stdlib.h>
@@ -61,6 +62,7 @@ struct main_credit_lines_t {
 };
 
 void post_draw_hud(bt_draw_ctx_t* draw_ctx) {
+  debug_draw(draw_ctx);
   ap_draw_hud(draw_ctx);
   ap_menu_draw(draw_ctx);
   if (bt_current_map == BT_MAP_TITLE_SCREEN) {
@@ -231,6 +233,7 @@ void pre_spawn_prop(u16* id, bt_s32_xyz_t* pos, u32* yrot, bt_obj_setup_t* setup
 }
 
 void post_spawn_prop(u16 id, bt_s32_xyz_t* pos, u32 yrot, bt_obj_setup_t* setup, bt_obj_instance_t* obj) {
+  debug_spawn_prop(id, pos, yrot, setup, obj);
   if (!obj || !BT_IN_GAME) return;
   if (setup && setup_cache_count < sizeof(setup_cache)/sizeof(*setup_cache)) setup_cache[setup_cache_count++] = *setup;
 }
@@ -247,6 +250,7 @@ void pre_loop() {
 }
 
 void post_loop() {
+  debug_loop();
   if (BT_IN_GAME) ap_check();
   if (bt_current_map != ap_memory.n64.misc.current_map) {
     ap_memory.n64.misc.current_map = bt_current_map;
@@ -287,6 +291,7 @@ void main_visited_world(u16 scene) {
 }
 
 void pre_load_scene(u16 *scene, u16 *exit) {
+  debug_load_scene(scene, exit);
   setup_cache_count = 0;
   if (!BT_IN_GAME && bt_current_map != BT_MAP_FILE_SELECT) {
     if (*scene == BT_MAP_FILE_SELECT) {
