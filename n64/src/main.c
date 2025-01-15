@@ -12,6 +12,21 @@
 
 main_t main = {0, };
 
+bt_obj_setup_t setup_cache[512];
+u32 setup_cache_count;
+
+struct main_credit_lines_t {
+  s16 icon;
+  char name[20];
+} main_credit_lines[] = {
+  {.icon=BT_ZOOMBOX_ICON_KAZOOIE_HIGH_PITCHED, .name="G0GOTBC..."},
+  {.icon=BT_ZOOMBOX_ICON_BOGGY, .name="FHNNHF..."},
+  {.icon=BT_ZOOMBOX_ICON_EVIL_BOTTLES, .name="AUSTIN..."},
+  {.icon=BT_ZOOMBOX_ICON_CANARY_MARY, .name="UNALIVE..."},
+  {.icon=BT_ZOOMBOX_ICON_SAFE, .name="OZONE..."},
+  {.icon=BT_ZOOMBOX_ICON_WELDAR, .name="AND JJJJ12212   "},
+};
+
 void pre_init() {
   main.is_emulator = io_read(0xA4100010) == 0 ? 1 : 0;
   ap.trap_type = AP_TRAP_MAX;
@@ -48,18 +63,6 @@ void post_draw_objects(u8 type, bt_draw_ctx_t* draw_ctx) {
 void pre_draw_hud(bt_draw_ctx_t* draw_ctx) {
 
 }
-
-struct main_credit_lines_t {
-  s16 icon;
-  char name[20];
-} main_credit_lines[] = {
-  {.icon=BT_ZOOMBOX_ICON_KAZOOIE_HIGH_PITCHED, .name="G0GOTBC..."},
-  {.icon=BT_ZOOMBOX_ICON_BOGGY, .name="FHNNHF..."},
-  {.icon=BT_ZOOMBOX_ICON_EVIL_BOTTLES, .name="AUSTIN..."},
-  {.icon=BT_ZOOMBOX_ICON_CANARY_MARY, .name="UNALIVE..."},
-  {.icon=BT_ZOOMBOX_ICON_SAFE, .name="OZONE..."},
-  {.icon=BT_ZOOMBOX_ICON_WELDAR, .name="AND JJJJ12212   "},
-};
 
 void post_draw_hud(bt_draw_ctx_t* draw_ctx) {
   debug_draw(draw_ctx);
@@ -156,9 +159,6 @@ void post_draw_hud(bt_draw_ctx_t* draw_ctx) {
     }
   }
 }
-
-bt_obj_setup_t setup_cache[512];
-u32 setup_cache_count;
 
 void pre_spawn_prop(u16* id, bt_s32_xyz_t* pos, u32* yrot, bt_obj_setup_t* setup) {
   if (!BT_IN_GAME) return;
@@ -784,7 +784,7 @@ bool main_collected_nest(bt_obj_instance_t* obj) {
   if (ap_memory.pc.settings.randomize_nests) {
     s32 flag = custom_flag_nest(bt_current_map, obj->id);
     if (flag >= 0) {
-      bool collected = save_custom_set_bit(save_data.custom[bt_save_slot].nests, flag);
+      bool collected = save_custom_set_bit(bt_custom_save.nests, flag);
       if (!collected) {
         bt_fn_play_sound(BT_SOUND_COLLECTED_ITEM1, -1, 1, -1);
         bt_fn_sparkle(&obj->pos, 5);
@@ -1002,7 +1002,11 @@ void pre_object_init(bt_object_t *obj) {
       break;
     case BT_OBJ_STOMPONADON:
       if (bt_current_map == BT_MAP_STOMPING_PLAINS) break;
-      util_inject(UTIL_INJECT_JUMP, (u32)obj + 0x04B8, (u32)ap_stomponadon_stomp, 1);
+      util_inject(UTIL_INJECT_JUMP    , (u32)obj + 0x04B8, (u32)ap_stomponadon_stomp, 1);
+      break;
+    case BT_OBJ_SIGNPOST:
+      if (!ap_memory.pc.settings.signpost_hints) break;
+      util_inject(UTIL_INJECT_JUMP    , (u32)obj + 0x02D4, (u32)ap_signpost_dialog, 1);
       break;
   }
 }

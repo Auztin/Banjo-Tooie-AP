@@ -17,7 +17,7 @@ ARMIPS:= armips
 ED64ROMCONFIG:= ed64romconfig
 
 CFLAGS:= -O1 -G0 -fno-reorder-blocks -march=vr4300 -mtune=vr4300 -mno-gpopt -mdivide-breaks -mexplicit-relocs -msoft-float
-CFLAGS+= -I $(SHARED)/include -I $(SRCDIR)
+CFLAGS+= -I $(SHARED)/include -I $(SRCDIR) -D NDEBUG
 CPPFLAGS:= -DF3DEX_GBI_2
 LDFLAGS:= -L .
 LDFLAGS+= -L $(TOOLSDIR)/mips64/opt/libdragon/mips64-elf/lib/soft-float

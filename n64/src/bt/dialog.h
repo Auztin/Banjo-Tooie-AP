@@ -1,6 +1,8 @@
 #ifndef BT_DIALOG_H
 #define BT_DIALOG_H
 
+#define BT_DIALOG_CAN_SHOW (*(u8*)0x80128A30)
+
 typedef struct {
   u32 textObjectPtr; // pointer to current object that keeps track of text print progress
   u32 _unknown1[15];

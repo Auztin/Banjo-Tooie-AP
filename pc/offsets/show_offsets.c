@@ -16,6 +16,7 @@ int main() {
   printf("        pc_death_ap = 0x%X,\n",                 calc(mem.pc.misc, mem.pc.misc.death_link_ap));
   printf("        pc_show_txt = 0x%X,\n",                 calc(mem.pc.misc, mem.pc.misc.show_message));
   printf("    pc_messages = 0x%X,\n",                     calc(ptr, ptr.pc_message));
+  printf("    signpost_messages = 0x%X,\n",               calc(ptr, ptr.signpost_messages));
   printf("    pc_settings = 0x%X,\n",                     calc(ptr, ptr.pc_settings));
   printf("        setting_seed = 0x%X,\n",                calc(mem.pc.settings, mem.pc.settings.seed));
   printf("        setting_victory_condition = 0x%X,\n",   calc(mem.pc.settings, mem.pc.settings.victory_condition));
@@ -28,6 +29,7 @@ int main() {
   printf("        setting_minigames = 0x%X,\n",           calc(mem.pc.settings, mem.pc.settings.speed_up_minigames));
   printf("        setting_dialog_character = 0x%X,\n",    calc(mem.pc.settings, mem.pc.settings.dialog_character));
   printf("        setting_max_mumbo_tokens = 0x%X,\n",    calc(mem.pc.settings, mem.pc.settings.max_mumbo_tokens));
+  printf("        setting_signpost_hints = 0x%X,\n",      calc(mem.pc.settings, mem.pc.settings.signpost_hints));
   printf("        setting_jiggy_requirements = 0x%X,\n",  calc(mem.pc.settings, mem.pc.settings.jiggy_requirements));
   printf("        setting_open_silos = 0x%X,\n",          calc(mem.pc.settings, mem.pc.settings.open_silos));
   printf("        setting_silo_requirements = 0x%X,\n",   calc(mem.pc.settings, mem.pc.settings.silo_requirements));

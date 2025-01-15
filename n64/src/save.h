@@ -29,6 +29,7 @@ typedef struct Save_Data_s {
     save_data_totals_t totals;
     u8 traps[AP_TRAP_MAX];
     u8 nests[60];
+    u8 signposts[8];
     u8 golden_egg_nests;
     u8 egg_nests;
     u8 feather_nests;

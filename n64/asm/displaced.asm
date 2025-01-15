@@ -23,6 +23,16 @@ J 0x80087B08
 SW V0, 0x0010 (SP)
 
 .align 0x08
+bt_fn_zoombox_dialog_options:
+LUI AT, 0x3ECC
+ADDIU AT, AT, 0xCCCD
+SW AT, 0x0010 (SP)
+ADDIU AT, R0, 0x0001
+SW AT, 0x0014 (SP)
+J 0x80087B80
+SW R0, 0x0018 (SP)
+
+.align 0x08
 inject_load_scene_displaced:
 ADDIU SP, SP, -0x20
 J 0x800A72AC

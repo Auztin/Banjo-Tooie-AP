@@ -3,6 +3,7 @@
 #include "save.h"
 #include "usb.h"
 #include "main.h"
+#include "custom_flags/all.h"
 #include <string.h>
 
 ap_t ap = {0, };
@@ -925,6 +926,7 @@ bool ap_stomponadon_stomp(bt_obj_instance_t* dinofoot) {
 
 void ap_draw_hud(bt_draw_ctx_t* draw_ctx) {
   if (ap.zoombox) bt_fn_zoombox_draw(ap.zoombox, draw_ctx);
+  if (ap.zb_signpost) bt_fn_zoombox_draw(ap.zb_signpost, draw_ctx);
 }
 
 bool ap_prepare_message(char* message) {
@@ -995,7 +997,7 @@ void ap_update() {
     }
     else if (bt_fn_transition_done()) {
       bt_fn_zoombox_update(ap.zoombox);
-      bool show = !bt_temp_flags.in_cutscene && !bt_dialog.textObjectPtr && !bt_loading_map.loading && !bt_player_chars.died;
+      bool show = !bt_temp_flags.in_cutscene && !bt_dialog.textObjectPtr && !bt_loading_map.loading && !bt_player_chars.died && !ap.zb_signpost;
       if (!show) {
         if (ap.zoombox_ready) {
           bt_fn_zoombox_clear_text(ap.zoombox);
@@ -1039,6 +1041,31 @@ void ap_update() {
           ap.zoombox_ready = 0;
           break;
       }
+    }
+  }
+  if (ap.zb_signpost) {
+    bt_fn_zoombox_update(ap.zb_signpost);
+    switch (bt_fn_zoombox_state(ap.zb_signpost)) {
+      case BT_ZOOMBOX_STATE_READY:
+        bt_fn_zoombox_open(ap.zb_signpost);
+        bt_fn_zoombox_append_text(ap.zb_signpost, ap_memory.pc.signposts[ap.signpost]);
+        break;
+      case BT_ZOOMBOX_STATE_OPENED:
+        if (bt_controllers[0].pressed.b) bt_fn_zoombox_close(ap.zb_signpost);
+        break;
+      case BT_ZOOMBOX_STATE_TEXT_PRINTED:
+        bt_fn_zoombox_close(ap.zb_signpost);
+        break;
+      case BT_ZOOMBOX_STATE_CLOSED:
+        bt_fn_zoombox_leave(ap.zb_signpost);
+        break;
+      case BT_ZOOMBOX_STATE_DONE:
+        bt_fn_zoombox_free(ap.zb_signpost);
+        bt_fn_character_stop_lookat(bt_player_chars.control_index, 0);
+        BT_DIALOG_CAN_SHOW = 1;
+        ap.zb_signpost = 0;
+        ap.signpost = -1;
+        break;
     }
   }
   if (bt_loading_map.loading) {
@@ -1435,6 +1462,23 @@ bool ap_cycle_character(ap_can_transform_t* data) {
     return true;
   }
   return false;
+}
+
+void ap_signpost_dialog(bt_obj_instance_t* obj) {
+  obj->obj_state = 4;
+  if (!BT_DIALOG_CAN_SHOW) return;
+  ap.signpost = custom_flag_signpost(bt_current_map, obj->id);
+  if (ap.signpost >= 0) {
+    save_custom_set_bit(bt_custom_save.signposts, ap.signpost);
+    u8 icon = ap_memory.pc.settings.dialog_character;
+    if (icon == 110) icon = BT_ZOOMBOX_ICON_GRUNTY;
+    else if (icon >= sizeof(ap_dialog_icons)) icon = ap_dialog_icons[BT_RANDOM % sizeof(ap_dialog_icons)];
+    ap.zb_signpost = bt_fn_zoombox_new(28, icon, 0, 1);
+    bt_fn_zoombox_init(ap.zb_signpost);
+    bt_fn_zoombox_dialog_options(ap.zb_signpost, 15, 5, 2);
+    bt_fn_character_start_lookat(bt_player_chars.control_index, 3, &obj->pos);
+    BT_DIALOG_CAN_SHOW = 0;
+  }
 }
 
 void ap_check() {

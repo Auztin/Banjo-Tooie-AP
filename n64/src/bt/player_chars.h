@@ -81,6 +81,12 @@ typedef bool (*bt_fnt_character_transform)(u32 control_index, u8 character);
 typedef bool (*bt_fnt_character_enemy_can_target)(u32 control_index);
 #define bt_fn_character_enemy_can_target ((bt_fnt_character_enemy_can_target)0x800F6478)
 
+typedef void (*bt_fnt_character_start_lookat)(u32 control_index, u8 type, bt_xyz_t* pos);
+#define bt_fn_character_start_lookat ((bt_fnt_character_start_lookat)0x800F8300)
+
+typedef void (*bt_fnt_character_stop_lookat)(u32 control_index, u8 type);
+#define bt_fn_character_stop_lookat ((bt_fnt_character_stop_lookat)0x800F82D4)
+
 #define bt_fn_change_character(character, type) ({                                  \
   bt_fn_set_character(character, type);                                             \
   bt_fn_load_character_model(character);                                            \

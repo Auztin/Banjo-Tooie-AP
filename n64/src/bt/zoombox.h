@@ -8,11 +8,12 @@ typedef struct {
 } bt_zoombox_t;
 
 extern bt_zoombox_t* bt_fn_zoombox_new(u16 y, u16 icon, u8 unknown, bool flipped); // unknown == 2 == no audio
+extern bt_zoombox_t* bt_fn_zoombox_dialog_options(bt_zoombox_t*, float text_speed, u8, u8); // 15, 5, 2
 
 typedef void (*bt_fnt_zoombox_text_speed)(bt_zoombox_t*, float); // higher is faster
 #define bt_fn_zoombox_text_speed ((bt_fnt_zoombox_text_speed)0x80087C28)
 
-typedef void (*bt_fnt_zoombox_background_speed)(bt_zoombox_t*, float); // higher is slower
+typedef void (*bt_fnt_zoombox_background_speed)(bt_zoombox_t*, float); // 0.6666668 higher is slower
 #define bt_fn_zoombox_background_speed ((bt_fnt_zoombox_background_speed)0x80087C30)
 
 typedef void (*bt_fnt_zoombox_x_size_length)(bt_zoombox_t*, u16 x, float size, float length);

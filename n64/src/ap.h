@@ -18,7 +18,9 @@ typedef struct {
   u8 internal_icon;
   u8 zb_icon;
   u8 message_lines;
+  s8 signpost;
   bt_zoombox_t* zoombox;
+  bt_zoombox_t* zb_signpost;
   char* messages[5];
   char message[508];
   char internal_message[508];
@@ -36,6 +38,7 @@ u32 ap_ground_info(bt_player_t* character);
 bool ap_stomponadon_stomp(bt_obj_instance_t* dinofoot);
 void ap_draw_hud(bt_draw_ctx_t* draw_ctx);
 void ap_update();
+void ap_signpost_dialog();
 void ap_check();
 void ap_new_file();
 void ap_load_file();

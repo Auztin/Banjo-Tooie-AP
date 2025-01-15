@@ -31,6 +31,7 @@ typedef struct {
     135 = A
   */
   u8 message[508];
+  u8 signposts[61][150];
   struct {
     u32 seed;
     u8 victory_condition;
@@ -43,6 +44,7 @@ typedef struct {
     u8 speed_up_minigames;
     u8 dialog_character;
     u8 max_mumbo_tokens;
+    u8 signpost_hints;
     u8 jiggy_requirements[11];
     u8 open_silos[AP_SILO_MAX];
     u16 silo_requirements[24];
