@@ -16,7 +16,7 @@ void debug_loop() {
 }
 
 void debug_load_scene(u16* scene, u16* exit) {
-  debug_load_scene(scene, exit);
+  debug_warp_to_load_scene(scene, exit);
 }
 
 #endif // NDEBUG
