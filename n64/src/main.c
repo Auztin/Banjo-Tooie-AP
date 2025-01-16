@@ -236,6 +236,14 @@ void post_spawn_prop(u16 id, bt_s32_xyz_t* pos, u32 yrot, bt_obj_setup_t* setup,
   debug_spawn_prop(id, pos, yrot, setup, obj);
   if (!obj || !BT_IN_GAME) return;
   if (setup && setup_cache_count < sizeof(setup_cache)/sizeof(*setup_cache)) setup_cache[setup_cache_count++] = *setup;
+  switch (id) {
+    case BT_SETUP_JIGGYWIGGY:
+      if (ap_memory.pc.settings.signpost_hints && ap_memory.pc.settings.skip_puzzles) obj->state = 7;
+      break;
+    case BT_SETUP_JIGGYWIGGY_TEMPLE:
+      if (ap_memory.pc.settings.signpost_hints) obj->state = 7;
+      break;
+  }
 }
 
 void pre_loop() {

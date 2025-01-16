@@ -45,6 +45,9 @@ typedef struct {
 #define BT_OBJ_STOMPONADON          0x0109
 #define BT_OBJ_SIGNPOST             0x01A5
 
+#define BT_SETUP_JIGGYWIGGY         0x01E1
+#define BT_SETUP_JIGGYWIGGY_TEMPLE  0x01E7
+
 typedef struct {
   u32 _unknown1[6];
   u32 operation_state;
