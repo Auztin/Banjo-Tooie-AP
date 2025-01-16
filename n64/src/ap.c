@@ -803,6 +803,21 @@ bool ap_trap_squish(bool checking) {
   return false;
 }
 
+void ap_trap_sign_end() {
+  ap.fn_trap = 0;
+  ap_increment_trap();
+}
+
+bool ap_trap_sign(bool checking) {
+  if (checking) {
+    if (!bt_dialog.textObjectPtr && bt_fn_load_dialog((BT_RANDOM % 0x3D)+0x1686, 0x48, bt_current_player_char->pos, 0)) {
+      bt_dialog.callbackPtr = ap_trap_sign_end;
+      return true;
+    }
+  }
+  return false;
+}
+
 bool ap_in_minigame() {
   switch (bt_current_map) {
     case BT_MAP_MT_MINIGAME_KICKBALL1:
@@ -862,6 +877,8 @@ void ap_sync_traps() {
             break;
           case AP_TRAP_SQUISH:
             ap.fn_trap = ap_trap_squish;
+          case AP_TRAP_SIGN:
+            ap.fn_trap = ap_trap_sign;
             break;
           default:
             continue;
