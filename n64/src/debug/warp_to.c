@@ -3,8 +3,11 @@
 #include "warp_to.h"
 #include <stdlib.h>
 
-bt_obj_setup_t debug_warp_to_setup_cache[512];
-u32 debug_warp_to_setup_count;
+struct {
+  bt_obj_setup_t setup;
+  u32 function;
+} debug_warp_to_cache[512];
+u32 debug_warp_to_count;
 
 int debug_warp_to_map = 0;
 int debug_warp_to_iter = 0;
@@ -172,19 +175,22 @@ void debug_warp_to_draw(bt_draw_ctx_t* draw_ctx) {
   char _map[5];
   itoa(debug_warp_to_maps[debug_warp_to_map], _map, 16);
   bt_fn_text_big_draw(draw_ctx, 20, y+=20, _map);
-  if (bt_current_map == debug_warp_to_maps[debug_warp_to_map] && debug_warp_to_setup_count) {
+  if (bt_current_map == debug_warp_to_maps[debug_warp_to_map] && debug_warp_to_count) {
     char _setup_count[5];
-    itoa(debug_warp_to_setup_count-1, _setup_count, 16);
+    itoa(debug_warp_to_count-1, _setup_count, 16);
     bt_fn_text_big_draw(draw_ctx, 20, y+=20, _setup_count);
     char _iter[5];
     itoa(debug_warp_to_iter, _iter, 16);
     bt_fn_text_big_draw(draw_ctx, 20, y+=20, _iter);
     char id[5];
-    itoa(debug_warp_to_setup_cache[debug_warp_to_iter].id, id, 16);
+    itoa(debug_warp_to_cache[debug_warp_to_iter].setup.id, id, 16);
     bt_fn_text_big_draw(draw_ctx, 20, y+=20, id);
-    // char type[5];
-    // itoa(debug_warp_to_setup_cache[iter].type, type, 16);
-    // bt_fn_text_big_draw(draw_ctx, 20, y+=20, type);
+    char type[5];
+    itoa(debug_warp_to_cache[debug_warp_to_iter].setup.type, type, 16);
+    bt_fn_text_big_draw(draw_ctx, 20, y+=20, type);
+    char function[9];
+    itoa(debug_warp_to_cache[debug_warp_to_iter].function, function, 16);
+    bt_fn_text_big_draw(draw_ctx, 20, y+=20, function);
   }
 }
 
@@ -192,8 +198,11 @@ void debug_warp_to_spawn_prop(u16 id, bt_s32_xyz_t* pos, u32 yrot, bt_obj_setup_
   if (
        setup
     // && setup->type == 0x198
-    && debug_warp_to_setup_count < sizeof(debug_warp_to_setup_cache)/sizeof(*debug_warp_to_setup_cache)
-  ) debug_warp_to_setup_cache[debug_warp_to_setup_count++] = *setup;
+    && debug_warp_to_count < sizeof(debug_warp_to_cache)/sizeof(*debug_warp_to_cache)
+  ) {
+    debug_warp_to_cache[debug_warp_to_count].setup = *setup;
+    debug_warp_to_cache[debug_warp_to_count++].function = obj ? (u32)obj->fn_obj_init : 0;
+  }
 }
 
 void debug_warp_to_loop() {
@@ -214,21 +223,21 @@ void debug_warp_to_loop() {
   if (bt_controllers[0].pressed.dright) {
     if (debug_warp_to_maps[debug_warp_to_map] == bt_current_map) {
       debug_warp_to_iter++;
-      if (debug_warp_to_iter >= debug_warp_to_setup_count) {
+      if (debug_warp_to_iter >= debug_warp_to_count) {
         debug_warp_to_iter--;
         debug_warp_to_map++;
       }
     }
     else {
       debug_warp_to_map++;
-      debug_warp_to_iter = debug_warp_to_setup_count-1;
+      debug_warp_to_iter = debug_warp_to_count-1;
     }
     if (debug_warp_to_map >= sizeof(debug_warp_to_maps)) debug_warp_to_map = 0;
   }
   if (bt_controllers[0].pressed.ddown) {
     bt_fn_change_character(bt_current_player_char, BT_PLAYER_CHAR_BANJO_KAZOOIE);
     if (debug_warp_to_maps[debug_warp_to_map] == bt_current_map) {
-      bt_s16_xyz_t item = debug_warp_to_setup_cache[debug_warp_to_iter].pos;
+      bt_s16_xyz_t item = debug_warp_to_cache[debug_warp_to_iter].setup.pos;
       bt_xyz_t pos = {.x=item.x, .y = item.y, .z=item.z};
       bt_fn_character_move_to(&pos, 0.1, 0);
     }
@@ -238,14 +247,14 @@ void debug_warp_to_loop() {
     }
   }
   if (bt_controllers[0].pressed.dup) {
-    bt_s16_xyz_t item = debug_warp_to_setup_cache[debug_warp_to_iter].pos;
+    bt_s16_xyz_t item = debug_warp_to_cache[debug_warp_to_iter].setup.pos;
     bt_xyz_t pos = {.x=item.x, .y = item.y, .z=item.z};
     bt_fn_set_camera_position(bt_cameras[0].pos_rot, &pos);
   }
 }
 
 void debug_warp_to_load_scene(u16* scene, u16* exit) {
-  debug_warp_to_setup_count = 0;
+  debug_warp_to_count = 0;
 }
 
 #endif // NDEBUG
