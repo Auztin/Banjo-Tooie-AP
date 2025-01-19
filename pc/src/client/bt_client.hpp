@@ -49,8 +49,6 @@ private:
   bool DEATH_LINK_TRIGGERED = false;
   int SKIP_TOT = 0;
   int ENABLE_AP_BK_MOVES = 0;
-  bool ENABLE_AP_CHEATO_REWARDS = false;
-  bool ENABLE_AP_HONEYB_REWARDS = false;
   bool MINIGAMES = false;
   bool SKIP_PUZZLES = false;
   bool BACKDOORS = false;
@@ -58,7 +56,6 @@ private:
   bool OPEN_HAG1 = false;
   bool ENABLE_AP_CHUFFY = false;
   bool ENABLE_AP_WORLDS = false; //Used to Randomize World Order
-  bool ENABLE_AP_MYSTERY = false; //StopNSwap
   bool ENABLE_AP_NESTS = false;
   int GOAL_TYPE = 0;
   int MGH_LENGTH = 0; //Mini-game Mumbo Token Length
