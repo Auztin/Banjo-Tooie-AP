@@ -46,6 +46,18 @@ typedef u32 (*bt_fnt_give_golden_eggs)(u32, u32, float);
 #define _bt_fn_give_golden_eggs ((bt_fnt_give_golden_eggs)0x800F7C0C)
 #define bt_fn_give_golden_eggs() _bt_fn_give_golden_eggs(0, 0x5F, 60)
 
+typedef u32 (*bt_fnt_item_restore_max)(u16 item, bool refill);
+#define _bt_fn_item_restore_max ((bt_fnt_item_restore_max)0x800D433C)
+#define bt_fn_item_restore_max(id) _bt_fn_item_restore_max(id+0x40, false)
+
+typedef u32 (*bt_fnt_item_double_max)(u16 item, bool refill);
+#define _bt_fn_item_double_max ((bt_fnt_item_double_max)0x800D4398)
+#define bt_fn_item_double_max(id) _bt_fn_item_double_max(id+0x40, false)
+
+typedef u32 (*bt_fnt_item_infinite)(u16 item, bool refill);
+#define _bt_fn_item_infinite ((bt_fnt_item_infinite)0x800D42E8)
+#define bt_fn_item_infinite(id) _bt_fn_item_infinite(id+0x40, false)
+
 //   bt_items_max[BT_ITEM_BLUE_EGGS].value = 20 ^ bt_item_keys[BT_ITEM_BLUE_EGGS].key;
 //   bt_items[BT_ITEM_BLUE_EGGS] = bt_items_max[BT_ITEM_BLUE_EGGS].value;
 //   bt_fn_increase_item(BT_ITEM_BLUE_EGGS, 0);

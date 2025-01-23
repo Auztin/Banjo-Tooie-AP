@@ -20,17 +20,13 @@ typedef struct {
 
 ap_menu_zb_data_t ap_menu_main_data[] = {
   {.lines=1, .icon=BT_ZOOMBOX_ICON_JIGGYWIGGY, .text=(char*[]){"CHOOSE AN OPTION WITH \x87 AND GO BACK WITH \x86"}},
-  {.lines=1, .icon=BT_ZOOMBOX_ICON_BANJO, .text=(char*[]){"RECEIVED ITEMS"}},
-  {.lines=1, .icon=BT_ZOOMBOX_ICON_KAZOOIE, .text=(char*[]){"VIEW TOTALS"}},
-  {.lines=1, .icon=BT_ZOOMBOX_ICON_GRUNTY, .text=(char*[]){"WORLD ENTRANCES"}},
   {.lines=1, .icon=BT_ZOOMBOX_ICON_GI_ANNOUNCER, .text=(char*[]){"OPTIONS"}},
-};
-
-ap_menu_zb_data_t ap_menu_received_data[] = {
-  {.lines=1, .icon=BT_ZOOMBOX_ICON_JIGGYWIGGY, .text=(char*[]){"WHICH TYPE OF ITEM WOULD YOU LIKE TO CHECK?"}},
   {.lines=2, .icon=BT_ZOOMBOX_ICON_BOTTLES, .text=(char*[]){"MOVES FROM","BANJO-KAZOOIE"}},
+  {.lines=1, .icon=BT_ZOOMBOX_ICON_JIGGYWIGGY_DISCIPLE, .text=(char*[]){"WORLD ENTRANCES"}},
   {.lines=2, .icon=BT_ZOOMBOX_ICON_JAMJARS, .text=(char*[]){"MOVES FROM","BANJO-TOOIE"}},
+  {.lines=1, .icon=BT_ZOOMBOX_ICON_JIGGY, .text=(char*[]){"VIEW TOTALS"}},
   {.lines=1, .icon=BT_ZOOMBOX_ICON_GLOWBO, .text=(char*[]){"MUMBO AND HUMBA"}},
+  {.lines=1, .icon=BT_ZOOMBOX_ICON_CHEATO, .text=(char*[]){"CHEATS"}},
   {.lines=1, .icon=BT_ZOOMBOX_ICON_OLD_KING_COAL, .text=(char*[]){"TRAIN STATIONS AND CHUFFY"}},
 };
 
@@ -172,13 +168,10 @@ ap_menu_data_t ap_menu_world_entrances_data[] = {
 };
 
 enum {
-  AP_MENU_OPTION_DRAGON_KAZOOIE,
-  AP_MENU_OPTION_SUPER_BANJO,
-  AP_MENU_OPTION_HOMING_EGGS,
-  AP_MENU_OPTION_HONEYBACK,
-  AP_MENU_OPTION_SMOOTH_BANJO,
   AP_MENU_OPTION_RESPAWN,
   AP_MENU_OPTION_RESET,
+  AP_MENU_OPTION_DRAGON_KAZOOIE,
+  AP_MENU_OPTION_SMOOTH_BANJO,
 };
 
 ap_menu_data_t ap_menu_options_data[] = {
@@ -186,9 +179,30 @@ ap_menu_data_t ap_menu_options_data[] = {
   {.item=AP_MENU_OPTION_RESET, .zb={.lines=2, .icon=BT_ZOOMBOX_ICON_KING_JINGALING, .text=(char*[]){"BACK TO","JINJO VILLAGE"}}},
   {.item=AP_MENU_OPTION_DRAGON_KAZOOIE, .zb={.lines=2, .icon=BT_ZOOMBOX_ICON_KAZOOIE, .text=(char*[]){"DRAGON","KAZOOIE"}}},
   {.item=AP_MENU_OPTION_SMOOTH_BANJO, .zb={.lines=1, .icon=BT_ZOOMBOX_ICON_BANJO_KAZOOIE, .text=(char*[]){"SMOOTH BANJO"}}},
-  {.item=AP_MENU_OPTION_SUPER_BANJO, .zb={.lines=1, .icon=BT_ZOOMBOX_ICON_BANJO, .text=(char*[]){"SUPER BANJO"}}},
-  {.item=AP_MENU_OPTION_HOMING_EGGS, .zb={.lines=1, .icon=BT_ZOOMBOX_ICON_HEGGY, .text=(char*[]){"HOMING EGGS"}}},
-  {.item=AP_MENU_OPTION_HONEYBACK, .zb={.lines=1, .icon=BT_ZOOMBOX_ICON_HONEYCOMB, .text=(char*[]){"HONEYBACK"}}},
+};
+
+enum {
+  AP_MENU_CHEATS_SUPER_BANJO,
+  AP_MENU_CHEATS_SUPERBADDY,
+  AP_MENU_CHEATS_FEATHERS,
+  AP_MENU_CHEATS_EGGS,
+  AP_MENU_CHEATS_FALLPROOF,
+  AP_MENU_CHEATS_HONEYBACK,
+  AP_MENU_CHEATS_HOMING_EGGS,
+  AP_MENU_CHEATS_NESTKING,
+  AP_MENU_CHEATS_HONEYKING,
+};
+
+ap_menu_data_t ap_menu_cheats_data[] = {
+  {.item=AP_MENU_CHEATS_SUPER_BANJO, .zb={.lines=1, .icon=BT_ZOOMBOX_ICON_BANJO, .text=(char*[]){"SUPERBANJO"}}},
+  {.item=AP_MENU_CHEATS_SUPERBADDY, .zb={.lines=1, .icon=BT_ZOOMBOX_ICON_KLUNGO, .text=(char*[]){"SUPERBADDY"}}},
+  {.item=AP_MENU_CHEATS_FEATHERS, .zb={.lines=1, .icon=BT_ZOOMBOX_ICON_NEST_RED_FEATHERS, .text=(char*[]){"FEATHERS"}}},
+  {.item=AP_MENU_CHEATS_EGGS, .zb={.lines=1, .icon=BT_ZOOMBOX_ICON_NEST_BLUE_EGGS, .text=(char*[]){"EGGS"}}},
+  {.item=AP_MENU_CHEATS_FALLPROOF, .zb={.lines=1, .icon=BT_ZOOMBOX_ICON_HONEYCOMB, .text=(char*[]){"FALLPROOF"}}},
+  {.item=AP_MENU_CHEATS_HONEYBACK, .zb={.lines=1, .icon=BT_ZOOMBOX_ICON_HONEYCOMB, .text=(char*[]){"HONEYBACK"}}},
+  {.item=AP_MENU_CHEATS_HOMING_EGGS, .zb={.lines=1, .icon=BT_ZOOMBOX_ICON_HEGGY, .text=(char*[]){"HOMING EGGS"}}},
+  {.item=AP_MENU_CHEATS_NESTKING, .zb={.lines=1, .icon=BT_ZOOMBOX_ICON_NEST_MINE_EGGS, .text=(char*[]){"NESTKING"}}},
+  {.item=AP_MENU_CHEATS_HONEYKING, .zb={.lines=1, .icon=BT_ZOOMBOX_ICON_NEST_GOLD_FEATHERS, .text=(char*[]){"HONEYKING"}}},
 };
 
 #endif // AP_MENU_DATA_H

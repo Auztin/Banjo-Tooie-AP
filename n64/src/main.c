@@ -57,7 +57,18 @@ void pre_draw_objects(u8 type, bt_draw_ctx_t* draw_ctx) {
 }
 
 void post_draw_objects(u8 type, bt_draw_ctx_t* draw_ctx) {
-
+  if (type == 3 && ap_memory.pc.settings.assist_mode) {
+    bt_fn_text_reset_options();
+    bt_text_options.size = 0.70;
+    bt_text_options.color.alpha = 0x80;
+    bt_text_options.color.green = 0;
+    bt_text_options.color.red = 0;
+    bt_text_options.color.blue = 0xFF;
+    bt_fn_text_big_draw(draw_ctx, 245, 205, "ASSIST");
+    bt_text_options.color.red = 0xFF;
+    bt_text_options.color.blue = 0;
+    bt_fn_text_big_draw(draw_ctx, 245, 220, "MODE");
+  }
 }
 
 void pre_draw_hud(bt_draw_ctx_t* draw_ctx) {
@@ -767,6 +778,7 @@ u8 main_bt_pause_state_change(u32 _unknown_A0, u32 pause_ctx, u64 selected, u64 
 
 extern void main_bt_pause_load_menu_displaced(bt_pause_ctx_t*);
 u8 main_bt_pause_load_menu(bt_pause_ctx_t* pause_ctx) {
+  pause_ctx->main_menu_index = 3;
   switch (pause_ctx->pause_state) {
     case 2:
       if (pause_ctx->current_menu >= 2 && ap_menu.id == AP_MENU_NONE) {
@@ -980,16 +992,6 @@ void pre_object_init(bt_object_t *obj) {
       bt_pause_main_entry_t* order = (bt_pause_main_entry_t*)((u32)obj + 0x21A0);
       bt_pause_main_entry_t totals = order[3];
       order[3] = order[2];
-      order[2] = order[1];
-      order[1] = totals;
-      // objects shown
-      order = (bt_pause_main_entry_t*)((u32)obj + 0x21C0);
-      totals = order[2];
-      order[2] = order[1];
-      order[1] = totals;
-      // jinjos shown
-      order = (bt_pause_main_entry_t*)((u32)obj + 0x21D8);
-      totals = order[2];
       order[2] = order[1];
       order[1] = totals;
       break;

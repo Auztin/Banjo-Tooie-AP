@@ -1322,68 +1322,47 @@ asio::awaitable<void> BTClient::getSlotData()
         ap_memory.pc.settings.seed = SEED;
         if(DEBUG_NET == true) { std::cout << "SEED is: " << SEED << std::endl; }
     }
-    if(block.contains(string{"slot_deathlink"}) && block["slot_deathlink"] != "false")
+    if(block.contains(string{"slot_deathlink"}) && block["slot_deathlink"] != 0)
     {
         DEATH_LINK = true;
         if(DEBUG_NET == true) { std::cout << "Deathlink is set" << std::endl; }
     }
-    if(block.contains(string{"slot_skip_tot"}) && block["slot_skip_tot"] != "")
+    if(block.contains(string{"slot_tower_of_tragedy"}))
     {
-        if(block["slot_skip_tot"] == "false")
-        {
-            SKIP_TOT = 0;
-        }
-        else if(block["slot_skip_tot"] == "true")
-        {
-            SKIP_TOT = 1;
-        }
-        else
-        {
-             SKIP_TOT = 2;
-        }
+        SKIP_TOT = block["slot_tower_of_tragedy"]
         if(DEBUG_NET == true) { std::cout << "SKIP TOT is set" << std::endl; }
     }
-    if(block.contains(string{"slot_bkmoves"}) && block["slot_bkmoves"] != "false")
+    if(block.contains(string{"slot_randomize_bk_moves"}))
     {
-        ENABLE_AP_BK_MOVES = block["slot_bkmoves"];
+        ENABLE_AP_BK_MOVES = block["slot_randomize_bk_moves"];
         if(DEBUG_NET == true) { std::cout << "BK_MOVES is set" << std::endl; }
     }
-    if(block.contains(string{"slot_cheatorewards"}) && block["slot_cheatorewards"] != "false")
-    {
-        ENABLE_AP_CHEATO_REWARDS = true;
-        if(DEBUG_NET == true) { std::cout << "CHEATO_REWARDS is set" << std::endl; }
-    }
-    if(block.contains(string{"slot_honeybrewards"}) && block["slot_honeybrewards"] != "false")
-    {
-        ENABLE_AP_HONEYB_REWARDS = true;
-        if(DEBUG_NET == true) { std::cout << "HONEYB_REWARDS is set" << std::endl; }
-    }
-    if(block.contains(string{"slot_minigames"}) && block["slot_minigames"] == "skip")
+    if(block.contains(string{"slot_speed_up_minigames"}) && block["slot_speed_up_minigames"] != 0)
     {
         MINIGAMES = true;
         if(DEBUG_NET == true) { std::cout << "MINIGAMES is set" << std::endl; }
     }
-    if(block.contains(string{"slot_skip_puzzles"}) && block["slot_skip_puzzles"] != "false")
+    if(block.contains(string{"slot_skip_puzzles"}) && block["slot_skip_puzzles"] != 0)
     {
         SKIP_PUZZLES = true;
         if(DEBUG_NET == true) { std::cout << "SKIP_PUZZLES is set" << std::endl; }
     }
-    if(block.contains(string{"slot_backdoors"}) && block["slot_backdoors"] != "false")
+    if(block.contains(string{"slot_backdoors"}) && block["slot_backdoors"] != 0)
     {
         BACKDOORS = true;
         if(DEBUG_NET == true) { std::cout << "BACKDOORS is set" << std::endl; }
     }
-    if(block.contains(string{"slot_skip_klungo"}) && block["slot_skip_klungo"] != "false")
+    if(block.contains(string{"slot_skip_klungo"}) && block["slot_skip_klungo"] != 0)
     {
         SKIP_KLUNGO = true;
         if(DEBUG_NET == true) { std::cout << "SKIP_KLUNGO is set" << std::endl; }
     }
-    if(block.contains(string{"slot_open_hag1"}) && block["slot_open_hag1"] != "false")
+    if(block.contains(string{"slot_open_hag1"}) && block["slot_open_hag1"] != 0)
     {
         OPEN_HAG1 = true;
         if(DEBUG_NET == true) { std::cout << "OPEN_HAG1 is set" << std::endl; }
     }
-    if(block.contains(string{"slot_chuffy"}) && block["slot_chuffy"] != "false")
+    if(block.contains(string{"slot_randomize_chuffy"}) && block["slot_randomize_chuffy"] != 0)
     {
         ENABLE_AP_CHUFFY = true;
         if(DEBUG_NET == true) { std::cout << "CHUFFY is set" << std::endl; }
@@ -1393,19 +1372,14 @@ asio::awaitable<void> BTClient::getSlotData()
         ENABLE_AP_WORLDS = true;
         if(DEBUG_NET == true) { std::cout << "Worlds are Shuffled" << std::endl; }
     }
-    if(block.contains(string{"slot_mystery"}) && block["slot_mystery"] != "false")
-    {
-        ENABLE_AP_MYSTERY = true;
-        if(DEBUG_NET == true) { std::cout << "StopNSwap is Randomized" << std::endl; }
-    }
-    if(block.contains(string{"slot_nestsanity"}) && block["slot_nestsanity"] != "false")
+    if(block.contains(string{"slot_nestsanity"}) && block["slot_nestsanity"] != 0)
     {
         ENABLE_AP_NESTS = true;
         if(DEBUG_NET == true) { std::cout << "Nests are Randomized" << std::endl; }
     }
-    if(block.contains(string{"slot_goal_type"}) && block["slot_goal_type"] != "")
+    if(block.contains(string{"slot_victory_condition"}) && block["slot_victory_condition"] != "")
     {
-        GOAL_TYPE = block["slot_goal_type"];
+        GOAL_TYPE = block["slot_victory_condition"];
         if(DEBUG_NET == true) { std::cout << "GOAL_TYPE is set to " << GOAL_TYPE << std::endl; }
     }
     if(block.contains(string{"slot_minigame_hunt_length"}) && block["slot_minigame_hunt_length"] != "")
@@ -1570,11 +1544,6 @@ string BTClient::get_state()
 {
     return CUR_STATE;
 }
-
-// void BTClient::process_messages(std::string messages)
-// {
-//   if not string.find(message, "%(found%)")
-// }
 
 void BTClient::processAGIItem(json item_data)
 {
