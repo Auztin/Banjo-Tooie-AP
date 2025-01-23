@@ -28,6 +28,7 @@ int main() {
   printf("        setting_minigames = 0x%X,\n",           calc(mem.pc.settings, mem.pc.settings.speed_up_minigames));
   printf("        setting_dialog_character = 0x%X,\n",    calc(mem.pc.settings, mem.pc.settings.dialog_character));
   printf("        setting_max_mumbo_tokens = 0x%X,\n",    calc(mem.pc.settings, mem.pc.settings.max_mumbo_tokens));
+  printf("        setting_assist_mode = 0x%X,\n",         calc(mem.pc.settings, mem.pc.settings.assist_mode));
   printf("        setting_jiggy_requirements = 0x%X,\n",  calc(mem.pc.settings, mem.pc.settings.jiggy_requirements));
   printf("        setting_open_silos = 0x%X,\n",          calc(mem.pc.settings, mem.pc.settings.open_silos));
   printf("        setting_silo_requirements = 0x%X,\n",   calc(mem.pc.settings, mem.pc.settings.silo_requirements));

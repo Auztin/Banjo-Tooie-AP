@@ -25,7 +25,8 @@ bt_zoombox_t* ap_menu_new_zoombox(bt_zoombox_t* zb, u16 icon, u16 x, u16 y, floa
 
 void ap_menu_add_entry(u16 icon, u8 lines, char** text) {
   float zoombox_width = 214;
-  u16 column_width = 304;
+  u16 column_width = 290;
+  u16 left_margin = (304-column_width)/2;
   u16 x = (column_width-zoombox_width)/2;
   u16 height = 40;
   float size = 1;
@@ -38,11 +39,11 @@ void ap_menu_add_entry(u16 icon, u8 lines, char** text) {
         break;
       case 2:
         size = 0.65;
-        length = 0.80;
+        length = 0.85;
         break;
       case 3:
         size = 0.65;
-        length = 0.53;
+        length = 0.50;
         break;
       case 4:
         size = 0.60;
@@ -65,7 +66,7 @@ void ap_menu_add_entry(u16 icon, u8 lines, char** text) {
   }
   else ap_menu.last_y += height;
   bt_zoombox_t* zb = ap_menu.zoombox[ap_menu.last_zb];
-  zb = ap_menu_new_zoombox(zb, icon, x, ap_menu.last_y, size, length, lines, text);
+  zb = ap_menu_new_zoombox(zb, icon, x+left_margin, ap_menu.last_y, size, length, lines, text);
   ap_menu.zoombox[ap_menu.last_zb++] = zb;
   if (size == 1) ap_menu.last_y += 35;
   else if (ap_menu.selected) bt_fn_zoombox_selected(zb, false);
@@ -90,32 +91,27 @@ void ap_menu_select() {
     case AP_MENU_MAIN:
       switch (ap_menu.selected) {
         case 1:
-          ap_menu.id = AP_MENU_RECEIVED;
+          ap_menu.id = AP_MENU_OPTIONS;
           break;
         case 2:
-          ap_menu.id = AP_MENU_TOTOTALS;
+          ap_menu.id = AP_MENU_RECEIVED_MOVES_BK;
           break;
         case 3:
           ap_menu.id = AP_MENU_WORLD_ENTRANCES;
           break;
         case 4:
-          ap_menu.id = AP_MENU_OPTIONS;
-          break;
-        default: return;
-      }
-      break;
-    case AP_MENU_RECEIVED:
-      switch (ap_menu.selected) {
-        case 1:
-          ap_menu.id = AP_MENU_RECEIVED_MOVES_BK;
-          break;
-        case 2:
           ap_menu.id = AP_MENU_RECEIVED_MOVES_BT;
           break;
-        case 3:
+        case 5:
+          ap_menu.id = AP_MENU_TOTOTALS;
+          break;
+        case 6:
           ap_menu.id = AP_MENU_RECEIVED_MUMBO_HUMBA;
           break;
-        case 4:
+        case 7:
+          ap_menu.id = AP_MENU_CHEATS;
+          break;
+        case 8:
           ap_menu.id = AP_MENU_RECEIVED_TRAIN_STATIONS;
           break;
         default: return;
@@ -129,27 +125,6 @@ void ap_menu_select() {
             if (!bt_flags.dragon_kazooie) bt_fn_play_sound(BT_SOUND_INCREASE, -1, 1, -1);
             else bt_fn_play_sound(BT_SOUND_DECREASE, -1, 1, -1);
             bt_flags.dragon_kazooie = !bt_flags.dragon_kazooie;
-          }
-          else bt_fn_play_sound(BT_SOUND_WRONG, -1, 1, -1);
-          break;
-        case AP_MENU_OPTION_SUPER_BANJO:
-          if (!bt_flags.cheats_superbanjo_enabled) bt_fn_play_sound(BT_SOUND_INCREASE, -1, 1, -1);
-          else bt_fn_play_sound(BT_SOUND_DECREASE, -1, 1, -1);
-          bt_flags.cheats_superbanjo_enabled = !bt_flags.cheats_superbanjo_enabled;
-          break;
-        case AP_MENU_OPTION_HOMING_EGGS:
-          if (bt_flags.cheats_homing_eggs_received) {
-            if (!bt_flags.cheats_homing_eggs_enabled) bt_fn_play_sound(BT_SOUND_INCREASE, -1, 1, -1);
-            else bt_fn_play_sound(BT_SOUND_DECREASE, -1, 1, -1);
-            bt_flags.cheats_homing_eggs_enabled = !bt_flags.cheats_homing_eggs_enabled;
-          }
-          else bt_fn_play_sound(BT_SOUND_WRONG, -1, 1, -1);
-          break;
-        case AP_MENU_OPTION_HONEYBACK:
-          if (bt_flags.cheats_honeyback_received) {
-            if (!bt_flags.cheats_honeyback_enabled) bt_fn_play_sound(BT_SOUND_INCREASE, -1, 1, -1);
-            else bt_fn_play_sound(BT_SOUND_DECREASE, -1, 1, -1);
-            bt_flags.cheats_honeyback_enabled = !bt_flags.cheats_honeyback_enabled;
           }
           else bt_fn_play_sound(BT_SOUND_WRONG, -1, 1, -1);
           break;
@@ -183,6 +158,110 @@ void ap_menu_select() {
           }
           else bt_fn_play_sound(BT_SOUND_WRONG, -1, 1, -1);
           break;
+      }
+      return;
+    case AP_MENU_CHEATS:
+      data = &ap_menu_cheats_data[ap_menu.selected-1];
+      switch (data->item) {
+        case AP_MENU_CHEATS_SUPER_BANJO:
+          if (!bt_flags.cheats_superbanjo_enabled) bt_fn_play_sound(BT_SOUND_INCREASE, -1, 1, -1);
+          else bt_fn_play_sound(BT_SOUND_DECREASE, -1, 1, -1);
+          bt_flags.cheats_superbanjo_enabled = !bt_flags.cheats_superbanjo_enabled;
+          break;
+        case AP_MENU_CHEATS_SUPERBADDY:
+          if (!bt_flags.cheats_superbaddy_enabled) bt_fn_play_sound(BT_SOUND_INCREASE, -1, 1, -1);
+          else bt_fn_play_sound(BT_SOUND_DECREASE, -1, 1, -1);
+          bt_flags.cheats_superbaddy_enabled = !bt_flags.cheats_superbaddy_enabled;
+          break;
+        case AP_MENU_CHEATS_FEATHERS:
+          if (bt_flags.cheats_feathers_received) {
+            if (!bt_flags.cheats_feathers_enabled) bt_fn_play_sound(BT_SOUND_INCREASE, -1, 1, -1);
+            else bt_fn_play_sound(BT_SOUND_DECREASE, -1, 1, -1);
+            bt_flags.cheats_feathers_enabled = !bt_flags.cheats_feathers_enabled;
+          }
+          else bt_fn_play_sound(BT_SOUND_WRONG, -1, 1, -1);
+          break;
+        case AP_MENU_CHEATS_EGGS:
+          if (bt_flags.cheats_eggs_received) {
+            if (!bt_flags.cheats_eggs_enabled) bt_fn_play_sound(BT_SOUND_INCREASE, -1, 1, -1);
+            else bt_fn_play_sound(BT_SOUND_DECREASE, -1, 1, -1);
+            bt_flags.cheats_eggs_enabled = !bt_flags.cheats_eggs_enabled;
+          }
+          else bt_fn_play_sound(BT_SOUND_WRONG, -1, 1, -1);
+          break;
+        case AP_MENU_CHEATS_FALLPROOF:
+          if (bt_flags.cheats_fallproof_received) {
+            if (!bt_flags.cheats_fallproof_enabled) bt_fn_play_sound(BT_SOUND_INCREASE, -1, 1, -1);
+            else bt_fn_play_sound(BT_SOUND_DECREASE, -1, 1, -1);
+            bt_flags.cheats_fallproof_enabled = !bt_flags.cheats_fallproof_enabled;
+          }
+          else bt_fn_play_sound(BT_SOUND_WRONG, -1, 1, -1);
+          break;
+        case AP_MENU_CHEATS_HONEYBACK:
+          if (bt_flags.cheats_honeyback_received) {
+            if (!bt_flags.cheats_honeyback_enabled) bt_fn_play_sound(BT_SOUND_INCREASE, -1, 1, -1);
+            else bt_fn_play_sound(BT_SOUND_DECREASE, -1, 1, -1);
+            bt_flags.cheats_honeyback_enabled = !bt_flags.cheats_honeyback_enabled;
+          }
+          else bt_fn_play_sound(BT_SOUND_WRONG, -1, 1, -1);
+          break;
+        case AP_MENU_CHEATS_HOMING_EGGS:
+          if (bt_flags.cheats_homing_eggs_received) {
+            if (!bt_flags.cheats_homing_eggs_enabled) bt_fn_play_sound(BT_SOUND_INCREASE, -1, 1, -1);
+            else bt_fn_play_sound(BT_SOUND_DECREASE, -1, 1, -1);
+            bt_flags.cheats_homing_eggs_enabled = !bt_flags.cheats_homing_eggs_enabled;
+          }
+          else bt_fn_play_sound(BT_SOUND_WRONG, -1, 1, -1);
+          break;
+        case AP_MENU_CHEATS_NESTKING:
+          if (ap_memory.pc.settings.assist_mode) {
+            if (!bt_flags.cheats_nestking_enabled) bt_fn_play_sound(BT_SOUND_INCREASE, -1, 1, -1);
+            else bt_fn_play_sound(BT_SOUND_DECREASE, -1, 1, -1);
+            bt_flags.cheats_nestking_enabled = !bt_flags.cheats_nestking_enabled;
+          }
+          else bt_fn_play_sound(BT_SOUND_WRONG, -1, 1, -1);
+          break;
+        case AP_MENU_CHEATS_HONEYKING:
+          if (ap_memory.pc.settings.assist_mode) {
+            if (!bt_flags.cheats_honeyking_enabled) bt_fn_play_sound(BT_SOUND_INCREASE, -1, 1, -1);
+            else bt_fn_play_sound(BT_SOUND_DECREASE, -1, 1, -1);
+            bt_flags.cheats_honeyking_enabled = !bt_flags.cheats_honeyking_enabled;
+          }
+          else bt_fn_play_sound(BT_SOUND_WRONG, -1, 1, -1);
+          break;
+      }
+      if (bt_flags.cheats_nestking_enabled) {
+        bt_fn_item_infinite(BT_ITEM_BLUE_EGGS);
+        bt_fn_item_infinite(BT_ITEM_FIRE_EGGS);
+        bt_fn_item_infinite(BT_ITEM_ICE_EGGS);
+        bt_fn_item_infinite(BT_ITEM_GRENADE_EGGS);
+        bt_fn_item_infinite(BT_ITEM_CLOCKWORK_EGGS);
+      }
+      else if (bt_flags.cheats_eggs_enabled) {
+        bt_fn_item_double_max(BT_ITEM_BLUE_EGGS);
+        bt_fn_item_double_max(BT_ITEM_FIRE_EGGS);
+        bt_fn_item_double_max(BT_ITEM_ICE_EGGS);
+        bt_fn_item_double_max(BT_ITEM_GRENADE_EGGS);
+        bt_fn_item_double_max(BT_ITEM_CLOCKWORK_EGGS);
+      }
+      else {
+        bt_fn_item_restore_max(BT_ITEM_BLUE_EGGS);
+        bt_fn_item_restore_max(BT_ITEM_FIRE_EGGS);
+        bt_fn_item_restore_max(BT_ITEM_ICE_EGGS);
+        bt_fn_item_restore_max(BT_ITEM_GRENADE_EGGS);
+        bt_fn_item_restore_max(BT_ITEM_CLOCKWORK_EGGS);
+      }
+      if (bt_flags.cheats_nestking_enabled) {
+        bt_fn_item_infinite(BT_ITEM_RED_FEATHERS);
+        bt_fn_item_infinite(BT_ITEM_GOLD_FEATHERS);
+      }
+      else if (bt_flags.cheats_feathers_enabled) {
+        bt_fn_item_double_max(BT_ITEM_RED_FEATHERS);
+        bt_fn_item_double_max(BT_ITEM_GOLD_FEATHERS);
+      }
+      else {
+        bt_fn_item_restore_max(BT_ITEM_RED_FEATHERS);
+        bt_fn_item_restore_max(BT_ITEM_GOLD_FEATHERS);
       }
       return;
     default: return;
@@ -231,24 +310,6 @@ void ap_menu_update_zoombox(int i, bt_zoombox_t* zb) {
             }
             else bt_fn_zoombox_text_color(zb, &red);
             break;
-          case AP_MENU_OPTION_SUPER_BANJO:
-            if (bt_flags.cheats_superbanjo_enabled) bt_fn_zoombox_text_color(zb, &green);
-            else bt_fn_zoombox_text_color(zb, &white);
-            break;
-          case AP_MENU_OPTION_HOMING_EGGS:
-            if (bt_flags.cheats_homing_eggs_received) {
-              if (bt_flags.cheats_homing_eggs_enabled) bt_fn_zoombox_text_color(zb, &green);
-              else bt_fn_zoombox_text_color(zb, &white);
-            }
-            else bt_fn_zoombox_text_color(zb, &red);
-            break;
-          case AP_MENU_OPTION_HONEYBACK:
-            if (bt_flags.cheats_honeyback_received) {
-              if (bt_flags.cheats_honeyback_enabled) bt_fn_zoombox_text_color(zb, &green);
-              else bt_fn_zoombox_text_color(zb, &white);
-            }
-            else bt_fn_zoombox_text_color(zb, &red);
-            break;
           case AP_MENU_OPTION_SMOOTH_BANJO:
             if (ap.smooth_banjo) bt_fn_zoombox_text_color(zb, &green);
             else bt_fn_zoombox_text_color(zb, &white);
@@ -264,6 +325,68 @@ void ap_menu_update_zoombox(int i, bt_zoombox_t* zb) {
                  bt_player_chars.control_type == BT_PLAYER_CHAR_BANJO_KAZOOIE && bt_flags.jukebox_jv
               && (bt_fn_character_touching_ground(bt_current_player_char) || bt_fn_character_in_water(bt_current_player_char))
             ) bt_fn_zoombox_text_color(zb, &white);
+            else bt_fn_zoombox_text_color(zb, &red);
+            break;
+        }
+        break;
+      case AP_MENU_CHEATS:
+        data = &ap_menu_cheats_data[i-1];
+        switch (data->item) {
+          case AP_MENU_CHEATS_SUPER_BANJO:
+            if (bt_flags.cheats_superbanjo_enabled) bt_fn_zoombox_text_color(zb, &green);
+            else bt_fn_zoombox_text_color(zb, &white);
+            break;
+          case AP_MENU_CHEATS_SUPERBADDY:
+            if (bt_flags.cheats_superbaddy_enabled) bt_fn_zoombox_text_color(zb, &green);
+            else bt_fn_zoombox_text_color(zb, &white);
+            break;
+          case AP_MENU_CHEATS_FEATHERS:
+            if (bt_flags.cheats_feathers_received) {
+              if (bt_flags.cheats_feathers_enabled) bt_fn_zoombox_text_color(zb, &green);
+              else bt_fn_zoombox_text_color(zb, &white);
+            }
+            else bt_fn_zoombox_text_color(zb, &red);
+            break;
+          case AP_MENU_CHEATS_EGGS:
+            if (bt_flags.cheats_eggs_received) {
+              if (bt_flags.cheats_eggs_enabled) bt_fn_zoombox_text_color(zb, &green);
+              else bt_fn_zoombox_text_color(zb, &white);
+            }
+            else bt_fn_zoombox_text_color(zb, &red);
+            break;
+          case AP_MENU_CHEATS_FALLPROOF:
+            if (bt_flags.cheats_fallproof_received) {
+              if (bt_flags.cheats_fallproof_enabled) bt_fn_zoombox_text_color(zb, &green);
+              else bt_fn_zoombox_text_color(zb, &white);
+            }
+            else bt_fn_zoombox_text_color(zb, &red);
+            break;
+          case AP_MENU_CHEATS_HONEYBACK:
+            if (bt_flags.cheats_honeyback_received) {
+              if (bt_flags.cheats_honeyback_enabled) bt_fn_zoombox_text_color(zb, &green);
+              else bt_fn_zoombox_text_color(zb, &white);
+            }
+            else bt_fn_zoombox_text_color(zb, &red);
+            break;
+          case AP_MENU_CHEATS_HOMING_EGGS:
+            if (bt_flags.cheats_homing_eggs_received) {
+              if (bt_flags.cheats_homing_eggs_enabled) bt_fn_zoombox_text_color(zb, &green);
+              else bt_fn_zoombox_text_color(zb, &white);
+            }
+            else bt_fn_zoombox_text_color(zb, &red);
+            break;
+          case AP_MENU_CHEATS_NESTKING:
+            if (ap_memory.pc.settings.assist_mode) {
+              if (bt_flags.cheats_nestking_enabled) bt_fn_zoombox_text_color(zb, &green);
+              else bt_fn_zoombox_text_color(zb, &white);
+            }
+            else bt_fn_zoombox_text_color(zb, &red);
+            break;
+          case AP_MENU_CHEATS_HONEYKING:
+            if (ap_memory.pc.settings.assist_mode) {
+              if (bt_flags.cheats_honeyking_enabled) bt_fn_zoombox_text_color(zb, &green);
+              else bt_fn_zoombox_text_color(zb, &white);
+            }
             else bt_fn_zoombox_text_color(zb, &red);
             break;
         }
@@ -358,30 +481,29 @@ void ap_menu_update() {
       ap_menu.title = 0;
       switch (ap_menu.last_id) {
         // AP_MENU_MAIN
-        case AP_MENU_RECEIVED:
+        case AP_MENU_OPTIONS:
           ap_menu.selected = 1;
           break;
-        case AP_MENU_TOTOTALS:
+        case AP_MENU_RECEIVED_MOVES_BK:
           ap_menu.selected = 2;
           break;
         case AP_MENU_WORLD_ENTRANCES:
           ap_menu.selected = 3;
           break;
-        case AP_MENU_OPTIONS:
+        case AP_MENU_RECEIVED_MOVES_BT:
           ap_menu.selected = 4;
           break;
-        // AP_MENU_RECEIVED
-        case AP_MENU_RECEIVED_MOVES_BK:
-          ap_menu.selected = 1;
-          break;
-        case AP_MENU_RECEIVED_MOVES_BT:
-          ap_menu.selected = 2;
+        case AP_MENU_TOTOTALS:
+          ap_menu.selected = 5;
           break;
         case AP_MENU_RECEIVED_MUMBO_HUMBA:
-          ap_menu.selected = 3;
+          ap_menu.selected = 6;
+          break;
+        case AP_MENU_CHEATS:
+          ap_menu.selected = 7;
           break;
         case AP_MENU_RECEIVED_TRAIN_STATIONS:
-          ap_menu.selected = 4;
+          ap_menu.selected = 8;
           break;
         default:
           ap_menu.selected = 1;
@@ -435,14 +557,9 @@ void ap_menu_update() {
           }
           return;
         case AP_MENU_MAIN:
-          ap_menu.columns = 1;
+          ap_menu.columns = 2;
           zb_data = ap_menu_main_data;
           data_size = sizeof(ap_menu_main_data);
-          break;
-        case AP_MENU_RECEIVED:
-          ap_menu.columns = 1;
-          zb_data = ap_menu_received_data;
-          data_size = sizeof(ap_menu_received_data);
           break;
         case AP_MENU_RECEIVED_MOVES_BK:
           ap_menu.columns = 3;
@@ -509,6 +626,15 @@ void ap_menu_update() {
           opt_data = ap_menu_options_data;
           data_size = sizeof(ap_menu_options_data);
           break;
+        case AP_MENU_CHEATS:
+          ap_menu.columns = 2;
+          ap_menu.last_zb = 1;
+          ap_menu.last_y = 60;
+          ap_menu.title = "CHEATS";
+          opt_data = ap_menu_cheats_data;
+          data_size = sizeof(ap_menu_cheats_data);
+          if (!ap_memory.pc.settings.assist_mode) data_size -= sizeof(ap_menu_data_t)*2;
+          break;
         default: return;
       }
       ap_menu.state = AP_MENU_STATE_SHOW;
@@ -553,17 +679,14 @@ void ap_menu_update() {
           case AP_MENU_MAIN:
             ap_menu.id = AP_MENU_TOPAUSE;
             break;
-          case AP_MENU_RECEIVED:
           case AP_MENU_WORLD_ENTRANCES:
           case AP_MENU_OPTIONS:
-            ap_menu.id = AP_MENU_MAIN;
-            break;
+          case AP_MENU_CHEATS:
           case AP_MENU_RECEIVED_MOVES_BK:
           case AP_MENU_RECEIVED_MOVES_BT:
           case AP_MENU_RECEIVED_MUMBO_HUMBA:
           case AP_MENU_RECEIVED_TRAIN_STATIONS:
-            ap_menu.id = AP_MENU_RECEIVED;
-            break;
+            ap_menu.id = AP_MENU_MAIN;
             break;
         }
       }
