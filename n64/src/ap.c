@@ -1787,6 +1787,7 @@ void ap_new_file() {
   bt_flags.ww_paid_dodgem = 1;
   bt_flags.ww_opened_dodgem1 = 1;
   bt_flags.hfp_lava_opened_kickball_door1 = 1;
+  bt_flags.cheats_jukebox_enabled = 1;
 }
 
 void ap_load_file() {
