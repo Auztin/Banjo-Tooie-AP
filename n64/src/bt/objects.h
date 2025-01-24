@@ -44,6 +44,8 @@ typedef struct {
 #define BT_OBJ_FILE_SELECT          0x00CD
 #define BT_OBJ_STOMPONADON          0x0109
 #define BT_OBJ_SIGNPOST             0x01A5
+#define BT_OBJ_HANDCART             0x019F
+#define BT_OBJ_CLOCKWORK_MOUSE      0x018E
 
 #define BT_SETUP_JIGGYWIGGY         0x01E1
 #define BT_SETUP_JIGGYWIGGY_TEMPLE  0x01E7

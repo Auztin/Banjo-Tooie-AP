@@ -1018,6 +1018,14 @@ void pre_object_init(bt_object_t *obj) {
       if (!ap_memory.pc.settings.signpost_hints) break;
       util_inject(UTIL_INJECT_JUMP    , (u32)obj + 0x02D4, (u32)ap_signpost_dialog, 1);
       break;
+    case BT_OBJ_HANDCART:
+      if (!ap_memory.pc.settings.assist_mode) break;
+      util_inject(UTIL_INJECT_RAW     , (u32)obj + 0x15F0, 0x3C0140C0, 0);
+      break;
+    case BT_OBJ_CLOCKWORK_MOUSE:
+      if (!ap_memory.pc.settings.assist_mode) break;
+      util_inject(UTIL_INJECT_RAW     , (u32)obj + 0x1344, 0x3C0140C0, 0);
+      break;
   }
 }
 
