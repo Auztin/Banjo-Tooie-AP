@@ -24,7 +24,9 @@
     extern std::map<std::string, world_entrance_t> WORLD_ENTRANCES;
 
     extern std::map<int, std::map<int, int> > NEST_DATA;
-    
+
+    extern std::map<int, std::map<int, int> > SIGNPOST_DATA;
+
     enum {
         BT_ZOOMBOX_ICON_GLOWBO,
         BT_ZOOMBOX_ICON_JIGGY,

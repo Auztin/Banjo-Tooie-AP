@@ -14,6 +14,7 @@ typedef struct {
     bt_save_flags_t real; // vanilla save flags
     bt_save_flags_t fake; // separated save flags
     u8 nests[60];
+    u8 signposts[8];
   } saves;
 } ap_memory_n64_t;
 

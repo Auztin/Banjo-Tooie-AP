@@ -18,6 +18,7 @@ typedef struct {
   u32 n64_saves_real;
   u32 n64_saves_fake;
   u32 n64_saves_nests;
+  u32 n64_saves_signposts;
 } ap_memory_ptr_t;
 extern ap_memory_ptr_t ap_memory_ptrs;
 extern ap_memory_ptr_t* AP_MEMORY_PTR;

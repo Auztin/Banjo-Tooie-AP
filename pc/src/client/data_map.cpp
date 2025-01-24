@@ -1755,3 +1755,101 @@ std::map<int, std::map<int, int> > NEST_DATA = {
         {1231481, 0x1D8},
     }}
 };
+
+std::map<int, std::map<int, int> > SIGNPOST_DATA = {
+    {0x0142, { // Jinjo Village
+        {1231483, 0x00}, // SIGNIH1 = "IoH: Grey Jinjo Family House Signpost"
+    }}, {0x014F, { // Wooded Hollow
+        {1231488, 0x01}, // SIGNIH6 = "IoH: Wooded Hollow Path to Plateau Signpost"
+        {1231486, 0x02}, // SIGNIH4 = "IoH: Behind Jiggywiggy's Temple Signpost 2"
+        {1231485, 0x03}, // SIGNIH3 = "IoH: Behind Jiggywiggy's Temple Signpost 1"
+        {1231487, 0x04}, // SIGNIH5 = "IoH: Behind Jiggywiggy's Temple Signpost 3"
+        {1231484, 0x05}, // SIGNIH2 = "IoH: Outside Heggy's Egg Shed Signpost"
+    }}, {0x0151, { // WH - Jiggywiggy's Temple
+        {1231489, 0x06}, // SIGNIH7 = "IoH: Jiggywiggy's Temple Signpost 1"
+        {1231490, 0x07}, // SIGNIH8 = "IoH: Jiggywiggy's Temple Signpost 2"
+        {1231491, 0x08}, // SIGNIH9 = "IoH: Jiggywiggy's Temple Signpost 3"
+        {1231492, 0x09}, // SIGNIH10 = "IoH: Jiggywiggy's Temple Signpost 4"
+        {1231493, 0x0A}, // SIGNIH11 = "IoH: Jiggywiggy's Temple Signpost 5"
+        {1231494, 0x0B}, // SIGNIH12 = "IoH: Jiggywiggy's Temple Signpost 6"
+        {1231495, 0x0C}, // SIGNIH13 = "IoH: Jiggywiggy's Temple Signpost 7"
+        {1231496, 0x0D}, // SIGNIH14 = "IoH: Jiggywiggy's Temple Signpost 8"
+    }}, {0x0154, { // Pine Grove
+        {1231499, 0x0E}, // SIGNIH17 = "IoH: Pine Grove Signpost 3"
+        {1231498, 0x0F}, // SIGNIH16 = "IoH: Pine Grove Signpost 2"
+        {1231497, 0x10}, // SIGNIH15 = "IoH: Pine Grove Signpost 1"
+    }}, {0x0155, { // Cliff Top
+        {1231500, 0x11}, // SIGNIH18 = "IoH: Cliff Top Signpost"
+    }}, {0x015A, { // Wasteland
+        {1231501, 0x12}, // SIGNIH19 = "IoH: Wasteland Signpost"
+    }}, {0x00B7, { // MT - Mumbo's Skull
+        {1231502, 0x13}, // SIGNMT1 = "MT: Mumbo's Skull Signpost"
+    }}, {0x00B8, { // MT
+        {1231503, 0x14}, // SIGNMT2 = "MT: Golden Goliath Signpost"
+    }}, {0x00B9, { // MT - Prison Compound
+        {1231504, 0x15}, // SIGNMT3 = "MT: Pillars Signpost"
+        {1231505, 0x16}, // SIGNMT4 = "MT: Prison Compound Quicksand Signpost"
+    }}, {0x00C4, { // MT - Jade Snake Grove
+        {1231508, 0x17}, // SIGNMT7 = "MT: Left of Code Chamber Signpost"
+        {1231507, 0x18}, // SIGNMT6 = "MT: Jade Snake Grove Quicksand Signpost 2"
+        {1231506, 0x19}, // SIGNMT5 = "MT: Jade Snake Grove Quicksand Signpost 1"
+    }}, {0x0178, { // MT - Inside Targitzan's Temple
+        {1231509, 0x1A}, // SIGNMT8 = "MT: Targitzan's Temple Signpost 1"
+        {1231510, 0x1B}, // SIGNMT9 = "MT: Targitzan's Temple Signpost 2"
+    }}, {0x00D2, { // GGM - Gloomy Caverns
+        {1231511, 0x1C}, // SIGNGM1 = "GGM: Gloomy Cavern Signpost"
+    }}, {0x00D3, { // GGM - Generator Cavern
+        {1231512, 0x1D}, // SIGNGM2 = "GGM: Generator Cavern Signpost"
+    }}, {0x00DA, { // GGM - Toxic Gas Cave
+        {1231513, 0x1E}, // SIGNGM3 = "GGM: Toxic Gas Cave Signpost"
+    }}, {0x0121, { // GGM - Inside Chuffy's Wagon
+        {1231514, 0x1F}, // SIGNGM4 = "GGM: Inside Chuffy's Wagon Signpost"
+    }}, {0x00D6, { // WW
+        {1231516, 0x20}, // SIGNWW2 = "WW: Madame Grunty Signpost"
+        {1231517, 0x21}, // SIGNWW3 = "WW: Burger Stand Signpost"
+        {1231519, 0x22}, // SIGNWW5 = "WW: Cactus of Strength Signpost"
+        {1231518, 0x23}, // SIGNWW4 = "WW: Fries Stand Signpost"
+        {1231515, 0x24}, // SIGNWW1 = "WW: Dodgem Dome Signpost"
+    }}, {0x00E3, { // WW - Crazy Castle Pump Room
+        {1231520, 0x25}, // SIGNWW6 = "WW: Pump Room Signpost"
+    }}, {0x00EA, { // WW - Cave of Horrors
+        {1231521, 0x26}, // SIGNWW7 = "WW: Gobi Cage Signpost"
+    }}, {0x00EB, { // WW - The Haunted Cavern
+        {1231522, 0x27}, // SIGNWW8 = "WW: The Haunted Caverns Signpost"
+    }}, {0x00F7, { // JRL - Seaweed Sanctum
+        {1231523, 0x28}, // SIGNJR1 = "JRL: Seeweed Sanctum Signpost"
+    }}, {0x00FF, { // JRL - Blubber's Waveracer Hire
+        {1231524, 0x29}, // SIGNJR2 = "JRL: Blubber's Signpost"
+    }}, {0x01A6, { // JRL - Smugglers' Cavern
+        {1231525, 0x2A}, // SIGNJR3 = "JRL: Smuggler's Cavern Signpost"
+    }}, {0x01A7, { // JRL
+        {1231526, 0x2B}, // SIGNJR4 = "JRL: Waste Pipe Alcove Signpost"
+    }}, {0x0100, { // GI
+        {1231531, 0x2C}, // SIGNGI1 = "GI Outside: Signpost"
+    }}, {0x0103, { // GI F1 - Worker's Quarters
+        {1231532, 0x2D}, // SIGNGI2 = "GI Floor 1: Workers Quarters Signpost"
+    }}, {0x0105, { // GI - Elevator Shaft
+        {1231533, 0x2E}, // SIGNGI3 = "GI Elevator Shaft: Signpost 1"
+        {1231534, 0x2F}, // SIGNGI4 = "GI Elevator Shaft: Signpost 2"
+    }}, {0x0112, { // TDL
+        {1231527, 0x30}, // SIGNTL1 = "TDL: Roar Cage Signpost"
+    }}, {0x0116, { // TDL - Inside the Mountain
+        {1231528, 0x31}, // SIGNTL2 = "TDL: Inside The Mountain Near Cheato Page Signpost"
+        {1231529, 0x32}, // SIGNTL3 = "TDL: Inside The Mountain Near Top Signpost"
+    }}, {0x0117, { // TDL - River Passage
+        {1231530, 0x33}, // SIGNTL4 = "TDL: River Passage Signpost"
+    }}, {0x0127, { // HFP - Lava
+        {1231536, 0x34}, // SIGNHP2 = "HFP: Top Hot Pool Signpost"
+        {1231535, 0x35}, // SIGNHP1 = "HFP: Bottom Hot Pool Signpost"
+    }}, {0x0133, { // HFP - Inside the Volcano
+        {1231538, 0x36}, // SIGNHP4 = "HFP: Volcano Signpost 2"
+        {1231537, 0x37}, // SIGNHP3 = "HFP: Volcano Signpost 1"
+        {1231539, 0x38}, // SIGNHP5 = "HFP: Volcano Signpost 3"
+    }}, {0x013A, { // CCL - Central Cavern
+        {1231540, 0x39}, // SIGNCC1 = "CCL: Indoors Pool Underwater Signpost"
+        {1231542, 0x3A}, // SIGNCC3 = "CCL: On Rim of Glowbo Pool Signpost"
+        {1231541, 0x3B}, // SIGNCC2 = "CCL: Sack Pack Silo Signpost"
+    }}, {0x0140, { // CCL - Wumba's Wigwam
+        {1231543, 0x3C}, // SIGNCC4 = "CCL: Wumba's Wigwam Signpost"
+    }}
+};

@@ -781,6 +781,19 @@ nlohmann::json BTClient::check_nest_locations()
     return nests_check;
 }
 
+nlohmann::json BTClient::check_signpost_locations()
+{
+    nlohmann::json signposts_check = json({});
+    for(auto&& [map, signposts] : SIGNPOST_DATA) {
+        if (map != CURRENT_MAP) continue;
+        for(auto&& [locationId, saveId] : signposts) {
+            signposts_check[std::to_string(locationId)] = check_custom_flag(ap_memory.n64.saves.signposts, saveId);
+        }
+        break;
+    }
+    return signposts_check;
+}
+
 // -------------- MUMBO TOKENS -------------------
 
 void BTClient::obtain_mumbo_token()
@@ -875,6 +888,11 @@ void BTClient::initialize_bt()
     if(ENABLE_AP_NESTS == true)
     {
         ap_memory.pc.settings.randomize_nests = 1;
+    }
+    //SIGNPOSTS
+    if(ENABLE_AP_SIGNPOSTS == true)
+    {
+        ap_memory.pc.settings.signpost_hints = 1;
     }
     //TOT
     ap_memory.pc.settings.skip_tower_of_tragedy = SKIP_TOT;
@@ -1377,6 +1395,11 @@ asio::awaitable<void> BTClient::getSlotData()
         ENABLE_AP_NESTS = true;
         if(DEBUG_NET == true) { std::cout << "Nests are Randomized" << std::endl; }
     }
+    if(block.contains(string{"slot_signposts"}) && block["slot_signposts"] != 0)
+    {
+        ENABLE_AP_SIGNPOSTS = true;
+        if(DEBUG_NET == true) { std::cout << "Signposts are Enabled" << std::endl; }
+    }
     if(block.contains(string{"slot_victory_condition"}) && block["slot_victory_condition"] != "")
     {
         GOAL_TYPE = block["slot_victory_condition"];
@@ -1713,6 +1736,7 @@ asio::awaitable<void> BTClient::sendToBTClient()
     retTable["roar"] = check_roar_location();
     retTable["dino_kids"] = check_dino_kids_locations();
     retTable["nests"] = check_nest_locations();
+    retTable["signposts"] = check_signpost_locations();
     retTable["DEMO"] = false;
     retTable["banjo_map"] = CURRENT_MAP;
     retTable["sync_ready"] = "true";

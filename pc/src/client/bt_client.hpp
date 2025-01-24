@@ -57,6 +57,7 @@ private:
   bool ENABLE_AP_CHUFFY = false;
   bool ENABLE_AP_WORLDS = false; //Used to Randomize World Order
   bool ENABLE_AP_NESTS = false;
+  bool ENABLE_AP_SIGNPOSTS = false;
   int GOAL_TYPE = 0;
   int MGH_LENGTH = 0; //Mini-game Mumbo Token Length
   int BH_LENGTH = 0; //Boss Token Length
@@ -151,6 +152,7 @@ private:
   nlohmann::json check_jinjo_locations();
   nlohmann::json check_jinjo_family_locations();
   nlohmann::json check_nest_locations();
+  nlohmann::json check_signpost_locations();
   void obtain_jinjos(int);
   void obtain_mumbo_token();
 };

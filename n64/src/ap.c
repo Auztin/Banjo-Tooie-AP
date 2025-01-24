@@ -1615,6 +1615,14 @@ void ap_check() {
       usb.send.saves_nests = 1;
     }
   }
+  u8* signposts_in = bt_custom_save.signposts;
+  u8* signposts_out = ap_memory.n64.saves.signposts;
+  for (int i = 0; i < sizeof(bt_custom_save.signposts); i++) {
+    if (signposts_out[i] != signposts_in[i]) {
+      signposts_out[i] = signposts_in[i];
+      usb.send.saves_signposts = 1;
+    }
+  }
 }
 
 void ap_new_file() {
