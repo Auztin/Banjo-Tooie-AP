@@ -232,7 +232,7 @@ void debug_warp_to_loop() {
       debug_warp_to_map++;
       debug_warp_to_iter = debug_warp_to_count-1;
     }
-    if (debug_warp_to_map >= sizeof(debug_warp_to_maps)) debug_warp_to_map = 0;
+    if (debug_warp_to_map >= sizeof(debug_warp_to_maps)/sizeof(*debug_warp_to_maps)) debug_warp_to_map = 0;
   }
   if (bt_controllers[0].pressed.ddown) {
     bt_fn_change_character(bt_current_player_char, BT_PLAYER_CHAR_BANJO_KAZOOIE);
