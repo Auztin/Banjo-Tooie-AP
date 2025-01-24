@@ -1329,7 +1329,7 @@ asio::awaitable<void> BTClient::getSlotData()
     }
     if(block.contains(string{"slot_tower_of_tragedy"}))
     {
-        SKIP_TOT = block["slot_tower_of_tragedy"]
+        SKIP_TOT = block["slot_tower_of_tragedy"];
         if(DEBUG_NET == true) { std::cout << "SKIP TOT is set" << std::endl; }
     }
     if(block.contains(string{"slot_randomize_bk_moves"}))
