@@ -47,6 +47,8 @@ u32 save_eeprom_read(u32 _unused, u32 offset, u32 *ramAddr);
 u32 save_eeprom_write(u32 _unused, u32 offset, u32 *ramAddr);
 u32 save_fake_has_move(u16 data);
 void save_fake_set_move(u16 data, u8 state);
+u32 save_check_get_bit(u16 data);
+u32 save_check_set_bit(u16 data);
 u32 save_fake_get_bit(u16 data);
 u32 save_fake_set_bit(u16 data);
 u32 save_fake_give_fast_swimming();

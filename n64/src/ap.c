@@ -688,6 +688,123 @@ void ap_sync_items(u16 type, u8 value) {
       bt_flags.hag1_open = value > 0;
       if (bt_flags.hag1_open) ap_open_doors(type);
       break;
+    case AP_ITEM_WARPMT_HUMBA:
+      if (ap_memory.pc.settings.randomize_warppads) bt_flags.mt_warp_pad_humba = value > 0;
+      break;
+    case AP_ITEM_WARPMT_PRISON:
+      if (ap_memory.pc.settings.randomize_warppads) bt_flags.mt_warp_pad_prison_compound = value > 0;
+      break;
+    case AP_ITEM_WARPMT_MUMBO:
+      if (ap_memory.pc.settings.randomize_warppads) bt_flags.mt_warp_pad_mumbo = value > 0;
+      break;
+    case AP_ITEM_WARPMT_ENTRANCE:
+      if (ap_memory.pc.settings.randomize_warppads) bt_flags.mt_warp_pad_entrance = value > 0;
+      break;
+    case AP_ITEM_WARPMT_KICKBALL:
+      if (ap_memory.pc.settings.randomize_warppads) bt_flags.mt_warp_pad_kickball = value > 0;
+      break;
+    case AP_ITEM_WARPGG_TRAIN:
+      if (ap_memory.pc.settings.randomize_warppads) bt_flags.ggm_warp_pad_train_station = value > 0;
+      break;
+    case AP_ITEM_WARPGG_CRUSHING:
+      if (ap_memory.pc.settings.randomize_warppads) bt_flags.ggm_warp_pad_crushing_shed = value > 0;
+      break;
+    case AP_ITEM_WARPGG_HUMBA:
+      if (ap_memory.pc.settings.randomize_warppads) bt_flags.ggm_warp_pad_humba = value > 0;
+      break;
+    case AP_ITEM_WARPGG_MUMBO:
+      if (ap_memory.pc.settings.randomize_warppads) bt_flags.ggm_warp_pad_mumbo = value > 0;
+      break;
+    case AP_ITEM_WARPGG_ENTRANCE:
+      if (ap_memory.pc.settings.randomize_warppads) bt_flags.ggm_warp_pad_entrance = value > 0;
+      break;
+    case AP_ITEM_WARPWW_BIGTOP:
+      if (ap_memory.pc.settings.randomize_warppads) bt_flags.ww_warp_pad_behind_big_top = value > 0;
+      break;
+    case AP_ITEM_WARPWW_ENTRANCE:
+      if (ap_memory.pc.settings.randomize_warppads) bt_flags.ww_warp_pad_entrance = value > 0;
+      break;
+    case AP_ITEM_WARPWW_MUMBO:
+      if (ap_memory.pc.settings.randomize_warppads) bt_flags.ww_warp_pad_mumbo = value > 0;
+      break;
+    case AP_ITEM_WARPWW_HUMBA:
+      if (ap_memory.pc.settings.randomize_warppads) bt_flags.ww_warp_pad_humba = value > 0;
+      break;
+    case AP_ITEM_WARPWW_SPACE:
+      if (ap_memory.pc.settings.randomize_warppads) bt_flags.ww_warp_pad_space = value > 0;
+      break;
+    case AP_ITEM_WARPJR_LOCKERS:
+      if (ap_memory.pc.settings.randomize_warppads) bt_flags.jrl_warp_pad_lockers_cavern = value > 0;
+      break;
+    case AP_ITEM_WARPJR_BIGFISH:
+      if (ap_memory.pc.settings.randomize_warppads) bt_flags.jrl_warp_pad_big_fish_cavern = value > 0;
+      break;
+    case AP_ITEM_WARPJR_SHIP:
+      if (ap_memory.pc.settings.randomize_warppads) bt_flags.jrl_warp_pad_sunken_ship = value > 0;
+      break;
+    case AP_ITEM_WARPJR_ATLANTIS:
+      if (ap_memory.pc.settings.randomize_warppads) bt_flags.jrl_warp_pad_atlantis = value > 0;
+      break;
+    case AP_ITEM_WARPJR_ENTRANCE:
+      if (ap_memory.pc.settings.randomize_warppads) bt_flags.jrl_warp_pad_entrance = value > 0;
+      break;
+    case AP_ITEM_WARPGI_MUMBO:
+      if (ap_memory.pc.settings.randomize_warppads) bt_flags.gi_floor3_warp_pad_mumbo = value > 0;
+      break;
+    case AP_ITEM_WARPGI_HUMBA:
+      if (ap_memory.pc.settings.randomize_warppads) bt_flags.gi_floor2_warp_pad_humba = value > 0;
+      break;
+    case AP_ITEM_WARPGI_ENTRANCE:
+      if (ap_memory.pc.settings.randomize_warppads) bt_flags.gi_floor1_warp_pad_entrance = value > 0;
+      break;
+    case AP_ITEM_WARPGI_ROOF:
+      if (ap_memory.pc.settings.randomize_warppads) bt_flags.gi_roof_warp_pad = value > 0;
+      break;
+    case AP_ITEM_WARPGI_CRUSHER:
+      if (ap_memory.pc.settings.randomize_warppads) bt_flags.gi_floor4_warp_pad_crushers = value > 0;
+      break;
+    case AP_ITEM_WARPTD_TOP:
+      if (ap_memory.pc.settings.randomize_warppads) bt_flags.tdl_warp_pad_path_to_nest = value > 0;
+      break;
+    case AP_ITEM_WARPTD_HUMBA:
+      if (ap_memory.pc.settings.randomize_warppads) bt_flags.tdl_warp_pad_humba = value > 0;
+      break;
+    case AP_ITEM_WARPTD_MUMBO:
+      if (ap_memory.pc.settings.randomize_warppads) bt_flags.tdl_warp_pad_mumbo = value > 0;
+      break;
+    case AP_ITEM_WARPTD_STOMPING:
+      if (ap_memory.pc.settings.randomize_warppads) bt_flags.tdl_warp_pad_stomping_plains = value > 0;
+      break;
+    case AP_ITEM_WARPTD_ENTRANCE:
+      if (ap_memory.pc.settings.randomize_warppads) bt_flags.tdl_warp_pad_entrance = value > 0;
+      break;
+    case AP_ITEM_WARPHF_ICICLE:
+      if (ap_memory.pc.settings.randomize_warppads) bt_flags.hfp_icy_warp_pad_icicle_grotto = value > 0;
+      break;
+    case AP_ITEM_WARPHF_HUMBA:
+      if (ap_memory.pc.settings.randomize_warppads) bt_flags.hfp_icy_warp_pad_humba = value > 0;
+      break;
+    case AP_ITEM_WARPHF_ICYUPPER:
+      if (ap_memory.pc.settings.randomize_warppads) bt_flags.hfp_icy_warp_pad_upper = value > 0;
+      break;
+    case AP_ITEM_WARPHF_LAVAUPPER:
+      if (ap_memory.pc.settings.randomize_warppads) bt_flags.hfp_lava_warp_pad_upper = value > 0;
+      break;
+    case AP_ITEM_WARPHF_ENTRANCE:
+      if (ap_memory.pc.settings.randomize_warppads) bt_flags.hfp_lava_warp_pad_entrance = value > 0;
+      break;
+    case AP_ITEM_WARPCC_ENTRANCE:
+      if (ap_memory.pc.settings.randomize_warppads) bt_flags.ccl_warp_pad_entrance = value > 0;
+      break;
+    case AP_ITEM_WARPCC_CENTER:
+      if (ap_memory.pc.settings.randomize_warppads) bt_flags.ccl_warp_pad_center = value > 0;
+      break;
+    case AP_ITEM_WARPCK_HAG1:
+      if (ap_memory.pc.settings.randomize_warppads) bt_flags.ck_warp_pad_hag1 = value > 0;
+      break;
+    case AP_ITEM_WARPCK_ENTRANCE:
+      if (ap_memory.pc.settings.randomize_warppads) bt_flags.ck_warp_pad_entrance = value > 0;
+      break;
   }
 }
 

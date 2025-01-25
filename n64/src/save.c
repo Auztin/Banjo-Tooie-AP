@@ -55,24 +55,10 @@ void save_fake_set_move(u16 data, u8 state) {
   save_fake_move_flags(data, 1, state);
 }
 
-u32 save_fake_bits(u16 data, u8 setFlag) {
+u32 save_fake_bits(u16 data, u8 setFlag, bool check) {
   if (bt_save_slot > 2) return 0;
+  if (!check) goto fake;
   switch (data) {
-    case 0x0086: // defeated chuffy
-    case 0x0095: // levitated train
-    case 0x010D: // trex roar
-    case 0x0118: // amaze o gaze
-    // stop and swop
-    case 0x03E2: // used ice key
-    case 0x03E3: // collected blue egg
-    case 0x03E4: // hatched blue egg
-    case 0x03E5: // collected pink egg
-    case 0x03E6: // hatched pink egg
-    case 0x05A4: // homing eggs cheat received
-    case 0x011F: // breegull bash
-    // roysten
-    case 0x011D: // fast swimming
-    case 0x01BF: // extra bubbles
     // train doors
     case 0x0096: // witchy world
     case 0x0163: // grunty industries
@@ -80,48 +66,60 @@ u32 save_fake_bits(u16 data, u8 setFlag) {
     case 0x01CF: // hailfire peaks (icy side)
     case 0x01D0: // hailfire peaks (fire side)
     case 0x0403: // isle o hags
-      data -= 0x28;
-      u32 save = (u32)&(bt_fake_flags);
-      if (setFlag) return bt_fn_set_bit(save, data, 1);
-      else return bt_fn_get_bit(save, data);
+      goto fake;
     default:
-      if (setFlag) return bt_fn_set_save_bit(data);
-      else return bt_fn_get_save_bit(data);
+      goto real;
   }
+  real:
+    if (setFlag) return bt_fn_set_save_bit(data);
+    else return bt_fn_get_save_bit(data);
+  fake:
+    data -= 0x28;
+    u32 save = (u32)&(bt_fake_flags);
+    if (setFlag) return bt_fn_set_bit(save, data, 1);
+    else return bt_fn_get_bit(save, data);
+}
+
+u32 save_check_get_bit(u16 data) { // 0x800da298
+  return save_fake_bits(data, 0, true);
+}
+
+u32 save_check_set_bit(u16 data) { // 0x800da544
+  return save_fake_bits(data, 1, true);
 }
 
 u32 save_fake_get_bit(u16 data) { // 0x800da298
-  return save_fake_bits(data, 0);
+  return save_fake_bits(data, 0, false);
 }
 
 u32 save_fake_set_bit(u16 data) { // 0x800da544
-  return save_fake_bits(data, 1);
+  return save_fake_bits(data, 1, false);
 }
 
 u32 save_fake_give_fast_swimming() { // 0x800c7074
-  return save_fake_bits(0x011D, 1);
+  return save_fake_bits(0x011D, 1, false);
 }
 
 u32 save_fake_give_bubbles() { // 0x800cf700
-  return save_fake_bits(0x01BF, 1);
+  return save_fake_bits(0x01BF, 1, false);
 }
 
 void save_fake_give_move(u16 data) { // 0x8009032C
-  save_fake_bits(data+0xED, 1);
+  save_fake_bits(data+0xED, 1, false);
 }
 
 void save_fake_give_homing_eggs() { // 0x800d3ef4
-  save_fake_bits(0x5A4, 1);
+  save_fake_bits(0x5A4, 1, false);
 }
 
 void save_fake_give_breegull_bash() { // 0x800c7074
-  save_fake_bits(0x11F, 1);
+  save_fake_bits(0x11F, 1, false);
 }
 
 void save_fake_give_item(u16 data) { // 0x800d1844
   switch (data-0x40) {
     case BT_ITEM_ICE_KEYS:
-      save_fake_bits(0x03E2, 1);
+      save_fake_bits(0x03E2, 1, false);
       break;
   }
 }
@@ -129,7 +127,7 @@ void save_fake_give_item(u16 data) { // 0x800d1844
 u32 save_fake_count_item(u16 data) { // 0x800d1a04
   switch (data-0x40) {
     case BT_ITEM_ICE_KEYS:
-      save_fake_bits(0x03E2, 0);
+      save_fake_bits(0x03E2, 0, false);
       break;
   }
 }

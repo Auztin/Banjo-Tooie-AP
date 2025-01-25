@@ -97,6 +97,50 @@ JR RA
 NOP
 
 .align 0x08
+main_draw_warp_pad_displaced:
+ADDIU SP, SP, -0x20
+SD RA, 0x0000 (SP)
+SD AT, 0x0008 (SP)
+SD A0, 0x0010 (SP)
+SD A1, 0x0018 (SP)
+JAL main_draw_warp_pad
+NOP
+LD AT, 0x0000 (SP)
+LD RA, 0x0008 (SP)
+LD A0, 0x0010 (SP)
+LD A1, 0x0018 (SP)
+ADDIU SP, SP, 0x20
+; displaced code
+ADDIU SP, SP, -0x18
+SW RA, 0x0014 (SP)
+JR AT
+SW A0, 0x0018 (SP)
+
+.align 0x08
+main_warp_pad_update_displaced:
+ADDIU SP, SP, -0x20
+SD RA, 0x0000 (SP)
+SD AT, 0x0008 (SP)
+SD A0, 0x0010 (SP)
+SD A1, 0x0018 (SP)
+JAL main_warp_pad_update
+NOP
+LD AT, 0x0000 (SP)
+LD RA, 0x0008 (SP)
+LD A0, 0x0010 (SP)
+LD A1, 0x0018 (SP)
+ADDIU SP, SP, 0x20
+BNEZ V0, .+16
+NOP
+JR RA
+NOP
+; displaced code
+ADDIU SP, SP, -0x30
+SW RA, 0x0024 (SP)
+JR AT
+SW S0, 0x0020 (SP)
+
+.align 0x08
 main_bt_pause_state_change_displaced:
 ADDIU SP, SP, -0x30
 SD RA, 0x0000 (SP)

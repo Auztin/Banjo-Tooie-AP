@@ -862,6 +862,32 @@ void main_init_egg_nest(bt_obj_instance_t* obj) {
   main_init_ap_nest(obj);
 }
 
+extern void main_draw_warp_pad_displaced(bt_obj_instance_t* obj, bt_draw_ctx_t* draw_ctx);
+void main_draw_warp_pad(bt_obj_instance_t* obj, bt_draw_ctx_t* draw_ctx) {
+  u32 T6 = *(u32*)((u32)obj + 0x2C);
+  u32 T8 = *(u16*)((u32)obj + 0x76);
+  if (bt_fn_get_save_bit(((T6 << 2) + T6) + (T8 >> 7) + 0x379)) {
+    if (obj->color.green < obj->color.red) obj->color.green += 10;
+    else obj->color.green = obj->color.red;
+    if (obj->color.blue < obj->color.red) obj->color.blue += 10;
+    else obj->color.blue = obj->color.red;
+  }
+  else {
+    obj->color.green = 0;
+    obj->color.blue = 0;
+  }
+}
+
+extern bool main_warp_pad_update_displaced(bt_obj_instance_t* obj, u8 state);
+bool main_warp_pad_update(bt_obj_instance_t* obj, u8 state) {
+  if (state != 3) return true;
+  u32 T6 = *(u32*)((u32)obj + 0x2C);
+  u32 T8 = *(u16*)((u32)obj + 0x76);
+  if (bt_fn_get_save_bit(((T6 << 2) + T6) + (T8 >> 7) + 0x379)) return true;
+  bt_fn_play_sound(BT_SOUND_WRONG, -1, 1, -1);
+  return false;
+}
+
 void pre_object_init(bt_object_t *obj) {
   if (!BT_IN_GAME && bt_current_map != BT_MAP_FILE_SELECT) return;
   switch (obj->objType) {
@@ -910,21 +936,21 @@ void pre_object_init(bt_object_t *obj) {
       util_inject(UTIL_INJECT_JUMP    , (u32)obj + 0x0300, (u32)save_jamjar_silo_requirements, 1);
       break;
     case BT_OBJ_SWITCH:
-      util_inject(UTIL_INJECT_FUNCTION, (u32)obj + 0x026C, (u32)save_fake_get_bit, 0);
-      util_inject(UTIL_INJECT_FUNCTION, (u32)obj + 0x048C, (u32)save_fake_get_bit, 0);
-      util_inject(UTIL_INJECT_FUNCTION, (u32)obj + 0x06B8, (u32)save_fake_get_bit, 0);
-      util_inject(UTIL_INJECT_FUNCTION, (u32)obj + 0x0754, (u32)save_fake_get_bit, 0);
-      util_inject(UTIL_INJECT_FUNCTION, (u32)obj + 0x08CC, (u32)save_fake_get_bit, 0);
-      util_inject(UTIL_INJECT_FUNCTION, (u32)obj + 0x0920, (u32)save_fake_get_bit, 0);
-      util_inject(UTIL_INJECT_FUNCTION, (u32)obj + 0x0A28, (u32)save_fake_get_bit, 0);
-      util_inject(UTIL_INJECT_FUNCTION, (u32)obj + 0x0B04, (u32)save_fake_get_bit, 0);
-      util_inject(UTIL_INJECT_FUNCTION, (u32)obj + 0x0B94, (u32)save_fake_get_bit, 0);
-      util_inject(UTIL_INJECT_FUNCTION, (u32)obj + 0x0DC8, (u32)save_fake_get_bit, 0);
+      util_inject(UTIL_INJECT_FUNCTION, (u32)obj + 0x026C, (u32)save_check_get_bit, 0);
+      util_inject(UTIL_INJECT_FUNCTION, (u32)obj + 0x048C, (u32)save_check_get_bit, 0);
+      util_inject(UTIL_INJECT_FUNCTION, (u32)obj + 0x06B8, (u32)save_check_get_bit, 0);
+      util_inject(UTIL_INJECT_FUNCTION, (u32)obj + 0x0754, (u32)save_check_get_bit, 0);
+      util_inject(UTIL_INJECT_FUNCTION, (u32)obj + 0x08CC, (u32)save_check_get_bit, 0);
+      util_inject(UTIL_INJECT_FUNCTION, (u32)obj + 0x0920, (u32)save_check_get_bit, 0);
+      util_inject(UTIL_INJECT_FUNCTION, (u32)obj + 0x0A28, (u32)save_check_get_bit, 0);
+      util_inject(UTIL_INJECT_FUNCTION, (u32)obj + 0x0B04, (u32)save_check_get_bit, 0);
+      util_inject(UTIL_INJECT_FUNCTION, (u32)obj + 0x0B94, (u32)save_check_get_bit, 0);
+      util_inject(UTIL_INJECT_FUNCTION, (u32)obj + 0x0DC8, (u32)save_check_get_bit, 0);
 
-      util_inject(UTIL_INJECT_FUNCTION, (u32)obj + 0x0338, (u32)save_fake_set_bit, 0);
-      util_inject(UTIL_INJECT_FUNCTION, (u32)obj + 0x059C, (u32)save_fake_set_bit, 0);
-      util_inject(UTIL_INJECT_FUNCTION, (u32)obj + 0x0ACC, (u32)save_fake_set_bit, 0);
-      util_inject(UTIL_INJECT_FUNCTION, (u32)obj + 0x0CEC, (u32)save_fake_set_bit, 0);
+      util_inject(UTIL_INJECT_FUNCTION, (u32)obj + 0x0338, (u32)save_check_set_bit, 0);
+      util_inject(UTIL_INJECT_FUNCTION, (u32)obj + 0x059C, (u32)save_check_set_bit, 0);
+      util_inject(UTIL_INJECT_FUNCTION, (u32)obj + 0x0ACC, (u32)save_check_set_bit, 0);
+      util_inject(UTIL_INJECT_FUNCTION, (u32)obj + 0x0CEC, (u32)save_check_set_bit, 0);
       break;
     case BT_OBJ_ROYSTEN:
       util_inject(UTIL_INJECT_FUNCTION, (u32)obj + 0x00E0, (u32)save_fake_get_bit, 0);
@@ -1025,6 +1051,15 @@ void pre_object_init(bt_object_t *obj) {
     case BT_OBJ_CLOCKWORK_MOUSE:
       if (!ap_memory.pc.settings.assist_mode) break;
       util_inject(UTIL_INJECT_RAW     , (u32)obj + 0x1344, 0x3C0140C0, 0);
+      break;
+    case BT_OBJ_WARP_PAD:
+      if (!ap_memory.pc.settings.randomize_warppads) break;
+      util_inject(UTIL_INJECT_RAW     , (u32)obj + 0x00EC, 0x001F0821, 0);
+      util_inject(UTIL_INJECT_FUNCTION, (u32)obj + 0x00F0, (u32)main_draw_warp_pad_displaced, 1);
+      util_inject(UTIL_INJECT_FUNCTION, (u32)obj + 0x0480, (u32)save_fake_get_bit, 0);
+      util_inject(UTIL_INJECT_FUNCTION, (u32)obj + 0x04C0, (u32)save_fake_set_bit, 0);
+      util_inject(UTIL_INJECT_RAW     , (u32)obj + 0x04F8, 0x001F0821, 0);
+      util_inject(UTIL_INJECT_FUNCTION, (u32)obj + 0x04FC, (u32)main_warp_pad_update_displaced, 1);
       break;
   }
 }
