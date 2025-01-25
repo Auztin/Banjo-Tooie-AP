@@ -52,5 +52,6 @@ int main() {
   printf("    real_flags = 0x%X,\n",                      calc(ptr, ptr.n64_saves_real));
   printf("    fake_flags = 0x%X,\n",                      calc(ptr, ptr.n64_saves_fake));
   printf("    nest_flags = 0x%X,\n",                      calc(ptr, ptr.n64_saves_nests));
+  printf("    signpost_flags = 0x%X,\n",                  calc(ptr, ptr.n64_saves_signposts));
   return 0;
 }
