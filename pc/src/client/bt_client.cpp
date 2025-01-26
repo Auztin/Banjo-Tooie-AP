@@ -857,12 +857,12 @@ void BTClient::initialize_bt()
         ap_memory.pc.settings.skip_puzzles = 1;
     }
     //HAG 1 Early
-    if(OPEN_HAG1 == true && GOAL_TYPE != 4)
+    if(OPEN_HAG1 == true && (GOAL_TYPE != 4 && GOAL_TYPE != 6))
     {
         ap_memory.pc.items[AP_ITEM_H1A] = 1;
         show_message(BT_ZOOMBOX_ICON_DINGPOT, {{"message","HAG-1 is now open!"}});
     }
-    else if(GOAL_TYPE != 4)
+    else if(GOAL_TYPE != 4 && GOAL_TYPE != 6)
     {
         ap_memory.pc.settings.jiggy_requirements[9] = 70;
     }
@@ -955,6 +955,9 @@ void BTClient::initialize_bt()
             break;
         case 5: // option_token_hunt
             ap_memory.pc.settings.max_mumbo_tokens = TH_LENGTH;
+            break;
+        case 6: // option_boss_hunt + hag1
+            ap_memory.pc.settings.max_mumbo_tokens = BH_LENGTH;
             break;
         default:
             ap_memory.pc.settings.max_mumbo_tokens = 0;
@@ -1108,6 +1111,11 @@ nlohmann::json BTClient::check_unlock_worlds()
             show_message(BT_ZOOMBOX_ICON_DINGPOT, {{"message","HAG-1 is now open!"}});
         }
         if(GOAL_TYPE == 4 && MUMBO_TOKENS == 32)
+        {
+            ap_memory.pc.items[AP_ITEM_H1A] = 1;
+            show_message(BT_ZOOMBOX_ICON_DINGPOT, {{"message","HAG-1 is now open!"}});
+        }
+        if(GOAL_TYPE == 6 && MUMBO_TOKENS >= BH_LENGTH)
         {
             ap_memory.pc.items[AP_ITEM_H1A] = 1;
             show_message(BT_ZOOMBOX_ICON_DINGPOT, {{"message","HAG-1 is now open!"}});
@@ -1516,6 +1524,10 @@ void BTClient::printGoalInfo()
     else if(GOAL_TYPE == 5 && TH_LENGTH < 15)
     {
         show_message(character, {{"message","You are trying to find " + std::to_string(TH_LENGTH) + " of the 15 of Mumbo Tokens scattered throughout the Isle of Hags! Good Luck and " + encouragement[0]}});
+    }
+    else if(GOAL_TYPE == 6)
+    {
+        show_message(character, {{"message","You need to defeat " + std::to_string(BH_LENGTH) + " Bosses in order to defeat HAG-1! Good Luck and " + encouragement[0]}});
     }
     return;
 }
