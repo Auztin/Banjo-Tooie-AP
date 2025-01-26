@@ -1408,6 +1408,16 @@ asio::awaitable<void> BTClient::getSlotData()
         ENABLE_AP_SIGNPOSTS = true;
         if(DEBUG_NET == true) { std::cout << "Signposts are Enabled" << std::endl; }
     }
+    if(block.contains(string{"slot_extra_cheats"}) && block["slot_extra_cheats"] != 0)
+    {
+        ENABLE_AP_SIGNPOSTS = true;
+        if(DEBUG_NET == true) { std::cout << "Extra Cheats are Enabled" << std::endl; }
+    }
+    if(block.contains(string{"slot_easy_canary"}) && block["slot_easy_canary"] != 0)
+    {
+        ENABLE_AP_SIGNPOSTS = true;
+        if(DEBUG_NET == true) { std::cout << "Easy Canary are Enabled" << std::endl; }
+    }
     if(block.contains(string{"slot_victory_condition"}) && block["slot_victory_condition"] != "")
     {
         GOAL_TYPE = block["slot_victory_condition"];
