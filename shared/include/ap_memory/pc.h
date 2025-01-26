@@ -45,7 +45,8 @@ typedef struct {
     u8 dialog_character;
     u8 max_mumbo_tokens;
     u8 signpost_hints;
-    u8 assist_mode;
+    u8 extra_cheats;
+    u8 easy_canary;
     u8 jiggy_requirements[11];
     u8 open_silos[AP_SILO_MAX];
     u16 silo_requirements[24];

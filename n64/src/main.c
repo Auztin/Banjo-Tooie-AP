@@ -57,18 +57,7 @@ void pre_draw_objects(u8 type, bt_draw_ctx_t* draw_ctx) {
 }
 
 void post_draw_objects(u8 type, bt_draw_ctx_t* draw_ctx) {
-  if (type == 3 && ap_memory.pc.settings.assist_mode) {
-    bt_fn_text_reset_options();
-    bt_text_options.size = 0.70;
-    bt_text_options.color.alpha = 0x80;
-    bt_text_options.color.green = 0;
-    bt_text_options.color.red = 0;
-    bt_text_options.color.blue = 0xFF;
-    bt_fn_text_big_draw(draw_ctx, 245, 205, "ASSIST");
-    bt_text_options.color.red = 0xFF;
-    bt_text_options.color.blue = 0;
-    bt_fn_text_big_draw(draw_ctx, 245, 220, "MODE");
-  }
+
 }
 
 void pre_draw_hud(bt_draw_ctx_t* draw_ctx) {
@@ -1022,11 +1011,11 @@ void pre_object_init(bt_object_t *obj) {
       util_inject(UTIL_INJECT_JUMP    , (u32)obj + 0x02D4, (u32)ap_signpost_dialog, 1);
       break;
     case BT_OBJ_HANDCART:
-      if (!ap_memory.pc.settings.assist_mode) break;
+      if (!ap_memory.pc.settings.easy_canary) break;
       util_inject(UTIL_INJECT_RAW     , (u32)obj + 0x15F0, 0x3C0140C0, 0);
       break;
     case BT_OBJ_CLOCKWORK_MOUSE:
-      if (!ap_memory.pc.settings.assist_mode) break;
+      if (!ap_memory.pc.settings.easy_canary) break;
       util_inject(UTIL_INJECT_RAW     , (u32)obj + 0x1344, 0x3C0140C0, 0);
       break;
   }

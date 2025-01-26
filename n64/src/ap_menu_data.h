@@ -182,8 +182,6 @@ ap_menu_data_t ap_menu_options_data[] = {
 };
 
 enum {
-  AP_MENU_CHEATS_SUPER_BANJO,
-  AP_MENU_CHEATS_SUPERBADDY,
   AP_MENU_CHEATS_FEATHERS,
   AP_MENU_CHEATS_EGGS,
   AP_MENU_CHEATS_FALLPROOF,
@@ -191,11 +189,11 @@ enum {
   AP_MENU_CHEATS_HOMING_EGGS,
   AP_MENU_CHEATS_NESTKING,
   AP_MENU_CHEATS_HONEYKING,
+  AP_MENU_CHEATS_SUPER_BANJO,
+  AP_MENU_CHEATS_SUPERBADDY,
 };
 
 ap_menu_data_t ap_menu_cheats_data[] = {
-  {.item=AP_MENU_CHEATS_SUPER_BANJO, .zb={.lines=1, .icon=BT_ZOOMBOX_ICON_BANJO, .text=(char*[]){"SUPERBANJO"}}},
-  {.item=AP_MENU_CHEATS_SUPERBADDY, .zb={.lines=1, .icon=BT_ZOOMBOX_ICON_KLUNGO, .text=(char*[]){"SUPERBADDY"}}},
   {.item=AP_MENU_CHEATS_FEATHERS, .zb={.lines=1, .icon=BT_ZOOMBOX_ICON_NEST_RED_FEATHERS, .text=(char*[]){"FEATHERS"}}},
   {.item=AP_MENU_CHEATS_EGGS, .zb={.lines=1, .icon=BT_ZOOMBOX_ICON_NEST_BLUE_EGGS, .text=(char*[]){"EGGS"}}},
   {.item=AP_MENU_CHEATS_FALLPROOF, .zb={.lines=1, .icon=BT_ZOOMBOX_ICON_HONEYCOMB, .text=(char*[]){"FALLPROOF"}}},
@@ -203,6 +201,8 @@ ap_menu_data_t ap_menu_cheats_data[] = {
   {.item=AP_MENU_CHEATS_HOMING_EGGS, .zb={.lines=1, .icon=BT_ZOOMBOX_ICON_HEGGY, .text=(char*[]){"HOMING EGGS"}}},
   {.item=AP_MENU_CHEATS_NESTKING, .zb={.lines=1, .icon=BT_ZOOMBOX_ICON_NEST_MINE_EGGS, .text=(char*[]){"NESTKING"}}},
   {.item=AP_MENU_CHEATS_HONEYKING, .zb={.lines=1, .icon=BT_ZOOMBOX_ICON_NEST_GOLD_FEATHERS, .text=(char*[]){"HONEYKING"}}},
+  {.item=AP_MENU_CHEATS_SUPER_BANJO, .zb={.lines=1, .icon=BT_ZOOMBOX_ICON_BANJO, .text=(char*[]){"SUPERBANJO"}}},
+  {.item=AP_MENU_CHEATS_SUPERBADDY, .zb={.lines=1, .icon=BT_ZOOMBOX_ICON_KLUNGO, .text=(char*[]){"SUPERBADDY"}}},
 };
 
 #endif // AP_MENU_DATA_H
