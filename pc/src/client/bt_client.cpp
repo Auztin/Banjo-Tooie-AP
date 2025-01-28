@@ -894,6 +894,14 @@ void BTClient::initialize_bt()
     {
         ap_memory.pc.settings.signpost_hints = 1;
     }
+    if(ENABLE_AP_CHEATS == true)
+    {
+        ap_memory.pc.settings.extra_cheats = 1; 
+    }
+    if(ENABLE_AP_EASY_CANARY == true)
+    {
+        ap_memory.pc.settings.easy_canary = 1;
+    }
     //TOT
     ap_memory.pc.settings.skip_tower_of_tragedy = SKIP_TOT;
     //MINIGAME
@@ -1410,12 +1418,12 @@ asio::awaitable<void> BTClient::getSlotData()
     }
     if(block.contains(string{"slot_extra_cheats"}) && block["slot_extra_cheats"] != 0)
     {
-        ENABLE_AP_SIGNPOSTS = true;
+        ENABLE_AP_CHEATS = true;
         if(DEBUG_NET == true) { std::cout << "Extra Cheats are Enabled" << std::endl; }
     }
     if(block.contains(string{"slot_easy_canary"}) && block["slot_easy_canary"] != 0)
     {
-        ENABLE_AP_SIGNPOSTS = true;
+        ENABLE_AP_EASY_CANARY = true;
         if(DEBUG_NET == true) { std::cout << "Easy Canary are Enabled" << std::endl; }
     }
     if(block.contains(string{"slot_victory_condition"}) && block["slot_victory_condition"] != "")
