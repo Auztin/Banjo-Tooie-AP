@@ -49,6 +49,7 @@ typedef struct {
 
 #define BT_SETUP_JIGGYWIGGY         0x01E1
 #define BT_SETUP_JIGGYWIGGY_TEMPLE  0x01E7
+#define BT_SETUP_MUMBO_PAD          0x02B0
 
 typedef struct {
   u32 _unknown1[6];

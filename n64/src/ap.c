@@ -613,14 +613,14 @@ void ap_sync_items(u16 type, u8 value) {
     case AP_ITEM_CHUFFY:
       if (value) {
         if (
-             ap_memory.pc.settings.randomize_chuffy
-          && !bt_flags.train_at_ioh
+             !bt_flags.train_at_ioh
           && !bt_flags.train_at_tdl
           && !bt_flags.train_at_gi
           && !bt_flags.train_at_hfp_lava
           && !bt_flags.train_at_hfp_icy
           && !bt_flags.train_at_ww
         ) bt_flags.train_at_ggm = 1;
+        bt_flags.ggm_mumbo_train = 1;
         bt_fake_flags.ggm_defeated_chuffy = 1;
         bt_fake_flags.ggm_mumbo_train = 1;
       }
@@ -633,6 +633,7 @@ void ap_sync_items(u16 type, u8 value) {
           bt_flags.train_at_hfp_icy = 0;
           bt_flags.train_at_ww = 0;
           bt_flags.train_at_ggm = 0;
+          bt_flags.ggm_mumbo_train = 0;
         }
         bt_fake_flags.ggm_defeated_chuffy = 0;
         bt_fake_flags.ggm_mumbo_train = 0;
@@ -1862,9 +1863,6 @@ void ap_new_file() {
 void ap_load_file() {
   ap.load_file = 0;
   for (int i = 0; i < AP_ITEM_MAX; i++) ap_sync_items(i, ap_memory.pc.items[i]);
-  if (ap_memory.pc.settings.randomize_chuffy) {
-    bt_flags.ggm_mumbo_train = 1;
-  }
   if (ap_memory.pc.settings.backdoors) {
     bt_flags.mt_opened_kickball_hfp = 1;
     bt_flags.ww_opened_space_ggm = 1;
