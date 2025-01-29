@@ -1565,16 +1565,16 @@ void ap_check() {
   }
   if (bt_controllers[0].held.l) {
     char message[25] = {0};
-    if (bt_controllers[0].pressed.dright) { // SUPER BANJO
+    if (bt_controllers[0].pressed.dright && ap_memory.pc.settings.extra_cheats) { // SUPERBANJO
       bt_flags.cheats_superbanjo_enabled = !bt_flags.cheats_superbanjo_enabled;
       ap.internal_icon = BT_ZOOMBOX_ICON_BANJO;
-      strcpy(message, "SUPER BANJO ");
+      strcpy(message, "SUPERBANJO ");
       strcat(message, bt_flags.cheats_superbanjo_enabled ? "ENABLED" : "DISABLED");
     }
     if (bt_controllers[0].pressed.dleft && bt_flags.cheats_homing_eggs_received) { // HOMING EGGS
       bt_flags.cheats_homing_eggs_enabled = !bt_flags.cheats_homing_eggs_enabled;
       ap.internal_icon = BT_ZOOMBOX_ICON_HEGGY;
-      strcpy(message, "HOMING EGGS ");
+      strcpy(message, "HOMINGEGGS ");
       strcat(message, bt_flags.cheats_homing_eggs_enabled ? "ENABLED" : "DISABLED");
     }
     if (bt_controllers[0].pressed.ddown && bt_flags.cheats_honeyback_received) { // HONEYBACK
