@@ -881,6 +881,7 @@ void ap_sync_traps() {
             break;
           case AP_TRAP_SQUISH:
             ap.fn_trap = ap_trap_squish;
+            break;
           case AP_TRAP_SIGN:
             ap.fn_trap = ap_trap_sign;
             break;
