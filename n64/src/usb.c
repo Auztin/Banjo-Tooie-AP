@@ -113,6 +113,12 @@ void usb_check() {
             }
             case USB_CMD_PC_MESSAGE: {
               usb_apmemcpy(&ap_memory.pc.message, usb.packet.message, sizeof(ap_memory.pc.message));
+              ap_memory.pc.message[sizeof(ap_memory.pc.message)-1] = 0;
+              break;
+            }
+            case USB_CMD_PC_SIGNPOST: {
+              usb_apmemcpy(&ap_memory.pc.signposts[usb.packet.signpost.signId], usb.packet.signpost.data, sizeof(*ap_memory.pc.signposts));
+              ap_memory.pc.signposts[usb.packet.signpost.signId][sizeof(*ap_memory.pc.signposts)-1] = 0;
               break;
             }
             case USB_CMD_PC_SETTINGS: {

@@ -896,7 +896,7 @@ void BTClient::initialize_bt()
     }
     if(ENABLE_AP_CHEATS == true)
     {
-        ap_memory.pc.settings.extra_cheats = 1; 
+        ap_memory.pc.settings.extra_cheats = 1;
     }
     if(ENABLE_AP_EASY_CANARY == true)
     {
@@ -1411,10 +1411,23 @@ asio::awaitable<void> BTClient::getSlotData()
         ENABLE_AP_NESTS = true;
         if(DEBUG_NET == true) { std::cout << "Nests are Randomized" << std::endl; }
     }
-    if(block.contains(string{"slot_signposts"}) && block["slot_signposts"] != 0)
+    if(
+           block.contains(string{"slot_hints"}) && block["slot_hints"] != 0
+        && block.contains(string{"slot_hints_activated"}) && block["slot_hints_activated"] != 0
+    )
     {
         ENABLE_AP_SIGNPOSTS = true;
         if(DEBUG_NET == true) { std::cout << "Signposts are Enabled" << std::endl; }
+        std::map<int, int> signIds;
+        for (auto&& [map, data] : SIGNPOST_DATA) {
+            for (auto&& [locationId, signId] : data) signIds[locationId] = signId;
+        }
+        for(auto& [signId, hint] : block["slot_hints"].items()) {
+            std::string message = hint["text"];
+            std::transform(message.begin(), message.end(), message.begin(), ::toupper);
+            strcpy((char*)ap_memory.pc.signposts[signIds[std::stoi(signId)]], message.c_str());
+        }
+
     }
     if(block.contains(string{"slot_extra_cheats"}) && block["slot_extra_cheats"] != 0)
     {
