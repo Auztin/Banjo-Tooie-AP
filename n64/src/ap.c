@@ -756,7 +756,7 @@ bool ap_trap_slip(bool checking) {
   return false;
 }
 
-bool ap_trap_misfire(bool checking) {
+bool ap_trap_transform(bool checking) {
   if (checking) {
     switch (bt_player_chars.control_type) {
       case BT_PLAYER_CHAR_BREEGULL_BLASTER:
@@ -807,15 +807,15 @@ bool ap_trap_squish(bool checking) {
   return false;
 }
 
-void ap_trap_sign_end() {
+void ap_trap_tip_end() {
   ap.fn_trap = 0;
   ap_increment_trap();
 }
 
-bool ap_trap_sign(bool checking) {
+bool ap_trap_tip(bool checking) {
   if (checking) {
     if (!bt_dialog.textObjectPtr && bt_fn_load_dialog((BT_RANDOM % 0x3D)+0x1686, 0x48, bt_current_player_char->pos, 0)) {
-      bt_dialog.callbackPtr = ap_trap_sign_end;
+      bt_dialog.callbackPtr = ap_trap_tip_end;
       return true;
     }
   }
@@ -876,14 +876,14 @@ void ap_sync_traps() {
           case AP_TRAP_SLIP:
             ap.fn_trap = ap_trap_slip;
             break;
-          case AP_TRAP_MISFIRE:
-            ap.fn_trap = ap_trap_misfire;
+          case AP_TRAP_TRANSFORM:
+            ap.fn_trap = ap_trap_transform;
             break;
           case AP_TRAP_SQUISH:
             ap.fn_trap = ap_trap_squish;
             break;
-          case AP_TRAP_SIGN:
-            ap.fn_trap = ap_trap_sign;
+          case AP_TRAP_TIP:
+            ap.fn_trap = ap_trap_tip;
             break;
           default:
             continue;
