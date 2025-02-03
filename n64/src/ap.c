@@ -1493,7 +1493,7 @@ void ap_signpost_dialog(bt_obj_instance_t* obj) {
   if (ap.signpost >= 0) {
     save_custom_set_bit(bt_custom_save.signposts, ap.signpost);
     u8 icon = ap_memory.pc.settings.dialog_character;
-    if (icon == 110) icon = BT_ZOOMBOX_ICON_GRUNTY;
+    if (icon == 110) icon = BT_ZOOMBOX_ICON_JAMJARS;
     else if (icon >= sizeof(ap_dialog_icons)) icon = ap_dialog_icons[BT_RANDOM % sizeof(ap_dialog_icons)];
     ap.zb_signpost = bt_fn_zoombox_new(28, icon, 0, 1);
     bt_fn_zoombox_init(ap.zb_signpost);
