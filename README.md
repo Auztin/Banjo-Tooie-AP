@@ -11,6 +11,6 @@ In the n64/tools folder, you will need to place:
 * [mips64/](https://github.com/DragonMinded/libdragon/releases/tag/toolchain-continuous-prerelease)
 * [armips](https://github.com/Kingcom/armips/releases)
 
-In the n64/rom folder, you will need to place a file called `Banjo-Tooie.n64`. This file cannot be byte-swapped. If you open the file in a hex editor, you should see near the top: `42 41 4E 4A   4F 20 54 4F   4F 49 45 20   20 20 20 20` `BANJO TOOIE`
+In the n64/rom folder, you will need to place a file called `Banjo-Tooie.z64`. This file cannot be byte-swapped. If you open the file in a hex editor, you should see near the top: `42 41 4E 4A   4F 20 54 4F   4F 49 45 20   20 20 20 20` `BANJO TOOIE`
 
 Run `make`.

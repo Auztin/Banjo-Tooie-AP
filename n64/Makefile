@@ -6,8 +6,8 @@ ROMDIR:= rom
 ASSETS:= assets
 SHARED:= ../shared
 
-OGROM:=$(ROMDIR)/Banjo-Tooie.n64
-PATCHEDROM:=$(ROMDIR)/Banjo-Tooie-Patched.n64
+OGROM:=$(ROMDIR)/Banjo-Tooie.z64
+PATCHEDROM:=$(ROMDIR)/Banjo-Tooie-Patched.z64
 PATCHFILE:=$(ROMDIR)/Banjo-Tooie.patch
 
 PATH+=:$(TOOLSDIR)/:$(TOOLSDIR)/mips64/opt/libdragon/bin/:$(TOOLSDIR)/libdragon/tools/
