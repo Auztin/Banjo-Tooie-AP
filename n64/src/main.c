@@ -23,7 +23,9 @@ struct main_credit_lines_t {
   {.icon=BT_ZOOMBOX_ICON_BOGGY, .name="FHNNHF..."},
   {.icon=BT_ZOOMBOX_ICON_EVIL_BOTTLES, .name="AUSTIN..."},
   {.icon=BT_ZOOMBOX_ICON_CANARY_MARY, .name="UNALIVE..."},
+  {.icon=BT_ZOOMBOX_ICON_GRUNTY, .name="DARDY..."},
   {.icon=BT_ZOOMBOX_ICON_SAFE, .name="OZONE..."},
+  {.icon=BT_ZOOMBOX_ICON_BANJO, .name="BANJOGENIUS..."},
   {.icon=BT_ZOOMBOX_ICON_WELDAR, .name="AND JJJJ12212   "},
 };
 
