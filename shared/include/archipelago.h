@@ -2,7 +2,7 @@
 #define ARCHIPELAGO_H
 
 #define AP_VERSION_MAJOR 4
-#define AP_VERSION_MINOR 2
+#define AP_VERSION_MINOR 3
 #define AP_VERSION_PATCH 0
 
 #include <stdint.h>
