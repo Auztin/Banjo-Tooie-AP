@@ -1141,12 +1141,78 @@ void ap_update() {
 
 void ap_check_enough_notes(u16 start, u16 end) {
   if (start == end || start > end) return;
+
+  const char* names[] = {
+    "EGG AIM",
+    "BREEGULL BLASTER",
+    "GRIP GRAB",
+    "FIRE EGGS",
+    "BILL DRILL",
+    "BEAK BAYONET",
+    "GRENADE EGGS",
+    "SPLIT UP",
+    "PACK WHACK",
+    "AIRBORNE EGG AIMING",
+    "ICE EGGS",
+    "WING WHACK",
+    "SUB-AQUA EGG AIMING",
+    "TALON TORPEDO",
+    "CLOCKWORK KAZOOIE EGGS",
+    "SPRINGY STEP SHOES",
+    "TAXI PACK",
+    "HATCH",
+    "CLAW CLAMBER BOOTS",
+    "SNOOZE PACK",
+    "LEG SPRING",
+    "SHACK PACK",
+    "GLIDE",
+    "SACK PACK"
+  };
+
+  const int UNLOCK_LIMIT = 5;
+  int unlocks[UNLOCK_LIMIT];
+  int n_unlocks = 0;
+
   for (int i = 0; i < sizeof(ap_memory.pc.settings.silo_requirements)/sizeof(*ap_memory.pc.settings.silo_requirements); i++) {
     u16 amount = ap_memory.pc.settings.silo_requirements[i];
     if (start < amount && end >= amount) {
-      ap.internal_icon = BT_ZOOMBOX_ICON_JAMJARS;
-      strcpy(ap.internal_message, "YOU HAVE ENOUGH NOTES FOR A NEW MOVE!");
-      break;
+      if (n_unlocks < UNLOCK_LIMIT) {
+        unlocks[n_unlocks] = i;
+      }
+      ++n_unlocks;
+    }
+  }
+
+  if (n_unlocks == 0) {
+    return;
+  }
+
+  ap.internal_icon = BT_ZOOMBOX_ICON_JAMJARS;
+
+  if (n_unlocks == 1) {
+    strcpy(ap.internal_message, "YOU HAVE ENOUGH NOTES FOR A NEW MOVE AT ");
+    strcat(ap.internal_message, names[unlocks[0]]);
+    strcat(ap.internal_message, " SILO!");
+  }
+  else if (n_unlocks > UNLOCK_LIMIT) {
+    // Too many silos unlocked at the same time.
+    strcpy(ap.internal_message, "YOU HAVE ENOUGH NOTES FOR MULTIPLE NEW MOVES!");
+  }
+  else {
+    strcpy(ap.internal_message, "YOU HAVE ENOUGH NOTES FOR NEW MOVES AT ");
+    for (int i = 0; i < n_unlocks; ++i){
+      bool is_last = (i == n_unlocks - 1);
+      if (is_last) {
+        strcat(ap.internal_message, "AND ");
+      }
+
+      strcat(ap.internal_message, names[unlocks[i]]);
+
+      if (is_last) {
+        strcat(ap.internal_message, " SILOS!");
+      } else {
+        strcat(ap.internal_message, ", ");
+      }
     }
   }
 }
