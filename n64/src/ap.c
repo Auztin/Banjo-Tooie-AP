@@ -1190,16 +1190,16 @@ void ap_check_enough_notes(u16 start, u16 end) {
   ap.internal_icon = BT_ZOOMBOX_ICON_JAMJARS;
 
   if (n_unlocks == 1) {
-    strcpy(ap.internal_message, "YOU HAVE ENOUGH NOTES FOR A NEW MOVE AT ");
+    strcpy(ap.internal_message, "YOU HAVE ENOUGH NOTES TO CHECK THE ");
     strcat(ap.internal_message, names[unlocks[0]]);
     strcat(ap.internal_message, " SILO!");
   }
   else if (n_unlocks > UNLOCK_LIMIT) {
     // Too many silos unlocked at the same time.
-    strcpy(ap.internal_message, "YOU HAVE ENOUGH NOTES FOR MULTIPLE NEW MOVES!");
+    strcpy(ap.internal_message, "YOU HAVE ENOUGH NOTES TO CHECK MULTIPLE SILOS!");
   }
   else {
-    strcpy(ap.internal_message, "YOU HAVE ENOUGH NOTES FOR NEW MOVES AT ");
+    strcpy(ap.internal_message, "YOU HAVE ENOUGH NOTES TO CHECK THE ");
     for (int i = 0; i < n_unlocks; ++i){
       bool is_last = (i == n_unlocks - 1);
       if (is_last) {
