@@ -21,7 +21,7 @@ void USBCom::check() {
     FT_Close(handle);
     if (open() != FT_OK) wait = 1000;
   }
-  else process();
+  else if (process()) wait = 0;
 
   timer.expires_after(std::chrono::milliseconds(wait));
   timer.async_wait([this](const asio::error_code& error) {
@@ -119,88 +119,90 @@ FT_STATUS USBCom::write(uint16_t cmd, uint16_t len) {
   return ret;
 }
 
-void USBCom::process() {
-  if (packet.cmd == USB_CMD_NONE) return;
-  ping(false);
-  switch (status & ~USB_STATUS_PINGED) {
-    case USB_STATUS_DISCONNECTED:
-      switch (packet.cmd) {
-        case USB_CMD_HANDSHAKE:
-          log("[N64] USB_CMD_HANDSHAKE\n");
-          if (memcmp(packet.handshake.msg, "HELO", 4)) {
-            log("USB Protocol invalid handshake message!\n");
-            return;
-          }
-          if (packet.handshake.version.as_int != AP_VERSION.as_int) {
-            log("USB Protocol version mismatch! We are: 0x");
-            for (int i = 0; i < 4; i++) log("%.2X", ((u8*)&AP_VERSION.as_int)[i]);
-            log(" they are: 0x");
-            for (int i = 0; i < 4; i++) log("%.2X", ((u8*)&packet.handshake.version.as_int)[i]);
-            log("\n");
-            return;
-          }
-          memcpy(packet.handshake.msg, "'LO!", 4);
-          packet.handshake.version.as_int = AP_VERSION.as_int;
-          write(USB_CMD_HANDSHAKE, 4);
-          status = USB_STATUS_CONNECTING;
-          break;
-      }
-      break;
-    case USB_STATUS_CONNECTING:
-      switch (packet.cmd) {
-        case USB_CMD_PING:
-          log("[N64] USB_CMD_PING\n");
-          write(USB_CMD_PONG, packet.size);
-          status = USB_STATUS_CONNECTED;
-          ap_memory.n64.misc.show_message = 0;
-          ap_memory.n64.misc.death_link_us = 0;
-          ap_memory.n64.misc.death_link_ap = 0;
-          ap_memory.pc.misc.death_link_us = 0;
-          ap_memory.pc.misc.death_link_ap = 0;
-          ap_memory.pc.misc.show_message = 0;
-          for (int i = 0; i < sizeof(ap_memory_pc_t); i++) ((u8*)&apm_clone)[i] = 0;
-          break;
-        default:
-          log("[N64] Unexpected packet. Disconnected.\n");
-          status = USB_STATUS_DISCONNECTED;
-      }
-      break;
-    case USB_STATUS_CONNECTED:
-      switch (packet.cmd) {
-        case USB_CMD_PING:
-          log("[N64] USB_CMD_PING\n");
-          write(USB_CMD_PONG, packet.size);
-          break;
-        case USB_CMD_N64_MISC:
-          log("[N64] USB_CMD_N64_MISC\n");
-          memcpy(&ap_memory.n64.misc, packet.extra, packet.size);
-          endian_swap16(&ap_memory.n64.misc.current_map);
-          break;
-        case USB_CMD_N64_SAVES_REAL:
-          log("[N64] USB_CMD_N64_SAVES_REAL\n");
-          memcpy(&ap_memory.n64.saves.real, packet.extra, packet.size);
-          endian_swap_save(&ap_memory.n64.saves.real);
-          break;
-        case USB_CMD_N64_SAVES_FAKE:
-          log("[N64] USB_CMD_N64_SAVES_FAKE\n");
-          memcpy(&ap_memory.n64.saves.fake, packet.extra, packet.size);
-          endian_swap_save(&ap_memory.n64.saves.fake);
-          break;
-        case USB_CMD_N64_SAVES_NESTS:
-          log("[N64] USB_CMD_N64_SAVES_NESTS\n");
-          memcpy(ap_memory.n64.saves.nests, packet.extra, packet.size);
-          break;
-        case USB_CMD_N64_SAVES_SIGNPOSTS:
-          log("[N64] USB_CMD_N64_SAVES_SIGNPOSTS\n");
-          memcpy(ap_memory.n64.saves.signposts, packet.extra, packet.size);
-          break;
-        default:
-          log("[N64] Unexpected packet. Disconnected.\n");
-          status = USB_STATUS_DISCONNECTED;
-      }
-      break;
+bool USBCom::process() {
+  if (packet.cmd != USB_CMD_NONE) {
+    ping(false);
+    switch (status & ~USB_STATUS_PINGED) {
+      case USB_STATUS_DISCONNECTED:
+        switch (packet.cmd) {
+          case USB_CMD_HANDSHAKE:
+            log("[N64] USB_CMD_HANDSHAKE\n");
+            if (memcmp(packet.handshake.msg, "HELO", 4)) {
+              log("USB Protocol invalid handshake message!\n");
+              return false;
+            }
+            if (packet.handshake.version.as_int != AP_VERSION.as_int) {
+              log("USB Protocol version mismatch! We are: 0x");
+              for (int i = 0; i < 4; i++) log("%.2X", ((u8*)&AP_VERSION.as_int)[i]);
+              log(" they are: 0x");
+              for (int i = 0; i < 4; i++) log("%.2X", ((u8*)&packet.handshake.version.as_int)[i]);
+              log("\n");
+              return false;
+            }
+            memcpy(packet.handshake.msg, "'LO!", 4);
+            packet.handshake.version.as_int = AP_VERSION.as_int;
+            write(USB_CMD_HANDSHAKE, 4);
+            status = USB_STATUS_CONNECTING;
+            break;
+        }
+        break;
+      case USB_STATUS_CONNECTING:
+        switch (packet.cmd) {
+          case USB_CMD_PING:
+            log("[N64] USB_CMD_PING\n");
+            write(USB_CMD_PONG, packet.size);
+            status = USB_STATUS_CONNECTED;
+            ap_memory.n64.misc.show_message = 0;
+            ap_memory.n64.misc.death_link_us = 0;
+            ap_memory.n64.misc.death_link_ap = 0;
+            ap_memory.pc.misc.death_link_us = 0;
+            ap_memory.pc.misc.death_link_ap = 0;
+            ap_memory.pc.misc.show_message = 0;
+            for (int i = 0; i < sizeof(ap_memory_pc_t); i++) ((u8*)&apm_clone)[i] = 0;
+            break;
+          default:
+            log("[N64] Unexpected packet. Disconnected.\n");
+            status = USB_STATUS_DISCONNECTED;
+        }
+        break;
+      case USB_STATUS_CONNECTED:
+        switch (packet.cmd) {
+          case USB_CMD_PING:
+            log("[N64] USB_CMD_PING\n");
+            write(USB_CMD_PONG, packet.size);
+            break;
+          case USB_CMD_N64_MISC:
+            log("[N64] USB_CMD_N64_MISC\n");
+            memcpy(&ap_memory.n64.misc, packet.extra, packet.size);
+            endian_swap16(&ap_memory.n64.misc.current_map);
+            break;
+          case USB_CMD_N64_SAVES_REAL:
+            log("[N64] USB_CMD_N64_SAVES_REAL\n");
+            memcpy(&ap_memory.n64.saves.real, packet.extra, packet.size);
+            endian_swap_save(&ap_memory.n64.saves.real);
+            break;
+          case USB_CMD_N64_SAVES_FAKE:
+            log("[N64] USB_CMD_N64_SAVES_FAKE\n");
+            memcpy(&ap_memory.n64.saves.fake, packet.extra, packet.size);
+            endian_swap_save(&ap_memory.n64.saves.fake);
+            break;
+          case USB_CMD_N64_SAVES_NESTS:
+            log("[N64] USB_CMD_N64_SAVES_NESTS\n");
+            memcpy(ap_memory.n64.saves.nests, packet.extra, packet.size);
+            break;
+          case USB_CMD_N64_SAVES_SIGNPOSTS:
+            log("[N64] USB_CMD_N64_SAVES_SIGNPOSTS\n");
+            memcpy(ap_memory.n64.saves.signposts, packet.extra, packet.size);
+            break;
+          default:
+            log("[N64] Unexpected packet. Disconnected.\n");
+            status = USB_STATUS_DISCONNECTED;
+        }
+        break;
+    }
   }
-  if (status == USB_STATUS_CONNECTED && bt_client->get_state() == bt_client->STATE_OK) send();
+  if (status == USB_STATUS_CONNECTED && bt_client->get_state() == bt_client->STATE_OK) return send();
+  return false;
 }
 
 bool USBCom::check_changes(void* _real, void* _clone, int size) {
@@ -216,7 +218,8 @@ bool USBCom::check_changes(void* _real, void* _clone, int size) {
   return different;
 }
 
-void USBCom::send() {
+bool USBCom::send() {
+  bool reprocess = false;
   bool message = check_changes(&ap_memory.pc.message, &apm_clone.message, sizeof(apm_clone.message));
   bool misc = check_changes(&ap_memory.pc.misc, &apm_clone.misc, sizeof(apm_clone.misc));
   bool settings = check_changes(&ap_memory.pc.settings, &apm_clone.settings, sizeof(apm_clone.settings));
@@ -228,6 +231,14 @@ void USBCom::send() {
   if (message) {
     memcpy(packet.message, &apm_converted.message, sizeof(apm_converted.message));
     write(USB_CMD_PC_MESSAGE, sizeof(packet.extra));
+  }
+  for (int i = 0; i < sizeof(apm_converted.signposts)/sizeof(*apm_converted.signposts); i++) {
+    if (!check_changes(&ap_memory.pc.signposts[i], &apm_clone.signposts[i], sizeof(*apm_clone.signposts))) continue;
+    packet.signpost.signId = i;
+    memcpy(packet.signpost.data, &apm_clone.signposts[i], sizeof(*apm_clone.signposts));
+    write(USB_CMD_PC_SIGNPOST, sizeof(*apm_clone.signposts));
+    reprocess = true;
+    break;
   }
   if (settings) {
     memcpy(packet.extra, &apm_converted.settings, sizeof(apm_converted.settings));
@@ -267,6 +278,7 @@ void USBCom::send() {
       write(USB_CMD_PC_EXIT_MAP, packet.exit_map.size);
     }
   }
+  return reprocess;
 }
 
 void USBCom::endian_swap8(void *dest, int bits) {
@@ -325,6 +337,9 @@ void USBCom::endian_swap_packet() {
     case USB_CMD_PC_EXIT_MAP:
       endian_swap16(&packet.exit_map.offset);
       endian_swap16(&packet.exit_map.size);
+      break;
+    case USB_CMD_PC_SIGNPOST:
+      endian_swap32(&packet.signpost.signId);
       break;
   }
 }

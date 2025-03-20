@@ -163,16 +163,6 @@ void ap_menu_select() {
     case AP_MENU_CHEATS:
       data = &ap_menu_cheats_data[ap_menu.selected-1];
       switch (data->item) {
-        case AP_MENU_CHEATS_SUPER_BANJO:
-          if (!bt_flags.cheats_superbanjo_enabled) bt_fn_play_sound(BT_SOUND_INCREASE, -1, 1, -1);
-          else bt_fn_play_sound(BT_SOUND_DECREASE, -1, 1, -1);
-          bt_flags.cheats_superbanjo_enabled = !bt_flags.cheats_superbanjo_enabled;
-          break;
-        case AP_MENU_CHEATS_SUPERBADDY:
-          if (!bt_flags.cheats_superbaddy_enabled) bt_fn_play_sound(BT_SOUND_INCREASE, -1, 1, -1);
-          else bt_fn_play_sound(BT_SOUND_DECREASE, -1, 1, -1);
-          bt_flags.cheats_superbaddy_enabled = !bt_flags.cheats_superbaddy_enabled;
-          break;
         case AP_MENU_CHEATS_FEATHERS:
           if (bt_flags.cheats_feathers_received) {
             if (!bt_flags.cheats_feathers_enabled) bt_fn_play_sound(BT_SOUND_INCREASE, -1, 1, -1);
@@ -214,7 +204,7 @@ void ap_menu_select() {
           else bt_fn_play_sound(BT_SOUND_WRONG, -1, 1, -1);
           break;
         case AP_MENU_CHEATS_NESTKING:
-          if (ap_memory.pc.settings.assist_mode) {
+          if (ap_memory.pc.settings.extra_cheats) {
             if (!bt_flags.cheats_nestking_enabled) bt_fn_play_sound(BT_SOUND_INCREASE, -1, 1, -1);
             else bt_fn_play_sound(BT_SOUND_DECREASE, -1, 1, -1);
             bt_flags.cheats_nestking_enabled = !bt_flags.cheats_nestking_enabled;
@@ -222,10 +212,26 @@ void ap_menu_select() {
           else bt_fn_play_sound(BT_SOUND_WRONG, -1, 1, -1);
           break;
         case AP_MENU_CHEATS_HONEYKING:
-          if (ap_memory.pc.settings.assist_mode) {
+          if (ap_memory.pc.settings.extra_cheats) {
             if (!bt_flags.cheats_honeyking_enabled) bt_fn_play_sound(BT_SOUND_INCREASE, -1, 1, -1);
             else bt_fn_play_sound(BT_SOUND_DECREASE, -1, 1, -1);
             bt_flags.cheats_honeyking_enabled = !bt_flags.cheats_honeyking_enabled;
+          }
+          else bt_fn_play_sound(BT_SOUND_WRONG, -1, 1, -1);
+          break;
+        case AP_MENU_CHEATS_SUPER_BANJO:
+          if (ap_memory.pc.settings.extra_cheats) {
+            if (!bt_flags.cheats_superbanjo_enabled) bt_fn_play_sound(BT_SOUND_INCREASE, -1, 1, -1);
+            else bt_fn_play_sound(BT_SOUND_DECREASE, -1, 1, -1);
+            bt_flags.cheats_superbanjo_enabled = !bt_flags.cheats_superbanjo_enabled;
+          }
+          else bt_fn_play_sound(BT_SOUND_WRONG, -1, 1, -1);
+          break;
+        case AP_MENU_CHEATS_SUPERBADDY:
+          if (ap_memory.pc.settings.extra_cheats) {
+            if (!bt_flags.cheats_superbaddy_enabled) bt_fn_play_sound(BT_SOUND_INCREASE, -1, 1, -1);
+            else bt_fn_play_sound(BT_SOUND_DECREASE, -1, 1, -1);
+            bt_flags.cheats_superbaddy_enabled = !bt_flags.cheats_superbaddy_enabled;
           }
           else bt_fn_play_sound(BT_SOUND_WRONG, -1, 1, -1);
           break;
@@ -332,14 +338,6 @@ void ap_menu_update_zoombox(int i, bt_zoombox_t* zb) {
       case AP_MENU_CHEATS:
         data = &ap_menu_cheats_data[i-1];
         switch (data->item) {
-          case AP_MENU_CHEATS_SUPER_BANJO:
-            if (bt_flags.cheats_superbanjo_enabled) bt_fn_zoombox_text_color(zb, &green);
-            else bt_fn_zoombox_text_color(zb, &white);
-            break;
-          case AP_MENU_CHEATS_SUPERBADDY:
-            if (bt_flags.cheats_superbaddy_enabled) bt_fn_zoombox_text_color(zb, &green);
-            else bt_fn_zoombox_text_color(zb, &white);
-            break;
           case AP_MENU_CHEATS_FEATHERS:
             if (bt_flags.cheats_feathers_received) {
               if (bt_flags.cheats_feathers_enabled) bt_fn_zoombox_text_color(zb, &green);
@@ -376,15 +374,29 @@ void ap_menu_update_zoombox(int i, bt_zoombox_t* zb) {
             else bt_fn_zoombox_text_color(zb, &red);
             break;
           case AP_MENU_CHEATS_NESTKING:
-            if (ap_memory.pc.settings.assist_mode) {
+            if (ap_memory.pc.settings.extra_cheats) {
               if (bt_flags.cheats_nestking_enabled) bt_fn_zoombox_text_color(zb, &green);
               else bt_fn_zoombox_text_color(zb, &white);
             }
             else bt_fn_zoombox_text_color(zb, &red);
             break;
           case AP_MENU_CHEATS_HONEYKING:
-            if (ap_memory.pc.settings.assist_mode) {
+            if (ap_memory.pc.settings.extra_cheats) {
               if (bt_flags.cheats_honeyking_enabled) bt_fn_zoombox_text_color(zb, &green);
+              else bt_fn_zoombox_text_color(zb, &white);
+            }
+            else bt_fn_zoombox_text_color(zb, &red);
+            break;
+          case AP_MENU_CHEATS_SUPER_BANJO:
+            if (ap_memory.pc.settings.extra_cheats) {
+              if (bt_flags.cheats_superbanjo_enabled) bt_fn_zoombox_text_color(zb, &green);
+              else bt_fn_zoombox_text_color(zb, &white);
+            }
+            else bt_fn_zoombox_text_color(zb, &red);
+            break;
+          case AP_MENU_CHEATS_SUPERBADDY:
+            if (ap_memory.pc.settings.extra_cheats) {
+              if (bt_flags.cheats_superbaddy_enabled) bt_fn_zoombox_text_color(zb, &green);
               else bt_fn_zoombox_text_color(zb, &white);
             }
             else bt_fn_zoombox_text_color(zb, &red);
@@ -633,7 +645,7 @@ void ap_menu_update() {
           ap_menu.title = "CHEATS";
           opt_data = ap_menu_cheats_data;
           data_size = sizeof(ap_menu_cheats_data);
-          if (!ap_memory.pc.settings.assist_mode) data_size -= sizeof(ap_menu_data_t)*2;
+          if (!ap_memory.pc.settings.extra_cheats) data_size -= sizeof(ap_menu_data_t)*4;
           break;
         default: return;
       }

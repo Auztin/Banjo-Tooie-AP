@@ -17,6 +17,7 @@ enum USB_CMD {
   USB_CMD_PONG,
   USB_CMD_PC_MISC,
   USB_CMD_PC_MESSAGE,
+  USB_CMD_PC_SIGNPOST,
   USB_CMD_PC_SETTINGS,
   USB_CMD_PC_ITEMS,
   USB_CMD_PC_TRAPS,
@@ -47,6 +48,10 @@ typedef struct {
           uint16_t size;
           uint8_t data[504];
         } exit_map;
+        struct {
+          uint32_t signId;
+          uint8_t data[504];
+        } signpost;
         uint8_t message[508];
       };
     };

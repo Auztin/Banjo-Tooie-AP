@@ -613,14 +613,14 @@ void ap_sync_items(u16 type, u8 value) {
     case AP_ITEM_CHUFFY:
       if (value) {
         if (
-             ap_memory.pc.settings.randomize_chuffy
-          && !bt_flags.train_at_ioh
+             !bt_flags.train_at_ioh
           && !bt_flags.train_at_tdl
           && !bt_flags.train_at_gi
           && !bt_flags.train_at_hfp_lava
           && !bt_flags.train_at_hfp_icy
           && !bt_flags.train_at_ww
         ) bt_flags.train_at_ggm = 1;
+        bt_flags.ggm_mumbo_train = 1;
         bt_fake_flags.ggm_defeated_chuffy = 1;
         bt_fake_flags.ggm_mumbo_train = 1;
       }
@@ -633,6 +633,7 @@ void ap_sync_items(u16 type, u8 value) {
           bt_flags.train_at_hfp_icy = 0;
           bt_flags.train_at_ww = 0;
           bt_flags.train_at_ggm = 0;
+          bt_flags.ggm_mumbo_train = 0;
         }
         bt_fake_flags.ggm_defeated_chuffy = 0;
         bt_fake_flags.ggm_mumbo_train = 0;
@@ -872,7 +873,7 @@ bool ap_trap_slip(bool checking) {
   return false;
 }
 
-bool ap_trap_misfire(bool checking) {
+bool ap_trap_transform(bool checking) {
   if (checking) {
     switch (bt_player_chars.control_type) {
       case BT_PLAYER_CHAR_BREEGULL_BLASTER:
@@ -923,15 +924,15 @@ bool ap_trap_squish(bool checking) {
   return false;
 }
 
-void ap_trap_sign_end() {
+void ap_trap_tip_end() {
   ap.fn_trap = 0;
   ap_increment_trap();
 }
 
-bool ap_trap_sign(bool checking) {
+bool ap_trap_tip(bool checking) {
   if (checking) {
     if (!bt_dialog.textObjectPtr && bt_fn_load_dialog((BT_RANDOM % 0x3D)+0x1686, 0x48, bt_current_player_char->pos, 0)) {
-      bt_dialog.callbackPtr = ap_trap_sign_end;
+      bt_dialog.callbackPtr = ap_trap_tip_end;
       return true;
     }
   }
@@ -992,13 +993,14 @@ void ap_sync_traps() {
           case AP_TRAP_SLIP:
             ap.fn_trap = ap_trap_slip;
             break;
-          case AP_TRAP_MISFIRE:
-            ap.fn_trap = ap_trap_misfire;
+          case AP_TRAP_TRANSFORM:
+            ap.fn_trap = ap_trap_transform;
             break;
           case AP_TRAP_SQUISH:
             ap.fn_trap = ap_trap_squish;
-          case AP_TRAP_SIGN:
-            ap.fn_trap = ap_trap_sign;
+            break;
+          case AP_TRAP_TIP:
+            ap.fn_trap = ap_trap_tip;
             break;
           default:
             continue;
@@ -1608,8 +1610,9 @@ void ap_signpost_dialog(bt_obj_instance_t* obj) {
   if (ap.signpost >= 0) {
     save_custom_set_bit(bt_custom_save.signposts, ap.signpost);
     u8 icon = ap_memory.pc.settings.dialog_character;
-    if (icon == 110) icon = BT_ZOOMBOX_ICON_GRUNTY;
+    if (icon == 110) icon = BT_ZOOMBOX_ICON_JAMJARS;
     else if (icon >= sizeof(ap_dialog_icons)) icon = ap_dialog_icons[BT_RANDOM % sizeof(ap_dialog_icons)];
+    else icon = ap_dialog_icons[icon];
     ap.zb_signpost = bt_fn_zoombox_new(28, icon, 0, 1);
     bt_fn_zoombox_init(ap.zb_signpost);
     bt_fn_zoombox_dialog_options(ap.zb_signpost, 15, 5, 2);
@@ -1682,16 +1685,16 @@ void ap_check() {
   }
   if (bt_controllers[0].held.l) {
     char message[25] = {0};
-    if (bt_controllers[0].pressed.dright) { // SUPER BANJO
+    if (bt_controllers[0].pressed.dright && ap_memory.pc.settings.extra_cheats) { // SUPERBANJO
       bt_flags.cheats_superbanjo_enabled = !bt_flags.cheats_superbanjo_enabled;
       ap.internal_icon = BT_ZOOMBOX_ICON_BANJO;
-      strcpy(message, "SUPER BANJO ");
+      strcpy(message, "SUPERBANJO ");
       strcat(message, bt_flags.cheats_superbanjo_enabled ? "ENABLED" : "DISABLED");
     }
     if (bt_controllers[0].pressed.dleft && bt_flags.cheats_homing_eggs_received) { // HOMING EGGS
       bt_flags.cheats_homing_eggs_enabled = !bt_flags.cheats_homing_eggs_enabled;
       ap.internal_icon = BT_ZOOMBOX_ICON_HEGGY;
-      strcpy(message, "HOMING EGGS ");
+      strcpy(message, "HOMINGEGGS ");
       strcat(message, bt_flags.cheats_homing_eggs_enabled ? "ENABLED" : "DISABLED");
     }
     if (bt_controllers[0].pressed.ddown && bt_flags.cheats_honeyback_received) { // HONEYBACK
@@ -1979,9 +1982,6 @@ void ap_new_file() {
 void ap_load_file() {
   ap.load_file = 0;
   for (int i = 0; i < AP_ITEM_MAX; i++) ap_sync_items(i, ap_memory.pc.items[i]);
-  if (ap_memory.pc.settings.randomize_chuffy) {
-    bt_flags.ggm_mumbo_train = 1;
-  }
   if (ap_memory.pc.settings.backdoors) {
     bt_flags.mt_opened_kickball_hfp = 1;
     bt_flags.ww_opened_space_ggm = 1;

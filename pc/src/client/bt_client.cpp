@@ -857,12 +857,12 @@ void BTClient::initialize_bt()
         ap_memory.pc.settings.skip_puzzles = 1;
     }
     //HAG 1 Early
-    if(OPEN_HAG1 == true && GOAL_TYPE != 4)
+    if(OPEN_HAG1 == true && (GOAL_TYPE != 4 && GOAL_TYPE != 6))
     {
         ap_memory.pc.items[AP_ITEM_H1A] = 1;
         show_message(BT_ZOOMBOX_ICON_DINGPOT, {{"message","HAG-1 is now open!"}});
     }
-    else if(GOAL_TYPE != 4)
+    else if(GOAL_TYPE != 4 && GOAL_TYPE != 6)
     {
         ap_memory.pc.settings.jiggy_requirements[9] = 70;
     }
@@ -893,6 +893,14 @@ void BTClient::initialize_bt()
     if(ENABLE_AP_SIGNPOSTS == true)
     {
         ap_memory.pc.settings.signpost_hints = 1;
+    }
+    if(ENABLE_AP_CHEATS == true)
+    {
+        ap_memory.pc.settings.extra_cheats = 1;
+    }
+    if(ENABLE_AP_EASY_CANARY == true)
+    {
+        ap_memory.pc.settings.easy_canary = 1;
     }
     //TOT
     ap_memory.pc.settings.skip_tower_of_tragedy = SKIP_TOT;
@@ -955,6 +963,9 @@ void BTClient::initialize_bt()
             break;
         case 5: // option_token_hunt
             ap_memory.pc.settings.max_mumbo_tokens = TH_LENGTH;
+            break;
+        case 6: // option_boss_hunt + hag1
+            ap_memory.pc.settings.max_mumbo_tokens = BH_LENGTH;
             break;
         default:
             ap_memory.pc.settings.max_mumbo_tokens = 0;
@@ -1112,6 +1123,11 @@ nlohmann::json BTClient::check_unlock_worlds()
             ap_memory.pc.items[AP_ITEM_H1A] = 1;
             show_message(BT_ZOOMBOX_ICON_DINGPOT, {{"message","HAG-1 is now open!"}});
         }
+        if(GOAL_TYPE == 6 && MUMBO_TOKENS >= BH_LENGTH)
+        {
+            ap_memory.pc.items[AP_ITEM_H1A] = 1;
+            show_message(BT_ZOOMBOX_ICON_DINGPOT, {{"message","HAG-1 is now open!"}});
+        }
     }
     return worlds_check;
 }
@@ -1165,15 +1181,200 @@ void BTClient::randomize_entrances(json entrance_table)
 void BTClient::show_message(int character, json data, bool force) {
     message_t message;
     int default_character = character;
+    bool own;
+    int item_id;
+    std::string player;
+    std::string item;
+    auto items = ap_memory.pc.items;
+    std::map<int, std::string> item_names = {
+        {1230794, "Train Station in Isle O' Hags"},
+        {1230791, "Train Station in Terrydactyland"},
+        {1230790, "Train Station in Grunty Industries"},
+        {1230792, "Train Station on the Lava Side of Hailfire Peaks"},
+        {1230793, "Train Station on the Icy Side of Hailfire Peaks"},
+        {1230795, "Train Station in Witchyworld"},
+        {1230855, "Golden Goliath"},
+        {1230856, "Levitate"},
+        {1230857, "Power"},
+        {1230858, "Oxygenate"},
+        {1230859, "Enlarge"},
+        {1230860, "EMP"},
+        {1230861, "Life Force"},
+        {1230862, "Rain Dance"},
+        {1230863, "Heal"},
+        {1230174, "Stony"},
+        {1230175, "Detonator"},
+        {1230176, "Money Van"},
+        {1230177, "Submarine"},
+        {1230178, "T-Rex"},
+        {1230179, "Washing Machine"},
+        {1230180, "Snowball"},
+        {1230181, "Bee"},
+        {1230182, "Dragon"},
+    };
+    std::map<int, std::string> attr_names = {
+        {1230174, "strong"},
+        {1230175, "explosive"},
+        {1230176, "fast"},
+        {1230177, "high-tech"},
+        {1230178, "scary"},
+        {1230179, "useful"},
+        {1230180, "cool"},
+        {1230181, "cute"},
+        {1230182, "dangerous"},
+    };
     if (data.contains("message")) {
         message.text = data["message"];
         goto add_message;
     }
     if (!data.contains("item_id") || data["to_player"] != PLAYER) return;
-    if (data["player"] == PLAYER) message.text = "You have found your ";
-    else message.text = string{data["player"]} + " sent your ";
-    message.text += data["item"];
-    switch ((int)data["item_id"]) {
+    item_id = data["item_id"];
+    own = data["player"] == PLAYER;
+    player = data["player"];
+    item = data["item"];
+    switch (item_id) {
+        case 1230828: // Progressive Beak Buster
+            if (items[AP_ITEM_BDRILL]) {
+                item_id = 1230757;
+                item = "Bill Drill";
+            }
+            else if (items[AP_ITEM_BBUST]) {
+                item_id = 1230820;
+                item = "Beak Buster";
+            }
+            break;
+        case 1230829: // Progressive Eggs
+            if (items[AP_ITEM_CEGGS]) {
+                item_id = 1230767;
+                item = "Clockwork Eggs";
+            }
+            else if (items[AP_ITEM_IEGGS]) {
+                item_id = 1230763;
+                item = "Ice Eggs";
+            }
+            else if (items[AP_ITEM_GEGGS]) {
+                item_id = 1230759;
+                item = "Grenade Eggs";
+            }
+            else if (items[AP_ITEM_FEGGS]) {
+                item_id = 1230756;
+                item = "Fire Eggs";
+            }
+            else if (items[AP_ITEM_BEGGS]) {
+                item_id = 1230823;
+                item = "Blue Eggs";
+            }
+            break;
+        case 1230830: // Progressive Shoes
+            if (items[AP_ITEM_CLAWBTS]) {
+                item_id = 1230773;
+                item = "Claw Clamber Boots";
+            }
+            else if (items[AP_ITEM_SPRINGB]) {
+                item_id = 1230768;
+                item = "Springy Step Shoes";
+            }
+            else if (items[AP_ITEM_TTRAIN]) {
+                item_id = 1230821;
+                item = "Turbo Trainers";
+            }
+            else if (items[AP_ITEM_SSTRIDE]) {
+                item_id = 1230826;
+                item = "Stilt Stride";
+            }
+            break;
+        case 1230831: // Progressive Water Training
+            if (items[AP_ITEM_FSWIM]) {
+                item_id = 1230777;
+                item = "Fast Swimming";
+            }
+            else if (items[AP_ITEM_DAIR]) {
+                item_id = 1230778;
+                item = "Double Air";
+            }
+            else if (items[AP_ITEM_DIVE]) {
+                item_id = 1230810;
+                item = "Dive";
+            }
+            break;
+        case 1230832: // Progressive Bash Attack
+            if (items[AP_ITEM_BBASH]) {
+                item_id = 1230800;
+                item = "Breegull Bash";
+            }
+            else if (items[AP_ITEM_GRAT]) {
+                item_id = 1230824;
+                item = "Ground Rat-a-tat Rap";
+            }
+            break;
+        case 1230782: // Progrssive Flight
+            if (items[AP_ITEM_AIREAIM]) {
+                item_id = 1230760;
+                item = "Aurborne Egg Aiming";
+            }
+            else if (items[AP_ITEM_BBOMB]) {
+                item_id = 1230827;
+                item = "Beak Bomb";
+            }
+            else if (items[AP_ITEM_FPAD]) {
+                item_id = 1230811;
+                item = "Flight Pad";
+            }
+            break;
+        case 1230783: // Progressive Egg Aim
+            if (items[AP_ITEM_EGGAIM]) {
+                item_id = 1230755;
+                item = "Egg Aim";
+            }
+            else if (items[AP_ITEM_EGGSHOOT]) {
+                item_id = 1230813;
+                item = "Third Person Egg Shooting";
+            }
+            break;
+        case 1230784: // Progressive Adv. Water Training
+            if (items[AP_ITEM_FSWIM]) {
+                item_id = 1230777;
+                item = "Fast Swimming";
+            }
+            else if (items[AP_ITEM_DAIR]) {
+                item_id = 1230778;
+                item = "Double Air";
+            }
+            else if (items[AP_ITEM_TTORP]) {
+                item_id = 1230765;
+                item = "Talon Torpedo";
+            }
+            else if (items[AP_ITEM_AUQAIM]) {
+                item_id = 1230766;
+                item = "Sub-Squa Egg Aiming";
+            }
+            else if (items[AP_ITEM_DIVE]) {
+                item_id = 1230810;
+                item = "Dive";
+            }
+            break;
+        case 1230785: // Progressive Adv. Egg Aiming
+            if (items[AP_ITEM_BBLASTER]) {
+                item_id = 1230754;
+                item = "Breegull Blaster";
+            }
+            else if (items[AP_ITEM_EGGAIM]) {
+                item_id = 1230755;
+                item = "Egg Aim";
+            }
+            else if (items[AP_ITEM_AMAZEOGAZE]) {
+                item_id = 1230779;
+                item = "Amaze-O-Gaze";
+            }
+            else if (items[AP_ITEM_EGGSHOOT]) {
+                item_id = 1230813;
+                item = "Third Person Egg Shooting";
+            }
+            break;
+    }
+    message.text = own ? std::format("You can now use {}.", item)
+                       : std::format("{} taught you how to use {}.", player, item);
+    switch (item_id) {
         case 1230753: // Grip Grab"
         case 1230754: // Breegull Blaster"
         case 1230755: // Egg Aim"
@@ -1238,6 +1439,14 @@ void BTClient::show_message(int character, json data, bool force) {
         case 1230862: // Mumbo: Rain Dance"
         case 1230863: // Mumbo: Heal"
             default_character = BT_ZOOMBOX_ICON_MUMBO;
+            if (character == 110 || character == BT_ZOOMBOX_ICON_MUMBO) {
+                message.text = own ? std::format("Mumbo now use mighty {} spell. Bear go visit Mumbo to try.", item_names[item_id])
+                                   : std::format("{} told Mumbo mighty {} spell. Bear go visit Mumbo to try.", player, item_names[item_id]);
+            }
+            else {
+                message.text = own ? std::format("Mumbo can now use the {} spell.", item_names[item_id])
+                                   : std::format("{} has just unlocked Mumbo's {} spell.", player, item_names[item_id]);
+            }
             break;
         case 1230174: // Humba: Stony"
         case 1230175: // Humba: Detonator"
@@ -1249,6 +1458,14 @@ void BTClient::show_message(int character, json data, bool force) {
         case 1230181: // Humba: Bee"
         case 1230182: // Humba: Dragon"
             default_character = BT_ZOOMBOX_ICON_HUMBA;
+            if (character == 110 || character == BT_ZOOMBOX_ICON_HUMBA) {
+                message.text = own ? std::format("Wumba now make bear {}. Very {}!", item_names[item_id], attr_names[item_id])
+                                   : std::format("{} told Wumba how to make bear {}. Very {}!", player, item_names[item_id], attr_names[item_id]);
+            }
+            else {
+                message.text = own ? std::format("Banjo can now be transformed into a {}.", item_names[item_id])
+                                   : std::format("{} has just unlocked the {} transformation.", player, item_names[item_id]);
+            }
             break;
         case 1230794: // IoH: Train Station"
         case 1230791: // TDL: Train Station"
@@ -1257,9 +1474,13 @@ void BTClient::show_message(int character, json data, bool force) {
         case 1230793: // HFP: Icy Side Train Station"
         case 1230795: // WW: Train Station"
             default_character = BT_ZOOMBOX_ICON_OLD_KING_COAL;
+            message.text = own ? std::format("You can now use the {}.", item_names[item_id])
+                            : std::format("{} has just opened the {}.", player, item_names[item_id]);
             break;
         case 1230796: // Chuffy"
             default_character = BT_ZOOMBOX_ICON_OLD_KING_COAL;
+            message.text = own ? std::format("You can now use {}.", item)
+                               : std::format("{} has just repaired {}.", player, item);
             if (ENABLE_AP_CHUFFY) message.text += "\nDon't forget that you can call Chuffy at any unlocked station.";
             break;
         case 1230944: // Mayahem Temple"
@@ -1289,18 +1510,11 @@ void BTClient::show_message(int character, json data, bool force) {
         case 1230952: // Cauldron Keep"
             default_character = BT_ZOOMBOX_ICON_KLUNGO;
             break;
-        case 1230828: // Progressive Beak Buster
-        case 1230829: // Progressive Eggs
-        case 1230830: // Progressive Shoes
-        case 1230831: // Progressive Water Training
-        case 1230832: // Progressive Bash Attack
-        case 1230782: // Progrssive Flight
-        case 1230783: // Progressive Egg Aim
-        case 1230784: // Progressive Adv. Water Training
-        case 1230785: // Progressive Adv. Egg Aiming
-            default_character = BT_ZOOMBOX_ICON_BOTTLES;
-            break;
         default: return;
+    }
+    if (item_id >= 1230944 && item_id <= 1230952) {
+        message.text = own ? std::format("{} is now open!", item)
+                           : std::format("{} has just opened {}!", player, item);
     }
 add_message:
     if (!force) {
@@ -1395,10 +1609,33 @@ asio::awaitable<void> BTClient::getSlotData()
         ENABLE_AP_NESTS = true;
         if(DEBUG_NET == true) { std::cout << "Nests are Randomized" << std::endl; }
     }
-    if(block.contains(string{"slot_signposts"}) && block["slot_signposts"] != 0)
+    if(
+           block.contains(string{"slot_hints"}) && block["slot_hints"] != 0
+        && block.contains(string{"slot_hints_activated"}) && block["slot_hints_activated"] != 0
+    )
     {
         ENABLE_AP_SIGNPOSTS = true;
         if(DEBUG_NET == true) { std::cout << "Signposts are Enabled" << std::endl; }
+        std::map<int, int> signIds;
+        for (auto&& [map, data] : SIGNPOST_DATA) {
+            for (auto&& [locationId, signId] : data) signIds[locationId] = signId;
+        }
+        for(auto& [signId, hint] : block["slot_hints"].items()) {
+            std::string message = hint["text"];
+            std::transform(message.begin(), message.end(), message.begin(), ::toupper);
+            strcpy((char*)ap_memory.pc.signposts[signIds[std::stoi(signId)]], message.c_str());
+        }
+
+    }
+    if(block.contains(string{"slot_extra_cheats"}) && block["slot_extra_cheats"] != 0)
+    {
+        ENABLE_AP_CHEATS = true;
+        if(DEBUG_NET == true) { std::cout << "Extra Cheats are Enabled" << std::endl; }
+    }
+    if(block.contains(string{"slot_easy_canary"}) && block["slot_easy_canary"] != 0)
+    {
+        ENABLE_AP_EASY_CANARY = true;
+        if(DEBUG_NET == true) { std::cout << "Easy Canary are Enabled" << std::endl; }
     }
     if(block.contains(string{"slot_victory_condition"}) && block["slot_victory_condition"] != "")
     {
@@ -1516,6 +1753,10 @@ void BTClient::printGoalInfo()
     else if(GOAL_TYPE == 5 && TH_LENGTH < 15)
     {
         show_message(character, {{"message","You are trying to find " + std::to_string(TH_LENGTH) + " of the 15 of Mumbo Tokens scattered throughout the Isle of Hags! Good Luck and " + encouragement[0]}});
+    }
+    else if(GOAL_TYPE == 6)
+    {
+        show_message(character, {{"message","You need to defeat " + std::to_string(BH_LENGTH) + " Bosses in order to defeat HAG-1! Good Luck and " + encouragement[0]}});
     }
     return;
 }
@@ -1635,8 +1876,9 @@ void BTClient::processAGIItem(json item_data)
                 case 1230807: ap_memory.pc.items[AP_ITEM_FNEST]++; break;
                 case 1230786: ap_memory.pc.traps[AP_TRAP_TRIP]++; break;
                 case 1230787: ap_memory.pc.traps[AP_TRAP_SLIP]++; break;
-                case 1230788: ap_memory.pc.traps[AP_TRAP_MISFIRE]++; break;
+                case 1230788: ap_memory.pc.traps[AP_TRAP_TRANSFORM]++; break;
                 case 1230789: ap_memory.pc.traps[AP_TRAP_SQUISH]++; break;
+                case 1230833: ap_memory.pc.traps[AP_TRAP_TIP]++; break;
             }
         }
     }

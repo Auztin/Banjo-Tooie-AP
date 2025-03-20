@@ -23,6 +23,7 @@ struct main_credit_lines_t {
   {.icon=BT_ZOOMBOX_ICON_BOGGY, .name="FHNNHF..."},
   {.icon=BT_ZOOMBOX_ICON_EVIL_BOTTLES, .name="AUSTIN..."},
   {.icon=BT_ZOOMBOX_ICON_CANARY_MARY, .name="UNALIVE..."},
+  {.icon=BT_ZOOMBOX_ICON_GRUNTY, .name="DARDY..."},
   {.icon=BT_ZOOMBOX_ICON_SAFE, .name="OZONE..."},
   {.icon=BT_ZOOMBOX_ICON_WELDAR, .name="AND JJJJ12212   "},
 };
@@ -57,18 +58,7 @@ void pre_draw_objects(u8 type, bt_draw_ctx_t* draw_ctx) {
 }
 
 void post_draw_objects(u8 type, bt_draw_ctx_t* draw_ctx) {
-  if (type == 3 && ap_memory.pc.settings.assist_mode) {
-    bt_fn_text_reset_options();
-    bt_text_options.size = 0.70;
-    bt_text_options.color.alpha = 0x80;
-    bt_text_options.color.green = 0;
-    bt_text_options.color.red = 0;
-    bt_text_options.color.blue = 0xFF;
-    bt_fn_text_big_draw(draw_ctx, 245, 205, "ASSIST");
-    bt_text_options.color.red = 0xFF;
-    bt_text_options.color.blue = 0;
-    bt_fn_text_big_draw(draw_ctx, 245, 220, "MODE");
-  }
+
 }
 
 void pre_draw_hud(bt_draw_ctx_t* draw_ctx) {
@@ -254,6 +244,9 @@ void post_spawn_prop(u16 id, bt_s32_xyz_t* pos, u32 yrot, bt_obj_setup_t* setup,
     case BT_SETUP_JIGGYWIGGY_TEMPLE:
       if (ap_memory.pc.settings.signpost_hints) obj->state = 7;
       break;
+    case BT_SETUP_MUMBO_PAD:
+      if (ap_memory.pc.settings.randomize_chuffy && bt_current_map == BT_MAP_TRAIN_STATION_GGM) obj->state = 7;
+      break;
   }
 }
 
@@ -328,10 +321,6 @@ void pre_load_scene(u16 *scene, u16 *exit) {
   bt_temp_flags.bubble_cutscene = 0;
   bt_flags.ccl_open = ap_memory.pc.items[AP_ITEM_CCA] > 0;
   if (bt_flags.ck_opened_gun_chamber) bt_flags.tower_of_tragedy_completed = 0;
-  if (ap_memory.pc.settings.randomize_chuffy && !bt_fake_flags.ggm_defeated_chuffy) {
-    bt_flags.train_at_ggm = 1;
-    bt_flags.train_at_ioh = 0;
-  }
   for (int i = 0; i < AP_MEMORY_EXIT_MAP_MAX; i++) {
     ap_memory_pc_exit_map_t* mapping = &(ap_memory.pc.exit_map[i]);
     if (!mapping->on_map) break;
@@ -362,12 +351,6 @@ void pre_load_scene(u16 *scene, u16 *exit) {
       break;
     case BT_MAP_CK_TOT_QUIZ_ROOM:
       if (bt_flags.ck_opened_gun_chamber) bt_flags.tower_of_tragedy_completed = 1;
-      break;
-    case BT_MAP_TRAIN_STATION_GGM:
-      if (ap_memory.pc.settings.randomize_chuffy && !bt_fake_flags.ggm_defeated_chuffy) {
-        bt_flags.train_at_ggm = 0;
-        bt_flags.train_at_ioh = 1;
-      }
       break;
     case BT_MAP_CCL:
       bt_flags.ccl_open = 1; // needed for bubble to spawn
@@ -435,9 +418,12 @@ void pre_load_scene(u16 *scene, u16 *exit) {
       }
       break;
     case BT_MAP_CK:
-      if (ap_memory.pc.settings.victory_condition == 4) {
-        bt_flags.hag1_open = ap_memory.pc.items[AP_ITEM_H1A] > 0;
-        if (!bt_flags.hag1_open && bt_flags.jiggywiggy_completed_challenges > 9) bt_flags.jiggywiggy_completed_challenges = 9;
+      switch (ap_memory.pc.settings.victory_condition) {
+        case 4:
+        case 6:
+          bt_flags.hag1_open = ap_memory.pc.items[AP_ITEM_H1A] > 0;
+          if (!bt_flags.hag1_open && bt_flags.jiggywiggy_completed_challenges > 9) bt_flags.jiggywiggy_completed_challenges = 9;
+          break;
       }
       break;
     case BT_MAP_IOH_MUMBO:
@@ -1045,11 +1031,11 @@ void pre_object_init(bt_object_t *obj) {
       util_inject(UTIL_INJECT_JUMP    , (u32)obj + 0x02D4, (u32)ap_signpost_dialog, 1);
       break;
     case BT_OBJ_HANDCART:
-      if (!ap_memory.pc.settings.assist_mode) break;
+      if (!ap_memory.pc.settings.easy_canary) break;
       util_inject(UTIL_INJECT_RAW     , (u32)obj + 0x15F0, 0x3C0140C0, 0);
       break;
     case BT_OBJ_CLOCKWORK_MOUSE:
-      if (!ap_memory.pc.settings.assist_mode) break;
+      if (!ap_memory.pc.settings.easy_canary) break;
       util_inject(UTIL_INJECT_RAW     , (u32)obj + 0x1344, 0x3C0140C0, 0);
       break;
     case BT_OBJ_WARP_PAD:

@@ -29,9 +29,9 @@ private:
   FT_STATUS open();
   FT_STATUS read();
   FT_STATUS write(uint16_t cmd, uint16_t len);
-  void process();
+  bool process();
   bool check_changes(void* _real, void* _clone, int size);
-  void send();
+  bool send();
   void endian_swap8(void *dest, int bits=8);
   uint8_t endian_swap8(uint8_t dest, int bits=8);
   void endian_swap16(void *val);

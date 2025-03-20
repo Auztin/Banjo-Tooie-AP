@@ -58,6 +58,8 @@ private:
   bool ENABLE_AP_WORLDS = false; //Used to Randomize World Order
   bool ENABLE_AP_NESTS = false;
   bool ENABLE_AP_SIGNPOSTS = false;
+  bool ENABLE_AP_EASY_CANARY = false;
+  bool ENABLE_AP_CHEATS = false;
   int GOAL_TYPE = 0;
   int MGH_LENGTH = 0; //Mini-game Mumbo Token Length
   int BH_LENGTH = 0; //Boss Token Length
