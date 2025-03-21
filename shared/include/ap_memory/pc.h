@@ -38,6 +38,7 @@ typedef struct {
     u8 randomize_chuffy;
     u8 randomize_nests;
     u8 randomize_warppads;
+    u8 randomize_warpsilos;
     u8 skip_puzzles;
     u8 backdoors;
     u8 skip_klungo;

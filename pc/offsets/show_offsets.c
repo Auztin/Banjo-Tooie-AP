@@ -23,6 +23,7 @@ int main() {
   printf("        setting_chuffy = 0x%X,\n",              calc(mem.pc.settings, mem.pc.settings.randomize_chuffy));
   printf("        setting_nests = 0x%X,\n",               calc(mem.pc.settings, mem.pc.settings.randomize_nests));
   printf("        setting_warppads = 0x%X,\n",            calc(mem.pc.settings, mem.pc.settings.randomize_warppads));
+  printf("        setting_warpsilos = 0x%X,\n",           calc(mem.pc.settings, mem.pc.settings.randomize_warpsilos));
   printf("        setting_puzzle = 0x%X,\n",              calc(mem.pc.settings, mem.pc.settings.skip_puzzles));
   printf("        setting_backdoors = 0x%X,\n",           calc(mem.pc.settings, mem.pc.settings.backdoors));
   printf("        setting_klungo = 0x%X,\n",              calc(mem.pc.settings, mem.pc.settings.skip_klungo));
