@@ -1170,20 +1170,21 @@ void ap_check_enough_notes(u16 start, u16 end) {
   };
 
   const int UNLOCK_LIMIT = 5;
-  int unlocks[UNLOCK_LIMIT];
+  int unlocks[UNLOCK_LIMIT + 1];
   int n_unlocks = 0;
 
   for (int i = 0; i < sizeof(ap_memory.pc.settings.silo_requirements)/sizeof(*ap_memory.pc.settings.silo_requirements); i++) {
     u16 amount = ap_memory.pc.settings.silo_requirements[i];
     if (start < amount && end >= amount) {
-      if (n_unlocks < UNLOCK_LIMIT) {
-        unlocks[n_unlocks] = i;
+      unlocks[n_unlocks++] = i;
+
+      if (n_unlocks == UNLOCK_LIMIT + 1) {
+        break;
       }
-      ++n_unlocks;
     }
   }
 
-  if (n_unlocks == 0) {
+  if (!n_unlocks) {
     return;
   }
 
@@ -1191,25 +1192,18 @@ void ap_check_enough_notes(u16 start, u16 end) {
 
   if (n_unlocks > UNLOCK_LIMIT) {
     // Too many silos unlocked at the same time.
-    strcpy(ap.internal_message, "YOU HAVE ENOUGH NOTES TO CHECK MULTIPLE SILOS!");
+    strcpy(ap.internal_message, "YOU HAVE ENOUGH NOTES TO CHECK A LOT OF SILOS!");
     return;
   }
 
   strcpy(ap.internal_message, "YOU HAVE ENOUGH NOTES TO CHECK THE ");
 
-  if (n_unlocks == 1) {
-    strcat(ap.internal_message, names[unlocks[0]]);
-    strcat(ap.internal_message, " SILO!");
-  }
-  else {
-    for (int i = 0; i < n_unlocks - 1; ++i){
-      strcat(ap.internal_message, names[unlocks[i]]);
-      strcat(ap.internal_message, ", ");
-    }
-
-    strcat(ap.internal_message, "AND ");
-    strcat(ap.internal_message, names[unlocks[n_unlocks - 1]]);
-    strcat(ap.internal_message, " SILOS!");
+  for (int i = 0; i < n_unlocks; i++) {
+    strcat(ap.internal_message, names[unlocks[i]]);
+    if (n_unlocks == 1) strcat(ap.internal_message, " SILO!"); // Only one
+    else if (i + 1 == n_unlocks) strcat(ap.internal_message, " SILOS!"); // Last one
+    else if (i + 2 == n_unlocks) strcat(ap.internal_message, " AND "); // Second to last
+    else strcat(ap.internal_message, ", ");
   }
 }
 
