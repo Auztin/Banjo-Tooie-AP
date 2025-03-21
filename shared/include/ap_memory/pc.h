@@ -49,7 +49,6 @@ typedef struct {
     u8 extra_cheats;
     u8 easy_canary;
     u8 jiggy_requirements[11];
-    u8 open_silos[AP_SILO_MAX];
     u16 silo_requirements[24];
   } settings;
   u8 items[AP_ITEM_MAX];

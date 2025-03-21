@@ -34,7 +34,6 @@ int main() {
   printf("        setting_extra_cheats = 0x%X,\n",        calc(mem.pc.settings, mem.pc.settings.extra_cheats));
   printf("        setting_easy_canary = 0x%X,\n",         calc(mem.pc.settings, mem.pc.settings.easy_canary));
   printf("        setting_jiggy_requirements = 0x%X,\n",  calc(mem.pc.settings, mem.pc.settings.jiggy_requirements));
-  printf("        setting_open_silos = 0x%X,\n",          calc(mem.pc.settings, mem.pc.settings.open_silos));
   printf("        setting_silo_requirements = 0x%X,\n",   calc(mem.pc.settings, mem.pc.settings.silo_requirements));
   printf("    pc_items = 0x%X,\n",                        calc(ptr, ptr.pc_items));
   printf("    pc_traps = 0x%X,\n",                        calc(ptr, ptr.pc_traps));

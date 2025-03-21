@@ -806,6 +806,27 @@ void ap_sync_items(u16 type, u8 value) {
     case AP_ITEM_WARPCK_ENTRANCE:
       if (ap_memory.pc.settings.randomize_warppads) bt_flags.ck_warp_pad_entrance = value > 0;
       break;
+    case AP_ITEM_SILO_JINJO_VILLAGE:
+      if (ap_memory.pc.settings.randomize_warpsilos) bt_flags.silo_jinjo_village = value > 0;
+      break;
+    case AP_ITEM_SILO_WOODED_HOLLOW:
+      if (ap_memory.pc.settings.randomize_warpsilos) bt_flags.silo_wooded_hollow = value > 0;
+      break;
+    case AP_ITEM_SILO_PLATEAU:
+      if (ap_memory.pc.settings.randomize_warpsilos) bt_flags.silo_plateau = value > 0;
+      break;
+    case AP_ITEM_SILO_PINE_GROVE:
+      if (ap_memory.pc.settings.randomize_warpsilos) bt_flags.silo_pine_grove = value > 0;
+      break;
+    case AP_ITEM_SILO_CLIFF_TOP:
+      if (ap_memory.pc.settings.randomize_warpsilos) bt_flags.silo_cliff_top = value > 0;
+      break;
+    case AP_ITEM_SILO_WASTELAND:
+      if (ap_memory.pc.settings.randomize_warpsilos) bt_flags.silo_wasteland = value > 0;
+      break;
+    case AP_ITEM_SILO_QUAGMIRE:
+      if (ap_memory.pc.settings.randomize_warpsilos) bt_flags.silo_quagmire = value > 0;
+      break;
   }
 }
 
@@ -2021,11 +2042,4 @@ void ap_load_file() {
     bt_flags.hfp_lava_opened_kickball_door2 = 1;
     bt_flags.hfp_lava_opened_kickball_door3 = 1;
   }
-  if (ap_memory.pc.settings.open_silos[AP_SILO_JINJO_VILLAGE]) bt_flags.silo_jinjo_village = 1;
-  if (ap_memory.pc.settings.open_silos[AP_SILO_WOODED_HOLLOW]) bt_flags.silo_wooded_hollow = 1;
-  if (ap_memory.pc.settings.open_silos[AP_SILO_PLATEAU]) bt_flags.silo_plateau = 1;
-  if (ap_memory.pc.settings.open_silos[AP_SILO_PINE_GROVE]) bt_flags.silo_pine_grove = 1;
-  if (ap_memory.pc.settings.open_silos[AP_SILO_CLIFF_TOP]) bt_flags.silo_cliff_top = 1;
-  if (ap_memory.pc.settings.open_silos[AP_SILO_WASTELAND]) bt_flags.silo_wasteland = 1;
-  if (ap_memory.pc.settings.open_silos[AP_SILO_QUAGMIRE]) bt_flags.silo_quagmire = 1;
 }

@@ -914,38 +914,38 @@ void BTClient::initialize_bt()
     {
         if(OPEN_SILO == "ALL")
         {
-            ap_memory.pc.settings.open_silos[AP_SILO_JINJO_VILLAGE] = 1;
-            ap_memory.pc.settings.open_silos[AP_SILO_WOODED_HOLLOW] = 1;
-            ap_memory.pc.settings.open_silos[AP_SILO_PLATEAU] = 1;
-            ap_memory.pc.settings.open_silos[AP_SILO_PINE_GROVE] = 1;
-            ap_memory.pc.settings.open_silos[AP_SILO_CLIFF_TOP] = 1;
-            ap_memory.pc.settings.open_silos[AP_SILO_WASTELAND] = 1;
-            ap_memory.pc.settings.open_silos[AP_SILO_QUAGMIRE] = 1;
+            ap_memory.pc.items[AP_ITEM_SILO_JINJO_VILLAGE] = 1;
+            ap_memory.pc.items[AP_ITEM_SILO_WOODED_HOLLOW] = 1;
+            ap_memory.pc.items[AP_ITEM_SILO_PLATEAU] = 1;
+            ap_memory.pc.items[AP_ITEM_SILO_PINE_GROVE] = 1;
+            ap_memory.pc.items[AP_ITEM_SILO_CLIFF_TOP] = 1;
+            ap_memory.pc.items[AP_ITEM_SILO_WASTELAND] = 1;
+            ap_memory.pc.items[AP_ITEM_SILO_QUAGMIRE] = 1;
         }
         else if(OPEN_SILO == "Isle O Hags - Plateau")
         {
-            ap_memory.pc.settings.open_silos[AP_SILO_JINJO_VILLAGE] = 1;
-            ap_memory.pc.settings.open_silos[AP_SILO_PLATEAU] = 1;
+            ap_memory.pc.items[AP_ITEM_SILO_JINJO_VILLAGE] = 1;
+            ap_memory.pc.items[AP_ITEM_SILO_PLATEAU] = 1;
         }
         else if(OPEN_SILO == "Isle O Hags - Pine Grove")
         {
-            ap_memory.pc.settings.open_silos[AP_SILO_JINJO_VILLAGE] = 1;
-            ap_memory.pc.settings.open_silos[AP_SILO_PINE_GROVE] = 1;
+            ap_memory.pc.items[AP_ITEM_SILO_JINJO_VILLAGE] = 1;
+            ap_memory.pc.items[AP_ITEM_SILO_PINE_GROVE] = 1;
         }
         else if(OPEN_SILO == "Isle O Hags - Cliff Top")
         {
-            ap_memory.pc.settings.open_silos[AP_SILO_JINJO_VILLAGE] = 1;
-            ap_memory.pc.settings.open_silos[AP_SILO_CLIFF_TOP] = 1;
+            ap_memory.pc.items[AP_ITEM_SILO_JINJO_VILLAGE] = 1;
+            ap_memory.pc.items[AP_ITEM_SILO_CLIFF_TOP] = 1;
         }
         else if(OPEN_SILO == "Isle O Hags - Wasteland")
         {
-            ap_memory.pc.settings.open_silos[AP_SILO_JINJO_VILLAGE] = 1;
-            ap_memory.pc.settings.open_silos[AP_SILO_WASTELAND] = 1;
+            ap_memory.pc.items[AP_ITEM_SILO_JINJO_VILLAGE] = 1;
+            ap_memory.pc.items[AP_ITEM_SILO_WASTELAND] = 1;
         }
         else if(OPEN_SILO == "Isle O Hags - Quagmire")
         {
-            ap_memory.pc.settings.open_silos[AP_SILO_JINJO_VILLAGE] = 1;
-            ap_memory.pc.settings.open_silos[AP_SILO_QUAGMIRE] = 1;
+            ap_memory.pc.items[AP_ITEM_SILO_JINJO_VILLAGE] = 1;
+            ap_memory.pc.items[AP_ITEM_SILO_QUAGMIRE] = 1;
         }
     }
     switch (GOAL_TYPE) {
