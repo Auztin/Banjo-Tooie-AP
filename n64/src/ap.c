@@ -1169,7 +1169,7 @@ void ap_check_enough_notes(u16 start, u16 end) {
     "SACK PACK"
   };
 
-  const int UNLOCK_LIMIT = 5;
+  #define UNLOCK_LIMIT 5
   int unlocks[UNLOCK_LIMIT + 1];
   int n_unlocks = 0;
 
@@ -1205,6 +1205,7 @@ void ap_check_enough_notes(u16 start, u16 end) {
     else if (i + 2 == n_unlocks) strcat(ap.internal_message, " AND "); // Second to last
     else strcat(ap.internal_message, ", ");
   }
+  #undef UNLOCK_LIMIT
 }
 
 typedef struct {
