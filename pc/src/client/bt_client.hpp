@@ -60,6 +60,8 @@ private:
   bool ENABLE_AP_SIGNPOSTS = false;
   bool ENABLE_AP_EASY_CANARY = false;
   bool ENABLE_AP_CHEATS = false;
+  bool ENABLE_AP_SILOS = false;
+  bool ENABLE_AP_WARP_PADS = false;
   int GOAL_TYPE = 0;
   int MGH_LENGTH = 0; //Mini-game Mumbo Token Length
   int BH_LENGTH = 0; //Boss Token Length
@@ -157,6 +159,8 @@ private:
   nlohmann::json check_signpost_locations();
   void obtain_jinjos(int);
   void obtain_mumbo_token();
+  void obtain_warpsilos(int);
+  void obtain_warppads(int);
 };
 
 #endif // BT_CLIENT_HPP

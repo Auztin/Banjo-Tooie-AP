@@ -100,6 +100,7 @@ std::map<uint16_t, std::map<std::string, std::vector<std::string>>> ASSET_MAP_CH
             }},
             {"TREBLE", {"1230781"}},
             {"SILO", {"1230753","1230754"}},
+            {"WARPPAD", {"1231557","1231558"}},
         }},
         {0xC4, { //MT - Jade Snake Grove
             {"JIGGIES", {"1230601","1230605"}},
@@ -107,16 +108,19 @@ std::map<uint16_t, std::map<std::string, std::vector<std::string>>> ASSET_MAP_CH
             {"PAGES", {"1230730"}},
             {"GLOWBO", {"1230687"}},
             {"SILO", {"1230755",}},
+            {"WARPPAD", {"1231560"}},
         }},
         {0xBB, { //MT - Mayan Kickball Stadium (Lobby)
-            {"JIGGIES", {"1230598"}}
+            {"JIGGIES", {"1230598"}},
+            {"WARPPAD", {"1231561"}},
         }},
         {0xB7, { //MT - Mumbo's Skull
             {"GLOWBO", {"1230686"}}
         }},
         {0xB9, { //MT - Prison Compound
             {"JIGGIES", {"1230602", "1230603"}},
-            {"PAGES", {"1230729"}}
+            {"PAGES", {"1230729"}},
+            {"WARPPAD", {"1231559"}},
         }},
         {0x17A,	{ //MT - Targitzan's Really Sacred Chamber
             {"JIGGIES", {"1230596"}}
@@ -154,7 +158,11 @@ std::map<uint16_t, std::map<std::string, std::vector<std::string>>> ASSET_MAP_CH
                 "1230827",
             }},
             {"SILO", {"1230757"}},
-            {"CHUNKS", {"1231002", "1231003", "1231004"}}
+            {"CHUNKS", {"1231002", "1231003", "1231004"}},
+            {"WARPPAD", {"1231562","1231563","1231565","1231566"}},
+        }},
+        {0x0E9,{ //GGM - Wumba's Wigwam
+            {"WARPPAD", {"1231564"}},
         }},
         {0xCC,{ //GGM - Flooded Caves
             {"JIGGIES", {"1230615"}}
@@ -225,6 +233,7 @@ std::map<uint16_t, std::map<std::string, std::vector<std::string>>> ASSET_MAP_CH
             }},
             {"TREBLE", {"1230783"}},
             {"SILO", {"1230761","1230760"}},
+            {"WARPPAD", {"1231567","1231568","1231569","1231570"}},
         }},
         {0xEA, { //WW - Cave of Horrors
             {"JINJOS", {"1230562"}}
@@ -249,7 +258,8 @@ std::map<uint16_t, std::map<std::string, std::vector<std::string>>> ASSET_MAP_CH
         {0xE7, { //WW - The Inferno
             {"JIGGIES", {"1230624"}},
             {"PAGES", {"1230735"}},
-            {"GLOWBO", {"1230690"}}
+            {"GLOWBO", {"1230690"}},
+            {"WARPPAD", {"1231571"}},
         }},
         {0x176, { // WW - Mumbo Skull
             {"HONEYCOMB", {"1230710"}}
@@ -299,7 +309,8 @@ std::map<uint16_t, std::map<std::string, std::vector<std::string>>> ASSET_MAP_CH
                 "1230851",
                 "1230852",
             }},
-            {"SILO", {"1230764"}}
+            {"SILO", {"1230764"}},
+            {"WARPPAD", {"1231572"}},
         }},
         {0xF4, { //JRL - Ancient Swimming Baths
             {"PAGES", {"1230739"}}
@@ -311,7 +322,8 @@ std::map<uint16_t, std::map<std::string, std::vector<std::string>>> ASSET_MAP_CH
             {"HONEYCOMB", {"1230713","1230712"}},
             {"GLOWBO", {"1230693"}},
             {"NOTES", {"1230853","1230854"}},
-            {"TREBLE", {"1230784"}}
+            {"TREBLE", {"1230784"}},
+            {"WARPPAD", {"1231573","1231574"}},
         }},
         {0xFF, { //JRL - Blubber's Wave Race Hire
             {"JINJOS", {"1230567"}},
@@ -341,7 +353,8 @@ std::map<uint16_t, std::map<std::string, std::vector<std::string>>> ASSET_MAP_CH
         {0x1A9,	{ //JRL - Sea Bottom
             {"JIGGIES", {"1230633"}},
             {"PAGES", {"1230738"}},
-            {"HONEYCOMB", {"1230712"}}
+            {"HONEYCOMB", {"1230712"}},
+            {"WARPPAD", {"1231575","1231576"}},
         }},
         {0x181,	{ //JRL - Sea Botom Cavern
             {"JIGGIES", {"1230626"}},
@@ -385,7 +398,8 @@ std::map<uint16_t, std::map<std::string, std::vector<std::string>>> ASSET_MAP_CH
             {"TREBLE", {"1230785"}},
             {"SILO", {"1230768"}},
             {"STATIONBTN", {"1230791"}},
-            {"ROAR", {"1231009"}}
+            {"ROAR", {"1231009"}},
+            {"WARPPAD", {"1231577","1231579","1231580","1231581"}},
         }},
         {0x123, { //TDL - Inside Chompa's Belly
             {"JIGGIES", {"1230641"}},
@@ -407,7 +421,8 @@ std::map<uint16_t, std::map<std::string, std::vector<std::string>>> ASSET_MAP_CH
         }},
         {0x11A, { //TDL - Stomping Plains
             {"JIGGIES", {"1230643"}},
-            {"JINJOS", {"1230575"}}
+            {"JINJOS", {"1230575"}},
+            {"WARPPAD", {"1231578"}},
         }},
         {0x118,	{ //TDL - Styracosaurus Family Cave
             {"HONEYCOMB", {"1230716"}}
@@ -425,7 +440,8 @@ std::map<uint16_t, std::map<std::string, std::vector<std::string>>> ASSET_MAP_CH
             {"JINJOS", {"1230580"}},
             {"HONEYCOMB", {"1230720"}},
             {"TREBLE", {"1230786"}},
-            {"STATIONBTN", {"1230790"}}
+            {"STATIONBTN", {"1230790"}},
+            {"WARPPAD", {"1231586"}},
         }},
         {0x10F, { //GI - Basement
             {"JIGGIES", {"1230647"}},
@@ -444,6 +460,7 @@ std::map<uint16_t, std::map<std::string, std::vector<std::string>>> ASSET_MAP_CH
             {"JIGGIES", {"1230649","1230652"}},
             {"NOTES", {"1230883","1230884"}},
             {"SILO", {"1230773"}},
+            {"WARPPAD", {"1231582"}},
         }},
         {0x106,	{ //GI - Floor 2
             {"JIGGIES", {"1230649"}},
@@ -458,11 +475,13 @@ std::map<uint16_t, std::map<std::string, std::vector<std::string>>> ASSET_MAP_CH
                 "1230889"
             }},
             {"SILO", {"1230772"}},
+            {"WARPPAD", {"1231583"}},
         }},
         {0x108,	{ //GI - Floor 3
             {"HONEYCOMB", {"1230718"}},
             {"GLOWBO", {"1230697"}},
-            {"NOTES", {"1230894","1230895"}}
+            {"NOTES", {"1230894","1230895"}},
+            {"WARPPAD", {"1231584"}},
         }},
         {0x109,	{ //GI - Floor 3 (Boiler Plant)
             {"JIGGIES", {"1230649"}},
@@ -471,9 +490,9 @@ std::map<uint16_t, std::map<std::string, std::vector<std::string>>> ASSET_MAP_CH
         {0x10A,	{ //GI - Floor 3 (Packing Room)
             {"JIGGIES", {"1230654"}},
         }},
-        // {0x10B,	{ //GI - Floor 4
-
-        // }},
+        {0x10B,	{ //GI - Floor 4
+            {"WARPPAD", {"1231585"}},
+        }},
         {0x10D,	{ //GI - Floor 4 (Quality Control)
             {"JIGGIES", {"1230651"}},
         }},
@@ -509,7 +528,8 @@ std::map<uint16_t, std::map<std::string, std::vector<std::string>>> ASSET_MAP_CH
         {0x132,	{ //HFP - Icicle Grotto
             {"JINJOS", {"1230584"}},
             {"PAGES", {"1230747"}},
-            {"TREBLE", {"1230787"}}
+            {"TREBLE", {"1230787"}},
+            {"WARPPAD", {"1231591"}},
         }},
         {0x128,	{ //HFP - Icy Side
             {"JIGGIES", {"1230660","1230662","1230664"}},
@@ -527,7 +547,8 @@ std::map<uint16_t, std::map<std::string, std::vector<std::string>>> ASSET_MAP_CH
                 "1230911",
             }},
             {"SILO", {"1230775",}},
-            {"STATIONBTN", {"1230793"}}
+            {"STATIONBTN", {"1230793"}},
+            {"WARPPAD", {"1231589","1231590"}},
         }},
         {0x133,	{ //HFP - Inside the Volcano
             {"JIGGIES", {"1230657"}},
@@ -553,7 +574,8 @@ std::map<uint16_t, std::map<std::string, std::vector<std::string>>> ASSET_MAP_CH
                 "1230903",
             }},
             {"SILO", {"1230774"}},
-            {"STATIONBTN", {"1230792"}}
+            {"STATIONBTN", {"1230792"}},
+            {"WARPPAD", {"1231587","1231588"}},
         }},
         {0x129,	{ //HFP - Lava Train Station
             {"HONEYCOMB", {"1230722"}}
@@ -580,7 +602,8 @@ std::map<uint16_t, std::map<std::string, std::vector<std::string>>> ASSET_MAP_CH
             }},
             {"GLOWBO", {
                 "1230700"
-            }}
+            }},
+            {"WARPPAD", {"1231592"}},
         }},
         {0x13A,	{ //CCL - Central Cavern
             {"JIGGIES", {"1230674"}},
@@ -605,7 +628,8 @@ std::map<uint16_t, std::map<std::string, std::vector<std::string>>> ASSET_MAP_CH
                 "1230927",
             }},
             {"TREBLE", {"1230788"}},
-            {"SILO", {"1230776"}}
+            {"SILO", {"1230776"}},
+            {"WARPPAD", {"1231593"}},
         }},
         {0x138,	{ //CCL - Inside the Cheese Wedge
             {"JIGGIES", {"1230672"}},
@@ -633,6 +657,10 @@ std::map<uint16_t, std::map<std::string, std::vector<std::string>>> ASSET_MAP_CH
         {0x139,	{ //CCL - Zubbas' Nest
             {"JIGGIES", {"1230670"}},
             {"PAGES", {"1230751"}}
+        }},
+        // CAULDRON KEEP
+        {0x15D,	{ //CK
+            {"WARPPAD", {"1231594","1231595"}},
         }}
     };
 
@@ -1158,6 +1186,54 @@ bool check_flag(std::string locationId) {
             case 1230776: return fake->sack_pack;
             case 1231005: return fake->amaze_o_gaze;
             case 1231009: return fake->trex_roar;
+        //Warp silos
+            case 1231550: return fake->silo_jinjo_village;
+            case 1231551: return fake->silo_wooded_hollow;
+            case 1231552: return fake->silo_plateau;
+            case 1231553: return fake->silo_pine_grove;
+            case 1231554: return fake->silo_cliff_top;
+            case 1231555: return fake->silo_wasteland;
+            case 1231556: return fake->silo_quagmire;
+        //Warp pads
+            case 1231557: return fake->mt_warp_pad_entrance;
+            case 1231558: return fake->mt_warp_pad_mumbo;
+            case 1231559: return fake->mt_warp_pad_prison_compound;
+            case 1231560: return fake->mt_warp_pad_humba;
+            case 1231561: return fake->mt_warp_pad_kickball;
+            case 1231562: return fake->ggm_warp_pad_entrance;
+            case 1231563: return fake->ggm_warp_pad_mumbo;
+            case 1231564: return fake->ggm_warp_pad_humba;
+            case 1231565: return fake->ggm_warp_pad_crushing_shed;
+            case 1231566: return fake->ggm_warp_pad_train_station;
+            case 1231567: return fake->ww_warp_pad_entrance;
+            case 1231568: return fake->ww_warp_pad_behind_big_top;
+            case 1231569: return fake->ww_warp_pad_space;
+            case 1231570: return fake->ww_warp_pad_humba;
+            case 1231571: return fake->ww_warp_pad_mumbo;
+            case 1231572: return fake->jrl_warp_pad_entrance;
+            case 1231573: return fake->jrl_warp_pad_atlantis;
+            case 1231574: return fake->jrl_warp_pad_sunken_ship;
+            case 1231575: return fake->jrl_warp_pad_big_fish_cavern;
+            case 1231576: return fake->jrl_warp_pad_lockers_cavern;
+            case 1231577: return fake->tdl_warp_pad_entrance;
+            case 1231578: return fake->tdl_warp_pad_stomping_plains;
+            case 1231579: return fake->tdl_warp_pad_mumbo;
+            case 1231580: return fake->tdl_warp_pad_humba;
+            case 1231581: return fake->tdl_warp_pad_path_to_nest;
+            case 1231582: return fake->gi_floor1_warp_pad_entrance;
+            case 1231583: return fake->gi_floor2_warp_pad_humba;
+            case 1231584: return fake->gi_floor3_warp_pad_mumbo;
+            case 1231585: return fake->gi_floor4_warp_pad_crushers;
+            case 1231586: return fake->gi_roof_warp_pad;
+            case 1231587: return fake->hfp_lava_warp_pad_entrance;
+            case 1231588: return fake->hfp_lava_warp_pad_upper;
+            case 1231589: return fake->hfp_icy_warp_pad_upper;
+            case 1231590: return fake->hfp_icy_warp_pad_humba;
+            case 1231591: return fake->hfp_icy_warp_pad_icicle_grotto;
+            case 1231592: return fake->ccl_warp_pad_entrance;
+            case 1231593: return fake->ccl_warp_pad_center;
+            case 1231594: return fake->ck_warp_pad_entrance;
+            case 1231595: return fake->ck_warp_pad_hag1;
     }
     return false;
 }

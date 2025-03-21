@@ -806,6 +806,63 @@ void BTClient::obtain_mumbo_token()
     return;
 }
 
+// -------------- WARP PADS/SILOS ------------------
+
+void BTClient::obtain_warpsilos(int itemId) {
+    switch (itemId) {
+        case 1230870: ap_memory.pc.items[AP_ITEM_SILO_JINJO_VILLAGE] = 1; break;
+        case 1230871: ap_memory.pc.items[AP_ITEM_SILO_WOODED_HOLLOW] = 1; break;
+        case 1230872: ap_memory.pc.items[AP_ITEM_SILO_PLATEAU] = 1; break;
+        case 1230873: ap_memory.pc.items[AP_ITEM_SILO_PINE_GROVE] = 1; break;
+        case 1230874: ap_memory.pc.items[AP_ITEM_SILO_CLIFF_TOP] = 1; break;
+        case 1230875: ap_memory.pc.items[AP_ITEM_SILO_WASTELAND] = 1; break;
+        case 1230876: ap_memory.pc.items[AP_ITEM_SILO_QUAGMIRE] = 1; break;
+    }
+}
+
+void BTClient::obtain_warppads(int itemId) {
+    switch (itemId) {
+        case 1230877: ap_memory.pc.items[AP_ITEM_WARPMT_ENTRANCE] = 1; break;
+        case 1230878: ap_memory.pc.items[AP_ITEM_WARPMT_MUMBO] = 1; break;
+        case 1230879: ap_memory.pc.items[AP_ITEM_WARPMT_PRISON] = 1; break;
+        case 1230880: ap_memory.pc.items[AP_ITEM_WARPMT_HUMBA] = 1; break;
+        case 1230881: ap_memory.pc.items[AP_ITEM_WARPMT_KICKBALL] = 1; break;
+        case 1230882: ap_memory.pc.items[AP_ITEM_WARPGG_ENTRANCE] = 1; break;
+        case 1230883: ap_memory.pc.items[AP_ITEM_WARPGG_MUMBO] = 1; break;
+        case 1230884: ap_memory.pc.items[AP_ITEM_WARPGG_HUMBA] = 1; break;
+        case 1230885: ap_memory.pc.items[AP_ITEM_WARPGG_CRUSHING] = 1; break;
+        case 1230886: ap_memory.pc.items[AP_ITEM_WARPGG_TRAIN] = 1; break;
+        case 1230887: ap_memory.pc.items[AP_ITEM_WARPWW_ENTRANCE] = 1; break;
+        case 1230888: ap_memory.pc.items[AP_ITEM_WARPWW_BIGTOP] = 1; break;
+        case 1230889: ap_memory.pc.items[AP_ITEM_WARPWW_SPACE] = 1; break;
+        case 1230890: ap_memory.pc.items[AP_ITEM_WARPWW_HUMBA] = 1; break;
+        case 1230891: ap_memory.pc.items[AP_ITEM_WARPWW_MUMBO] = 1; break;
+        case 1230892: ap_memory.pc.items[AP_ITEM_WARPJR_ENTRANCE] = 1; break;
+        case 1230893: ap_memory.pc.items[AP_ITEM_WARPJR_ATLANTIS] = 1; break;
+        case 1230894: ap_memory.pc.items[AP_ITEM_WARPJR_SHIP] = 1; break;
+        case 1230895: ap_memory.pc.items[AP_ITEM_WARPJR_BIGFISH] = 1; break;
+        case 1230896: ap_memory.pc.items[AP_ITEM_WARPJR_LOCKERS] = 1; break;
+        case 1230897: ap_memory.pc.items[AP_ITEM_WARPTD_ENTRANCE] = 1; break;
+        case 1230898: ap_memory.pc.items[AP_ITEM_WARPTD_STOMPING] = 1; break;
+        case 1230899: ap_memory.pc.items[AP_ITEM_WARPTD_MUMBO] = 1; break;
+        case 1230900: ap_memory.pc.items[AP_ITEM_WARPTD_HUMBA] = 1; break;
+        case 1230901: ap_memory.pc.items[AP_ITEM_WARPTD_TOP] = 1; break;
+        case 1230902: ap_memory.pc.items[AP_ITEM_WARPGI_ENTRANCE] = 1; break;
+        case 1230903: ap_memory.pc.items[AP_ITEM_WARPGI_HUMBA] = 1; break;
+        case 1230904: ap_memory.pc.items[AP_ITEM_WARPGI_MUMBO] = 1; break;
+        case 1230905: ap_memory.pc.items[AP_ITEM_WARPGI_CRUSHER] = 1; break;
+        case 1230906: ap_memory.pc.items[AP_ITEM_WARPGI_ROOF] = 1; break;
+        case 1230907: ap_memory.pc.items[AP_ITEM_WARPHF_ENTRANCE] = 1; break;
+        case 1230908: ap_memory.pc.items[AP_ITEM_WARPHF_LAVAUPPER] = 1; break;
+        case 1230909: ap_memory.pc.items[AP_ITEM_WARPHF_ICYUPPER] = 1; break;
+        case 1230910: ap_memory.pc.items[AP_ITEM_WARPHF_HUMBA] = 1; break;
+        case 1230911: ap_memory.pc.items[AP_ITEM_WARPHF_ICICLE] = 1; break;
+        case 1230912: ap_memory.pc.items[AP_ITEM_WARPCC_ENTRANCE] = 1; break;
+        case 1230913: ap_memory.pc.items[AP_ITEM_WARPCC_CENTER] = 1; break;
+        case 1230914: ap_memory.pc.items[AP_ITEM_WARPCK_ENTRANCE] = 1; break;
+        case 1230915: ap_memory.pc.items[AP_ITEM_WARPCK_HAG1] = 1; break;
+    }
+}
 
 // -------------- Game Function ------------------
 
@@ -893,6 +950,16 @@ void BTClient::initialize_bt()
     if(ENABLE_AP_SIGNPOSTS == true)
     {
         ap_memory.pc.settings.signpost_hints = 1;
+    }
+    //SILOS
+    if(ENABLE_AP_SILOS == true)
+    {
+        ap_memory.pc.settings.randomize_warpsilos = 1;
+    }
+    //WARP PADS
+    if(ENABLE_AP_WARP_PADS == true)
+    {
+        ap_memory.pc.settings.randomize_warppads = 1;
     }
     if(ENABLE_AP_CHEATS == true)
     {
@@ -1627,6 +1694,16 @@ asio::awaitable<void> BTClient::getSlotData()
         }
 
     }
+    if(block.contains(string{"slot_randomize_silos"}) && block["slot_randomize_silos"] != 0)
+    {
+        ENABLE_AP_SILOS = true;
+        if(DEBUG_NET == true) { std::cout << "Silos are Randomized" << std::endl; }
+    }
+    if(block.contains(string{"slot_randomize_warp_pads"}) && block["slot_randomize_warp_pads"] != 0)
+    {
+        ENABLE_AP_WARP_PADS = true;
+        if(DEBUG_NET == true) { std::cout << "Warp pads are Randomized" << std::endl; }
+    }
     if(block.contains(string{"slot_extra_cheats"}) && block["slot_extra_cheats"] != 0)
     {
         ENABLE_AP_CHEATS = true;
@@ -1852,6 +1929,14 @@ void BTClient::processAGIItem(json item_data)
         else if((itemId >= 1230944 && itemId <= 1230952)) // Open World Entrances
         {
             unlock_world(itemId);
+        }
+        else if((itemId >= 1230870 && itemId <= 1230876))
+        {
+            obtain_warpsilos(itemId);
+        }
+        else if((itemId >= 1230877 && itemId <= 1230915))
+        {
+            obtain_warppads(itemId);
         }
         else // Everything else
         {
