@@ -1310,7 +1310,7 @@ void BTClient::show_message(int character, json data, bool force) {
         case 1230782: // Progrssive Flight
             if (items[AP_ITEM_AIREAIM]) {
                 item_id = 1230760;
-                item = "Aurborne Egg Aiming";
+                item = "Airborne Egg Aiming";
             }
             else if (items[AP_ITEM_BBOMB]) {
                 item_id = 1230827;
@@ -1346,7 +1346,7 @@ void BTClient::show_message(int character, json data, bool force) {
             }
             else if (items[AP_ITEM_AUQAIM]) {
                 item_id = 1230766;
-                item = "Sub-Squa Egg Aiming";
+                item = "Sub-Aqua Egg Aiming";
             }
             else if (items[AP_ITEM_DIVE]) {
                 item_id = 1230810;
