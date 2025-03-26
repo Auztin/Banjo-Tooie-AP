@@ -47,6 +47,7 @@ typedef struct {
 #define BT_OBJ_HANDCART             0x019F
 #define BT_OBJ_CLOCKWORK_MOUSE      0x018E
 #define BT_OBJ_WARP_PAD             0x00C7
+#define BT_OBJ_WARP_SILO            0x01CE
 
 #define BT_SETUP_JIGGYWIGGY         0x01E1
 #define BT_SETUP_JIGGYWIGGY_TEMPLE  0x01E7
@@ -125,7 +126,16 @@ typedef struct {
   };
   u16 _unknown0x78;
   u8 _unknown0x7A;
-  u8 _unknown0x7B;
+  struct {
+    u8 _unknown0x7B_7 : 1;
+    u8 _unknown0x7B_6 : 1;
+    u8 _unknown0x7B_5 : 1;
+    u8 _unknown0x7B_4 : 1;
+    u8 _unknown0x7B_3 : 1;
+    u8 _unknown0x7B_2 : 1;
+    u8 blend_color : 1;
+    u8 _unknown0x7B_0 : 1;
+  };
   u16 _unknown0x7C;
   u8 display_state;
   u8 _unknown0x7F;

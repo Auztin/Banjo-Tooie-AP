@@ -42,9 +42,8 @@ u32 save_eeprom_write(u32 _unused, u32 offset, u32 *ramAddr) {
 u32 save_fake_move_flags(u16 data, u8 setFlag, u8 flagState) {
   if (bt_save_slot > 2) return 0;
   data += 0xC5; // +0xED for move function, -0x28 for bit function
-  u32 save = (u32)&(bt_fake_flags);
-  if (setFlag) return bt_fn_set_bit(save, data, flagState);
-  else return bt_fn_get_bit(save, data);
+  if (setFlag) return bt_fn_set_bit(&bt_fake_flags, data, flagState);
+  else return bt_fn_get_bit(&bt_fake_flags, data);
 }
 
 u32 save_fake_has_move(u16 data) {
@@ -75,9 +74,8 @@ u32 save_fake_bits(u16 data, u8 setFlag, bool check) {
     else return bt_fn_get_save_bit(data);
   fake:
     data -= 0x28;
-    u32 save = (u32)&(bt_fake_flags);
-    if (setFlag) return bt_fn_set_bit(save, data, 1);
-    else return bt_fn_get_bit(save, data);
+    if (setFlag) return bt_fn_set_bit(&bt_fake_flags, data, 1);
+    else return bt_fn_get_bit(&bt_fake_flags, data);
 }
 
 u32 save_check_get_bit(u16 data) { // 0x800da298

@@ -141,6 +141,54 @@ JR AT
 SW S0, 0x0020 (SP)
 
 .align 0x08
+main_warp_silo_check_displaced:
+ADDIU SP, SP, -0x18
+SD RA, 0x0000 (SP)
+SD AT, 0x0008 (SP)
+SD A0, 0x0010 (SP)
+JAL main_warp_silo_check
+NOP
+LD AT, 0x0000 (SP)
+LD RA, 0x0008 (SP)
+LD A0, 0x0010 (SP)
+ADDIU SP, SP, 0x18
+BNEZ V0, .+16
+NOP
+JR RA
+ADDIU V0, R0, 0x0000
+; displaced code
+ADDIU SP, SP, -0x28
+SW S3, 0x0020 (SP)
+JR AT
+SW S2, 0x001C (SP)
+
+.align 0x08
+main_warp_silo_failed_displaced:
+ADDIU SP, SP, -0x28
+SD RA, 0x0000 (SP)
+SD AT, 0x0008 (SP)
+SD A0, 0x0010 (SP)
+SD A1, 0x0018 (SP)
+SD A2, 0x0020 (SP)
+JAL main_warp_silo_failed
+NOP
+LD AT, 0x0000 (SP)
+LD RA, 0x0008 (SP)
+LD A0, 0x0010 (SP)
+LD A1, 0x0018 (SP)
+LD A2, 0x0020 (SP)
+ADDIU SP, SP, 0x28
+BNEZ V0, .+16
+NOP
+JR RA
+NOP
+; displaced code
+ADDIU SP, SP, -0x28
+SW RA, 0x0024 (SP)
+JR AT
+SW S0, 0x0020 (SP)
+
+.align 0x08
 main_bt_pause_state_change_displaced:
 ADDIU SP, SP, -0x30
 SD RA, 0x0000 (SP)

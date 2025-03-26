@@ -13,13 +13,13 @@ typedef u32 (*bt_fnt_load_save)(u32);
 typedef u32 (*bt_fnt_object_init)(bt_object_t*, u32, u32, u32);
 #define bt_fn_object_init ((bt_fnt_object_init)0x80082088)
 
-typedef u32 (*bt_fnt_set_bit)(u32, u16, u8);
+typedef u32 (*bt_fnt_set_bit)(bt_save_flags_t*, u16, u8);
 #define bt_fn_set_bit ((bt_fnt_set_bit)0x800D9F18)
 
 typedef u32 (*bt_fnt_set_save_bit)(u16);
 #define bt_fn_set_save_bit ((bt_fnt_set_save_bit)0x800DA544)
 
-typedef u32 (*bt_fnt_get_bit)(u32, u16);
+typedef u32 (*bt_fnt_get_bit)(bt_save_flags_t*, u16);
 #define bt_fn_get_bit ((bt_fnt_get_bit)0x800D9E60)
 
 typedef u32 (*bt_fnt_get_save_bit)(u16);
@@ -33,5 +33,8 @@ typedef bool (*bt_fnt_transition_done)();
 
 typedef bool (*bt_fnt_sparkle)(bt_xyz_t*, u16 type);
 #define bt_fn_sparkle ((bt_fnt_sparkle)0x800888C8)
+
+typedef bool (*bt_fnt_unk_update_obj)(bt_obj_instance_t*);
+#define bt_fn_unk_update_obj ((bt_fnt_unk_update_obj)0x801015D0)
 
 #endif // BT_FN_INJECTED_H

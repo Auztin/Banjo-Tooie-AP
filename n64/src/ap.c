@@ -808,24 +808,31 @@ void ap_sync_items(u16 type, u8 value) {
       break;
     case AP_ITEM_SILO_JINJO_VILLAGE:
       if (ap_memory.pc.settings.randomize_warpsilos) bt_flags.silo_jinjo_village = value > 0;
+      else if (value > 0) bt_flags.silo_jinjo_village = 1;
       break;
     case AP_ITEM_SILO_WOODED_HOLLOW:
       if (ap_memory.pc.settings.randomize_warpsilos) bt_flags.silo_wooded_hollow = value > 0;
+      else if (value > 0) bt_flags.silo_wooded_hollow = 1;
       break;
     case AP_ITEM_SILO_PLATEAU:
       if (ap_memory.pc.settings.randomize_warpsilos) bt_flags.silo_plateau = value > 0;
+      else if (value > 0) bt_flags.silo_plateau = 1;
       break;
     case AP_ITEM_SILO_PINE_GROVE:
       if (ap_memory.pc.settings.randomize_warpsilos) bt_flags.silo_pine_grove = value > 0;
+      else if (value > 0) bt_flags.silo_pine_grove = 1;
       break;
     case AP_ITEM_SILO_CLIFF_TOP:
       if (ap_memory.pc.settings.randomize_warpsilos) bt_flags.silo_cliff_top = value > 0;
+      else if (value > 0) bt_flags.silo_cliff_top = 1;
       break;
     case AP_ITEM_SILO_WASTELAND:
       if (ap_memory.pc.settings.randomize_warpsilos) bt_flags.silo_wasteland = value > 0;
+      else if (value > 0) bt_flags.silo_wasteland = 1;
       break;
     case AP_ITEM_SILO_QUAGMIRE:
       if (ap_memory.pc.settings.randomize_warpsilos) bt_flags.silo_quagmire = value > 0;
+      else if (value > 0) bt_flags.silo_quagmire = 1;
       break;
   }
 }

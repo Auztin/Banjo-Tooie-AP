@@ -371,6 +371,19 @@ void pre_load_scene(u16 *scene, u16 *exit) {
         *scene = BT_MAP_DIGGER_TUNNEL;
         *exit = 1;
       }
+      if (ap_memory.pc.settings.randomize_warpsilos && *exit == 4) bt_fake_flags.silo_jinjo_village = 1;
+      break;
+    case BT_MAP_IOH_WH:
+      if (ap_memory.pc.settings.randomize_warpsilos && *exit == 6) bt_fake_flags.silo_wooded_hollow = 1;
+      break;
+    case BT_MAP_IOH_PLATEAU:
+      if (ap_memory.pc.settings.randomize_warpsilos && *exit == 5) bt_fake_flags.silo_plateau = 1;
+      break;
+    case BT_MAP_IOH_CT:
+      if (ap_memory.pc.settings.randomize_warpsilos && *exit == 7) bt_fake_flags.silo_cliff_top = 1;
+      break;
+    case BT_MAP_IOH_QM:
+      if (ap_memory.pc.settings.randomize_warpsilos && *exit == 4) bt_fake_flags.silo_quagmire = 1;
       break;
     case BT_MAP_SM:
       if (
@@ -383,27 +396,29 @@ void pre_load_scene(u16 *scene, u16 *exit) {
         *exit = 2;
       }
       break;
-    case BT_MAP_IOH_WASTELAND:
+    case BT_MAP_IOH_WL:
       if (
            ap_memory.pc.settings.randomize_nests
-        && bt_current_map == BT_MAP_IOH_PINE_GROVE
+        && bt_current_map == BT_MAP_IOH_PG
         && *exit == 1
         && (!save_custom_get_bit(bt_custom_save.nests, 0x051) || !save_custom_get_bit(bt_custom_save.nests, 0x052))
       ) {
         *scene = BT_MAP_ANOTHER_DIGGER_TUNNEL;
         *exit = 1;
       }
+      if (ap_memory.pc.settings.randomize_warpsilos && *exit == 4) bt_fake_flags.silo_wasteland = 1;
       break;
-    case BT_MAP_IOH_PINE_GROVE:
+    case BT_MAP_IOH_PG:
       if (
            ap_memory.pc.settings.randomize_nests
-        && bt_current_map == BT_MAP_IOH_WASTELAND
+        && bt_current_map == BT_MAP_IOH_WL
         && *exit == 3
         && (!save_custom_get_bit(bt_custom_save.nests, 0x051) || !save_custom_get_bit(bt_custom_save.nests, 0x052))
       ) {
         *scene = BT_MAP_ANOTHER_DIGGER_TUNNEL;
         *exit = 2;
       }
+      if (ap_memory.pc.settings.randomize_warpsilos && *exit == 5) bt_fake_flags.silo_pine_grove = 1;
       break;
     case BT_MAP_BOTTLES_HOUSE:
       if (bt_fake_flags.jukebox_bottles_house_party) break;
@@ -606,7 +621,7 @@ void main_train_change_station(u16 station) {
       bt_flags.train_at_ww = 1;
       dialog = 0x0CF6;
       break;
-    case BT_MAP_IOH_CLIFF_TOP:
+    case BT_MAP_IOH_CT:
       bt_flags.train_at_ioh = 1;
       dialog = 0x0CFB;
       break;
@@ -640,7 +655,7 @@ void main_train_summon(u32 _unknown_A0, u16 from, u16 to) {
     case BT_MAP_TRAIN_STATION_WW:
       bt_temp_flags.train_cutscene_ww = 1;
       break;
-    case BT_MAP_IOH_CLIFF_TOP:
+    case BT_MAP_IOH_CT:
       bt_temp_flags.train_cutscene_ioh = 1;
       break;
     case BT_MAP_TRAIN_STATION_TDL:
@@ -802,7 +817,7 @@ bool main_collected_nest(bt_obj_instance_t* obj) {
             bt_s32_xyz_t pos = {.x=setup->pos.x, .y=setup->pos.y, .z=setup->pos.z};
             bt_obj_instance_t* new_obj = bt_fn_spawn_prop(setup->type, &pos, 0, setup);
             new_obj->obj_data = setup->obj_data;
-            new_obj->_unknown0x7B |= 0x20;
+            new_obj->_unknown0x7B_5 = 1;
             new_obj->state = 4;
             new_obj->data->collectable = 0;
             break;
@@ -872,6 +887,40 @@ bool main_warp_pad_update(bt_obj_instance_t* obj, u8 state) {
   if (bt_fn_get_save_bit(((T6 << 2) + T6) + (T8 >> 7) + 0x379)) return true;
   bt_fn_play_sound(BT_SOUND_WRONG, -1, 1, -1);
   return false;
+}
+
+void main_warp_silo_update(bt_obj_instance_t* obj) {
+  bt_fn_unk_update_obj(obj);
+  u32 flag = (*(u32*)((u32)obj + 0x6C) & 0x1FF) + 0x32C - 0x28;
+  if (bt_fn_get_bit(&bt_flags, flag)) obj->_unknown0x65_4 = 1;
+  else obj->_unknown0x65_4 = 0;
+  if (bt_fn_get_bit(&bt_fake_flags, flag)) {
+    if (obj->blend_color) {
+      if (obj->color.blue < 0xF5) obj->color.blue += 10;
+      else {
+        obj->color.blue = 0xFF;
+        obj->blend_color = 0;
+      }
+    }
+  }
+  else {
+    obj->blend_color = 1;
+    obj->color.blue = 0;
+  }
+}
+
+extern int main_warp_silo_check_displaced(bt_obj_instance_t* obj);
+bool main_warp_silo_check(bt_obj_instance_t* obj) {
+  u32 flag = (*(u32*)((u32)obj + 0x6C) & 0x1FF) + 0x32C - 0x28;
+  if (bt_fn_get_bit(&bt_flags, flag)) return true;
+  bt_fn_play_sound(BT_SOUND_WRONG, -1, 1, -1);
+  return false;
+}
+
+extern void main_warp_silo_failed_displaced(bt_obj_instance_t* obj, int, int);
+bool main_warp_silo_failed(bt_obj_instance_t* obj, int _unused1, int _unused2) {
+  u32 flag = (*(u32*)((u32)obj + 0x6C) & 0x1FF) + 0x32C - 0x28;
+  return bt_fn_get_bit(&bt_flags, flag);
 }
 
 void pre_object_init(bt_object_t *obj) {
@@ -1047,6 +1096,15 @@ void pre_object_init(bt_object_t *obj) {
       util_inject(UTIL_INJECT_RAW     , (u32)obj + 0x04F8, 0x001F0821, 0);
       util_inject(UTIL_INJECT_FUNCTION, (u32)obj + 0x04FC, (u32)main_warp_pad_update_displaced, 1);
       break;
+    case BT_OBJ_WARP_SILO:
+      if (!ap_memory.pc.settings.randomize_warpsilos) break;
+      util_inject(UTIL_INJECT_FUNCTION, (u32)obj + 0x0A58, (u32)save_fake_get_bit, 0);
+      util_inject(UTIL_INJECT_FUNCTION, (u32)obj + 0x064C, (u32)save_fake_set_bit, 0);
+      util_inject(UTIL_INJECT_FUNCTION, (u32)obj + 0x1210, (u32)main_warp_silo_update, 0);
+      util_inject(UTIL_INJECT_RAW     , (u32)obj + 0x02D8, 0x001F0821, 0);
+      util_inject(UTIL_INJECT_FUNCTION, (u32)obj + 0x02DC, (u32)main_warp_silo_check_displaced, 1);
+      util_inject(UTIL_INJECT_RAW     , (u32)obj + 0x0234, 0x001F0821, 0);
+      util_inject(UTIL_INJECT_FUNCTION, (u32)obj + 0x0238, (u32)main_warp_silo_failed_displaced, 1);
   }
 }
 
