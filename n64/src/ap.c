@@ -1286,14 +1286,71 @@ void ap_update() {
 
 void ap_check_enough_notes(u16 start, u16 end) {
   if (start == end || start > end) return;
+
+  const char* names[] = {
+    "EGG AIM",
+    "BREEGULL BLASTER",
+    "GRIP GRAB",
+    "FIRE EGGS",
+    "BILL DRILL",
+    "BEAK BAYONET",
+    "GRENADE EGGS",
+    "SPLIT UP",
+    "PACK WHACK",
+    "AIRBORNE EGG AIMING",
+    "ICE EGGS",
+    "WING WHACK",
+    "SUB-AQUA EGG AIMING",
+    "TALON TORPEDO",
+    "CLOCKWORK KAZOOIE EGGS",
+    "SPRINGY STEP SHOES",
+    "TAXI PACK",
+    "HATCH",
+    "CLAW CLAMBER BOOTS",
+    "SNOOZE PACK",
+    "LEG SPRING",
+    "SHACK PACK",
+    "GLIDE",
+    "SACK PACK"
+  };
+
+  #define UNLOCK_LIMIT 5
+  int unlocks[UNLOCK_LIMIT + 1];
+  int n_unlocks = 0;
+
   for (int i = 0; i < sizeof(ap_memory.pc.settings.silo_requirements)/sizeof(*ap_memory.pc.settings.silo_requirements); i++) {
     u16 amount = ap_memory.pc.settings.silo_requirements[i];
     if (start < amount && end >= amount) {
-      ap.internal_icon = BT_ZOOMBOX_ICON_JAMJARS;
-      strcpy(ap.internal_message, "YOU HAVE ENOUGH NOTES FOR A NEW MOVE!");
-      break;
+      unlocks[n_unlocks++] = i;
+
+      if (n_unlocks == UNLOCK_LIMIT + 1) {
+        break;
+      }
     }
   }
+
+  if (!n_unlocks) {
+    return;
+  }
+
+  ap.internal_icon = BT_ZOOMBOX_ICON_JAMJARS;
+
+  if (n_unlocks > UNLOCK_LIMIT) {
+    // Too many silos unlocked at the same time.
+    strcpy(ap.internal_message, "YOU HAVE ENOUGH NOTES TO CHECK A LOT OF SILOS!");
+    return;
+  }
+
+  strcpy(ap.internal_message, "YOU HAVE ENOUGH NOTES TO CHECK THE ");
+
+  for (int i = 0; i < n_unlocks; i++) {
+    strcat(ap.internal_message, names[unlocks[i]]);
+    if (n_unlocks == 1) strcat(ap.internal_message, " SILO!"); // Only one
+    else if (i + 1 == n_unlocks) strcat(ap.internal_message, " SILOS!"); // Last one
+    else if (i + 2 == n_unlocks) strcat(ap.internal_message, " AND "); // Second to last
+    else strcat(ap.internal_message, ", ");
+  }
+  #undef UNLOCK_LIMIT
 }
 
 typedef struct {
