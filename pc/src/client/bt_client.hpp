@@ -68,7 +68,7 @@ private:
   int JFR_LENGTH = 0; //Jinjo Token Length
   int TH_LENGTH = 0; //Token Hunt Length
   int DIALOG_CHARACTER = 110;
-  std::string OPEN_SILO = "NONE"; //Which Silo is Open
+  nlohmann::json OPEN_SILO = nlohmann::json({}); //Which Silo is Open
   std::string CLIENT_VERSION = "V0.0";
   /* EO Banjo-Tooie AP Settings */
 

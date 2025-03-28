@@ -977,42 +977,15 @@ void BTClient::initialize_bt()
         ap_memory.pc.settings.speed_up_minigames = 1;
     }
     //SILO
-    if(OPEN_SILO != "NONE")
-    {
-        if(OPEN_SILO == "ALL")
-        {
-            ap_memory.pc.items[AP_ITEM_SILO_JINJO_VILLAGE] = 1;
-            ap_memory.pc.items[AP_ITEM_SILO_WOODED_HOLLOW] = 1;
-            ap_memory.pc.items[AP_ITEM_SILO_PLATEAU] = 1;
-            ap_memory.pc.items[AP_ITEM_SILO_PINE_GROVE] = 1;
-            ap_memory.pc.items[AP_ITEM_SILO_CLIFF_TOP] = 1;
-            ap_memory.pc.items[AP_ITEM_SILO_WASTELAND] = 1;
-            ap_memory.pc.items[AP_ITEM_SILO_QUAGMIRE] = 1;
-        }
-        else if(OPEN_SILO == "Isle O Hags - Plateau")
-        {
-            ap_memory.pc.items[AP_ITEM_SILO_JINJO_VILLAGE] = 1;
-            ap_memory.pc.items[AP_ITEM_SILO_PLATEAU] = 1;
-        }
-        else if(OPEN_SILO == "Isle O Hags - Pine Grove")
-        {
-            ap_memory.pc.items[AP_ITEM_SILO_JINJO_VILLAGE] = 1;
-            ap_memory.pc.items[AP_ITEM_SILO_PINE_GROVE] = 1;
-        }
-        else if(OPEN_SILO == "Isle O Hags - Cliff Top")
-        {
-            ap_memory.pc.items[AP_ITEM_SILO_JINJO_VILLAGE] = 1;
-            ap_memory.pc.items[AP_ITEM_SILO_CLIFF_TOP] = 1;
-        }
-        else if(OPEN_SILO == "Isle O Hags - Wasteland")
-        {
-            ap_memory.pc.items[AP_ITEM_SILO_JINJO_VILLAGE] = 1;
-            ap_memory.pc.items[AP_ITEM_SILO_WASTELAND] = 1;
-        }
-        else if(OPEN_SILO == "Isle O Hags - Quagmire")
-        {
-            ap_memory.pc.items[AP_ITEM_SILO_JINJO_VILLAGE] = 1;
-            ap_memory.pc.items[AP_ITEM_SILO_QUAGMIRE] = 1;
+    for (int siloId : OPEN_SILO) {
+        switch (siloId) {
+            case 1230870: ap_memory.pc.items[AP_ITEM_SILO_JINJO_VILLAGE]; break;
+            case 1230871: ap_memory.pc.items[AP_ITEM_SILO_WOODED_HOLLOW]; break;
+            case 1230872: ap_memory.pc.items[AP_ITEM_SILO_PLATEAU]; break;
+            case 1230873: ap_memory.pc.items[AP_ITEM_SILO_PINE_GROVE]; break;
+            case 1230874: ap_memory.pc.items[AP_ITEM_SILO_CLIFF_TOP]; break;
+            case 1230875: ap_memory.pc.items[AP_ITEM_SILO_WASTELAND]; break;
+            case 1230876: ap_memory.pc.items[AP_ITEM_SILO_QUAGMIRE]; break;
         }
     }
     switch (GOAL_TYPE) {
@@ -1577,6 +1550,60 @@ void BTClient::show_message(int character, json data, bool force) {
         case 1230952: // Cauldron Keep"
             default_character = BT_ZOOMBOX_ICON_KLUNGO;
             break;
+        case 1230870: // Jinjo Village Warp Silo
+        case 1230871: // Wooded Hollow Warp Silo
+        case 1230872: // Plateau Warp Silo
+        case 1230873: // Pine Grove Warp Silo
+        case 1230874: // Cliff Top Warp Silo
+        case 1230875: // Wasteland Warp Silo
+        case 1230876: // Quagmire Warp Silo
+            default_character = BT_ZOOMBOX_ICON_JAMJARS;
+            message.text = own ? std::format("You can now use the {}.", item)
+                               : std::format("{} has just opened the {}.", player, item);
+            break;
+        case 1230877: // MT_ENTRANCE Warp Pad
+        case 1230878: // MT_MUMBO Warp Pad
+        case 1230879: // MT_PRISON Warp Pad
+        case 1230880: // MT_HUMBA Warp Pad
+        case 1230881: // MT_KICKBALL Warp Pad
+        case 1230882: // GG_ENTRANCE Warp Pad
+        case 1230883: // GG_MUMBO Warp Pad
+        case 1230884: // GG_HUMBA Warp Pad
+        case 1230885: // GG_CRUSHING Warp Pad
+        case 1230886: // GG_TRAIN Warp Pad
+        case 1230887: // WW_ENTRANCE Warp Pad
+        case 1230888: // WW_BIGTOP Warp Pad
+        case 1230889: // WW_SPACE Warp Pad
+        case 1230890: // WW_HUMBA Warp Pad
+        case 1230891: // WW_MUMBO Warp Pad
+        case 1230892: // JR_ENTRANCE Warp Pad
+        case 1230893: // JR_ATLANTIS Warp Pad
+        case 1230894: // JR_SHIP Warp Pad
+        case 1230895: // JR_BIGFISH Warp Pad
+        case 1230896: // JR_LOCKERS Warp Pad
+        case 1230897: // TD_ENTRANCE Warp Pad
+        case 1230898: // TD_STOMPING Warp Pad
+        case 1230899: // TD_MUMBO Warp Pad
+        case 1230900: // TD_HUMBA Warp Pad
+        case 1230901: // TD_TOP Warp Pad
+        case 1230902: // GI_ENTRANCE Warp Pad
+        case 1230903: // GI_HUMBA Warp Pad
+        case 1230904: // GI_MUMBO Warp Pad
+        case 1230905: // GI_CRUSHER Warp Pad
+        case 1230906: // GI_ROOF Warp Pad
+        case 1230907: // HF_ENTRANCE Warp Pad
+        case 1230908: // HF_LAVAUPPER Warp Pad
+        case 1230909: // HF_ICYUPPER Warp Pad
+        case 1230910: // HF_HUMBA Warp Pad
+        case 1230911: // HF_ICICLE Warp Pad
+        case 1230912: // CC_ENTRANCE Warp Pad
+        case 1230913: // CC_CENTER Warp Pad
+        case 1230914: // CK_ENTRANCE Warp Pad
+        case 1230915: // CK_HAG1 Warp Pad
+            default_character = BT_ZOOMBOX_ICON_JAMJARS;
+            message.text = own ? std::format("You can now use the {}.", item)
+                               : std::format("{} has just unlocked the {}.", player, item);
+            break;
         default: return;
     }
     if (item_id >= 1230944 && item_id <= 1230952) {
@@ -1743,9 +1770,9 @@ asio::awaitable<void> BTClient::getSlotData()
     {
         silo_cost(block["slot_silo_costs"]);
     }
-    if(block.contains(string{"slot_open_silo"}))
+    if(block.contains(string{"slot_preopened_silo"}))
     {
-        OPEN_SILO = block["slot_open_silo"];
+        OPEN_SILO = block["slot_preopened_silo"];
     }
     if(block.contains(string{"slot_version"}) && block["slot_version"] != "")
     {
@@ -1976,29 +2003,16 @@ asio::awaitable<void> BTClient::sendToBTClient()
         CURRENT_MAP = ap_memory.n64.misc.current_map;
         if (CURRENT_MAP == 0x0158 && SEED != 0) SHOW_GOAL_INFO = true;
         if (old_map == 0x0158 && CURRENT_MAP == 0x00AF && SEED != 0) { // most likely new file
-            if(OPEN_SILO == "ALL")
-            {
-                show_message(BT_ZOOMBOX_ICON_JAMJARS, {{"message", "All Isle O' Hags Silos are Open"}});
-            }
-            else if(OPEN_SILO == "Isle O Hags - Plateau")
-            {
-                show_message(BT_ZOOMBOX_ICON_JAMJARS, {{"message", "The Isle O' Hags Plateau Silo is open"}});
-            }
-            else if(OPEN_SILO == "Isle O Hags - Pine Grove")
-            {
-                show_message(BT_ZOOMBOX_ICON_JAMJARS, {{"message", "The Isle O' Hags Pine Grove Silo is open"}});
-            }
-            else if(OPEN_SILO == "Isle O Hags - Cliff Top")
-            {
-                show_message(BT_ZOOMBOX_ICON_JAMJARS, {{"message", "The Isle O' Hags Cliff Top Silo is open"}});
-            }
-            else if(OPEN_SILO == "Isle O Hags - Wasteland")
-            {
-                show_message(BT_ZOOMBOX_ICON_JAMJARS, {{"message", "The Isle O' Hags Wasteland Silo is open"}});
-            }
-            else if(OPEN_SILO == "Isle O Hags - Quagmire")
-            {
-                show_message(BT_ZOOMBOX_ICON_JAMJARS, {{"message", "The Isle O' Hags Quagmire Silo is open"}});
+            for (int siloId : OPEN_SILO) {
+                switch (siloId) {
+                    case 1230870: show_message(BT_ZOOMBOX_ICON_JAMJARS, {{"message", "The Isle O' Hags Jinjo Village Silo is open"}}); break;
+                    case 1230871: show_message(BT_ZOOMBOX_ICON_JAMJARS, {{"message", "The Isle O' Hags Wooded Hollow Silo is open"}}); break;
+                    case 1230872: show_message(BT_ZOOMBOX_ICON_JAMJARS, {{"message", "The Isle O' Hags Plateau Silo is open"}}); break;
+                    case 1230873: show_message(BT_ZOOMBOX_ICON_JAMJARS, {{"message", "The Isle O' Hags Pine Grove Silo is open"}}); break;
+                    case 1230874: show_message(BT_ZOOMBOX_ICON_JAMJARS, {{"message", "The Isle O' Hags Cliff Top Silo is open"}}); break;
+                    case 1230875: show_message(BT_ZOOMBOX_ICON_JAMJARS, {{"message", "The Isle O' Hags Wasteland Silo is open"}}); break;
+                    case 1230876: show_message(BT_ZOOMBOX_ICON_JAMJARS, {{"message", "The Isle O' Hags Quagmire Silo is open"}}); break;
+                }
             }
         }
     }
