@@ -1286,7 +1286,6 @@ void ap_update() {
 
 void ap_check_enough_notes(u16 start, u16 end) {
   if (start == end || start > end) return;
-
   const char* names[] = {
     "EGG AIM",
     "BREEGULL BLASTER",
@@ -1313,36 +1312,24 @@ void ap_check_enough_notes(u16 start, u16 end) {
     "GLIDE",
     "SACK PACK"
   };
-
   #define UNLOCK_LIMIT 5
   int unlocks[UNLOCK_LIMIT + 1];
   int n_unlocks = 0;
-
   for (int i = 0; i < sizeof(ap_memory.pc.settings.silo_requirements)/sizeof(*ap_memory.pc.settings.silo_requirements); i++) {
     u16 amount = ap_memory.pc.settings.silo_requirements[i];
     if (start < amount && end >= amount) {
       unlocks[n_unlocks++] = i;
-
-      if (n_unlocks == UNLOCK_LIMIT + 1) {
-        break;
-      }
+      if (n_unlocks == UNLOCK_LIMIT + 1) break;
     }
   }
-
-  if (!n_unlocks) {
-    return;
-  }
-
+  if (!n_unlocks) return;
   ap.internal_icon = BT_ZOOMBOX_ICON_JAMJARS;
-
   if (n_unlocks > UNLOCK_LIMIT) {
     // Too many silos unlocked at the same time.
     strcpy(ap.internal_message, "YOU HAVE ENOUGH NOTES TO CHECK A LOT OF SILOS!");
     return;
   }
-
   strcpy(ap.internal_message, "YOU HAVE ENOUGH NOTES TO CHECK THE ");
-
   for (int i = 0; i < n_unlocks; i++) {
     strcat(ap.internal_message, names[unlocks[i]]);
     if (n_unlocks == 1) strcat(ap.internal_message, " SILO!"); // Only one
