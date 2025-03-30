@@ -1736,8 +1736,10 @@ asio::awaitable<void> BTClient::getSlotData()
         if(DEBUG_NET == true) { std::cout << "Nests are Randomized" << std::endl; }
     }
     if(
-           block.contains(string{"slot_hints"}) && block["slot_hints"] != 0
-        && block.contains(string{"slot_hints_activated"}) && block["slot_hints_activated"] != 0
+        (
+            block.contains(string{"slot_hints"}) && block["slot_hints"] != 0
+            && block.contains(string{"slot_hints_activated"}) && block["slot_hints_activated"] != 0
+        ) || (block.contains(string{"slot_randomize_signposts"}) && block["slot_randomize_signposts"] != 0)
     )
     {
         ENABLE_AP_SIGNPOSTS = true;
