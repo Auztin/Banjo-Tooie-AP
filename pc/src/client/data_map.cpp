@@ -30,7 +30,8 @@ std::map<uint16_t, std::map<std::string, std::vector<std::string>>> ASSET_MAP_CH
         //JINJO VILLAGE
         {0x142, { // JV
             {"TREBLE", {"1230789"}},
-            {"STOPNSWAP", {"1230958"}}
+            {"STOPNSWAP", {"1230958"}},
+            {"WARPSILO", {"1231550"}},
         }},
         {0x143, { //JV - Bottles' House
             {"AMAZE", {"1231005"}},
@@ -42,20 +43,23 @@ std::map<uint16_t, std::map<std::string, std::vector<std::string>>> ASSET_MAP_CH
             {"GLOWBO", {"1230702"}},
             {"NOTES", {"1230936","1230937","1230938","1230939",}},
             {"SILO", {"1230763"}},
-            {"STATIONBTN", {"1230794"}}
+            {"STATIONBTN", {"1230794"}},
+            {"WARPSILO", {"1231554"}},
         }},
         {0x150, { //IoH - Heggy's Egg Shed
             {"STOPNSWAP", {"1230953", "1230954", "1230955"}}
         }},
         {0x154, { //IoH - Pine Grove
             {"NOTES", {"1230932","1230933","1230934", "1230935"}},
-            {"SILO", {"1230759"}}
+            {"SILO", {"1230759"}},
+            {"WARPSILO", {"1231553"}},
         }},
         {0x152, { //IoH - Plateau
             {"JINJOS", {"1230594"}},
             {"HONEYCOMB", {"1230727"}},
             {"NOTES", {"1230928", "1230929", "1230930", "1230931"}},
-            {"SILO", {"1230756"}}
+            {"SILO", {"1230756"}},
+            {"WARPSILO", {"1231552"}},
         }},
         {0x153, { //IoH - Plateau - Honey B's Hive
             {"HONEYB", {
@@ -69,10 +73,15 @@ std::map<uint16_t, std::map<std::string, std::vector<std::string>>> ASSET_MAP_CH
             {"JINJOS", {"1230592"}},
             {"NOTES", {"1230940","1230941","1230942","1230943"}},
             {"SILO", {"1230767"}},
+            {"WARPSILO", {"1231555"}},
         }},
         {0x14F, { //IoH - Wooded Hollow
             {"JINJOS", {"1230591"}},
-            {"STOPNSWAP", {"1230953","1230954","1230955"}}
+            {"STOPNSWAP", {"1230953","1230954","1230955"}},
+            {"WARPSILO", {"1231551"}},
+        }},
+        {0x15C, { //IoH - Quagmire
+            {"WARPSILO", {"1231556"}},
         }},
         //MAYAHEM TEMPLE
         {0xB8, { //MT

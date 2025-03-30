@@ -157,6 +157,8 @@ private:
   nlohmann::json check_jinjo_family_locations();
   nlohmann::json check_nest_locations();
   nlohmann::json check_signpost_locations();
+  nlohmann::json check_warp_pad_locations();
+  nlohmann::json check_warp_silo_locations();
   void obtain_jinjos(int);
   void obtain_mumbo_token();
   void obtain_warpsilos(int);

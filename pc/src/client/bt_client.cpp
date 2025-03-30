@@ -794,6 +794,38 @@ nlohmann::json BTClient::check_signpost_locations()
     return signposts_check;
 }
 
+nlohmann::json BTClient::check_warp_pad_locations()
+{
+    nlohmann::json warp_pad_check = json({});
+    if(ASSET_MAP_CHECK.count(CURRENT_MAP))
+    {
+        if(ASSET_MAP_CHECK[CURRENT_MAP].count("WARPPAD"))
+        {
+            for(const std::string& locationId: ASSET_MAP_CHECK[CURRENT_MAP]["WARPPAD"])
+            {
+                warp_pad_check[locationId] = check_flag(locationId);
+            }
+        }
+    }
+    return warp_pad_check;
+}
+
+nlohmann::json BTClient::check_warp_silo_locations()
+{
+    nlohmann::json warp_silo_check = json({});
+    if(ASSET_MAP_CHECK.count(CURRENT_MAP))
+    {
+        if(ASSET_MAP_CHECK[CURRENT_MAP].count("WARPSILO"))
+        {
+            for(const std::string& locationId: ASSET_MAP_CHECK[CURRENT_MAP]["WARPSILO"])
+            {
+                warp_silo_check[locationId] = check_flag(locationId);
+            }
+        }
+    }
+    return warp_silo_check;
+}
+
 // -------------- MUMBO TOKENS -------------------
 
 void BTClient::obtain_mumbo_token()
@@ -2078,6 +2110,8 @@ asio::awaitable<void> BTClient::sendToBTClient()
     retTable["dino_kids"] = check_dino_kids_locations();
     retTable["nests"] = check_nest_locations();
     retTable["signposts"] = check_signpost_locations();
+    retTable["warppads"] = check_warp_pad_locations();
+    retTable["silos"] = check_warp_silo_locations();
     retTable["DEMO"] = false;
     retTable["banjo_map"] = CURRENT_MAP;
     retTable["sync_ready"] = "true";
