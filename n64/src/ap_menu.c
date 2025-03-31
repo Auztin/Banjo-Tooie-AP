@@ -90,29 +90,35 @@ void ap_menu_select() {
   switch (ap_menu.id) {
     case AP_MENU_MAIN:
       switch (ap_menu.selected) {
-        case 1:
+        case AP_MENU_MAIN_OPTIONS:
           ap_menu.id = AP_MENU_OPTIONS;
           break;
-        case 2:
+        case AP_MENU_MAIN_MOVES_KAZOOIE:
           ap_menu.id = AP_MENU_RECEIVED_MOVES_BK;
           break;
-        case 3:
+        case AP_MENU_MAIN_ENTRANCES:
           ap_menu.id = AP_MENU_WORLD_ENTRANCES;
           break;
-        case 4:
+        case AP_MENU_MAIN_MOVES_TOOIE:
           ap_menu.id = AP_MENU_RECEIVED_MOVES_BT;
           break;
-        case 5:
+        case AP_MENU_MAIN_TOTALS:
           ap_menu.id = AP_MENU_TOTOTALS;
           break;
-        case 6:
+        case AP_MENU_MAIN_MUMBO_AND_HUMBA:
           ap_menu.id = AP_MENU_RECEIVED_MUMBO_HUMBA;
           break;
-        case 7:
+        case AP_MENU_MAIN_CHEATS:
           ap_menu.id = AP_MENU_CHEATS;
           break;
-        case 8:
+        case AP_MENU_MAIN_CHUFFY:
           ap_menu.id = AP_MENU_RECEIVED_TRAIN_STATIONS;
+          break;
+        case AP_MENU_MAIN_WARP_SILOS:
+          ap_menu.id = AP_MENU_RECEIVED_WARP_SILOS;
+          break;
+        case AP_MENU_MAIN_WARP_PADS:
+          ap_menu.id = AP_MENU_RECEIVED_WARP_PADS;
           break;
         default: return;
       }
@@ -403,6 +409,40 @@ void ap_menu_update_zoombox(int i, bt_zoombox_t* zb) {
             break;
         }
         break;
+      case AP_MENU_RECEIVED_WARP_SILOS:
+        item = &ap_menu_received_warp_silos_data[i-1].item;
+        break;
+      case AP_MENU_RECEIVED_WARP_PADS:
+        switch (ap_menu.page) {
+          case 1:
+            item = &ap_menu_received_warp_pads_mt_data[i-1].item;
+            break;
+          case 2:
+            item = &ap_menu_received_warp_pads_ggm_data[i-1].item;
+            break;
+          case 3:
+            item = &ap_menu_received_warp_pads_ww_data[i-1].item;
+            break;
+          case 4:
+            item = &ap_menu_received_warp_pads_jrl_data[i-1].item;
+            break;
+          case 5:
+            item = &ap_menu_received_warp_pads_tdl_data[i-1].item;
+            break;
+          case 6:
+            item = &ap_menu_received_warp_pads_gi_data[i-1].item;
+            break;
+          case 7:
+            item = &ap_menu_received_warp_pads_hfp_data[i-1].item;
+            break;
+          case 8:
+            item = &ap_menu_received_warp_pads_ccl_data[i-1].item;
+            break;
+          case 9:
+            item = &ap_menu_received_warp_pads_ck_data[i-1].item;
+            break;
+        }
+        break;
     }
   }
   if (item) {
@@ -494,28 +534,34 @@ void ap_menu_update() {
       switch (ap_menu.last_id) {
         // AP_MENU_MAIN
         case AP_MENU_OPTIONS:
-          ap_menu.selected = 1;
+          ap_menu.selected = AP_MENU_MAIN_OPTIONS;
           break;
         case AP_MENU_RECEIVED_MOVES_BK:
-          ap_menu.selected = 2;
+          ap_menu.selected = AP_MENU_MAIN_MOVES_KAZOOIE;
           break;
         case AP_MENU_WORLD_ENTRANCES:
-          ap_menu.selected = 3;
+          ap_menu.selected = AP_MENU_MAIN_ENTRANCES;
           break;
         case AP_MENU_RECEIVED_MOVES_BT:
-          ap_menu.selected = 4;
+          ap_menu.selected = AP_MENU_MAIN_MOVES_TOOIE;
           break;
         case AP_MENU_TOTOTALS:
-          ap_menu.selected = 5;
+          ap_menu.selected = AP_MENU_MAIN_TOTALS;
           break;
         case AP_MENU_RECEIVED_MUMBO_HUMBA:
-          ap_menu.selected = 6;
+          ap_menu.selected = AP_MENU_MAIN_MUMBO_AND_HUMBA;
           break;
         case AP_MENU_CHEATS:
-          ap_menu.selected = 7;
+          ap_menu.selected = AP_MENU_MAIN_CHEATS;
           break;
         case AP_MENU_RECEIVED_TRAIN_STATIONS:
-          ap_menu.selected = 8;
+          ap_menu.selected = AP_MENU_MAIN_CHUFFY;
+          break;
+        case AP_MENU_RECEIVED_WARP_SILOS:
+          ap_menu.selected = AP_MENU_MAIN_WARP_SILOS;
+          break;
+        case AP_MENU_RECEIVED_WARP_PADS:
+          ap_menu.selected = AP_MENU_MAIN_WARP_PADS;
           break;
         default:
           ap_menu.selected = 1;
@@ -570,7 +616,7 @@ void ap_menu_update() {
           return;
         case AP_MENU_MAIN:
           ap_menu.columns = 2;
-          zb_data = ap_menu_main_data;
+          opt_data = ap_menu_main_data;
           data_size = sizeof(ap_menu_main_data);
           break;
         case AP_MENU_RECEIVED_MOVES_BK:
@@ -647,6 +693,122 @@ void ap_menu_update() {
           data_size = sizeof(ap_menu_cheats_data);
           if (!ap_memory.pc.settings.extra_cheats) data_size -= sizeof(ap_menu_data_t)*4;
           break;
+        case AP_MENU_RECEIVED_WARP_SILOS:
+          ap_menu.columns = 2;
+          ap_menu.last_zb = 1;
+          ap_menu.last_y = 60;
+          ap_menu.selected = 0;
+          ap_menu.title = "WARP SILOS";
+          opt_data = ap_menu_received_warp_silos_data;
+          data_size = sizeof(ap_menu_received_warp_silos_data);
+          if (!ap_memory.pc.settings.randomize_warpsilos) {
+            ap_memory.pc.items[AP_ITEM_WARPMT_HUMBA] = bt_flags.mt_warp_pad_humba;
+            ap_memory.pc.items[AP_ITEM_SILO_JINJO_VILLAGE] = bt_flags.silo_jinjo_village;
+            ap_memory.pc.items[AP_ITEM_SILO_WOODED_HOLLOW] = bt_flags.silo_wooded_hollow;
+            ap_memory.pc.items[AP_ITEM_SILO_PLATEAU] = bt_flags.silo_plateau;
+            ap_memory.pc.items[AP_ITEM_SILO_PINE_GROVE] = bt_flags.silo_pine_grove;
+            ap_memory.pc.items[AP_ITEM_SILO_CLIFF_TOP] = bt_flags.silo_cliff_top;
+            ap_memory.pc.items[AP_ITEM_SILO_WASTELAND] = bt_flags.silo_wasteland;
+            ap_memory.pc.items[AP_ITEM_SILO_QUAGMIRE] = bt_flags.silo_quagmire;
+          }
+          break;
+        case AP_MENU_RECEIVED_WARP_PADS:
+          ap_menu.columns = 1;
+          ap_menu.selected = 0;
+          if (!ap_menu.page) ap_menu.page = 1;
+          ap_menu.page_max = 9;
+          switch (ap_menu.page) {
+            case 1:
+              ap_menu.title = "WARP PADS - MT";
+              opt_data = ap_menu_received_warp_pads_mt_data;
+              data_size = sizeof(ap_menu_received_warp_pads_mt_data);
+              break;
+            case 2:
+              ap_menu.title = "WARP PADS - GGM";
+              opt_data = ap_menu_received_warp_pads_ggm_data;
+              data_size = sizeof(ap_menu_received_warp_pads_ggm_data);
+              break;
+            case 3:
+              ap_menu.title = "WARP PADS - WW";
+              opt_data = ap_menu_received_warp_pads_ww_data;
+              data_size = sizeof(ap_menu_received_warp_pads_ww_data);
+              break;
+            case 4:
+              ap_menu.title = "WARP PADS - JRL";
+              opt_data = ap_menu_received_warp_pads_jrl_data;
+              data_size = sizeof(ap_menu_received_warp_pads_jrl_data);
+              break;
+            case 5:
+              ap_menu.title = "WARP PADS - TDL";
+              opt_data = ap_menu_received_warp_pads_tdl_data;
+              data_size = sizeof(ap_menu_received_warp_pads_tdl_data);
+              break;
+            case 6:
+              ap_menu.title = "WARP PADS - GI";
+              opt_data = ap_menu_received_warp_pads_gi_data;
+              data_size = sizeof(ap_menu_received_warp_pads_gi_data);
+              break;
+            case 7:
+              ap_menu.title = "WARP PADS - HFP";
+              opt_data = ap_menu_received_warp_pads_hfp_data;
+              data_size = sizeof(ap_menu_received_warp_pads_hfp_data);
+              break;
+            case 8:
+              ap_menu.title = "WARP PADS - CCL";
+              opt_data = ap_menu_received_warp_pads_ccl_data;
+              data_size = sizeof(ap_menu_received_warp_pads_ccl_data);
+              break;
+            case 9:
+              ap_menu.title = "WARP PADS - CK";
+              opt_data = ap_menu_received_warp_pads_ck_data;
+              data_size = sizeof(ap_menu_received_warp_pads_ck_data);
+              break;
+          }
+          ap_menu.last_y = 165;
+          ap_menu_page_text(BT_ZOOMBOX_ICON_JIGGYWIGGY);
+          ap_menu.last_y = 50;
+          if (!ap_memory.pc.settings.randomize_warppads) {
+            ap_memory.pc.items[AP_ITEM_WARPMT_HUMBA] = bt_flags.mt_warp_pad_humba;
+            ap_memory.pc.items[AP_ITEM_WARPMT_PRISON] = bt_flags.mt_warp_pad_prison_compound;
+            ap_memory.pc.items[AP_ITEM_WARPMT_MUMBO] = bt_flags.mt_warp_pad_mumbo;
+            ap_memory.pc.items[AP_ITEM_WARPMT_ENTRANCE] = bt_flags.mt_warp_pad_entrance;
+            ap_memory.pc.items[AP_ITEM_WARPMT_KICKBALL] = bt_flags.mt_warp_pad_kickball;
+            ap_memory.pc.items[AP_ITEM_WARPGG_TRAIN] = bt_flags.ggm_warp_pad_train_station;
+            ap_memory.pc.items[AP_ITEM_WARPGG_CRUSHING] = bt_flags.ggm_warp_pad_crushing_shed;
+            ap_memory.pc.items[AP_ITEM_WARPGG_HUMBA] = bt_flags.ggm_warp_pad_humba;
+            ap_memory.pc.items[AP_ITEM_WARPGG_MUMBO] = bt_flags.ggm_warp_pad_mumbo;
+            ap_memory.pc.items[AP_ITEM_WARPGG_ENTRANCE] = bt_flags.ggm_warp_pad_entrance;
+            ap_memory.pc.items[AP_ITEM_WARPWW_BIGTOP] = bt_flags.ww_warp_pad_behind_big_top;
+            ap_memory.pc.items[AP_ITEM_WARPWW_ENTRANCE] = bt_flags.ww_warp_pad_entrance;
+            ap_memory.pc.items[AP_ITEM_WARPWW_MUMBO] = bt_flags.ww_warp_pad_mumbo;
+            ap_memory.pc.items[AP_ITEM_WARPWW_HUMBA] = bt_flags.ww_warp_pad_humba;
+            ap_memory.pc.items[AP_ITEM_WARPWW_SPACE] = bt_flags.ww_warp_pad_space;
+            ap_memory.pc.items[AP_ITEM_WARPJR_LOCKERS] = bt_flags.jrl_warp_pad_lockers_cavern;
+            ap_memory.pc.items[AP_ITEM_WARPJR_BIGFISH] = bt_flags.jrl_warp_pad_big_fish_cavern;
+            ap_memory.pc.items[AP_ITEM_WARPJR_SHIP] = bt_flags.jrl_warp_pad_sunken_ship;
+            ap_memory.pc.items[AP_ITEM_WARPJR_ATLANTIS] = bt_flags.jrl_warp_pad_atlantis;
+            ap_memory.pc.items[AP_ITEM_WARPJR_ENTRANCE] = bt_flags.jrl_warp_pad_entrance;
+            ap_memory.pc.items[AP_ITEM_WARPGI_MUMBO] = bt_flags.gi_floor3_warp_pad_mumbo;
+            ap_memory.pc.items[AP_ITEM_WARPGI_HUMBA] = bt_flags.gi_floor2_warp_pad_humba;
+            ap_memory.pc.items[AP_ITEM_WARPGI_ENTRANCE] = bt_flags.gi_floor1_warp_pad_entrance;
+            ap_memory.pc.items[AP_ITEM_WARPGI_ROOF] = bt_flags.gi_roof_warp_pad;
+            ap_memory.pc.items[AP_ITEM_WARPGI_CRUSHER] = bt_flags.gi_floor4_warp_pad_crushers;
+            ap_memory.pc.items[AP_ITEM_WARPTD_TOP] = bt_flags.tdl_warp_pad_stomping_plains;
+            ap_memory.pc.items[AP_ITEM_WARPTD_HUMBA] = bt_flags.tdl_warp_pad_humba;
+            ap_memory.pc.items[AP_ITEM_WARPTD_MUMBO] = bt_flags.tdl_warp_pad_mumbo;
+            ap_memory.pc.items[AP_ITEM_WARPTD_STOMPING] = bt_flags.tdl_warp_pad_stomping_plains;
+            ap_memory.pc.items[AP_ITEM_WARPTD_ENTRANCE] = bt_flags.tdl_warp_pad_entrance;
+            ap_memory.pc.items[AP_ITEM_WARPCC_ENTRANCE] = bt_flags.ccl_warp_pad_entrance;
+            ap_memory.pc.items[AP_ITEM_WARPCC_CENTER] = bt_flags.ccl_warp_pad_center;
+            ap_memory.pc.items[AP_ITEM_WARPHF_ICICLE] = bt_flags.hfp_icy_warp_pad_icicle_grotto;
+            ap_memory.pc.items[AP_ITEM_WARPHF_HUMBA] = bt_flags.hfp_icy_warp_pad_humba;
+            ap_memory.pc.items[AP_ITEM_WARPHF_ICYUPPER] = bt_flags.hfp_icy_warp_pad_upper;
+            ap_memory.pc.items[AP_ITEM_WARPHF_LAVAUPPER] = bt_flags.hfp_lava_warp_pad_upper;
+            ap_memory.pc.items[AP_ITEM_WARPHF_ENTRANCE] = bt_flags.hfp_lava_warp_pad_entrance;
+            ap_memory.pc.items[AP_ITEM_WARPCK_HAG1] = bt_flags.ck_warp_pad_hag1;
+            ap_memory.pc.items[AP_ITEM_WARPCK_ENTRANCE] = bt_flags.ck_warp_pad_entrance;
+          }
+          break;
         default: return;
       }
       ap_menu.state = AP_MENU_STATE_SHOW;
@@ -698,6 +860,8 @@ void ap_menu_update() {
           case AP_MENU_RECEIVED_MOVES_BT:
           case AP_MENU_RECEIVED_MUMBO_HUMBA:
           case AP_MENU_RECEIVED_TRAIN_STATIONS:
+          case AP_MENU_RECEIVED_WARP_SILOS:
+          case AP_MENU_RECEIVED_WARP_PADS:
             ap_menu.id = AP_MENU_MAIN;
             break;
         }

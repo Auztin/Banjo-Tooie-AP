@@ -9,7 +9,6 @@ typedef struct {
 
 typedef struct {
   u16 item;
-  u8  state;
   struct {
     u16 on_map;
     u16 og_map;
@@ -18,16 +17,32 @@ typedef struct {
   ap_menu_zb_data_t zb;
 } ap_menu_data_t;
 
-ap_menu_zb_data_t ap_menu_main_data[] = {
-  {.lines=1, .icon=BT_ZOOMBOX_ICON_JIGGYWIGGY, .text=(char*[]){"CHOOSE AN OPTION WITH \x87 AND GO BACK WITH \x86"}},
-  {.lines=1, .icon=BT_ZOOMBOX_ICON_GI_ANNOUNCER, .text=(char*[]){"OPTIONS"}},
-  {.lines=2, .icon=BT_ZOOMBOX_ICON_BOTTLES, .text=(char*[]){"MOVES FROM","BANJO-KAZOOIE"}},
-  {.lines=1, .icon=BT_ZOOMBOX_ICON_JIGGYWIGGY_DISCIPLE, .text=(char*[]){"WORLD ENTRANCES"}},
-  {.lines=2, .icon=BT_ZOOMBOX_ICON_JAMJARS, .text=(char*[]){"MOVES FROM","BANJO-TOOIE"}},
-  {.lines=1, .icon=BT_ZOOMBOX_ICON_JIGGY, .text=(char*[]){"VIEW TOTALS"}},
-  {.lines=1, .icon=BT_ZOOMBOX_ICON_GLOWBO, .text=(char*[]){"MUMBO AND HUMBA"}},
-  {.lines=1, .icon=BT_ZOOMBOX_ICON_CHEATO, .text=(char*[]){"CHEATS"}},
-  {.lines=1, .icon=BT_ZOOMBOX_ICON_OLD_KING_COAL, .text=(char*[]){"TRAIN STATIONS AND CHUFFY"}},
+enum {
+  AP_MENU_MAIN_TEXT,
+  AP_MENU_MAIN_OPTIONS,
+  AP_MENU_MAIN_CHEATS,
+  AP_MENU_MAIN_ENTRANCES,
+  AP_MENU_MAIN_TOTALS,
+  AP_MENU_MAIN_MOVES_KAZOOIE,
+  AP_MENU_MAIN_MOVES_TOOIE,
+  AP_MENU_MAIN_MUMBO_AND_HUMBA,
+  AP_MENU_MAIN_CHUFFY,
+  AP_MENU_MAIN_WARP_SILOS,
+  AP_MENU_MAIN_WARP_PADS,
+};
+
+ap_menu_data_t ap_menu_main_data[] = {
+  {.item=AP_MENU_MAIN_TEXT, .zb={.lines=1, .icon=BT_ZOOMBOX_ICON_JIGGYWIGGY, .text=(char*[]){"CHOOSE AN OPTION WITH \x87 AND GO BACK WITH \x86"}}},
+  {.item=AP_MENU_MAIN_OPTIONS, .zb={.lines=1, .icon=BT_ZOOMBOX_ICON_GI_ANNOUNCER, .text=(char*[]){"OPTIONS"}}},
+  {.item=AP_MENU_MAIN_CHEATS, .zb={.lines=1, .icon=BT_ZOOMBOX_ICON_CHEATO, .text=(char*[]){"CHEATS"}}},
+  {.item=AP_MENU_MAIN_ENTRANCES, .zb={.lines=1, .icon=BT_ZOOMBOX_ICON_JIGGYWIGGY_DISCIPLE, .text=(char*[]){"WORLD ENTRANCES"}}},
+  {.item=AP_MENU_MAIN_TOTALS, .zb={.lines=1, .icon=BT_ZOOMBOX_ICON_JIGGY, .text=(char*[]){"VIEW TOTALS"}}},
+  {.item=AP_MENU_MAIN_MOVES_KAZOOIE, .zb={.lines=2, .icon=BT_ZOOMBOX_ICON_BOTTLES, .text=(char*[]){"MOVES FROM","BANJO-KAZOOIE"}}},
+  {.item=AP_MENU_MAIN_MOVES_TOOIE, .zb={.lines=2, .icon=BT_ZOOMBOX_ICON_JAMJARS, .text=(char*[]){"MOVES FROM","BANJO-TOOIE"}}},
+  {.item=AP_MENU_MAIN_MUMBO_AND_HUMBA, .zb={.lines=1, .icon=BT_ZOOMBOX_ICON_GLOWBO, .text=(char*[]){"MUMBO AND HUMBA"}}},
+  {.item=AP_MENU_MAIN_CHUFFY, .zb={.lines=1, .icon=BT_ZOOMBOX_ICON_OLD_KING_COAL, .text=(char*[]){"TRAIN STATIONS AND CHUFFY"}}},
+  {.item=AP_MENU_MAIN_WARP_SILOS, .zb={.lines=1, .icon=BT_ZOOMBOX_ICON_JAMJARS, .text=(char*[]){"WARP SILOS"}}},
+  {.item=AP_MENU_MAIN_WARP_PADS, .zb={.lines=1, .icon=BT_ZOOMBOX_ICON_JAMJARS, .text=(char*[]){"WARP PADS"}}},
 };
 
 ap_menu_data_t ap_menu_received_moves_bk_data[] = {
@@ -203,6 +218,82 @@ ap_menu_data_t ap_menu_cheats_data[] = {
   {.item=AP_MENU_CHEATS_HONEYKING, .zb={.lines=1, .icon=BT_ZOOMBOX_ICON_NEST_GOLD_FEATHERS, .text=(char*[]){"HONEYKING"}}},
   {.item=AP_MENU_CHEATS_SUPER_BANJO, .zb={.lines=1, .icon=BT_ZOOMBOX_ICON_BANJO, .text=(char*[]){"SUPERBANJO"}}},
   {.item=AP_MENU_CHEATS_SUPERBADDY, .zb={.lines=1, .icon=BT_ZOOMBOX_ICON_KLUNGO, .text=(char*[]){"SUPERBADDY"}}},
+};
+
+ap_menu_data_t ap_menu_received_warp_silos_data[] = {
+  {.item=AP_ITEM_SILO_JINJO_VILLAGE, .zb={.lines=1, .icon=BT_ZOOMBOX_ICON_KING_JINGALING, .text=(char*[]){"JINJO VILLAGE"}}},
+  {.item=AP_ITEM_SILO_WOODED_HOLLOW, .zb={.lines=1, .icon=BT_ZOOMBOX_ICON_JIGGYWIGGY, .text=(char*[]){"WOODED HOLLOW"}}},
+  {.item=AP_ITEM_SILO_PLATEAU, .zb={.lines=1, .icon=BT_ZOOMBOX_ICON_HONEY_B, .text=(char*[]){"PLATEAU"}}},
+  {.item=AP_ITEM_SILO_PINE_GROVE, .zb={.lines=1, .icon=BT_ZOOMBOX_ICON_HUMBA, .text=(char*[]){"PINE GROVE"}}},
+  {.item=AP_ITEM_SILO_CLIFF_TOP, .zb={.lines=1, .icon=BT_ZOOMBOX_ICON_MUMBO, .text=(char*[]){"CLIFF TOP"}}},
+  {.item=AP_ITEM_SILO_WASTELAND, .zb={.lines=1, .icon=BT_ZOOMBOX_ICON_STYRACOSAURUS_MOM, .text=(char*[]){"WASTELAND"}}},
+  {.item=AP_ITEM_SILO_QUAGMIRE, .zb={.lines=1, .icon=BT_ZOOMBOX_ICON_GRUNTY, .text=(char*[]){"QUAGMIRE"}}},
+};
+
+ap_menu_data_t ap_menu_received_warp_pads_mt_data[] = {
+  {.item=AP_ITEM_WARPMT_ENTRANCE, .zb={.lines=1, .icon=BT_ZOOMBOX_ICON_JIGGYWIGGY, .text=(char*[]){"WORLD ENTRY AND EXIT"}}},
+  {.item=AP_ITEM_WARPMT_MUMBO, .zb={.lines=1, .icon=BT_ZOOMBOX_ICON_MUMBO, .text=(char*[]){"OUTSIDE MUMBO'S SKULL"}}},
+  {.item=AP_ITEM_WARPMT_PRISON, .zb={.lines=1, .icon=BT_ZOOMBOX_ICON_DILBERTA, .text=(char*[]){"PRISON COMPOUND"}}},
+  {.item=AP_ITEM_WARPMT_HUMBA, .zb={.lines=1, .icon=BT_ZOOMBOX_ICON_HUMBA, .text=(char*[]){"NEAR WUMBA'S WIGWAM"}}},
+  {.item=AP_ITEM_WARPMT_KICKBALL, .zb={.lines=1, .icon=BT_ZOOMBOX_ICON_STONIES1, .text=(char*[]){"KICKBALL STADIUM LOBBY"}}},
+};
+
+ap_menu_data_t ap_menu_received_warp_pads_ggm_data[] = {
+  {.item=AP_ITEM_WARPGG_ENTRANCE, .zb={.lines=1, .icon=BT_ZOOMBOX_ICON_JIGGYWIGGY, .text=(char*[]){"WORLD ENTRY AND EXIT"}}},
+  {.item=AP_ITEM_WARPGG_MUMBO, .zb={.lines=1, .icon=BT_ZOOMBOX_ICON_MUMBO, .text=(char*[]){"OUTSIDE MUMBO'S SKULL"}}},
+  {.item=AP_ITEM_WARPGG_HUMBA, .zb={.lines=1, .icon=BT_ZOOMBOX_ICON_HUMBA, .text=(char*[]){"INSIDE WUMBA'S WIGWAM"}}},
+  {.item=AP_ITEM_WARPGG_CRUSHING, .zb={.lines=1, .icon=BT_ZOOMBOX_ICON_JIGGY, .text=(char*[]){"OUTSIDE THE CRUSHING SHED"}}},
+  {.item=AP_ITEM_WARPGG_TRAIN, .zb={.lines=1, .icon=BT_ZOOMBOX_ICON_OLD_KING_COAL, .text=(char*[]){"NEAR THE TRAIN STATION"}}},
+};
+
+ap_menu_data_t ap_menu_received_warp_pads_ww_data[] = {
+  {.item=AP_ITEM_WARPWW_ENTRANCE, .zb={.lines=1, .icon=BT_ZOOMBOX_ICON_JIGGYWIGGY, .text=(char*[]){"WORLD ENTRY AND EXIT"}}},
+  {.item=AP_ITEM_WARPWW_BIGTOP, .zb={.lines=1, .icon=BT_ZOOMBOX_ICON_CONGA, .text=(char*[]){"BEHIND THE BIG TOP TENT"}}},
+  {.item=AP_ITEM_WARPWW_SPACE, .zb={.lines=1, .icon=BT_ZOOMBOX_ICON_UFO, .text=(char*[]){"SPACE ZONE"}}},
+  {.item=AP_ITEM_WARPWW_HUMBA, .zb={.lines=1, .icon=BT_ZOOMBOX_ICON_HUMBA, .text=(char*[]){"OUTSIDE WUMBA'S WIGWAM"}}},
+  {.item=AP_ITEM_WARPWW_MUMBO, .zb={.lines=1, .icon=BT_ZOOMBOX_ICON_MUMBO, .text=(char*[]){"OUTSIDE MUMBO'S SKULL"}}},
+};
+
+ap_menu_data_t ap_menu_received_warp_pads_jrl_data[] = {
+  {.item=AP_ITEM_WARPJR_ENTRANCE, .zb={.lines=1, .icon=BT_ZOOMBOX_ICON_PAWNO, .text=(char*[]){"TOWN CENTER"}}},
+  {.item=AP_ITEM_WARPJR_ATLANTIS, .zb={.lines=1, .icon=BT_ZOOMBOX_ICON_CHRIS_P_BACON, .text=(char*[]){"ATLANTIS"}}},
+  {.item=AP_ITEM_WARPJR_SHIP, .zb={.lines=1, .icon=BT_ZOOMBOX_ICON_CAPTAIN_BLUBBER, .text=(char*[]){"SUNKEN SHIP"}}},
+  {.item=AP_ITEM_WARPJR_BIGFISH, .zb={.lines=1, .icon=BT_ZOOMBOX_ICON_MERRY_MAGGIE, .text=(char*[]){"BIG FISH CAVERN"}}},
+  {.item=AP_ITEM_WARPJR_LOCKERS, .zb={.lines=1, .icon=BT_ZOOMBOX_ICON_LORD_WOO_FAK_FAK, .text=(char*[]){"LOCKERS CAVERN"}}},
+};
+
+ap_menu_data_t ap_menu_received_warp_pads_tdl_data[] = {
+  {.item=AP_ITEM_WARPTD_ENTRANCE, .zb={.lines=1, .icon=BT_ZOOMBOX_ICON_JIGGYWIGGY, .text=(char*[]){"WORLD ENTRY AND EXIT"}}},
+  {.item=AP_ITEM_WARPTD_STOMPING, .zb={.lines=1, .icon=BT_ZOOMBOX_ICON_BARGASAURUS, .text=(char*[]){"STOMPING PLAINS"}}},
+  {.item=AP_ITEM_WARPTD_MUMBO, .zb={.lines=1, .icon=BT_ZOOMBOX_ICON_MUMBO, .text=(char*[]){"OUTSIDE MUMBO'S SKULL"}}},
+  {.item=AP_ITEM_WARPTD_HUMBA, .zb={.lines=1, .icon=BT_ZOOMBOX_ICON_HUMBA, .text=(char*[]){"OUTSIDE WUMBA'S WIGWAM"}}},
+  {.item=AP_ITEM_WARPTD_TOP, .zb={.lines=1, .icon=BT_ZOOMBOX_ICON_TERRY, .text=(char*[]){"TOP OF THE MOUNTAIN"}}},
+};
+
+ap_menu_data_t ap_menu_received_warp_pads_gi_data[] = {
+  {.item=AP_ITEM_WARPGI_ENTRANCE, .zb={.lines=1, .icon=BT_ZOOMBOX_ICON_RABBIT_WORKER1, .text=(char*[]){"FLOOR 1 - ENTRANCE DOOR"}}},
+  {.item=AP_ITEM_WARPGI_HUMBA, .zb={.lines=1, .icon=BT_ZOOMBOX_ICON_HUMBA, .text=(char*[]){"FLOOR 2 - OUTSIDE WUMBA'S WIGWAM"}}},
+  {.item=AP_ITEM_WARPGI_MUMBO, .zb={.lines=1, .icon=BT_ZOOMBOX_ICON_MUMBO, .text=(char*[]){"FLOOR 3 - OUTSIDE MUMBO'S SKULL"}}},
+  {.item=AP_ITEM_WARPGI_CRUSHER, .zb={.lines=1, .icon=BT_ZOOMBOX_ICON_WASHER, .text=(char*[]){"FLOOR 4 - NEAR THE CRUSHERS"}}},
+  {.item=AP_ITEM_WARPGI_ROOF, .zb={.lines=1, .icon=BT_ZOOMBOX_ICON_KAZOOIE, .text=(char*[]){"ON THE ROOF OUTSIDE"}}},
+};
+
+ap_menu_data_t ap_menu_received_warp_pads_hfp_data[] = {
+  {.item=AP_ITEM_WARPHF_ENTRANCE, .zb={.lines=1, .icon=BT_ZOOMBOX_ICON_MUMBO, .text=(char*[]){"FIRE SIDE - LOWER AREA (MUMBO)"}}},
+  {.item=AP_ITEM_WARPHF_LAVAUPPER, .zb={.lines=1, .icon=BT_ZOOMBOX_ICON_CHILLI_BILLI, .text=(char*[]){"FIRE SIDE - UPPER AREA"}}},
+  {.item=AP_ITEM_WARPHF_ICYUPPER, .zb={.lines=1, .icon=BT_ZOOMBOX_ICON_BIGGA_FOOT, .text=(char*[]){"ICE SIDE - UPPER AREA"}}},
+  {.item=AP_ITEM_WARPHF_HUMBA, .zb={.lines=1, .icon=BT_ZOOMBOX_ICON_HUMBA, .text=(char*[]){"ICE SIDE - LOWER AREA (WUMBA)"}}},
+  {.item=AP_ITEM_WARPHF_ICICLE, .zb={.lines=1, .icon=BT_ZOOMBOX_ICON_MILDRED, .text=(char*[]){"ICE SIDE - INSIDE ICICLE GROTTO"}}},
+};
+
+ap_menu_data_t ap_menu_received_warp_pads_ccl_data[] = {
+  {.item=AP_ITEM_WARPCC_ENTRANCE, .zb={.lines=1, .icon=BT_ZOOMBOX_ICON_JIGGYWIGGY, .text=(char*[]){"WORLD ENTRY AND EXIT"}}},
+  {.item=AP_ITEM_WARPCC_CENTER, .zb={.lines=1, .icon=BT_ZOOMBOX_ICON_SAFE, .text=(char*[]){"CENTRAL CAVERN"}}},
+};
+
+ap_menu_data_t ap_menu_received_warp_pads_ck_data[] = {
+  {.item=AP_ITEM_WARPCK_ENTRANCE, .zb={.lines=1, .icon=BT_ZOOMBOX_ICON_KLUNGO, .text=(char*[]){"BOTTOM OF THE TOWER"}}},
+  {.item=AP_ITEM_WARPCK_HAG1, .zb={.lines=1, .icon=BT_ZOOMBOX_ICON_GRUNTY, .text=(char*[]){"TOP OF THE TOWER"}}},
 };
 
 #endif // AP_MENU_DATA_H
