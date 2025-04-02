@@ -129,18 +129,18 @@ u16 debug_warp_to_maps[] = {
   BT_MAP_JV, // JV
   BT_MAP_BOTTLES_HOUSE, // JV - Bottles' House
   BT_MAP_0x144, // JV - King Jingaling's Throne Room
-  BT_MAP_0x14F, // IoH - Wooded Hollow
+  BT_MAP_IOH_WH, // IoH - Wooded Hollow
   BT_MAP_0x150, // IoH - Heggy's Egg Shed
   BT_MAP_0x151, // IoH - Jiggywiggy's Temple
-  BT_MAP_0x152, // IoH - Plateau
+  BT_MAP_IOH_PLATEAU, // IoH - Plateau
   BT_MAP_0x153, // IoH - Plateau - Honey B's Hive
-  BT_MAP_IOH_PINE_GROVE, // IoH - Pine Grove
-  BT_MAP_IOH_CLIFF_TOP, // IoH - Cliff Top
+  BT_MAP_IOH_PG, // IoH - Pine Grove
+  BT_MAP_IOH_CT, // IoH - Cliff Top
   BT_MAP_IOH_MUMBO, // IoH - Cliff Top - Mumbo's Skull
   BT_MAP_IOH_HUMBA, // IoH - Pine Grove - Wumba's Wigwam
-  BT_MAP_IOH_WASTELAND, // IoH - Wasteland
+  BT_MAP_IOH_WL, // IoH - Wasteland
   BT_MAP_ANOTHER_DIGGER_TUNNEL, // IoH - Inside another digger tunnel
-  BT_MAP_0x15C, // IoH - Quagmire
+  BT_MAP_IOH_QM, // IoH - Quagmire
   BT_MAP_CK, // CK
   BT_MAP_0x15E, // CK - The Gatehouse
   BT_MAP_CK_TOT_QUIZ_ROOM, // CK - Tower of Tragedy
