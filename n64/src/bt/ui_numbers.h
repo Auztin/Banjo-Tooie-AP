@@ -250,6 +250,7 @@ enum {
   BT_UI_NUMBERS_TOT_CARD_RIGHT,
   BT_UI_NUMBERS_TOT_CARD_LEFT,
   BT_UI_NUMBERS_TOT_GRUNTY,
+  BT_UI_NUMBERS_HEALTH_UPGRADE,
 };
 
 typedef struct {
@@ -274,6 +275,17 @@ typedef u32 (*bt_fnt_ui_hide_number)(u16);
 typedef s8 (*bt_fnt_ui_showing_number)(u16, u8);
 #define _bt_fn_ui_showing_number ((bt_fnt_ui_showing_number)0x800D21F0)
 #define bt_fn_ui_showing_number(id, amount, max) _bt_fn_ui_showing_number(id+0xC0, amount, max)
+
+typedef void (*bt_fnt_ui_animate_new_health)(u64, float);
+#define bt_fn_ui_animate_new_health ((bt_fnt_ui_animate_new_health)0x800FA9F4)
+
+typedef void (*bt_fnt_ui_show_other_number)(u16, s16, s16);
+#define _bt_fn_ui_show_other_number ((bt_fnt_ui_show_other_number)0x800D2498)
+#define bt_fn_ui_show_other_number(id, amount, max) _bt_fn_ui_show_other_number(id+0xC0, amount, max)
+
+typedef bool (*bt_fnt_ui_finished_number_animation)(u16);
+#define _bt_fn_ui_finished_number_animation ((bt_fnt_ui_finished_number_animation)0x800D27F4)
+#define bt_fn_ui_finished_number_animation(id) _bt_fn_ui_finished_number_animation(id+0xC0)
 
 // bt_ui_numbers[54].icon = BT_UI_ICONS_PAGE;
 // bt_ui_numbers[54].position = BT_UI_NUMBER_POSITION_SHARED_BOTTOM_LEFT_LOWER;

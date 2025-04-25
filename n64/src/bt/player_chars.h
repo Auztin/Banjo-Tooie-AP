@@ -87,6 +87,9 @@ typedef void (*bt_fnt_character_start_lookat)(u32 control_index, u8 type, bt_xyz
 typedef void (*bt_fnt_character_stop_lookat)(u32 control_index, u8 type);
 #define bt_fn_character_stop_lookat ((bt_fnt_character_stop_lookat)0x800F82D4)
 
+typedef void (*bt_fnt_increase_max_health)(u8);
+#define bt_fn_increase_max_health ((bt_fnt_increase_max_health)0x80088408)
+
 #define bt_fn_change_character(character, type) ({                                  \
   bt_fn_set_character(character, type);                                             \
   bt_fn_load_character_model(character);                                            \

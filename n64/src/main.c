@@ -261,7 +261,39 @@ void pre_loop() {
   main.last_c0_count = c0_count;
 }
 
+u8 health = 5;
+float animation_var = 0;
+bool started_animation = false;
+bool health_increase_jingle = false;
+void get_health() {
+  if (animation_var == 0) 
+  {
+    started_animation = true;
+    if(!health_increase_jingle)
+    {
+      bt_fn_play_sound(BT_SOUND_EXTRA_HEALTH, -1, 1, -1);
+      health_increase_jingle = true;
+    }
+  }
+  bt_fn_ui_animate_new_health(0, animation_var);
+  bt_fn_ui_show_other_number(BT_UI_NUMBERS_HEALTH_UPGRADE, health + 1, health + 1);
+  if(bt_fn_ui_finished_number_animation(BT_UI_NUMBERS_HEALTH_UPGRADE))
+  {
+    animation_var += 0.10;
+  }
+  if(animation_var >= 1) {
+    health++;
+    bt_fn_increase_max_health(1);
+    animation_var = 0;
+    started_animation = false;
+    health_increase_jingle = false;
+  }
+}
+
 void post_loop() {
+  if(bt_controllers[0].pressed.dright || started_animation){
+    get_health();
+  }
   debug_loop();
   if (BT_IN_GAME) ap_check();
   if (bt_current_map != ap_memory.n64.misc.current_map) {
