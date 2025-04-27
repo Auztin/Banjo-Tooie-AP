@@ -930,6 +930,12 @@ void pre_object_init(bt_object_t *obj) {
       util_inject(UTIL_INJECT_RAW     , (u32)obj + 0x0234, 0, 0); // dont increment amount
       util_inject(UTIL_INJECT_RAW     , (u32)obj + 0x0270, 0, 0); // dont comment on first 5 page milestone
       break;
+    case BT_OBJ_CHEATO:
+      if(!ap_memory.pc.settings.cheato_rewards) break;
+      util_inject(UTIL_INJECT_FUNCTION, (u32)obj + 0x09AC, (u32)save_fake_give_cheat, 0); // dont give out the cheat
+      util_inject(UTIL_INJECT_FUNCTION, (u32)obj + 0x0CE0, (u32)save_fake_has_cheat, 0); // read fake cheat flags
+      util_inject(UTIL_INJECT_FUNCTION, (u32)obj + 0x0D3C, (u32)save_fake_has_cheat, 0); // read fake cheat flags
+      break;
     case BT_OBJ_GLOWBO:
       util_inject(UTIL_INJECT_RAW     , (u32)obj + 0x0A88, 0, 0); // dont increment amount
       util_inject(UTIL_INJECT_RAW     , (u32)obj + 0x0A60, 0, 0); // dont increment mega glowbo amount
@@ -944,6 +950,11 @@ void pre_object_init(bt_object_t *obj) {
       break;
     case BT_OBJ_HONEYCOMB_PIECE:
       util_inject(UTIL_INJECT_RAW     , (u32)obj + 0x0100, 0, 0); // dont increment amount
+      break;
+    case BT_OBJ_HONEYB:
+      if (!ap_memory.pc.settings.honeyb_rewards) break;
+      util_inject(UTIL_INJECT_RAW     , (u32)obj + 0x67C, 0, 0); // dont play animation
+      util_inject(UTIL_INJECT_RAW     , (u32)obj + 0x6AC, 0, 0); // dont increment max health
       break;
     case BT_OBJ_DOUBLOON:
       util_inject(UTIL_INJECT_RAW     , (u32)obj + 0x027C, 0, 0); // dont increment amount
@@ -1022,8 +1033,8 @@ void pre_object_init(bt_object_t *obj) {
       util_inject(UTIL_INJECT_FUNCTION, (u32)obj + 0x009C, (u32)save_fake_give_item, 0); // set opened_mega_glowbo instead
       break;
     case BT_OBJ_HEGGY:
-      util_inject(UTIL_INJECT_FUNCTION, (u32)obj + 0x1624, (u32)save_fake_give_homing_eggs, 0);
-      util_inject(UTIL_INJECT_FUNCTION, (u32)obj + 0x199C, (u32)save_fake_give_homing_eggs, 0);
+      util_inject(UTIL_INJECT_FUNCTION, (u32)obj + 0x1624, (u32)save_fake_give_cheat, 0);
+      util_inject(UTIL_INJECT_FUNCTION, (u32)obj + 0x199C, (u32)save_fake_give_cheat, 0);
       util_inject(UTIL_INJECT_FUNCTION, (u32)obj + 0x165C, (u32)save_fake_give_breegull_bash, 0);
       util_inject(UTIL_INJECT_FUNCTION, (u32)obj + 0x19BC, (u32)save_fake_give_breegull_bash, 0);
       break;

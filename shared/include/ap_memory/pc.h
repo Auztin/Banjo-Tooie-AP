@@ -39,6 +39,8 @@ typedef struct {
     u8 randomize_nests;
     u8 randomize_warppads;
     u8 randomize_warpsilos;
+    u8 honeyb_rewards;
+    u8 cheato_rewards;
     u8 skip_puzzles;
     u8 backdoors;
     u8 skip_klungo;
@@ -48,6 +50,7 @@ typedef struct {
     u8 max_mumbo_tokens;
     u8 signpost_hints;
     u8 extra_cheats;
+    u8 automatic_cheats;
     u8 easy_canary;
     u8 jiggy_requirements[11];
     u16 silo_requirements[24];

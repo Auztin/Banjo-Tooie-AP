@@ -106,8 +106,13 @@ void save_fake_give_move(u16 data) { // 0x8009032C
   save_fake_bits(data+0xED, 1, false);
 }
 
-void save_fake_give_homing_eggs() { // 0x800d3ef4
-  save_fake_bits(0x5A4, 1, false);
+void save_fake_give_cheat(u16 data) { // 0x800d3ef4
+  //Heggy save_fake_bits(0x5A4, 1, false);
+  save_fake_bits(bt_save_cheat_offset[data].offset, 1, false);
+}
+
+bool save_fake_has_cheat(u16 data) { // 0x800d3dd0
+  return save_fake_bits(bt_save_cheat_offset[data].offset, 0, false);
 }
 
 void save_fake_give_breegull_bash() { // 0x800c7074

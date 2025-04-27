@@ -18,10 +18,12 @@ typedef struct {
 } bt_object_t;
 
 #define BT_OBJ_PAGE                 0x00DF
+#define BT_OBJ_CHEATO               0x00DE
 #define BT_OBJ_GLOWBO               0x019E
 #define BT_OBJ_JINJO                0x01A9
 #define BT_OBJ_HONEYCOMB_PIECE      0x01B6
-#define BT_OBJ_MOVE_SILO            0x0320 // jamjar move silos (also shared by bottles' mole hills)
+#define BT_OBJ_HONEYB               0x00CC
+#define BT_OBJ_MOVE_SILO            0x0320 // jamjar move silos (also shared by bottles' mole hills) 803A1D00
 #define BT_OBJ_SWITCH               0x00B0
 #define BT_OBJ_ROYSTEN              0x024A
 #define BT_OBJ_NESTS                0x00BF

@@ -856,12 +856,35 @@ void ap_sync_items(u16 type, u8 value) {
       else if (value > 0) bt_flags.silo_quagmire = 1;
       break;
     case AP_ITEM_HEALTHUP:
-      if (bt_custom_save.health_upgrades < ap_memory.pc.items[AP_ITEM_HEALTHUP] && bt_custom_save.health_upgrades <= 5) {
-        int amt_diff = ap_memory.pc.items[AP_ITEM_HEALTHUP] - bt_custom_save.health_upgrades;
+      if (bt_custom_save.health_upgrades < value && bt_custom_save.health_upgrades <= 5) {
+        int amt_diff = value - bt_custom_save.health_upgrades;
         health_animation_start = true;
         bt_custom_save.health_upgrades++;
         bt_fn_increase_max_health(amt_diff);
       }
+      break;
+    case AP_ITEM_CHEATEGG:
+      bt_flags.cheats_eggs_received = value > 0;
+      if(ap_memory.pc.settings.automatic_cheats && value > 0) {
+        bt_flags.cheats_eggs_enabled = true;
+        bt_flags.cheats_eggs_unlocked = true;
+      } 
+      break;
+    case AP_ITEM_CHEATFEATHER:
+      bt_flags.cheats_feathers_received = value > 0;
+      if(ap_memory.pc.settings.automatic_cheats && value > 0) {
+        bt_flags.cheats_feathers_enabled = true;
+        bt_flags.cheats_feathers_unlocked = true;
+      } 
+      break;
+    case AP_ITEM_CHEATFALL:
+      bt_flags.cheats_fallproof_received = value > 0;
+      break;
+    case AP_ITEM_CHEATHONEY:
+      bt_flags.cheats_honeyback_received = value > 0;
+      break;
+    case AP_ITEM_CHEATJUKE:
+      bt_flags.cheats_jukebox_received = value > 0;
       break;
   }
 }
@@ -1774,6 +1797,10 @@ void ap_check() {
             strcpy(ap.internal_message, "ENTER WUMBA'S WIGWAM AS BEAR AND BIRD FIRST...");
           }
         }
+        else {
+          ap.internal_icon = BT_ZOOMBOX_ICON_HUMBA;
+          strcpy(ap.internal_message, "WUMBA'S MAGIC CAN'T REACH BEAR AND BIRD...");
+        }
       }
     }
   }
@@ -2081,7 +2108,7 @@ void ap_new_file() {
   bt_flags.ww_paid_dodgem = 1;
   bt_flags.ww_opened_dodgem1 = 1;
   bt_flags.hfp_lava_opened_kickball_door1 = 1;
-  bt_flags.cheats_jukebox_enabled = 1;
+  if(!ap_memory.pc.settings.cheato_rewards) bt_flags.cheats_jukebox_enabled = 1;
 }
 
 void ap_load_file() {
