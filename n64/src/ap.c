@@ -241,6 +241,27 @@ void ap_item_nest(bool feather_nest) {
   bt_fn_increase_item(lowest, amount);
 }
 
+bool health_animation_start = false;
+float health_animation_pos = 0;
+void get_health_upgrade() {
+  if(health_animation_pos == 0)
+  {
+    health_animation_pos = 0.01;
+    bt_fn_play_sound(BT_SOUND_EXTRA_HEALTH, -1, 1, -1);
+  }
+  bt_fn_ui_animate_new_health(0, health_animation_pos);
+  u8 health = bt_fn_get_max_health(bt_player_chars.control_type);
+  bt_fn_ui_show_other_number(BT_UI_NUMBERS_HEALTH_UPGRADE, health + 1, health + 1);
+  if(bt_fn_ui_finished_number_animation(BT_UI_NUMBERS_HEALTH_UPGRADE))
+  {
+    health_animation_pos += 0.10;
+  }
+  if(health_animation_pos >= 1) {
+    health_animation_pos = 0;
+    health_animation_start = false;
+  }
+}
+
 void ap_sync_items(u16 type, u8 value) {
   save_data_totals_t* totals = &(save_data.custom[bt_save_slot].totals);
   u16 current;
@@ -834,8 +855,18 @@ void ap_sync_items(u16 type, u8 value) {
       if (ap_memory.pc.settings.randomize_warpsilos) bt_flags.silo_quagmire = value > 0;
       else if (value > 0) bt_flags.silo_quagmire = 1;
       break;
+    case AP_ITEM_HEALTHUP:
+      if (bt_custom_save.health_upgrades < ap_memory.pc.items[AP_ITEM_HEALTHUP] && bt_custom_save.health_upgrades <= 5) {
+        int amt_diff = ap_memory.pc.items[AP_ITEM_HEALTHUP] - bt_custom_save.health_upgrades;
+        health_animation_start = true;
+        bt_custom_save.health_upgrades++;
+        bt_fn_increase_max_health(amt_diff);
+      }
+      break;
   }
 }
+
+
 
 void ap_increment_trap() {
   bt_custom_save.traps[ap.trap_type]++;
@@ -1727,6 +1758,8 @@ void ap_check() {
     }
     ap_check_enough_notes(total_notes, save_totals(6));
     ap_sync_traps();
+    if(health_animation_start) 
+      get_health_upgrade();
     if (!bt_controllers[0].held.l && bt_controllers[0].pressed.dleft) {
       ap_can_transform_t data;
       if (!ap_cycle_character(&data)) {

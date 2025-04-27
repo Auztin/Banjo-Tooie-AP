@@ -33,6 +33,7 @@ typedef struct Save_Data_s {
     u8 golden_egg_nests;
     u8 egg_nests;
     u8 feather_nests;
+    u8 health_upgrades;
   } custom[3];
 } save_data_t;
 

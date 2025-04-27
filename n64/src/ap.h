@@ -42,5 +42,6 @@ void ap_signpost_dialog();
 void ap_check();
 void ap_new_file();
 void ap_load_file();
+void get_health_upgrade();
 
 #endif // AP_H

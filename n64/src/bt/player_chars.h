@@ -39,6 +39,10 @@ typedef u32 (*bt_fnt_hurt_player)(u32, u32, u32);
 typedef u32 (*bt_fnt_get_health)(bt_player_t*);
 #define bt_fn_get_health ((bt_fnt_get_health)0x800A1718)
 
+typedef u8 (*bt_fnt_get_max_health)(u32);
+#define bt_fn_get_max_health ((bt_fnt_get_max_health)0x800D4EB8)
+
+
 typedef u32 (*bt_fnt_increase_health)(bt_player_t*, s32);
 #define bt_fn_increase_health ((bt_fnt_increase_health)0x800A17A8)
 
