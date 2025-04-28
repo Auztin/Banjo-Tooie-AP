@@ -2189,7 +2189,12 @@ asio::awaitable<void> BTClient::sendToBTClient()
             "That death just now, I saw coming,\nYour skill issues are rather stunning!",
             "Seeing this pathetic display,\nIs serotonin in my day",
             "What a selfish thing to do,\nYour friends just died because of you!",
-            "You tried something rather stupid,\nI hope no one will try what you did"
+            "You tried something rather stupid,\nI hope no one will try what you did",
+            "You tried something rather stupid,\nI hope no one will try what you did",
+            "I see your having trouble with this seed,\nits too bad you never learned how to read.",
+            "You'll label that one unfair,\nbut I found that beat was rare.",
+            "You were not prepared for trouble,\nso now my minions will be working on the double.",
+            "Seeing you trip and fall is rather funny,\nI get to watch you run out of honey."
         };
         auto rd = std::random_device {};
         auto rng = std::default_random_engine { rd() };
