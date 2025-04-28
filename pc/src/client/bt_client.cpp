@@ -850,7 +850,7 @@ void BTClient::obtain_mumbo_token()
     ap_memory.pc.items[AP_ITEM_MUMBOTOKEN] = MUMBO_TOKENS;
     int character = DIALOG_CHARACTER;
     if (character == 110) character = BT_ZOOMBOX_ICON_MUMBO;
-    if (GOAL_TYPE == 5 && MUMBO_TOKENS == TH_LENGTH) show_message(character, {{"message","You have found enough Mumbo Tokens! Time to head home!"}});
+    if (GOAL_TYPE == 5 && MUMBO_TOKENS == TH_LENGTH) show_message(character, {{"message","You have found enough Mumbo Tokens! Time to party at Bottle's House!"}});
     return;
 }
 
@@ -1999,13 +1999,9 @@ void BTClient::printGoalInfo()
     {
         show_message(character, {{"message","You absolute mad lad! You're doing the Wonder Wing Challenge! Good Luck and " + encouragement[0]}});
     }
-    else if(GOAL_TYPE == 5 && TH_LENGTH == 15)
+    else if(GOAL_TYPE == 5)
     {
-        show_message(character, {{"message","You are trying to find all 15 of Mumbo's Tokens scattered throughout the Isle of Hags! Good Luck and " + encouragement[0]}});
-    }
-    else if(GOAL_TYPE == 5 && TH_LENGTH < 15)
-    {
-        show_message(character, {{"message","You are trying to find " + std::to_string(TH_LENGTH) + " of the 15 of Mumbo Tokens scattered throughout the Isle of Hags! Good Luck and " + encouragement[0]}});
+        show_message(character, {{"message","You are trying to find " + std::to_string(TH_LENGTH) + " Mumbo Tokens scattered throughout the Isle of Hags! Good Luck and " + encouragement[0]}});
     }
     else if(GOAL_TYPE == 6)
     {
