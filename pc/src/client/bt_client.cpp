@@ -253,6 +253,16 @@ nlohmann::json BTClient::check_cheato_locations()
     return cheato_check;
 }
 
+void BTClient::obtain_cheats(int itemId) {
+    switch (itemId) {
+        case 1230917: ap_memory.pc.items[AP_ITEM_CHEATFEATHER] = 1; break;
+        case 1230918: ap_memory.pc.items[AP_ITEM_CHEATEGG] = 1; break;
+        case 1230919: ap_memory.pc.items[AP_ITEM_CHEATFALL] = 1; break;
+        case 1230920: ap_memory.pc.items[AP_ITEM_CHEATHONEY] = 1; break;
+        case 1230921: ap_memory.pc.items[AP_ITEM_CHEATJUKE] = 1; break;
+    }
+}
+
 // ---------------- HONEYCOMBS --------------------
 
 nlohmann::json BTClient::check_honeycomb_locations()
@@ -296,6 +306,12 @@ nlohmann::json BTClient::check_honeyb_locations()
     return honeyb_check;
 }
 
+void BTClient::obtain_health_upgrade()
+{
+    TOTAL_HEALTHUPGRADE++;
+    ap_memory.pc.items[AP_ITEM_HEALTHUP] = TOTAL_HEALTHUPGRADE;
+    return;
+}
 // ------------- Magic and Glowbos ---------------
 
 nlohmann::json BTClient::check_glowbo_locations()
@@ -896,6 +912,78 @@ void BTClient::obtain_warppads(int itemId) {
     }
 }
 
+// -------------- BOGGY KIDS -------------------
+
+nlohmann::json BTClient::check_boggy_kids_locations()
+{
+    nlohmann::json check = json({});
+    if(ASSET_MAP_CHECK.count(CURRENT_MAP))
+    {
+        if(ASSET_MAP_CHECK[CURRENT_MAP].count("BOGGY_KIDS"))
+        {
+            for(const std::string& locationId: ASSET_MAP_CHECK[CURRENT_MAP]["BOGGY_KIDS"])
+            {
+                check[locationId] = check_flag(locationId);
+            }
+        }
+    }
+    return check;
+}
+
+// -------------- ALIEN KIDS -------------------
+
+nlohmann::json BTClient::check_alien_kids_locations()
+{
+    nlohmann::json check = json({});
+    if(ASSET_MAP_CHECK.count(CURRENT_MAP))
+    {
+        if(ASSET_MAP_CHECK[CURRENT_MAP].count("ALIEN_KIDS"))
+        {
+            for(const std::string& locationId: ASSET_MAP_CHECK[CURRENT_MAP]["ALIEN_KIDS"])
+            {
+                check[locationId] = check_flag(locationId);
+            }
+        }
+    }
+    return check;
+}
+
+// -------------- SKIVVIES -------------------
+
+nlohmann::json BTClient::check_skivvies_locations()
+{
+    nlohmann::json check = json({});
+    if(ASSET_MAP_CHECK.count(CURRENT_MAP))
+    {
+        if(ASSET_MAP_CHECK[CURRENT_MAP].count("SKIVVIES"))
+        {
+            for(const std::string& locationId: ASSET_MAP_CHECK[CURRENT_MAP]["SKIVVIES"])
+            {
+                check[locationId] = check_flag(locationId);
+            }
+        }
+    }
+    return check;
+}
+
+// -------------- MR FIT EVENTS -------------------
+
+nlohmann::json BTClient::check_mrfit_locations()
+{
+    nlohmann::json check = json({});
+    if(ASSET_MAP_CHECK.count(CURRENT_MAP))
+    {
+        if(ASSET_MAP_CHECK[CURRENT_MAP].count("MRFIT"))
+        {
+            for(const std::string& locationId: ASSET_MAP_CHECK[CURRENT_MAP]["MRFIT"])
+            {
+                check[locationId] = check_flag(locationId);
+            }
+        }
+    }
+    return check;
+}
+
 // -------------- Game Function ------------------
 
 void BTClient::initialize_bt()
@@ -996,6 +1084,18 @@ void BTClient::initialize_bt()
     if(ENABLE_AP_CHEATS == true)
     {
         ap_memory.pc.settings.extra_cheats = 1;
+    }
+    if(ENABLE_AP_CHEATO_REWARDS == true)
+    {
+        ap_memory.pc.settings.cheato_rewards = 1;
+    }
+    if(ENABLE_AP_HONEYB == true)
+    {
+        ap_memory.pc.settings.honeyb_rewards = 1;
+    }
+    if(ENABLE_AP_AUTOMATIC_CHEATS == true)
+    {
+        ap_memory.pc.settings.automatic_cheats = 1;
     }
     if(ENABLE_AP_EASY_CANARY == true)
     {
@@ -1770,6 +1870,21 @@ asio::awaitable<void> BTClient::getSlotData()
         ENABLE_AP_CHEATS = true;
         if(DEBUG_NET == true) { std::cout << "Extra Cheats are Enabled" << std::endl; }
     }
+    if(block.contains(string{"slot_cheato_rewards"}) && block["slot_cheato_rewards"] != 0)
+    {
+        ENABLE_AP_CHEATO_REWARDS = true;
+        if(DEBUG_NET == true) { std::cout << "Cheato rewards are Enabled" << std::endl; }
+    }
+    if(block.contains(string{"slot_honeyb_rewards"}) && block["slot_honeyb_rewards"] != 0)
+    {
+        ENABLE_AP_HONEYB = true;
+        if(DEBUG_NET == true) { std::cout << "Honey B rewards are Enabled" << std::endl; }
+    }
+    if(block.contains(string{"slot_auto_enable_cheats"}) && block["slot_auto_enable_cheats"] != 0)
+    {
+        ENABLE_AP_AUTOMATIC_CHEATS = true;
+        if(DEBUG_NET == true) { std::cout << "Honey B rewards are Enabled" << std::endl; }
+    }
     if(block.contains(string{"slot_easy_canary"}) && block["slot_easy_canary"] != 0)
     {
         ENABLE_AP_EASY_CANARY = true;
@@ -1999,6 +2114,10 @@ void BTClient::processAGIItem(json item_data)
         {
             obtain_warppads(itemId);
         }
+        else if((itemId >= 1230917 && itemId <= 1230921)) // Cheats
+        {
+            obtain_cheats(itemId);
+        }
         else // Everything else
         {
             switch((int) itemId)
@@ -2025,6 +2144,7 @@ void BTClient::processAGIItem(json item_data)
                 case 1230788: ap_memory.pc.traps[AP_TRAP_TRANSFORM]++; break;
                 case 1230789: ap_memory.pc.traps[AP_TRAP_SQUISH]++; break;
                 case 1230833: ap_memory.pc.traps[AP_TRAP_TIP]++; break;
+                case 1230916: obtain_health_upgrade(); break;
             }
         }
     }
@@ -2114,6 +2234,10 @@ asio::awaitable<void> BTClient::sendToBTClient()
     retTable["signposts"] = check_signpost_locations();
     retTable["warppads"] = check_warp_pad_locations();
     retTable["silos"] = check_warp_silo_locations();
+    retTable["boggy_kids"] = check_boggy_kids_locations();
+    retTable["alien_kids"] = check_alien_kids_locations();
+    retTable["skivvies"] = check_skivvies_locations();
+    retTable["fit_events"] = check_mrfit_locations();
     retTable["DEMO"] = false;
     retTable["banjo_map"] = CURRENT_MAP;
     retTable["sync_ready"] = "true";

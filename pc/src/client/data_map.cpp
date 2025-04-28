@@ -243,17 +243,21 @@ std::map<uint16_t, std::map<std::string, std::vector<std::string>>> ASSET_MAP_CH
             {"TREBLE", {"1230783"}},
             {"SILO", {"1230761","1230760"}},
             {"WARPPAD", {"1231567","1231568","1231569","1231570"}},
+            {"BOGGY_KIDS", {"1231596","1231598"}}
         }},
         {0xEA, { //WW - Cave of Horrors
-            {"JINJOS", {"1230562"}}
+            {"JINJOS", {"1230562"}},
+            {"BOGGY_KIDS", {"1231596"}}
         }},
         {0xE1, { //WW - Crazy Castle Stockade
             {"JIGGIES", {"1230616","1230620"}},
             {"HONEYCOMB", {"1230711"}},
             {"SILO", {"1230762"}},
+            {"BOGGY_KIDS", {"1231597"}}
         }},
         {0xDD, { //WW - Dodgem Dome Lobby
             {"JIGGIES", {"1230617"}},
+            {"BOGGY_KIDS", {"1231596"}}
         }},
         {0xEB, { //WW - Haunted Cavern
             {"PAGES", {"1230734"}}
@@ -263,12 +267,14 @@ std::map<uint16_t, std::map<std::string, std::vector<std::string>>> ASSET_MAP_CH
         }},
         {0xE6, { //WW - Star Spinner
             {"JIGGIES", {"1230623"}},
+            {"BOGGY_KIDS", {"1231597"}}
         }},
         {0xE7, { //WW - The Inferno
             {"JIGGIES", {"1230624"}},
             {"PAGES", {"1230735"}},
             {"GLOWBO", {"1230690"}},
             {"WARPPAD", {"1231571"}},
+            {"BOGGY_KIDS", {"1231597","1231598"}}
         }},
         {0x176, { // WW - Mumbo Skull
             {"HONEYCOMB", {"1230710"}}
@@ -277,7 +283,9 @@ std::map<uint16_t, std::map<std::string, std::vector<std::string>>> ASSET_MAP_CH
             {"GLOWBO", {"1230691"}}
         }},
         {0xEC, { // WW - Train Station
-            {"STATIONBTN", {"1230795"}}
+            {"STATIONBTN", {"1230795"}},
+            {"BOGGY_KIDS", {"1231598"}}
+
         }},
 
         //JOLLY ROGER'S LAGOON
@@ -451,6 +459,7 @@ std::map<uint16_t, std::map<std::string, std::vector<std::string>>> ASSET_MAP_CH
             {"TREBLE", {"1230786"}},
             {"STATIONBTN", {"1230790"}},
             {"WARPPAD", {"1231586"}},
+            {"SKIVVIES", {"1231607"}}
         }},
         {0x10F, { //GI - Basement
             {"JIGGIES", {"1230647"}},
@@ -470,6 +479,7 @@ std::map<uint16_t, std::map<std::string, std::vector<std::string>>> ASSET_MAP_CH
             {"NOTES", {"1230883","1230884"}},
             {"SILO", {"1230773"}},
             {"WARPPAD", {"1231582"}},
+            {"SKIVVIES", {"1231603"}}
         }},
         {0x106,	{ //GI - Floor 2
             {"JIGGIES", {"1230649"}},
@@ -485,6 +495,7 @@ std::map<uint16_t, std::map<std::string, std::vector<std::string>>> ASSET_MAP_CH
             }},
             {"SILO", {"1230772"}},
             {"WARPPAD", {"1231583"}},
+            {"SKIVVIES", {"1231604"}}
         }},
         {0x108,	{ //GI - Floor 3
             {"HONEYCOMB", {"1230718"}},
@@ -494,7 +505,8 @@ std::map<uint16_t, std::map<std::string, std::vector<std::string>>> ASSET_MAP_CH
         }},
         {0x109,	{ //GI - Floor 3 (Boiler Plant)
             {"JIGGIES", {"1230649"}},
-            {"JINJOS", {"1230579"}}
+            {"JINJOS", {"1230579"}},
+            {"SKIVVIES", {"1231605"}}
         }},
         {0x10A,	{ //GI - Floor 3 (Packing Room)
             {"JIGGIES", {"1230654"}},
@@ -507,7 +519,8 @@ std::map<uint16_t, std::map<std::string, std::vector<std::string>>> ASSET_MAP_CH
         }},
         {0x10E,	{ //GI - Floor 5
             {"JIGGIES", {"1230649","1230650"}},
-            {"JINJOS", {"1230576"}}
+            {"JINJOS", {"1230576"}},
+            {"SKIVVIES", {"1231606"}}
         }},
         {0x187,	{ //GI - Sewer Entrance
             {"JIGGIES", {"1230648"}},
@@ -521,7 +534,8 @@ std::map<uint16_t, std::map<std::string, std::vector<std::string>>> ASSET_MAP_CH
         }},
         {0x103,	{ //GI - Workers' Quarters
             {"JIGGIES", {"1230649"}},
-            {"PAGES", {"1230743"}}
+            {"PAGES", {"1230743"}},
+            {"SKIVVIES", {"1231602"}}
         }},
 
         //HAILFIRE PEAKS
@@ -558,6 +572,8 @@ std::map<uint16_t, std::map<std::string, std::vector<std::string>>> ASSET_MAP_CH
             {"SILO", {"1230775",}},
             {"STATIONBTN", {"1230793"}},
             {"WARPPAD", {"1231589","1231590"}},
+            {"ALIEN_KIDS", {"1231599","1231600","1231601"}}
+
         }},
         {0x133,	{ //HFP - Inside the Volcano
             {"JIGGIES", {"1230657"}},
@@ -613,6 +629,7 @@ std::map<uint16_t, std::map<std::string, std::vector<std::string>>> ASSET_MAP_CH
                 "1230700"
             }},
             {"WARPPAD", {"1231592"}},
+            {"MRFIT", {"1231608","1231609"}}
         }},
         {0x13A,	{ //CCL - Central Cavern
             {"JIGGIES", {"1230674"}},
@@ -996,11 +1013,11 @@ bool check_flag(std::string locationId) {
             case 1230957: return fake->sm_blue_egg_collected;
             case 1230958: return fake->opened_mega_glowbo;
         //Cheato Rewards
-            case 1230992: return real->cheats_feathers_received;
-            case 1230993: return real->cheats_eggs_received;
-            case 1230994: return real->cheats_fallproof_received;
-            case 1230995: return real->cheats_honeyback_received;
-            case 1230996: return real->cheats_jukebox_received;
+            case 1230992: return fake->cheats_feathers_received;
+            case 1230993: return fake->cheats_eggs_received;
+            case 1230994: return fake->cheats_fallproof_received;
+            case 1230995: return fake->cheats_honeyback_received;
+            case 1230996: return fake->cheats_jukebox_received;
         //HoneyB
             case 1230997: return real->trade_honey_b >= 1;
             case 1230998: return real->trade_honey_b >= 2;
@@ -1243,6 +1260,24 @@ bool check_flag(std::string locationId) {
             case 1231593: return fake->ccl_warp_pad_center;
             case 1231594: return fake->ck_warp_pad_entrance;
             case 1231595: return fake->ck_warp_pad_hag1;
+        // Boggy Kids
+            case 1231596: return real->ww_returned_moggy;
+            case 1231597: return real->ww_returned_soggy;
+            case 1231598: return real->ww_returned_groggy;
+        // Alien Kids
+            case 1231599: return real->hfp_icy_helped_alien_child_living;
+            case 1231600: return real->hfp_icy_helped_alien_child_dead;
+            case 1231601: return real->hfp_icy_helped_alien_child_cold;
+        // Skivvies
+            case 1231602: return real->gi_floor1_cleaned_quarters_worker;
+            case 1231603: return real->gi_floor1_cleaned_compactor_worker;
+            case 1231604: return real->gi_workers_cleaned.floor2;
+            case 1231605: return real->gi_floor3_cleaned_worker;
+            case 1231606: return real->gi_workers_cleaned.floor5;
+            case 1231607: return real->gi_workers_cleaned.outside;
+        // Mr Fit
+            case 1231608: return real->ccl_beat_mr_fit_high_jump;
+            case 1231609: return real->ccl_beat_mr_fit_sack_race;
     }
     return false;
 }

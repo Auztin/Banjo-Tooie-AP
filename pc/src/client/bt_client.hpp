@@ -60,6 +60,9 @@ private:
   bool ENABLE_AP_SIGNPOSTS = false;
   bool ENABLE_AP_EASY_CANARY = false;
   bool ENABLE_AP_CHEATS = false;
+  bool ENABLE_AP_HONEYB = false;
+  bool ENABLE_AP_CHEATO_REWARDS = false;
+  bool ENABLE_AP_AUTOMATIC_CHEATS = false;
   bool ENABLE_AP_SILOS = false;
   bool ENABLE_AP_WARP_PADS = false;
   int GOAL_TYPE = 0;
@@ -80,6 +83,7 @@ private:
   int TOTAL_TREBLE = 0;
   int TOTAL_PAGES = 0;
   int TOTAL_HONEYCOMB = 0;
+  int TOTAL_HEALTHUPGRADE = 0;
   int TOTAL_DOUBLOONS = 0;
   int TOTAL_NOTES = 0;
   int WHITE_JINJO = 0;
@@ -163,6 +167,13 @@ private:
   void obtain_mumbo_token();
   void obtain_warpsilos(int);
   void obtain_warppads(int);
+  void obtain_cheats(int);
+  void obtain_health_upgrade();
+  nlohmann::json check_boggy_kids_locations();
+  nlohmann::json check_alien_kids_locations();
+  nlohmann::json check_skivvies_locations();
+  nlohmann::json check_mrfit_locations();
+
 };
 
 #endif // BT_CLIENT_HPP
