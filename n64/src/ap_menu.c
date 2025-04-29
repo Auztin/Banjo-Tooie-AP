@@ -242,39 +242,7 @@ void ap_menu_select() {
           else bt_fn_play_sound(BT_SOUND_WRONG, -1, 1, -1);
           break;
       }
-      if (bt_flags.cheats_nestking_enabled) {
-        bt_fn_item_infinite(BT_ITEM_BLUE_EGGS);
-        bt_fn_item_infinite(BT_ITEM_FIRE_EGGS);
-        bt_fn_item_infinite(BT_ITEM_ICE_EGGS);
-        bt_fn_item_infinite(BT_ITEM_GRENADE_EGGS);
-        bt_fn_item_infinite(BT_ITEM_CLOCKWORK_EGGS);
-      }
-      else if (bt_flags.cheats_eggs_enabled) {
-        bt_fn_item_double_max(BT_ITEM_BLUE_EGGS);
-        bt_fn_item_double_max(BT_ITEM_FIRE_EGGS);
-        bt_fn_item_double_max(BT_ITEM_ICE_EGGS);
-        bt_fn_item_double_max(BT_ITEM_GRENADE_EGGS);
-        bt_fn_item_double_max(BT_ITEM_CLOCKWORK_EGGS);
-      }
-      else {
-        bt_fn_item_restore_max(BT_ITEM_BLUE_EGGS);
-        bt_fn_item_restore_max(BT_ITEM_FIRE_EGGS);
-        bt_fn_item_restore_max(BT_ITEM_ICE_EGGS);
-        bt_fn_item_restore_max(BT_ITEM_GRENADE_EGGS);
-        bt_fn_item_restore_max(BT_ITEM_CLOCKWORK_EGGS);
-      }
-      if (bt_flags.cheats_nestking_enabled) {
-        bt_fn_item_infinite(BT_ITEM_RED_FEATHERS);
-        bt_fn_item_infinite(BT_ITEM_GOLD_FEATHERS);
-      }
-      else if (bt_flags.cheats_feathers_enabled) {
-        bt_fn_item_double_max(BT_ITEM_RED_FEATHERS);
-        bt_fn_item_double_max(BT_ITEM_GOLD_FEATHERS);
-      }
-      else {
-        bt_fn_item_restore_max(BT_ITEM_RED_FEATHERS);
-        bt_fn_item_restore_max(BT_ITEM_GOLD_FEATHERS);
-      }
+      check_and_enable_cheats();
       return;
     default: return;
   }

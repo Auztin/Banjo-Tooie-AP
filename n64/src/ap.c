@@ -867,14 +867,14 @@ void ap_sync_items(u16 type, u8 value) {
       bt_flags.cheats_eggs_received = value > 0;
       if(ap_memory.pc.settings.automatic_cheats && value > 0) {
         bt_flags.cheats_eggs_enabled = true;
-        bt_flags.cheats_eggs_unlocked = true;
+        check_and_enable_cheats();
       } 
       break;
     case AP_ITEM_CHEATFEATHER:
       bt_flags.cheats_feathers_received = value > 0;
       if(ap_memory.pc.settings.automatic_cheats && value > 0) {
         bt_flags.cheats_feathers_enabled = true;
-        bt_flags.cheats_feathers_unlocked = true;
+        check_and_enable_cheats();
       } 
       break;
     case AP_ITEM_CHEATFALL:

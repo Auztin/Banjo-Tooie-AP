@@ -1543,6 +1543,21 @@ void BTClient::show_message(int character, json data, bool force) {
                 item = "Third Person Egg Shooting";
             }
             break;
+        case 1230917:
+            item = "Feathers Cheat";
+            break;
+        case 1230918:
+            item = "Egg Cheat";
+            break;
+        case 1230919:
+            item = "Fallproof Cheat";
+            break;
+        case 1230920:
+            item = "Honeback Cheat. Press D-Pad Down to toggle this cheat.";
+            break;
+        case 1230921:
+            item = "Jukebox Cheat";
+            break;
     }
     message.text = own ? std::format("You can now use {}.", item)
                        : std::format("{} taught you how to use {}.", player, item);
@@ -1735,6 +1750,15 @@ void BTClient::show_message(int character, json data, bool force) {
             default_character = BT_ZOOMBOX_ICON_JAMJARS;
             message.text = own ? std::format("You can now use the {}.", item)
                                : std::format("{} has just unlocked the {}.", player, item);
+            break;
+        case 1230917: // Feathers Cheat
+        case 1230918: // Egg Cheat
+        case 1230919: // Fallproof
+        case 1230920: // Honeyback
+        case 1230921: // Jukebox
+            default_character = BT_ZOOMBOX_ICON_CHEATO;
+            message.text = own ? std::format("You can now use the {}.", item)
+                            : std::format("{} has just unlocked the {}.", player, item);
             break;
         default: return;
     }

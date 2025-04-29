@@ -863,6 +863,42 @@ void main_init_egg_nest(bt_obj_instance_t* obj) {
   main_init_ap_nest(obj);
 }
 
+void check_and_enable_cheats() {
+  if (bt_flags.cheats_nestking_enabled) {
+    bt_fn_item_infinite(BT_ITEM_BLUE_EGGS);
+    bt_fn_item_infinite(BT_ITEM_FIRE_EGGS);
+    bt_fn_item_infinite(BT_ITEM_ICE_EGGS);
+    bt_fn_item_infinite(BT_ITEM_GRENADE_EGGS);
+    bt_fn_item_infinite(BT_ITEM_CLOCKWORK_EGGS);
+  }
+  else if (bt_flags.cheats_eggs_enabled) {
+    bt_fn_item_double_max(BT_ITEM_BLUE_EGGS);
+    bt_fn_item_double_max(BT_ITEM_FIRE_EGGS);
+    bt_fn_item_double_max(BT_ITEM_ICE_EGGS);
+    bt_fn_item_double_max(BT_ITEM_GRENADE_EGGS);
+    bt_fn_item_double_max(BT_ITEM_CLOCKWORK_EGGS);
+  }
+  else {
+    bt_fn_item_restore_max(BT_ITEM_BLUE_EGGS);
+    bt_fn_item_restore_max(BT_ITEM_FIRE_EGGS);
+    bt_fn_item_restore_max(BT_ITEM_ICE_EGGS);
+    bt_fn_item_restore_max(BT_ITEM_GRENADE_EGGS);
+    bt_fn_item_restore_max(BT_ITEM_CLOCKWORK_EGGS);
+  }
+  if (bt_flags.cheats_nestking_enabled) {
+    bt_fn_item_infinite(BT_ITEM_RED_FEATHERS);
+    bt_fn_item_infinite(BT_ITEM_GOLD_FEATHERS);
+  }
+  else if (bt_flags.cheats_feathers_enabled) {
+    bt_fn_item_double_max(BT_ITEM_RED_FEATHERS);
+    bt_fn_item_double_max(BT_ITEM_GOLD_FEATHERS);
+  }
+  else {
+    bt_fn_item_restore_max(BT_ITEM_RED_FEATHERS);
+    bt_fn_item_restore_max(BT_ITEM_GOLD_FEATHERS);
+  }
+}
+
 extern void main_draw_warp_pad_displaced(bt_obj_instance_t* obj, bt_draw_ctx_t* draw_ctx);
 void main_draw_warp_pad(bt_obj_instance_t* obj, bt_draw_ctx_t* draw_ctx) {
   u32 T6 = *(u32*)((u32)obj + 0x2C);
