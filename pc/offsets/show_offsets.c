@@ -24,6 +24,8 @@ int main() {
   printf("        setting_nests = 0x%X,\n",               calc(mem.pc.settings, mem.pc.settings.randomize_nests));
   printf("        setting_warppads = 0x%X,\n",            calc(mem.pc.settings, mem.pc.settings.randomize_warppads));
   printf("        setting_warpsilos = 0x%X,\n",           calc(mem.pc.settings, mem.pc.settings.randomize_warpsilos));
+  printf("        setting_honeyb_rewards = 0x%X,\n",      calc(mem.pc.settings, mem.pc.settings.honeyb_rewards));
+  printf("        setting_cheato_rewards = 0x%X,\n",      calc(mem.pc.settings, mem.pc.settings.cheato_rewards));
   printf("        setting_puzzle = 0x%X,\n",              calc(mem.pc.settings, mem.pc.settings.skip_puzzles));
   printf("        setting_backdoors = 0x%X,\n",           calc(mem.pc.settings, mem.pc.settings.backdoors));
   printf("        setting_klungo = 0x%X,\n",              calc(mem.pc.settings, mem.pc.settings.skip_klungo));
@@ -33,6 +35,7 @@ int main() {
   printf("        setting_max_mumbo_tokens = 0x%X,\n",    calc(mem.pc.settings, mem.pc.settings.max_mumbo_tokens));
   printf("        setting_signpost_hints = 0x%X,\n",      calc(mem.pc.settings, mem.pc.settings.signpost_hints));
   printf("        setting_extra_cheats = 0x%X,\n",        calc(mem.pc.settings, mem.pc.settings.extra_cheats));
+  printf("        setting_automatic_cheats = 0x%X,\n",    calc(mem.pc.settings, mem.pc.settings.automatic_cheats));
   printf("        setting_easy_canary = 0x%X,\n",         calc(mem.pc.settings, mem.pc.settings.easy_canary));
   printf("        setting_jiggy_requirements = 0x%X,\n",  calc(mem.pc.settings, mem.pc.settings.jiggy_requirements));
   printf("        setting_silo_requirements = 0x%X,\n",   calc(mem.pc.settings, mem.pc.settings.silo_requirements));
