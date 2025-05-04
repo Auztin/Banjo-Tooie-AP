@@ -1019,11 +1019,11 @@ bool check_flag(std::string locationId) {
             case 1230995: return fake->cheats_honeyback_received;
             case 1230996: return fake->cheats_jukebox_received;
         //HoneyB
-            case 1230997: return real->trade_honey_b >= 1;
-            case 1230998: return real->trade_honey_b >= 2;
-            case 1230999: return real->trade_honey_b >= 3;
-            case 1231000: return real->trade_honey_b >= 4;
-            case 1231001: return real->trade_honey_b == 5;
+            case 1230997: return fake->trade_honey_b >= 1;
+            case 1230998: return fake->trade_honey_b >= 2;
+            case 1230999: return fake->trade_honey_b >= 3;
+            case 1231000: return fake->trade_honey_b >= 4;
+            case 1231001: return fake->trade_honey_b == 5;
 
         //Dino Kids
             case 1231006: return real->tdl_returned_missing_dino;
