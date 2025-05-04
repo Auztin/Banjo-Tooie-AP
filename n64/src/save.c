@@ -54,6 +54,14 @@ void save_fake_set_move(u16 data, u8 state) {
   save_fake_move_flags(data, 1, state);
 }
 
+void save_fake_set_honeyb(u8 data) {
+  bt_fake_flags.trade_honey_b += data;
+}
+
+u8 save_fake_has_honeyb() {
+  return bt_fake_flags.trade_honey_b;
+}
+
 u32 save_fake_bits(u16 data, u8 setFlag, bool check) {
   if (bt_save_slot > 2) return 0;
   if (!check) goto fake;

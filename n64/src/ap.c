@@ -270,11 +270,20 @@ void ap_sync_items(u16 type, u8 value) {
     case AP_ITEM_PAGES:
       if (value != totals->pages) {
         totals->pages = value;
-        if (bt_flags.cheats_feathers_received) value -= 5;
-        if (bt_flags.cheats_eggs_received) value -= 5;
-        if (bt_flags.cheats_fallproof_received) value -= 5;
-        if (bt_flags.cheats_honeyback_received) value -= 5;
-        if (bt_flags.cheats_jukebox_received) value -= 5;
+        if(ap_memory.pc.settings.cheato_rewards){
+          if (bt_fake_flags.cheats_feathers_received) value -= 5;
+          if (bt_fake_flags.cheats_eggs_received) value -= 5;
+          if (bt_fake_flags.cheats_fallproof_received) value -= 5;
+          if (bt_fake_flags.cheats_honeyback_received) value -= 5;
+          if (bt_fake_flags.cheats_jukebox_received) value -= 5;
+        }
+        else {
+          if (bt_flags.cheats_feathers_received) value -= 5;
+          if (bt_flags.cheats_eggs_received) value -= 5;
+          if (bt_flags.cheats_fallproof_received) value -= 5;
+          if (bt_flags.cheats_honeyback_received) value -= 5;
+          if (bt_flags.cheats_jukebox_received) value -= 5;
+        }
         current = bt_items[BT_ITEM_PAGES] ^ bt_item_keys[BT_ITEM_PAGES].key;
         bt_fn_increase_item(BT_ITEM_PAGES, value-current);
       }
@@ -282,11 +291,20 @@ void ap_sync_items(u16 type, u8 value) {
     case AP_ITEM_HONEY:
       if (value != totals->honeycombs) {
         totals->honeycombs = value;
-        if (bt_flags.trade_honey_b > 0) value -= 1;
-        if (bt_flags.trade_honey_b > 1) value -= 3;
-        if (bt_flags.trade_honey_b > 2) value -= 5;
-        if (bt_flags.trade_honey_b > 3) value -= 7;
-        if (bt_flags.trade_honey_b > 4) value -= 9;
+        if(ap_memory.pc.settings.honeyb_rewards){
+          if (bt_fake_flags.trade_honey_b > 0) value -= 1;
+          if (bt_fake_flags.trade_honey_b > 1) value -= 3;
+          if (bt_fake_flags.trade_honey_b > 2) value -= 5;
+          if (bt_fake_flags.trade_honey_b > 3) value -= 7;
+          if (bt_fake_flags.trade_honey_b > 4) value -= 9;
+        }
+        else {
+          if (bt_flags.trade_honey_b > 0) value -= 1;
+          if (bt_flags.trade_honey_b > 1) value -= 3;
+          if (bt_flags.trade_honey_b > 2) value -= 5;
+          if (bt_flags.trade_honey_b > 3) value -= 7;
+          if (bt_flags.trade_honey_b > 4) value -= 9;
+        }
         current = bt_items[BT_ITEM_EMPTY_HONEYCOMBS] ^ bt_item_keys[BT_ITEM_EMPTY_HONEYCOMBS].key;
         bt_fn_increase_item(BT_ITEM_EMPTY_HONEYCOMBS, value-current);
       }
@@ -1530,6 +1548,7 @@ bool ap_can_transform_humba(ap_can_transform_t* data) {
 }
 
 bool ap_can_transform_mumbo(ap_can_transform_t* data) {
+  data->form = BT_PLAYER_CHAR_MUMBO;
   data->flag = 0;
   data->visited = 0;
   data->respawn = (bt_respawn_point_t){0, };
@@ -1636,8 +1655,10 @@ bool ap_can_transform_mumbo(ap_can_transform_t* data) {
       data->respawn = (bt_respawn_point_t){.map=0x0136, .exit=0x16};
       if (bt_flags.ccl_mumbo_location == 1) data->respawn.exit = 0x09;
       break;
+    default:
+      data->form = 0;
+      break;
   }
-  data->form = BT_PLAYER_CHAR_MUMBO;
   data->allowed = data->flag && data->visited;
   return data->allowed;
 }
@@ -1797,9 +1818,13 @@ void ap_check() {
             strcpy(ap.internal_message, "ENTER WUMBA'S WIGWAM AS BEAR AND BIRD FIRST...");
           }
         }
+        else if(!data.form){
+          ap.internal_icon = BT_ZOOMBOX_ICON_HUMBA;
+          strcpy(ap.internal_message, "HUMBA'S MAGIC CAN'T REACH BEAR AND BIRD...");
+        }
         else {
           ap.internal_icon = BT_ZOOMBOX_ICON_HUMBA;
-          strcpy(ap.internal_message, "WUMBA'S MAGIC CAN'T REACH BEAR AND BIRD...");
+          strcpy(ap.internal_message, "BEAR AND BIRD MUST FIND MAGIC...");
         }
       }
     }
