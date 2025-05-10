@@ -1043,12 +1043,12 @@ void BTClient::initialize_bt()
         ap_memory.pc.settings.skip_puzzles = 1;
     }
     //HAG 1 Early
-    if(OPEN_HAG1 == true && (GOAL_TYPE != 4 && GOAL_TYPE != 6))
+    if(OPEN_HAG1 == true && GOAL_TYPE == 1)
     {
         ap_memory.pc.items[AP_ITEM_H1A] = 1;
         show_message(BT_ZOOMBOX_ICON_DINGPOT, {{"message","HAG-1 is now open!"}});
     }
-    else if(GOAL_TYPE != 4 && GOAL_TYPE != 6)
+    else if(GOAL_TYPE == 1)
     {
         ap_memory.pc.settings.jiggy_requirements[9] = 70;
     }
