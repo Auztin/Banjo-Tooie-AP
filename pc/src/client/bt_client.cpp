@@ -312,6 +312,7 @@ void BTClient::obtain_health_upgrade()
     ap_memory.pc.items[AP_ITEM_HEALTHUP] = TOTAL_HEALTHUPGRADE;
     return;
 }
+
 // ------------- Magic and Glowbos ---------------
 
 nlohmann::json BTClient::check_glowbo_locations()
@@ -1562,7 +1563,7 @@ void BTClient::show_message(int character, json data, bool force) {
             item = "Fallproof Cheat";
             break;
         case 1230920:
-            item = "Honeback Cheat. Press D-Pad Down to toggle this cheat.";
+            item = "Honeyback Cheat. Press D-Pad Down to toggle this cheat.";
             break;
         case 1230921:
             item = "Jukebox Cheat";
@@ -1767,7 +1768,7 @@ void BTClient::show_message(int character, json data, bool force) {
         case 1230921: // Jukebox
             default_character = BT_ZOOMBOX_ICON_CHEATO;
             message.text = own ? std::format("You can now use the {}.", item)
-                            : std::format("{} has just unlocked the {}.", player, item);
+                               : std::format("{} has just unlocked the {}.", player, item);
             break;
         default: return;
     }

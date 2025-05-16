@@ -115,7 +115,6 @@ void save_fake_give_move(u16 data) { // 0x8009032C
 }
 
 void save_fake_give_cheat(u16 data) { // 0x800d3ef4
-  //Heggy save_fake_bits(0x5A4, 1, false);
   save_fake_bits(bt_save_cheat_offset[data].offset, 1, false);
 }
 

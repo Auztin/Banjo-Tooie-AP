@@ -3,7 +3,6 @@
 
 #include "util.h"
 #include "bt.h"
-#include "main.h"
 
 enum {
   AP_MENU_NONE,

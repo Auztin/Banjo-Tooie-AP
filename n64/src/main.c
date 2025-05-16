@@ -863,42 +863,6 @@ void main_init_egg_nest(bt_obj_instance_t* obj) {
   main_init_ap_nest(obj);
 }
 
-void check_and_enable_cheats() {
-  if (bt_flags.cheats_nestking_enabled) {
-    bt_fn_item_infinite(BT_ITEM_BLUE_EGGS);
-    bt_fn_item_infinite(BT_ITEM_FIRE_EGGS);
-    bt_fn_item_infinite(BT_ITEM_ICE_EGGS);
-    bt_fn_item_infinite(BT_ITEM_GRENADE_EGGS);
-    bt_fn_item_infinite(BT_ITEM_CLOCKWORK_EGGS);
-  }
-  else if (bt_flags.cheats_eggs_enabled) {
-    bt_fn_item_double_max(BT_ITEM_BLUE_EGGS);
-    bt_fn_item_double_max(BT_ITEM_FIRE_EGGS);
-    bt_fn_item_double_max(BT_ITEM_ICE_EGGS);
-    bt_fn_item_double_max(BT_ITEM_GRENADE_EGGS);
-    bt_fn_item_double_max(BT_ITEM_CLOCKWORK_EGGS);
-  }
-  else {
-    bt_fn_item_restore_max(BT_ITEM_BLUE_EGGS);
-    bt_fn_item_restore_max(BT_ITEM_FIRE_EGGS);
-    bt_fn_item_restore_max(BT_ITEM_ICE_EGGS);
-    bt_fn_item_restore_max(BT_ITEM_GRENADE_EGGS);
-    bt_fn_item_restore_max(BT_ITEM_CLOCKWORK_EGGS);
-  }
-  if (bt_flags.cheats_nestking_enabled) {
-    bt_fn_item_infinite(BT_ITEM_RED_FEATHERS);
-    bt_fn_item_infinite(BT_ITEM_GOLD_FEATHERS);
-  }
-  else if (bt_flags.cheats_feathers_enabled) {
-    bt_fn_item_double_max(BT_ITEM_RED_FEATHERS);
-    bt_fn_item_double_max(BT_ITEM_GOLD_FEATHERS);
-  }
-  else {
-    bt_fn_item_restore_max(BT_ITEM_RED_FEATHERS);
-    bt_fn_item_restore_max(BT_ITEM_GOLD_FEATHERS);
-  }
-}
-
 extern void main_draw_warp_pad_displaced(bt_obj_instance_t* obj, bt_draw_ctx_t* draw_ctx);
 void main_draw_warp_pad(bt_obj_instance_t* obj, bt_draw_ctx_t* draw_ctx) {
   u32 T6 = *(u32*)((u32)obj + 0x2C);
@@ -967,7 +931,7 @@ void pre_object_init(bt_object_t *obj) {
       util_inject(UTIL_INJECT_RAW     , (u32)obj + 0x0270, 0, 0); // dont comment on first 5 page milestone
       break;
     case BT_OBJ_CHEATO:
-      if(!ap_memory.pc.settings.cheato_rewards) break;
+      if (!ap_memory.pc.settings.cheato_rewards) break;
       util_inject(UTIL_INJECT_FUNCTION, (u32)obj + 0x09AC, (u32)save_fake_give_cheat, 0); // dont give out the cheat
       util_inject(UTIL_INJECT_FUNCTION, (u32)obj + 0x0CE0, (u32)save_fake_has_cheat, 0); // read fake cheat flags
       util_inject(UTIL_INJECT_FUNCTION, (u32)obj + 0x0D3C, (u32)save_fake_has_cheat, 0); // read fake cheat flags
@@ -1218,5 +1182,41 @@ void post_get_data(u16 id, u32 addr) {
       strcpy(data->text+ 1, "SORRY, BUT THE GREAT JIGGYWIGGY IS IN A DIFFERENT TEMPLE.");
       break;
     }
+  }
+}
+
+void main_check_and_enable_cheats() {
+  if (bt_flags.cheats_nestking_enabled) {
+    bt_fn_item_infinite(BT_ITEM_BLUE_EGGS);
+    bt_fn_item_infinite(BT_ITEM_FIRE_EGGS);
+    bt_fn_item_infinite(BT_ITEM_ICE_EGGS);
+    bt_fn_item_infinite(BT_ITEM_GRENADE_EGGS);
+    bt_fn_item_infinite(BT_ITEM_CLOCKWORK_EGGS);
+  }
+  else if (bt_flags.cheats_eggs_enabled) {
+    bt_fn_item_double_max(BT_ITEM_BLUE_EGGS);
+    bt_fn_item_double_max(BT_ITEM_FIRE_EGGS);
+    bt_fn_item_double_max(BT_ITEM_ICE_EGGS);
+    bt_fn_item_double_max(BT_ITEM_GRENADE_EGGS);
+    bt_fn_item_double_max(BT_ITEM_CLOCKWORK_EGGS);
+  }
+  else {
+    bt_fn_item_restore_max(BT_ITEM_BLUE_EGGS);
+    bt_fn_item_restore_max(BT_ITEM_FIRE_EGGS);
+    bt_fn_item_restore_max(BT_ITEM_ICE_EGGS);
+    bt_fn_item_restore_max(BT_ITEM_GRENADE_EGGS);
+    bt_fn_item_restore_max(BT_ITEM_CLOCKWORK_EGGS);
+  }
+  if (bt_flags.cheats_nestking_enabled) {
+    bt_fn_item_infinite(BT_ITEM_RED_FEATHERS);
+    bt_fn_item_infinite(BT_ITEM_GOLD_FEATHERS);
+  }
+  else if (bt_flags.cheats_feathers_enabled) {
+    bt_fn_item_double_max(BT_ITEM_RED_FEATHERS);
+    bt_fn_item_double_max(BT_ITEM_GOLD_FEATHERS);
+  }
+  else {
+    bt_fn_item_restore_max(BT_ITEM_RED_FEATHERS);
+    bt_fn_item_restore_max(BT_ITEM_GOLD_FEATHERS);
   }
 }

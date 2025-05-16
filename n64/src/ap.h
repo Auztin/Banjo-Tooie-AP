@@ -28,6 +28,7 @@ typedef struct {
   u8 trap_type;
   ap_fnt_trap fn_trap;
   s32 trap_timer;
+  float health_animation_pos;
 } ap_t;
 extern ap_t ap;
 extern u16 AP_ICON[32][32];
@@ -42,6 +43,5 @@ void ap_signpost_dialog();
 void ap_check();
 void ap_new_file();
 void ap_load_file();
-void get_health_upgrade();
 
 #endif // AP_H

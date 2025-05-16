@@ -573,7 +573,6 @@ std::map<uint16_t, std::map<std::string, std::vector<std::string>>> ASSET_MAP_CH
             {"STATIONBTN", {"1230793"}},
             {"WARPPAD", {"1231589","1231590"}},
             {"ALIEN_KIDS", {"1231599","1231600","1231601"}}
-
         }},
         {0x133,	{ //HFP - Inside the Volcano
             {"JIGGIES", {"1230657"}},

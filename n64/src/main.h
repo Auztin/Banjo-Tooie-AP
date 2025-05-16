@@ -32,10 +32,10 @@ void pre_load_save(); // during scene load, before save is loaded. bt_save is nu
 void post_load_save(); // during scene load, after save is loaded
 void pre_object_init(bt_object_t *obj); // just after an object is loaded into memory, before it is initialized
 void post_object_init(bt_object_t *obj); // just after an object is initialized
-void check_and_enable_cheats(); //checks and enable cheats
 void pre_load_data(u16 *id);
 void post_load_data(u16 id, u32 addr);
 void pre_get_data(u16 *id);
 void post_get_data(u16 id, u32 addr);
+void main_check_and_enable_cheats(); //checks and enable cheats
 
 #endif // MAIN_H

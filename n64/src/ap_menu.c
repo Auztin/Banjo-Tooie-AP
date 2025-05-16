@@ -2,6 +2,7 @@
 #include "ap_menu_data.h"
 #include "ap.h"
 #include "save.h"
+#include "main.h"
 
 #include <string.h>
 #include <stdlib.h>
@@ -242,7 +243,7 @@ void ap_menu_select() {
           else bt_fn_play_sound(BT_SOUND_WRONG, -1, 1, -1);
           break;
       }
-      check_and_enable_cheats();
+      main_check_and_enable_cheats();
       return;
     default: return;
   }

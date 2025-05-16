@@ -24,7 +24,7 @@ typedef struct {
 #define BT_OBJ_HONEYCOMB_PIECE      0x01B6
 #define BT_OBJ_HONEYB               0x00CC
 #define BT_OBJ_GCEXTRA              0x0017
-#define BT_OBJ_MOVE_SILO            0x0320 // jamjar move silos (also shared by bottles' mole hills) 803A1D00
+#define BT_OBJ_MOVE_SILO            0x0320 // jamjar move silos (also shared by bottles' mole hills)
 #define BT_OBJ_SWITCH               0x00B0
 #define BT_OBJ_ROYSTEN              0x024A
 #define BT_OBJ_NESTS                0x00BF

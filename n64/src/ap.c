@@ -241,24 +241,13 @@ void ap_item_nest(bool feather_nest) {
   bt_fn_increase_item(lowest, amount);
 }
 
-bool health_animation_start = false;
-float health_animation_pos = 0;
-void get_health_upgrade() {
-  if(health_animation_pos == 0)
-  {
-    health_animation_pos = 0.01;
-    bt_fn_play_sound(BT_SOUND_EXTRA_HEALTH, -1, 1, -1);
-  }
-  bt_fn_ui_animate_new_health(0, health_animation_pos);
-  u8 health = bt_fn_get_max_health(bt_player_chars.control_type);
-  bt_fn_ui_show_other_number(BT_UI_NUMBERS_HEALTH_UPGRADE, health + 1, health + 1);
-  if(bt_fn_ui_finished_number_animation(BT_UI_NUMBERS_HEALTH_UPGRADE))
-  {
-    health_animation_pos += 0.10;
-  }
-  if(health_animation_pos >= 1) {
-    health_animation_pos = 0;
-    health_animation_start = false;
+void ap_get_health_upgrade() {
+  bt_fn_ui_animate_new_health(0, 1-ap.health_animation_pos);
+  u8 health = bt_fn_get_max_health(bt_player_chars.control_type) + 1;
+  bt_fn_ui_show_other_number(BT_UI_NUMBERS_HEALTH_UPGRADE, health, health);
+  if (bt_fn_ui_finished_number_animation(BT_UI_NUMBERS_HEALTH_UPGRADE)) {
+    ap.health_animation_pos -= 0.10;
+    if (ap.health_animation_pos < 0) ap.health_animation_pos = 0;
   }
 }
 
@@ -270,20 +259,13 @@ void ap_sync_items(u16 type, u8 value) {
     case AP_ITEM_PAGES:
       if (value != totals->pages) {
         totals->pages = value;
-        if(ap_memory.pc.settings.cheato_rewards){
-          if (bt_fake_flags.cheats_feathers_received) value -= 5;
-          if (bt_fake_flags.cheats_eggs_received) value -= 5;
-          if (bt_fake_flags.cheats_fallproof_received) value -= 5;
-          if (bt_fake_flags.cheats_honeyback_received) value -= 5;
-          if (bt_fake_flags.cheats_jukebox_received) value -= 5;
-        }
-        else {
-          if (bt_flags.cheats_feathers_received) value -= 5;
-          if (bt_flags.cheats_eggs_received) value -= 5;
-          if (bt_flags.cheats_fallproof_received) value -= 5;
-          if (bt_flags.cheats_honeyback_received) value -= 5;
-          if (bt_flags.cheats_jukebox_received) value -= 5;
-        }
+        bt_save_flags_t* flags = &bt_flags;
+        if (ap_memory.pc.settings.cheato_rewards) flags = &bt_fake_flags;
+        if (flags->cheats_feathers_received) value -= 5;
+        if (flags->cheats_eggs_received) value -= 5;
+        if (flags->cheats_fallproof_received) value -= 5;
+        if (flags->cheats_honeyback_received) value -= 5;
+        if (flags->cheats_jukebox_received) value -= 5;
         current = bt_items[BT_ITEM_PAGES] ^ bt_item_keys[BT_ITEM_PAGES].key;
         bt_fn_increase_item(BT_ITEM_PAGES, value-current);
       }
@@ -291,20 +273,13 @@ void ap_sync_items(u16 type, u8 value) {
     case AP_ITEM_HONEY:
       if (value != totals->honeycombs) {
         totals->honeycombs = value;
-        if(ap_memory.pc.settings.honeyb_rewards){
-          if (bt_fake_flags.trade_honey_b > 0) value -= 1;
-          if (bt_fake_flags.trade_honey_b > 1) value -= 3;
-          if (bt_fake_flags.trade_honey_b > 2) value -= 5;
-          if (bt_fake_flags.trade_honey_b > 3) value -= 7;
-          if (bt_fake_flags.trade_honey_b > 4) value -= 9;
-        }
-        else {
-          if (bt_flags.trade_honey_b > 0) value -= 1;
-          if (bt_flags.trade_honey_b > 1) value -= 3;
-          if (bt_flags.trade_honey_b > 2) value -= 5;
-          if (bt_flags.trade_honey_b > 3) value -= 7;
-          if (bt_flags.trade_honey_b > 4) value -= 9;
-        }
+        bt_save_flags_t* flags = &bt_flags;
+        if (ap_memory.pc.settings.honeyb_rewards) flags = &bt_fake_flags;
+        if (flags->trade_honey_b > 0) value -= 1;
+        if (flags->trade_honey_b > 1) value -= 3;
+        if (flags->trade_honey_b > 2) value -= 5;
+        if (flags->trade_honey_b > 3) value -= 7;
+        if (flags->trade_honey_b > 4) value -= 9;
         current = bt_items[BT_ITEM_EMPTY_HONEYCOMBS] ^ bt_item_keys[BT_ITEM_EMPTY_HONEYCOMBS].key;
         bt_fn_increase_item(BT_ITEM_EMPTY_HONEYCOMBS, value-current);
       }
@@ -876,24 +851,27 @@ void ap_sync_items(u16 type, u8 value) {
     case AP_ITEM_HEALTHUP:
       if (bt_custom_save.health_upgrades < value && bt_custom_save.health_upgrades <= 5) {
         int amt_diff = value - bt_custom_save.health_upgrades;
-        health_animation_start = true;
         bt_custom_save.health_upgrades++;
         bt_fn_increase_max_health(amt_diff);
+        if (!ap.health_animation_pos) {
+          ap.health_animation_pos = 1;
+          bt_fn_play_sound(BT_SOUND_EXTRA_HEALTH, -1, 1, -1);
+        }
       }
       break;
     case AP_ITEM_CHEATEGG:
       bt_flags.cheats_eggs_received = value > 0;
-      if(ap_memory.pc.settings.automatic_cheats && value > 0) {
+      if (ap_memory.pc.settings.automatic_cheats && value > 0) {
         bt_flags.cheats_eggs_enabled = true;
-        check_and_enable_cheats();
-      } 
+        main_check_and_enable_cheats();
+      }
       break;
     case AP_ITEM_CHEATFEATHER:
       bt_flags.cheats_feathers_received = value > 0;
-      if(ap_memory.pc.settings.automatic_cheats && value > 0) {
+      if (ap_memory.pc.settings.automatic_cheats && value > 0) {
         bt_flags.cheats_feathers_enabled = true;
-        check_and_enable_cheats();
-      } 
+        main_check_and_enable_cheats();
+      }
       break;
     case AP_ITEM_CHEATFALL:
       bt_flags.cheats_fallproof_received = value > 0;
@@ -906,8 +884,6 @@ void ap_sync_items(u16 type, u8 value) {
       break;
   }
 }
-
-
 
 void ap_increment_trap() {
   bt_custom_save.traps[ap.trap_type]++;
@@ -1802,8 +1778,7 @@ void ap_check() {
     }
     ap_check_enough_notes(total_notes, save_totals(6));
     ap_sync_traps();
-    if(health_animation_start) 
-      get_health_upgrade();
+    if (ap.health_animation_pos) ap_get_health_upgrade();
     if (!bt_controllers[0].held.l && bt_controllers[0].pressed.dleft) {
       ap_can_transform_t data;
       if (!ap_cycle_character(&data)) {
@@ -1818,7 +1793,7 @@ void ap_check() {
             strcpy(ap.internal_message, "ENTER WUMBA'S WIGWAM AS BEAR AND BIRD FIRST...");
           }
         }
-        else if(!data.form){
+        else if (!data.form) {
           ap.internal_icon = BT_ZOOMBOX_ICON_HUMBA;
           strcpy(ap.internal_message, "HUMBA'S MAGIC CAN'T REACH BEAR AND BIRD...");
         }
@@ -2133,7 +2108,7 @@ void ap_new_file() {
   bt_flags.ww_paid_dodgem = 1;
   bt_flags.ww_opened_dodgem1 = 1;
   bt_flags.hfp_lava_opened_kickball_door1 = 1;
-  if(!ap_memory.pc.settings.cheato_rewards) bt_flags.cheats_jukebox_enabled = 1;
+  if (!ap_memory.pc.settings.cheato_rewards) bt_flags.cheats_jukebox_enabled = 1;
 }
 
 void ap_load_file() {
