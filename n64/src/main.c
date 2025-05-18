@@ -953,7 +953,10 @@ void pre_object_init(bt_object_t *obj) {
       break;
     case BT_OBJ_HONEYB:
       if (!ap_memory.pc.settings.honeyb_rewards) break;
-      util_inject(UTIL_INJECT_RAW     , (u32)obj + 0x684, 0, 0); // dont play animation
+      util_inject(UTIL_INJECT_RAW     , (u32)obj + 0x5D4, 0, 0); // dont play animation
+      util_inject(UTIL_INJECT_RAW     , (u32)obj + 0x5E4, 0, 0); // dont play animation
+      util_inject(UTIL_INJECT_RAW     , (u32)obj + 0x68C, 0, 0); // dont play animation
+      util_inject(UTIL_INJECT_RAW     , (u32)obj + 0x6A4, 0, 0); // dont play animation
       util_inject(UTIL_INJECT_FUNCTION, (u32)obj + 0x708, (u32)save_fake_set_honeyb, 0); // write to fake flags
       util_inject(UTIL_INJECT_FUNCTION, (u32)obj + 0xC50, (u32)save_fake_has_honeyb, 0); // read fake flags
       break;
