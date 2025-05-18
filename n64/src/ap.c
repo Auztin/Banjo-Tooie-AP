@@ -2153,4 +2153,8 @@ void ap_load_file() {
     bt_flags.hfp_lava_opened_kickball_door2 = 1;
     bt_flags.hfp_lava_opened_kickball_door3 = 1;
   }
+  if (ap_memory.pc.settings.gi_open_frontdoor)
+  {
+    bt_flags.gi_floor1_opened_main_entrance = 1;
+  }
 }

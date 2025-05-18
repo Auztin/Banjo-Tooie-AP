@@ -43,6 +43,7 @@ typedef struct {
     u8 cheato_rewards;
     u8 skip_puzzles;
     u8 backdoors;
+    u8 gi_open_frontdoor;
     u8 skip_klungo;
     u8 skip_tower_of_tragedy;
     u8 speed_up_minigames;
