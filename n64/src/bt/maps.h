@@ -16,7 +16,7 @@ typedef struct {
 } bt_respawn_point_t;
 #define bt_respawn_point ((bt_respawn_point_t*)0x80127050)
 
-typedef u32 (*bt_fnt_load_scene)(u16, u16, u8);
+typedef u32 (*bt_fnt_load_scene)(u16 mapId, u16 entranceId, u8 animate);
 #define bt_fn_load_scene ((bt_fnt_load_scene)0x800A7990)
 
 // Taken from ScriptHawk: https://github.com/Isotarge/ScriptHawk/blob/master/games/bt.lua
@@ -61,7 +61,7 @@ enum {
   BT_MAP_0x0D3, // GGM - Generator Cavern
   BT_MAP_0x0D4, // GGM - Power Hut
   BT_MAP_WW_HUMBA, // WW - Wumba's Wigwam
-  BT_MAP_0x0D6, // WW
+  BT_MAP_WW, // WW
   BT_MAP_TRAIN_STATION_GGM, // GGM - Train Station
   BT_MAP_0x0D8, // GGM - Prospector's Hut
   BT_MAP_GGM_MUMBO, // GGM - Mumbo's Skull

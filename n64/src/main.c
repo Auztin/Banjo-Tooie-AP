@@ -1005,6 +1005,9 @@ void pre_object_init(bt_object_t *obj) {
       util_inject(UTIL_INJECT_FUNCTION, (u32)obj + 0x05FC, (u32)save_fake_give_fast_swimming, 0);
       util_inject(UTIL_INJECT_FUNCTION, (u32)obj + 0x0640, (u32)save_fake_give_bubbles, 0);
       break;
+    case BT_OBJ_WWTICKET:
+      util_inject(UTIL_INJECT_RAW, (u32)obj + 0x124, 0, 0);
+      break;
     case BT_OBJ_BOTTLES_FAMILY:
       util_inject(UTIL_INJECT_FUNCTION, (u32)obj + 0x09BC, (u32)save_fake_give_move, 0);
       break;

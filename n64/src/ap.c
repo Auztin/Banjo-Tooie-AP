@@ -882,6 +882,14 @@ void ap_sync_items(u16 type, u8 value) {
     case AP_ITEM_CHEATJUKE:
       bt_flags.cheats_jukebox_received = value > 0;
       break;
+    case AP_ITEM_BTTICKET:
+      if (value != totals->tickets) {
+        totals->tickets = value;
+        if (bt_flags.ww_traded_big_top_tickets) value = 0;
+        current = bt_items[BT_ITEM_TICKETS] ^ bt_item_keys[BT_ITEM_TICKETS].key;
+        bt_fn_increase_item(BT_ITEM_TICKETS, value-current);
+      }      
+      break;
   }
 }
 

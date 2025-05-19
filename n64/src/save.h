@@ -15,7 +15,7 @@ typedef struct {
   u8 notes;
   u8 treble_clefs;
   u8 doubloons;
-  u8 tickets; // unused
+  u8 tickets;
   u8 mumbo_tokens;
 } save_data_totals_t;
 
