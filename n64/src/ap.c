@@ -890,7 +890,7 @@ void ap_sync_items(u16 type, u8 value) {
         bt_fn_increase_item(BT_ITEM_TICKETS, value-current);
       }      
       break;
-    case AP_ITEM_GRELIC:
+    case AP_ITEM_GRRELIC:
       if (value != totals->green_relics) {
         totals->green_relics = value;
         if(totals->green_relics >= 10 && totals->green_relics <= 20 && bt_current_map == BT_MAP_MT_INSIDE_TEMPLE) bt_fn_open_door(0x2b4, 7, 0);

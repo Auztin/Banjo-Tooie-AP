@@ -924,7 +924,7 @@ bool main_warp_silo_failed(bt_obj_instance_t* obj, int _unused1, int _unused2) {
 }
 
 u8 ap_jade_total_count(){
-  return ap_memory.pc.items[AP_ITEM_GRELIC];
+  return ap_memory.pc.items[AP_ITEM_GRRELIC];
 }
 
 void pre_object_init(bt_object_t *obj) {
