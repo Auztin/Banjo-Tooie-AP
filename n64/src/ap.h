@@ -19,6 +19,7 @@ typedef struct {
   u8 zb_icon;
   u8 message_lines;
   s8 signpost;
+  s8 green_relic;
   bt_zoombox_t* zoombox;
   bt_zoombox_t* zb_signpost;
   char* messages[5];
@@ -40,6 +41,7 @@ bool ap_stomponadon_stomp(bt_obj_instance_t* dinofoot);
 void ap_draw_hud(bt_draw_ctx_t* draw_ctx);
 void ap_update();
 void ap_signpost_dialog();
+void ap_green_relics(u16 id);
 void ap_check();
 void ap_new_file();
 void ap_load_file();

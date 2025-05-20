@@ -206,7 +206,7 @@ enum {
   BT_MAP_0x173, // SM - Banjo's House
   BT_MAP_WW_MUMBO = 0x176, // WW - Mumbo's Skull
   BT_MAP_0x177, // MT - Targitzan's Slightly Sacred Chamber
-  BT_MAP_0x178, // MT - Inside Targitzan's Temple
+  BT_MAP_MT_INSIDE_TEMPLE, // MT - Inside Targitzan's Temple
   BT_MAP_0x179, // MT - Targitzan's Temple Lobby
   BT_MAP_0x17A, // MT - Targitzan's Really Sacred Chamber
   BT_MAP_0x17B, // WW - Balloon Burst (multiplayer)

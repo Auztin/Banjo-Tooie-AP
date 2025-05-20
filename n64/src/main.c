@@ -923,6 +923,10 @@ bool main_warp_silo_failed(bt_obj_instance_t* obj, int _unused1, int _unused2) {
   return bt_fn_get_bit(&bt_flags, flag);
 }
 
+u8 jade_total_count(){
+  return ap_memory.pc.items[AP_ITEM_GRELIC];
+}
+
 void pre_object_init(bt_object_t *obj) {
   if (!BT_IN_GAME && bt_current_map != BT_MAP_FILE_SELECT) return;
   switch (obj->objType) {
@@ -1007,6 +1011,15 @@ void pre_object_init(bt_object_t *obj) {
       break;
     case BT_OBJ_WWTICKET:
       util_inject(UTIL_INJECT_RAW, (u32)obj + 0x124, 0, 0);
+      break;
+    case BT_OBJ_JADESTATUE:
+      //util_inject(UTIL_INJECT_RAW, (u32)obj + 0x258, 0, 0); // dont increment amount
+      util_inject(UTIL_INJECT_FUNCTION, (u32)obj + 0x258, (u32)ap_green_relics, 1);
+      util_inject(UTIL_INJECT_FUNCTION, (u32)obj + 0x320, (u32)jade_total_count, 0); // Returns Value of Statues to display on Screen
+      //util_inject(UTIL_INJECT_RETVALUE, (u32)obj + 0x260, (u32)jade_total_count, 0); // Updates UI when collecting a Statue, we don't want this.
+      util_inject(UTIL_INJECT_RAW, (u32)obj + 0x274, 0, 0); //Updates UI when collecting a Statue, we don't want this.
+      util_inject(UTIL_INJECT_RAW, (u32)obj + 0x354, 0, 0); // Removes Statues From the game
+
       break;
     case BT_OBJ_BOTTLES_FAMILY:
       util_inject(UTIL_INJECT_FUNCTION, (u32)obj + 0x09BC, (u32)save_fake_give_move, 0);

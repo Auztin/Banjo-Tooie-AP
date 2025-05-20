@@ -46,6 +46,7 @@ typedef struct {
 #define BT_OBJ_CAPTAIN_BLACKEYE     0x01C8
 #define BT_OBJ_FILE_SELECT          0x00CD
 #define BT_OBJ_WWTICKET             0x0128
+#define BT_OBJ_JADESTATUE           0x0229
 #define BT_OBJ_STOMPONADON          0x0109
 #define BT_OBJ_SIGNPOST             0x01A5
 #define BT_OBJ_HANDCART             0x019F

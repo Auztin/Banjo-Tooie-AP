@@ -890,6 +890,20 @@ void ap_sync_items(u16 type, u8 value) {
         bt_fn_increase_item(BT_ITEM_TICKETS, value-current);
       }      
       break;
+    case AP_ITEM_GRELIC:
+      if (value != totals->green_relics) {
+        totals->green_relics = value;
+        if(totals->green_relics >= 10)
+        {
+          if(bt_current_map == BT_MAP_MT_INSIDE_TEMPLE) bt_fn_open_door(0x2b4, 7, 0);
+        } 
+        if(totals->green_relics >= 20)
+        {
+          if(bt_current_map == BT_MAP_MT_INSIDE_TEMPLE) bt_fn_open_door(0x2b4, 7, 1);
+        } 
+        bt_fn_ui_show_number(BT_UI_NUMBERS_GREEN_SACRED_STATUE, totals->green_relics, 0);
+      }
+      break;
   }
 }
 
@@ -1749,6 +1763,13 @@ void ap_signpost_dialog(bt_obj_instance_t* obj) {
     bt_fn_zoombox_dialog_options(ap.zb_signpost, 15, 5, 2);
     bt_fn_character_start_lookat(bt_player_chars.control_index, 3, &obj->pos);
     BT_DIALOG_CAN_SHOW = 0;
+  }
+}
+
+void ap_green_relics(u16 id) {
+  ap.green_relic = custom_flag_relics(id);
+  if (ap.green_relic >= 0) {
+    save_custom_set_bit(bt_custom_save.green_relic, ap.green_relic);
   }
 }
 

@@ -11,7 +11,7 @@ typedef struct {
   u8 jiggies;
   u8 honeycombs;
   u8 pages;
-  u8 green_relics; // unused
+  u8 green_relics;
   u8 notes;
   u8 treble_clefs;
   u8 doubloons;
@@ -34,6 +34,7 @@ typedef struct Save_Data_s {
     u8 egg_nests;
     u8 feather_nests;
     u8 health_upgrades;
+    u8 green_relic[24];
   } custom[3];
 } save_data_t;
 
