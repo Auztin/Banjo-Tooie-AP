@@ -19,7 +19,6 @@ typedef struct {
   u8 zb_icon;
   u8 message_lines;
   s8 signpost;
-  s8 green_relic;
   bt_zoombox_t* zoombox;
   bt_zoombox_t* zb_signpost;
   char* messages[5];
