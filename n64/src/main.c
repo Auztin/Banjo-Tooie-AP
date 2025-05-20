@@ -1010,9 +1010,11 @@ void pre_object_init(bt_object_t *obj) {
       util_inject(UTIL_INJECT_FUNCTION, (u32)obj + 0x0640, (u32)save_fake_give_bubbles, 0);
       break;
     case BT_OBJ_WWTICKET:
+      if (!ap_memory.pc.settings.randomize_tickets) break;
       util_inject(UTIL_INJECT_RAW, (u32)obj + 0x124, 0, 0);
       break;
     case BT_OBJ_JADESTATUE:
+      if (!ap_memory.pc.settings.randomize_green_relics) break;
       util_inject(UTIL_INJECT_RAW, (u32)obj + 0xAC, 0, 0); //Don't despawn statues when enough flags are set when entering temple
       util_inject(UTIL_INJECT_RAW, (u32)obj + 0x260, 0, 0); //Don't open doors based on Saveflags.
       util_inject(UTIL_INJECT_RAW, (u32)obj + 0x2E8, 0, 0); //Don't open doors based on Saveflags.
@@ -1021,6 +1023,7 @@ void pre_object_init(bt_object_t *obj) {
       util_inject(UTIL_INJECT_RAW, (u32)obj + 0x354, 0, 0); // Removes Statues From the game when collected 20 statues
       break;
     case BT_OBJ_TEMPLEBOSSDOOR:
+      if (!ap_memory.pc.settings.randomize_green_relics) break;
       util_inject(UTIL_INJECT_FUNCTION, (u32)obj + 0xBC, (u32)jade_total_count, 0); // Open Doors upon entering Temple
       break;
     case BT_OBJ_BOTTLES_FAMILY:
