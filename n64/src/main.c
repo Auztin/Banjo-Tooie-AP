@@ -923,7 +923,7 @@ bool main_warp_silo_failed(bt_obj_instance_t* obj, int _unused1, int _unused2) {
   return bt_fn_get_bit(&bt_flags, flag);
 }
 
-u8 jade_total_count(){
+u8 ap_jade_total_count(){
   return ap_memory.pc.items[AP_ITEM_GRELIC];
 }
 
@@ -1015,16 +1015,16 @@ void pre_object_init(bt_object_t *obj) {
       break;
     case BT_OBJ_JADESTATUE:
       if (!ap_memory.pc.settings.randomize_green_relics) break;
-      util_inject(UTIL_INJECT_RAW, (u32)obj + 0xAC, 0, 0); //Don't despawn statues when enough flags are set when entering temple
-      util_inject(UTIL_INJECT_RAW, (u32)obj + 0x260, 0, 0); //Don't open doors based on Saveflags.
-      util_inject(UTIL_INJECT_RAW, (u32)obj + 0x2E8, 0, 0); //Don't open doors based on Saveflags.
-      util_inject(UTIL_INJECT_FUNCTION, (u32)obj + 0x320, (u32)jade_total_count, 0); // Returns Value of Statues to display on Screen
-      util_inject(UTIL_INJECT_RAW, (u32)obj + 0x274, 0, 0); //This Updates UI when collecting a Statue, we don't want this.
-      util_inject(UTIL_INJECT_RAW, (u32)obj + 0x354, 0, 0); // Removes Statues From the game when collected 20 statues
+      util_inject(UTIL_INJECT_RAW, (u32)obj + 0xAC, 0, 0); // called to remove statues when enough flags are set when entering temple
+      util_inject(UTIL_INJECT_RAW, (u32)obj + 0x260, 0, 0); // called to open doors based on Saveflags.
+      util_inject(UTIL_INJECT_RAW, (u32)obj + 0x2E8, 0, 0); // called to open doors based on Saveflags.
+      util_inject(UTIL_INJECT_FUNCTION, (u32)obj + 0x320, (u32)ap_jade_total_count, 0); // Returns the value of statues to display on Screen
+      util_inject(UTIL_INJECT_RAW, (u32)obj + 0x274, 0, 0); // Updates UI when collecting a statue
+      util_inject(UTIL_INJECT_RAW, (u32)obj + 0x354, 0, 0); // called to removes statues from the game when collected 20
       break;
     case BT_OBJ_TEMPLEBOSSDOOR:
       if (!ap_memory.pc.settings.randomize_green_relics) break;
-      util_inject(UTIL_INJECT_FUNCTION, (u32)obj + 0xBC, (u32)jade_total_count, 0); // Open Doors upon entering Temple
+      util_inject(UTIL_INJECT_FUNCTION, (u32)obj + 0xBC, (u32)ap_jade_total_count, 0); // Open doors upon entering Temple
       break;
     case BT_OBJ_BOTTLES_FAMILY:
       util_inject(UTIL_INJECT_FUNCTION, (u32)obj + 0x09BC, (u32)save_fake_give_move, 0);
