@@ -1013,13 +1013,15 @@ void pre_object_init(bt_object_t *obj) {
       util_inject(UTIL_INJECT_RAW, (u32)obj + 0x124, 0, 0);
       break;
     case BT_OBJ_JADESTATUE:
-      //util_inject(UTIL_INJECT_RAW, (u32)obj + 0x258, 0, 0); // dont increment amount
-      util_inject(UTIL_INJECT_FUNCTION, (u32)obj + 0x258, (u32)ap_green_relics, 1);
+      util_inject(UTIL_INJECT_RAW, (u32)obj + 0xAC, 0, 0); //Don't despawn statues when enough flags are set when entering temple
+      util_inject(UTIL_INJECT_RAW, (u32)obj + 0x260, 0, 0); //Don't open doors based on Saveflags.
+      util_inject(UTIL_INJECT_RAW, (u32)obj + 0x2E8, 0, 0); //Don't open doors based on Saveflags.
       util_inject(UTIL_INJECT_FUNCTION, (u32)obj + 0x320, (u32)jade_total_count, 0); // Returns Value of Statues to display on Screen
-      //util_inject(UTIL_INJECT_RETVALUE, (u32)obj + 0x260, (u32)jade_total_count, 0); // Updates UI when collecting a Statue, we don't want this.
-      util_inject(UTIL_INJECT_RAW, (u32)obj + 0x274, 0, 0); //Updates UI when collecting a Statue, we don't want this.
-      util_inject(UTIL_INJECT_RAW, (u32)obj + 0x354, 0, 0); // Removes Statues From the game
-
+      util_inject(UTIL_INJECT_RAW, (u32)obj + 0x274, 0, 0); //This Updates UI when collecting a Statue, we don't want this.
+      util_inject(UTIL_INJECT_RAW, (u32)obj + 0x354, 0, 0); // Removes Statues From the game when collected 20 statues
+      break;
+    case BT_OBJ_TEMPLEBOSSDOOR:
+      util_inject(UTIL_INJECT_FUNCTION, (u32)obj + 0xBC, (u32)jade_total_count, 0); // Open Doors upon entering Temple
       break;
     case BT_OBJ_BOTTLES_FAMILY:
       util_inject(UTIL_INJECT_FUNCTION, (u32)obj + 0x09BC, (u32)save_fake_give_move, 0);
