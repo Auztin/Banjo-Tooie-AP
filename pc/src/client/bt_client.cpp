@@ -2252,8 +2252,8 @@ void BTClient::processAGIItem(json item_data)
                 case 1230789: ap_memory.pc.traps[AP_TRAP_SQUISH]++; break;
                 case 1230833: ap_memory.pc.traps[AP_TRAP_TIP]++; break;
                 case 1230916: obtain_health_upgrade(); break;
-                case 1230917: obtain_bt_ticket(); break;
-                case 1230918: obtain_grrelic(); break;
+                case 1230922: obtain_bt_ticket(); break;
+                case 1230923: obtain_grrelic(); break;
             }
         }
     }
