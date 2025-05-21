@@ -1167,7 +1167,7 @@ void BTClient::initialize_bt()
     }
     if(ENABLE_AP_GRRELICS == true)
     {
-        ap_memory.pc.settings.randomize_tickets = 1;
+        ap_memory.pc.settings.randomize_green_relics = 1;
     }
     if(ENABLE_AP_EASY_CANARY == true)
     {
