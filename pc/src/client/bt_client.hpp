@@ -65,6 +65,9 @@ private:
   bool ENABLE_AP_AUTOMATIC_CHEATS = false;
   bool ENABLE_AP_SILOS = false;
   bool ENABLE_AP_WARP_PADS = false;
+  bool GI_FRONTDOOR = false;
+  bool ENABLE_AP_GRRELICS = false;
+  bool ENABLE_AP_TICKETS = false;
   int GOAL_TYPE = 0;
   int MGH_LENGTH = 0; //Mini-game Mumbo Token Length
   int BH_LENGTH = 0; //Boss Token Length
@@ -84,6 +87,8 @@ private:
   int TOTAL_PAGES = 0;
   int TOTAL_HONEYCOMB = 0;
   int TOTAL_HEALTHUPGRADE = 0;
+  int TOTAL_BTTICKET = 0;
+  int TOTAL_GRRELIC = 0;
   int TOTAL_DOUBLOONS = 0;
   int TOTAL_NOTES = 0;
   int WHITE_JINJO = 0;
@@ -169,10 +174,15 @@ private:
   void obtain_warppads(int);
   void obtain_cheats(int);
   void obtain_health_upgrade();
+  void obtain_bt_ticket();
+  void obtain_grrelic();
   nlohmann::json check_boggy_kids_locations();
   nlohmann::json check_alien_kids_locations();
   nlohmann::json check_skivvies_locations();
   nlohmann::json check_mrfit_locations();
+  nlohmann::json check_bt_ticket_locations();
+  nlohmann::json check_green_relics_locations();
+
 
 };
 

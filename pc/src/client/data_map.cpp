@@ -142,7 +142,34 @@ std::map<uint16_t, std::map<std::string, std::vector<std::string>>> ASSET_MAP_CH
             {"HONEYCOMB", {"1230705"}}
         }},
         {0x178, { //MT - Inside Tatgitzan's Temple
-            {"JINJOS", {"1230553"}}
+            {"JINJOS", {"1230553"}},
+            {"GREEN_RELICS", {
+                "1231614",
+                "1231615",
+                "1231616",
+                "1231617",
+                "1231618",
+                "1231619",
+                "1231620",
+                "1231621",
+                "1231622",
+                "1231623",
+                "1231624",
+                "1231625",
+                "1231626",
+                "1231627",
+                "1231628",
+                "1231629",
+                "1231630",
+                "1231631",
+                "1231632",
+                "1231633",
+                "1231634",
+                "1231635",
+                "1231636",
+                "1231637",
+                "1231638",
+            }}
         }},
         //GLITTER GULCH MINE
 
@@ -243,7 +270,8 @@ std::map<uint16_t, std::map<std::string, std::vector<std::string>>> ASSET_MAP_CH
             {"TREBLE", {"1230783"}},
             {"SILO", {"1230761","1230760"}},
             {"WARPPAD", {"1231567","1231568","1231569","1231570"}},
-            {"BOGGY_KIDS", {"1231596","1231598"}}
+            {"BOGGY_KIDS", {"1231596","1231598"}},
+            {"BIGTOP_TICKETS", {"1231610","1231611","1231612","1231613"}}
         }},
         {0xEA, { //WW - Cave of Horrors
             {"JINJOS", {"1230562"}},
@@ -1277,7 +1305,38 @@ bool check_flag(std::string locationId) {
         // Mr Fit
             case 1231608: return real->ccl_beat_mr_fit_high_jump;
             case 1231609: return real->ccl_beat_mr_fit_sack_race;
-    }
+        // Tickets
+            case 1231610: return real->ww_ticket_collected_entrance;
+            case 1231611: return real->ww_ticket_collected_space;
+            case 1231612: return real->ww_ticket_collected_spooky;
+            case 1231613: return real->ww_ticket_collected_western;
+        //Jade Statues
+            case 1231614: return real->mt_sacred_statue_near_entrance1;
+            case 1231615: return real->mt_sacred_statue_near_entrance2;
+            case 1231616: return real->mt_sacred_statue_small_pillars1;  
+            case 1231617: return real->mt_sacred_statue_small_pillars2;
+            case 1231618: return real->mt_sacred_statue_small_pillars3;
+            case 1231619: return real->mt_sacred_statue_sput_sput1;
+            case 1231620: return real->mt_sacred_statue_sput_sput2;
+            case 1231621: return real->mt_sacred_statue_sput_sput3;
+            case 1231622: return real->mt_sacred_statue_sput_sput4;
+            case 1231623: return real->mt_sacred_statue_sput_sput5;
+            case 1231624: return real->mt_sacred_statue_big_pillars5;
+            case 1231625: return real->mt_sacred_statue_big_pillars1;
+            case 1231626: return real->mt_sacred_statue_big_pillars2;
+            case 1231627: return real->mt_sacred_statue_big_pillars3;
+            case 1231628: return real->mt_sacred_statue_big_pillars4;
+            case 1231629: return real->mt_sacred_statue_near_sacred_chambers1;
+            case 1231630: return real->mt_sacred_statue_near_sacred_chambers2;
+            case 1231631: return real->mt_sacred_statue_passage_near_sacred_chambers3;
+            case 1231632: return real->mt_sacred_statue_passage_near_sacred_chambers2;
+            case 1231633: return real->mt_sacred_statue_passage_near_sacred_chambers1;
+            case 1231634: return real->mt_sacred_statue_passage_near_entrance1;
+            case 1231635: return real->mt_sacred_statue_passage_near_entrance2;
+            case 1231636: return real->mt_sacred_statue_adjacent_big_pillars_room2;
+            case 1231637: return real->mt_sacred_statue_adjacent_big_pillars_room1;
+            case 1231638: return real->mt_sacred_statue_adjacent_big_pillars_room3;
+        }
     return false;
 }
 

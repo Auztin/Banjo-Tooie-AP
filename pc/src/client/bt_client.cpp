@@ -994,6 +994,56 @@ nlohmann::json BTClient::check_mrfit_locations()
     return check;
 }
 
+// -------------- BIGTOP TICKETS -------------------
+
+nlohmann::json BTClient::check_bt_ticket_locations()
+{
+    nlohmann::json check = json({});
+    if(ASSET_MAP_CHECK.count(CURRENT_MAP))
+    {
+        if(ASSET_MAP_CHECK[CURRENT_MAP].count("BIGTOP_TICKETS"))
+        {
+            for(const std::string& locationId: ASSET_MAP_CHECK[CURRENT_MAP]["BIGTOP_TICKETS"])
+            {
+                check[locationId] = check_flag(locationId);
+            }
+        }
+    }
+    return check;
+}
+
+void BTClient::obtain_bt_ticket()
+{
+    TOTAL_BTTICKET++;
+    ap_memory.pc.items[AP_ITEM_BTTICKET] = TOTAL_BTTICKET;
+    return;
+}
+
+// -------------- JADE STATUES / GREEN RELICS -------------------
+
+nlohmann::json BTClient::check_green_relics_locations()
+{
+    nlohmann::json check = json({});
+    if(ASSET_MAP_CHECK.count(CURRENT_MAP))
+    {
+        if(ASSET_MAP_CHECK[CURRENT_MAP].count("GREEN_RELICS"))
+        {
+            for(const std::string& locationId: ASSET_MAP_CHECK[CURRENT_MAP]["GREEN_RELICS"])
+            {
+                check[locationId] = check_flag(locationId);
+            }
+        }
+    }
+    return check;
+}
+
+void BTClient::obtain_grrelic()
+{
+    TOTAL_GRRELIC++;
+    ap_memory.pc.items[AP_ITEM_GRRELIC] = TOTAL_GRRELIC;
+    return;
+}
+
 // -------------- Game Function ------------------
 
 void BTClient::initialize_bt()
@@ -1106,6 +1156,18 @@ void BTClient::initialize_bt()
     if(ENABLE_AP_AUTOMATIC_CHEATS == true)
     {
         ap_memory.pc.settings.automatic_cheats = 1;
+    }
+    if(GI_FRONTDOOR == true)
+    {
+        ap_memory.pc.settings.gi_open_frontdoor = 1;
+    }
+    if(ENABLE_AP_TICKETS == true)
+    {
+        ap_memory.pc.settings.randomize_tickets = 1;
+    }
+    if(ENABLE_AP_GRRELICS == true)
+    {
+        ap_memory.pc.settings.randomize_tickets = 1;
     }
     if(ENABLE_AP_EASY_CANARY == true)
     {
@@ -1919,6 +1981,21 @@ asio::awaitable<void> BTClient::getSlotData()
         ENABLE_AP_AUTOMATIC_CHEATS = true;
         if(DEBUG_NET == true) { std::cout << "Honey B rewards are Enabled" << std::endl; }
     }
+    if(block.contains(string{"slot_open_gi_entrance"}) && block["slot_open_gi_entrance"] != 0)
+    {
+        GI_FRONTDOOR = true;
+        if(DEBUG_NET == true) { std::cout << "GI Frontdoor are Enabled" << std::endl; }
+    }
+    if(block.contains(string{"slot_randomize_tickets"}) && block["slot_randomize_tickets"] != 0)
+    {
+        ENABLE_AP_TICKETS = true;
+        if(DEBUG_NET == true) { std::cout << "Randomize Tickets are Enabled" << std::endl; }
+    }
+    if(block.contains(string{"slot_randomize_green_relics"}) && block["slot_randomize_tickets"] != 0)
+    {
+        ENABLE_AP_GRRELICS = true;
+        if(DEBUG_NET == true) { std::cout << "Randomize Green Relics are Enabled" << std::endl; }
+    }
     if(block.contains(string{"slot_easy_canary"}) && block["slot_easy_canary"] != 0)
     {
         ENABLE_AP_EASY_CANARY = true;
@@ -2175,6 +2252,8 @@ void BTClient::processAGIItem(json item_data)
                 case 1230789: ap_memory.pc.traps[AP_TRAP_SQUISH]++; break;
                 case 1230833: ap_memory.pc.traps[AP_TRAP_TIP]++; break;
                 case 1230916: obtain_health_upgrade(); break;
+                case 1230917: obtain_bt_ticket(); break;
+                case 1230918: obtain_grrelic(); break;
             }
         }
     }
@@ -2276,6 +2355,8 @@ asio::awaitable<void> BTClient::sendToBTClient()
     retTable["alien_kids"] = check_alien_kids_locations();
     retTable["skivvies"] = check_skivvies_locations();
     retTable["fit_events"] = check_mrfit_locations();
+    retTable["bt_tickets"] = check_bt_ticket_locations();
+    retTable["green_relics"] = check_green_relics_locations();
     retTable["DEMO"] = false;
     retTable["banjo_map"] = CURRENT_MAP;
     retTable["sync_ready"] = "true";
