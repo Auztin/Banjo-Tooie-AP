@@ -37,8 +37,5 @@ typedef bool (*bt_fnt_sparkle)(bt_xyz_t*, u16 type);
 typedef bool (*bt_fnt_unk_update_obj)(bt_obj_instance_t*);
 #define bt_fn_unk_update_obj ((bt_fnt_unk_update_obj)0x801015D0)
 
-typedef bool (*bt_fnt_open_door)(u16, u8, bool);
-#define bt_fn_open_door ((bt_fnt_open_door)0x80101180)
-
 
 #endif // BT_FN_INJECTED_H
