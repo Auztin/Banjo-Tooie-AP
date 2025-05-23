@@ -1797,7 +1797,7 @@ void ap_check() {
     if (ap.health_animation_pos) ap_get_health_upgrade();
     if (!bt_controllers[0].held.l && bt_controllers[0].pressed.dleft) {
       ap_can_transform_t data;
-      if (!ap_cycle_character(&data)) {
+      if (!&bt_pause_ctx && !ap_cycle_character(&data)) {
         bt_fn_play_sound(BT_SOUND_WRONG, -1, 1, -1);
         if (data.flag && !data.visited) {
           if (data.form == BT_PLAYER_CHAR_MUMBO) {
