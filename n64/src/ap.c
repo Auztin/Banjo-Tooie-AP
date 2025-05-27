@@ -890,6 +890,15 @@ void ap_sync_items(u16 type, u8 value) {
         bt_fn_increase_item(BT_ITEM_TICKETS, value-current);
       }      
       break;
+      case AP_ITEM_BEAN:
+      if (value != totals->beans) {
+        totals->beans = value;
+        if (bt_flags.ccl_planted_bean_sack_race) value -= 1;
+        if (bt_flags.ccl_planted_bean_cheese) value -= 1;
+        current = bt_items[BT_ITEM_BEANS] ^ bt_item_keys[BT_ITEM_BEANS].key;
+        bt_fn_increase_item(BT_ITEM_BEANS, value-current);
+      }      
+      break;
     case AP_ITEM_GRRELIC:
       if (value != totals->green_relics) {
         totals->green_relics = value;

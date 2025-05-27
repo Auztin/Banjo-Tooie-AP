@@ -43,6 +43,7 @@ typedef struct {
     u8 cheato_rewards;
     u8 randomize_tickets;
     u8 randomize_green_relics;
+    u8 randomize_beans;
     u8 skip_puzzles;
     u8 backdoors;
     u8 gi_open_frontdoor;

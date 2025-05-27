@@ -1029,6 +1029,10 @@ void pre_object_init(bt_object_t *obj) {
       if (!ap_memory.pc.settings.randomize_green_relics) break;
       util_inject(UTIL_INJECT_FUNCTION, (u32)obj + 0xBC, (u32)ap_jade_total_count, 0); // Open doors upon entering Temple
       break;
+    case BT_OBJ_BEANSTALKSEED:
+      if (!ap_memory.pc.settings.randomize_beans) break;
+      util_inject(UTIL_INJECT_RAW, (u32)obj + 0x035C, 0, 0);
+      break;
     case BT_OBJ_BOTTLES_FAMILY:
       util_inject(UTIL_INJECT_FUNCTION, (u32)obj + 0x09BC, (u32)save_fake_give_move, 0);
       break;

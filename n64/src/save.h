@@ -17,6 +17,7 @@ typedef struct {
   u8 doubloons;
   u8 tickets;
   u8 mumbo_tokens;
+  u8 beans;
 } save_data_totals_t;
 
 typedef struct Save_Data_s {
