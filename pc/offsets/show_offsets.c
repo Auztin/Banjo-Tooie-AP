@@ -4,8 +4,8 @@
 ap_memory_t ap_memory;
 ap_memory_ptr_t ap_memory_ptr;
 
-#define mem (long int)&ap_memory
-#define ptr (long int)&ap_memory_ptr
+#define mem (void*)&ap_memory
+#define ptr (void*)&ap_memory_ptr
 #define calc(base, offset) offset-base
 
 int main() {
