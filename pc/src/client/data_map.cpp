@@ -656,7 +656,8 @@ std::map<uint16_t, std::map<std::string, std::vector<std::string>>> ASSET_MAP_CH
                 "1230700"
             }},
             {"WARPPAD", {"1231592"}},
-            {"MRFIT", {"1231608","1231609"}}
+            {"MRFIT", {"1231608","1231609"}},
+            {"BEANS", {"1231639", "1231640"}}
         }},
         {0x13A,	{ //CCL - Central Cavern
             {"JIGGIES", {"1230674"}},
@@ -1336,6 +1337,9 @@ bool check_flag(std::string locationId) {
             case 1231636: return real->mt_sacred_statue_adjacent_big_pillars_room2;
             case 1231637: return real->mt_sacred_statue_adjacent_big_pillars_room1;
             case 1231638: return real->mt_sacred_statue_adjacent_big_pillars_room3;
+        // Beans
+            case 1231639: return real->ccl_collected_bean1;
+            case 1231640: return real->ccl_collected_bean2;
         }
     return false;
 }

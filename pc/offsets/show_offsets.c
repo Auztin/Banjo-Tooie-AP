@@ -28,6 +28,7 @@ int main() {
   printf("        setting_cheato_rewards = 0x%X,\n",      calc(mem.pc.settings, mem.pc.settings.cheato_rewards));
   printf("        setting_randomize_tickets = 0x%X,\n",   calc(mem.pc.settings, mem.pc.settings.randomize_tickets));
   printf("        setting_randomize_green_relics = 0x%X,\n", calc(mem.pc.settings, mem.pc.settings.randomize_green_relics));
+  printf("        setting_randomize_beans = 0x%X,\n",     calc(mem.pc.settings, mem.pc.settings.randomize_beans));
   printf("        setting_puzzle = 0x%X,\n",              calc(mem.pc.settings, mem.pc.settings.skip_puzzles));
   printf("        setting_backdoors = 0x%X,\n",           calc(mem.pc.settings, mem.pc.settings.backdoors));
   printf("        setting_gi_open_frontdoor = 0x%X,\n",   calc(mem.pc.settings, mem.pc.settings.gi_open_frontdoor));

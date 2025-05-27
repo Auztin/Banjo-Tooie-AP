@@ -1044,6 +1044,31 @@ void BTClient::obtain_grrelic()
     return;
 }
 
+// -------------- BEANS -------------------
+
+nlohmann::json BTClient::check_beans_locations()
+{
+    nlohmann::json check = json({});
+    if(ASSET_MAP_CHECK.count(CURRENT_MAP))
+    {
+        if(ASSET_MAP_CHECK[CURRENT_MAP].count("BEANS"))
+        {
+            for(const std::string& locationId: ASSET_MAP_CHECK[CURRENT_MAP]["BEANS"])
+            {
+                check[locationId] = check_flag(locationId);
+            }
+        }
+    }
+    return check;
+}
+
+void BTClient::obtain_beans()
+{
+    TOTAL_BEANS++;
+    ap_memory.pc.items[AP_ITEM_BEAN] = TOTAL_BEANS;
+    return;
+}
+
 // -------------- Game Function ------------------
 
 void BTClient::initialize_bt()
@@ -1168,6 +1193,10 @@ void BTClient::initialize_bt()
     if(ENABLE_AP_GRRELICS == true)
     {
         ap_memory.pc.settings.randomize_green_relics = 1;
+    }
+    if(ENABLE_AP_BEANS == true)
+    {
+        ap_memory.pc.settings.randomize_beans = 1;
     }
     if(ENABLE_AP_EASY_CANARY == true)
     {
@@ -1996,6 +2025,11 @@ asio::awaitable<void> BTClient::getSlotData()
         ENABLE_AP_GRRELICS = true;
         if(DEBUG_NET == true) { std::cout << "Randomize Green Relics are Enabled" << std::endl; }
     }
+    if(block.contains(string{"slot_randomize_beans"}) && block["slot_randomize_beans"] != 0)
+    {
+        ENABLE_AP_BEANS = true;
+        if(DEBUG_NET == true) { std::cout << "Randomize Beans are Enabled" << std::endl; }
+    }
     if(block.contains(string{"slot_easy_canary"}) && block["slot_easy_canary"] != 0)
     {
         ENABLE_AP_EASY_CANARY = true;
@@ -2254,6 +2288,7 @@ void BTClient::processAGIItem(json item_data)
                 case 1230916: obtain_health_upgrade(); break;
                 case 1230922: obtain_bt_ticket(); break;
                 case 1230923: obtain_grrelic(); break;
+                case 1230924: obtain_beans(); break;
             }
         }
     }
@@ -2357,6 +2392,7 @@ asio::awaitable<void> BTClient::sendToBTClient()
     retTable["fit_events"] = check_mrfit_locations();
     retTable["bt_tickets"] = check_bt_ticket_locations();
     retTable["green_relics"] = check_green_relics_locations();
+    retTable["beans"] = check_beans_locations();
     retTable["DEMO"] = false;
     retTable["banjo_map"] = CURRENT_MAP;
     retTable["sync_ready"] = "true";
