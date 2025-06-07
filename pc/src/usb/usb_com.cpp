@@ -157,6 +157,10 @@ bool USBCom::process() {
             ap_memory.n64.misc.death_link_ap = 0;
             ap_memory.pc.misc.death_link_us = 0;
             ap_memory.pc.misc.death_link_ap = 0;
+            ap_memory.n64.misc.tag_link_us = 0;
+            ap_memory.n64.misc.tag_link_ap = 0;
+            ap_memory.pc.misc.tag_link_us = 0;
+            ap_memory.pc.misc.tag_link_ap = 0;
             ap_memory.pc.misc.show_message = 0;
             for (int i = 0; i < sizeof(ap_memory_pc_t); i++) ((u8*)&apm_clone)[i] = 0;
             break;

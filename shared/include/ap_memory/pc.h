@@ -17,6 +17,8 @@ typedef struct {
   struct {
     u8 death_link_us; // if != n64.death_link_us, send death link and increment
     u8 death_link_ap; // increment to send death link to game
+    u8 tag_link_us; // if != n64.tag_link_us, send tag link and increment
+    u8 tag_link_ap;  // increment to send tag link to game
     u8 show_message; // only increment if == n64.show_text
   } misc;
   /*

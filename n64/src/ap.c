@@ -1804,7 +1804,8 @@ void ap_check() {
     ap_check_enough_notes(total_notes, save_totals(6));
     ap_sync_traps();
     if (ap.health_animation_pos) ap_get_health_upgrade();
-    if (!bt_controllers[0].held.l && bt_controllers[0].pressed.dleft) {
+    
+    if ((ap_memory.n64.misc.tag_link_ap != ap_memory.pc.misc.tag_link_ap) || (!bt_controllers[0].held.l && bt_controllers[0].pressed.dleft) ) {
       ap_can_transform_t data;
       if (!&bt_pause_ctx && !ap_cycle_character(&data)) {
         bt_fn_play_sound(BT_SOUND_WRONG, -1, 1, -1);
@@ -1825,6 +1826,23 @@ void ap_check() {
         else {
           ap.internal_icon = BT_ZOOMBOX_ICON_HUMBA;
           strcpy(ap.internal_message, "BEAR AND BIRD MUST FIND MAGIC...");
+        }
+        if((ap_memory.n64.misc.tag_link_ap != ap_memory.pc.misc.tag_link_ap))
+        {
+          ap_memory.n64.misc.tag_link_ap++;
+          usb.send.misc = 1;
+        }
+      }
+      else {
+        if(!bt_controllers[0].held.l && bt_controllers[0].pressed.dleft)
+        {
+          ap_memory.n64.misc.tag_link_us++;
+          usb.send.misc = 1;
+        }
+        else
+        {
+          ap_memory.n64.misc.tag_link_ap++;
+          usb.send.misc = 1;
         }
       }
     }

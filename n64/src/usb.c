@@ -78,6 +78,10 @@ void usb_check() {
             ap_memory.pc.misc.death_link_ap = 0;
             ap_memory.n64.misc.death_link_us = 0;
             ap_memory.n64.misc.death_link_ap = 0;
+            ap_memory.pc.misc.tag_link_us = 0;
+            ap_memory.pc.misc.tag_link_ap = 0;
+            ap_memory.n64.misc.tag_link_us = 0;
+            ap_memory.n64.misc.tag_link_ap = 0;
             ap_memory.n64.misc.show_message = 0;
             usb.send.misc = 1;
             usb.send.saves_real = 1;

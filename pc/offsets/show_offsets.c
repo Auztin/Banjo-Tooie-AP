@@ -14,6 +14,8 @@ int main() {
   printf("    pc = 0x%X,\n",                              calc(ptr, ptr.pc));
   printf("        pc_death_us = 0x%X,\n",                 calc(mem.pc.misc, mem.pc.misc.death_link_us));
   printf("        pc_death_ap = 0x%X,\n",                 calc(mem.pc.misc, mem.pc.misc.death_link_ap));
+  printf("        pc_tag_us = 0x%X,\n",                   calc(mem.pc.misc, mem.pc.misc.tag_link_us));
+  printf("        pc_tag_ap = 0x%X,\n",                   calc(mem.pc.misc, mem.pc.misc.tag_link_ap));
   printf("        pc_show_txt = 0x%X,\n",                 calc(mem.pc.misc, mem.pc.misc.show_message));
   printf("    pc_messages = 0x%X,\n",                     calc(ptr, ptr.pc_message));
   printf("    signpost_messages = 0x%X,\n",               calc(ptr, ptr.signpost_messages));
@@ -57,6 +59,8 @@ int main() {
   printf("        n64_show_text = 0x%X,\n",               calc(mem.n64.misc, mem.n64.misc.show_message));
   printf("        n64_death_us = 0x%X,\n",                calc(mem.n64.misc, mem.n64.misc.death_link_us));
   printf("        n64_death_ap = 0x%X,\n",                calc(mem.n64.misc, mem.n64.misc.death_link_ap));
+  printf("        n64_tag_us = 0x%X,\n",                  calc(mem.n64.misc, mem.n64.misc.tag_link_us));
+  printf("        n64_tag_ap = 0x%X,\n",                  calc(mem.n64.misc, mem.n64.misc.tag_link_ap));
   printf("        current_map = 0x%X,\n",                 calc(mem.n64.misc, mem.n64.misc.current_map));
   printf("    real_flags = 0x%X,\n",                      calc(ptr, ptr.n64_saves_real));
   printf("    fake_flags = 0x%X,\n",                      calc(ptr, ptr.n64_saves_fake));
