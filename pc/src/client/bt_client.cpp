@@ -964,12 +964,12 @@ nlohmann::json BTClient::check_skivvies_locations()
             }
             if(ap_memory.n64.saves.real.gi_cleaned_workers)
             {
-                check[1231602] = true;
-                check[1231603] = true;
-                check[1231604] = true;
-                check[1231605] = true;
-                check[1231606] = true;
-                check[1231607] = true;
+                check["1231602"] = true;
+                check["1231603"] = true;
+                check["1231604"] = true;
+                check["1231605"] = true;
+                check["1231606"] = true;
+                check["1231607"] = true;
             }
         }
     }
