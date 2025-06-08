@@ -1910,6 +1910,11 @@ asio::awaitable<void> BTClient::getSlotData()
         DEATH_LINK = true;
         if(DEBUG_NET == true) { std::cout << "Deathlink is set" << std::endl; }
     }
+    if(block.contains(string{"slot_taglink"}) && block["slot_taglink"] != 0)
+    {
+        TAG_LINK = true;
+        if(DEBUG_NET == true) { std::cout << "Taglink is set" << std::endl; }
+    }
     if(block.contains(string{"slot_tower_of_tragedy"}))
     {
         SKIP_TOT = block["slot_tower_of_tragedy"];
@@ -2196,6 +2201,10 @@ void BTClient::process_block(json bt_data)
     {
         ap_memory.pc.misc.death_link_ap++;
     }
+    if(bt_data.contains(string{"triggerTag"}) && bt_data["triggerTag"] == true && TAG_LINK == true)
+    {
+        ap_memory.pc.misc.tag_link_ap++;
+    }
 }
 
 string BTClient::get_state()
@@ -2315,6 +2324,7 @@ asio::awaitable<void> BTClient::sendToBTClient()
         }
     }
     bool dead = false;
+    bool tag = false;
     json retTable = json({});
     if(ap_memory.pc.misc.death_link_us != ap_memory.n64.misc.death_link_us)
     {
@@ -2356,9 +2366,22 @@ asio::awaitable<void> BTClient::sendToBTClient()
     {
         DEATH_LINK_TRIGGERED = false;
     }
+    if(ap_memory.pc.misc.tag_link_us != ap_memory.n64.misc.tag_link_us)
+    {
+        ap_memory.pc.misc.tag_link_us++;
+        if (TAG_LINK && !TAG_LINK_TRIGGERED) {
+            tag = true;
+            TAG_LINK_TRIGGERED = true;
+        }
+    }
+    else
+    {
+        TAG_LINK_TRIGGERED = false;
+    }
     retTable["scriptVersion"] = SCRIPT_VERSION;
     retTable["playerName"] = PLAYER;
     retTable["deathlinkActive"] = DEATH_LINK;
+    retTable["taglinkActive"] = TAG_LINK;
     retTable["jiggies"] = check_jiggy_locations();
     retTable["jinjos"] = check_jinjo_locations();
     retTable["pages"] = check_page_locations();
@@ -2372,6 +2395,7 @@ asio::awaitable<void> BTClient::sendToBTClient()
     retTable["stations"] = check_station_locations();
     retTable["chuffy"] = check_chuffy_location();
     retTable["isDead"] = dead;
+    retTable["isTag"] = tag;
     retTable["jinjofam"] = check_jinjo_family_locations();
     retTable["worlds"] = check_unlock_worlds();
     retTable["mystery"] = check_mystery_locations();

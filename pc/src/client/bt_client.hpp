@@ -35,7 +35,7 @@ private:
   bool check_state();
   asio::awaitable<void> every_30frames();
   // // void every_5frames();
-  const int SCRIPT_VERSION = 4;
+  const int SCRIPT_VERSION = 5;
   std::string CPP_VERSION; // set using AP_VERSION from archipelago.h
   int FRAME = 0;
   std::string CUR_STATE = STATE_UNINITIALIZED;
@@ -47,6 +47,8 @@ private:
   u16 CURRENT_MAP = 0;
   bool DEATH_LINK = false;
   bool DEATH_LINK_TRIGGERED = false;
+  bool TAG_LINK = false;
+  bool TAG_LINK_TRIGGERED = false;
   int SKIP_TOT = 0;
   int ENABLE_AP_BK_MOVES = 0;
   bool MINIGAMES = false;
