@@ -4,6 +4,7 @@
 #include "save.h"
 #include "ap.h"
 #include "ap_menu.h"
+#include "exits.h"
 #include "custom_flags/all.h"
 #include "debug/debug.h"
 
@@ -13,7 +14,6 @@
 main_t main = {0, };
 
 bt_obj_setup_t setup_cache[512];
-u32 setup_cache_count;
 
 struct main_credit_lines_t {
   s16 icon;
@@ -236,7 +236,7 @@ void pre_spawn_prop(u16* id, bt_s32_xyz_t* pos, u32* yrot, bt_obj_setup_t* setup
 void post_spawn_prop(u16 id, bt_s32_xyz_t* pos, u32 yrot, bt_obj_setup_t* setup, bt_obj_instance_t* obj) {
   debug_spawn_prop(id, pos, yrot, setup, obj);
   if (!obj || !BT_IN_GAME) return;
-  if (setup && setup_cache_count < sizeof(setup_cache)/sizeof(*setup_cache)) setup_cache[setup_cache_count++] = *setup;
+  if (setup && main.setup_cache_count < sizeof(setup_cache)/sizeof(*setup_cache)) setup_cache[main.setup_cache_count++] = *setup;
   switch (id) {
     case BT_SETUP_JIGGYWIGGY:
       if (ap_memory.pc.settings.signpost_hints && ap_memory.pc.settings.skip_puzzles) obj->state = 7;
@@ -270,41 +270,85 @@ void post_loop() {
   }
 }
 
-void main_visited_world(u16 scene) {
+void main_visited_world(u16 scene, u16 exit) {
   switch (scene) {
     case 0x0B8:
-      bt_fake_flags.mt_visited = 1;
+      if (exit == 10) bt_fake_flags.mt_visited = 1;
       break;
     case 0x0C7:
-      bt_fake_flags.ggm_visited = 1;
+      switch (exit) {
+        case 16:
+        case 17:
+          bt_fake_flags.ggm_visited = 1;
+          break;
+      }
       break;
     case 0x0D6:
-      bt_fake_flags.ww_visited = 1;
+      if (exit == 18) bt_fake_flags.ww_visited = 1;
       break;
     case 0x1A7:
-      bt_fake_flags.jrl_visited = 1;
+      if (exit == 3) bt_fake_flags.jrl_visited = 1;
       break;
     case 0x112:
-      bt_fake_flags.tdl_visited = 1;
+      if (exit == 23) bt_fake_flags.tdl_visited = 1;
       break;
     case 0x100:
-      bt_fake_flags.gi_visited = 1;
+      if (exit == 9) bt_fake_flags.gi_visited = 1;
       break;
     case 0x127:
-      bt_fake_flags.hfp_visited = 1;
+      if (exit == 21) bt_fake_flags.hfp_visited = 1;
       break;
     case 0x136:
-      bt_fake_flags.ccl_visited = 1;
+      if (exit == 20) bt_fake_flags.ccl_visited = 1;
       break;
     case 0x15D:
-      bt_fake_flags.ck_visited = 1;
+      if (exit == 1) bt_fake_flags.ck_visited = 1;
+      break;
+    case 0x14F:
+      if (exit == 2) bt_fake_flags.mt_visited = 1;
+      break;
+    case 0x152:
+      if (exit == 2) bt_fake_flags.ggm_visited = 1;
+      break;
+    case 0x154:
+      if (exit == 2) bt_fake_flags.ww_visited = 1;
+      break;
+    case 0x155:
+      switch (exit) {
+        case 5:
+          bt_fake_flags.jrl_visited = 1;
+          break;
+        case 6:
+          bt_fake_flags.hfp_visited = 1;
+          break;
+      }
+      break;
+    case 0x15A:
+      switch (exit) {
+        case 2:
+          bt_fake_flags.tdl_visited = 1;
+          break;
+        case 5:
+          bt_fake_flags.ccl_visited = 1;
+          break;
+      }
+      break;
+    case 0x15C:
+      switch (exit) {
+        case 2:
+          bt_fake_flags.gi_visited = 1;
+          break;
+        case 3:
+          bt_fake_flags.ck_visited = 1;
+          break;
+      }
       break;
   }
 }
 
 void pre_load_scene(u16 *scene, u16 *exit) {
   debug_load_scene(scene, exit);
-  setup_cache_count = 0;
+  main.setup_cache_count = 0;
   if (!BT_IN_GAME && bt_current_map != BT_MAP_FILE_SELECT) {
     if (*scene == BT_MAP_FILE_SELECT) {
       save_data.version = AP_VERSION.as_int;
@@ -321,18 +365,7 @@ void pre_load_scene(u16 *scene, u16 *exit) {
   bt_temp_flags.bubble_cutscene = 0;
   bt_flags.ccl_open = ap_memory.pc.items[AP_ITEM_CCA] > 0;
   if (bt_flags.ck_opened_gun_chamber) bt_flags.tower_of_tragedy_completed = 0;
-  for (int i = 0; i < AP_MEMORY_EXIT_MAP_MAX; i++) {
-    ap_memory_pc_exit_map_t* mapping = &(ap_memory.pc.exit_map[i]);
-    if (!mapping->on_map) break;
-    if (mapping->on_map != bt_current_map) continue;
-    if (mapping->og_map == *scene && mapping->og_exit == *exit) {
-      *scene = mapping->to_map;
-      *exit = mapping->to_exit;
-      main_visited_world(mapping->on_map);
-      main_visited_world(mapping->to_map);
-      break;
-    }
-  }
+  main_visited_world(*scene, *exit);
   switch (*scene) {
     case BT_MAP_CUTSCENE_OPENING:
       main.new_file = 1;
@@ -362,15 +395,6 @@ void pre_load_scene(u16 *scene, u16 *exit) {
       if (ap_memory.pc.settings.backdoors && *exit) bt_flags.tdl_opened_oogle_boogle_cave = 1;
       break;
     case BT_MAP_JV:
-      if (
-           ap_memory.pc.settings.randomize_nests
-        && bt_current_map == BT_MAP_SM
-        && *exit == 3
-        && !save_custom_get_bit(bt_custom_save.nests, 0x019)
-      ) {
-        *scene = BT_MAP_DIGGER_TUNNEL;
-        *exit = 1;
-      }
       if (ap_memory.pc.settings.randomize_warpsilos && *exit == 4) bt_fake_flags.silo_jinjo_village = 1;
       break;
     case BT_MAP_IOH_WH:
@@ -385,39 +409,10 @@ void pre_load_scene(u16 *scene, u16 *exit) {
     case BT_MAP_IOH_QM:
       if (ap_memory.pc.settings.randomize_warpsilos && *exit == 4) bt_fake_flags.silo_quagmire = 1;
       break;
-    case BT_MAP_SM:
-      if (
-           ap_memory.pc.settings.randomize_nests
-        && bt_current_map == BT_MAP_JV
-        && *exit == 3
-        && !save_custom_get_bit(bt_custom_save.nests, 0x019)
-      ) {
-        *scene = BT_MAP_DIGGER_TUNNEL;
-        *exit = 2;
-      }
-      break;
     case BT_MAP_IOH_WL:
-      if (
-           ap_memory.pc.settings.randomize_nests
-        && bt_current_map == BT_MAP_IOH_PG
-        && *exit == 1
-        && (!save_custom_get_bit(bt_custom_save.nests, 0x051) || !save_custom_get_bit(bt_custom_save.nests, 0x052))
-      ) {
-        *scene = BT_MAP_ANOTHER_DIGGER_TUNNEL;
-        *exit = 1;
-      }
       if (ap_memory.pc.settings.randomize_warpsilos && *exit == 4) bt_fake_flags.silo_wasteland = 1;
       break;
     case BT_MAP_IOH_PG:
-      if (
-           ap_memory.pc.settings.randomize_nests
-        && bt_current_map == BT_MAP_IOH_WL
-        && *exit == 3
-        && (!save_custom_get_bit(bt_custom_save.nests, 0x051) || !save_custom_get_bit(bt_custom_save.nests, 0x052))
-      ) {
-        *scene = BT_MAP_ANOTHER_DIGGER_TUNNEL;
-        *exit = 2;
-      }
       if (ap_memory.pc.settings.randomize_warpsilos && *exit == 5) bt_fake_flags.silo_pine_grove = 1;
       break;
     case BT_MAP_BOTTLES_HOUSE:
@@ -811,7 +806,7 @@ bool main_collected_nest(bt_obj_instance_t* obj) {
         bt_fn_sparkle(&obj->pos, 5);
         obj->state = 7;
         if (obj->data && obj->nests.respawn) {
-          for (int i = 0; i < setup_cache_count; i++) {
+          for (int i = 0; i < main.setup_cache_count; i++) {
             bt_obj_setup_t* setup = &setup_cache[i];
             if (setup->id != obj->id) continue;
             bt_s32_xyz_t pos = {.x=setup->pos.x, .y=setup->pos.y, .z=setup->pos.z};
@@ -1120,6 +1115,10 @@ void pre_object_init(bt_object_t *obj) {
       util_inject(UTIL_INJECT_FUNCTION, (u32)obj + 0x02DC, (u32)main_warp_silo_check_displaced, 1);
       util_inject(UTIL_INJECT_RAW     , (u32)obj + 0x0234, 0x001F0821, 0);
       util_inject(UTIL_INJECT_FUNCTION, (u32)obj + 0x0238, (u32)main_warp_silo_failed_displaced, 1);
+      break;
+    case BT_OBJ_EXIT_GUARD:
+      util_inject(UTIL_INJECT_FUNCTION, (u32)obj + 0x0630, (u32)exits_can_pass_displaced, 1);
+      break;
   }
 }
 

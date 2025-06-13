@@ -9,8 +9,9 @@ typedef struct {
   u16 on_map;
   u16 og_map;
   u16 to_map;
-  u8  og_exit;
-  u8  to_exit;
+  u8 og_exit;
+  u8 to_exit;
+  u8 access_rules[6];
 } ap_memory_pc_exit_map_t;
 
 typedef struct {

@@ -113,11 +113,11 @@ enum {
   BT_MAP_0x10F, // GI - Basement
   BT_MAP_0x110, // GI - Basement (Repair Depot)
   BT_MAP_0x111, // GI - Basement (Waste Disposal)
-  BT_MAP_0x112, // TDL
-  BT_MAP_0x113, // TDL - Terry's Nest
+  BT_MAP_TDL, // TDL
+  BT_MAP_TDL_TERRYS_NEST, // TDL - Terry's Nest
   BT_MAP_TRAIN_STATION_TDL, // TDL - Train Station
   BT_MAP_TDL_OOGLE_BOOGLE_CAVE, // TDL - Oogle Boogles' Cave
-  BT_MAP_0x116, // TDL - Inside the Mountain
+  BT_MAP_TDL_INSIDE_THE_MOUNTAIN, // TDL - Inside the Mountain
   BT_MAP_0x117, // TDL - River Passage
   BT_MAP_0x118, // TDL - Styracosaurus Family Cave
   BT_MAP_0x119, // TDL - Unga Bunga's Cave
