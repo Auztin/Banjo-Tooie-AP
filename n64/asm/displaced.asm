@@ -327,3 +327,21 @@ ADDIU SP, SP, -0x30
 SW S2, 0x001C (SP)
 JR AT
 OR S2, A0, R0
+
+.align 0x08
+exits_can_pass_displaced:
+ADDIU A0, SP, 0x0036
+ADDIU A1, SP, 0x003A
+ADDIU A2, R0, 0x0000
+ADDIU SP, SP, -0x8
+SD RA, 0x0000 (SP)
+JAL exits_can_pass
+NOP
+LD RA, 0x0000 (SP)
+ADDIU SP, SP, 0x8
+BNEZ V0, .+16
+ADDU RA, RA, V0
+LW T9, 0x003C (SP) ; vanilla
+ADDIU V0, R0, 0x000B
+JR RA
+NOP

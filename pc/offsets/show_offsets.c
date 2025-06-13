@@ -53,7 +53,9 @@ int main() {
   printf("        exit_to_map = 0x%X,\n",                 calc(mem.pc.exit_map[0], mem.pc.exit_map[0].to_map));
   printf("        exit_og_exit = 0x%X,\n",                calc(mem.pc.exit_map[0], mem.pc.exit_map[0].og_exit));
   printf("        exit_to_exit = 0x%X,\n",                calc(mem.pc.exit_map[0], mem.pc.exit_map[0].to_exit));
-  printf("        exit_map_struct_size = 0x%X,\n",        sizeof(mem.pc.exit_map[0]));
+  printf("        exit_access_rules = 0x%X,\n",           calc(mem.pc.exit_map[0], mem.pc.exit_map[0].access_rules));
+  printf("        exit_access_rules_size = 0x%X,\n",      sizeof(ap_memory.pc.exit_map[0].access_rules));
+  printf("        exit_map_struct_size = 0x%X,\n",        sizeof(*ap_memory.pc.exit_map));
   printf("        world_index = %X,\n",                   0);
   printf("    n64 = 0x%X,\n",                             calc(ptr, ptr.n64));
   printf("        n64_show_text = 0x%X,\n",               calc(mem.n64.misc, mem.n64.misc.show_message));

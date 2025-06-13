@@ -12,6 +12,7 @@ typedef struct {
   u32 last_c0_count;
   u32 delta; // milliseconds since last frame
   u32 milliseconds_on_map;
+  u32 setup_cache_count;
   bt_zoombox_t* zb_credits[2];
 } main_t;
 extern main_t main;
