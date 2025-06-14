@@ -70,11 +70,11 @@ u32 exits_can_pass(u16* scene, u16* exit, u16* current_map) {
     if (!mapping->on_map) break;
     if (mapping->on_map != *current_map) continue;
     if (mapping->og_map == *scene && mapping->og_exit == *exit) {
-      switch ((mapping->to_map << 16) | mapping->to_exit) {
-        case (BT_MAP_TDL                     << 16) | 20:
-        case (BT_MAP_TDL_TERRYS_NEST         << 16) |  2:
-        case (BT_MAP_TDL_TERRYS_NEST         << 16) |  5:
-        case (BT_MAP_TDL_INSIDE_THE_MOUNTAIN << 16) |  4:
+      switch ((*scene << 8) | *exit) {
+        case (BT_MAP_TDL                     << 8) | 20:
+        case (BT_MAP_TDL_TERRYS_NEST         << 8) |  2:
+        case (BT_MAP_TDL_TERRYS_NEST         << 8) |  5:
+        case (BT_MAP_TDL_INSIDE_THE_MOUNTAIN << 8) |  4:
           if (bt_player_chars.control_type == BT_PLAYER_CHAR_BANJO) break;
         default:
           *scene = mapping->to_map;
@@ -103,13 +103,13 @@ u32 exits_can_pass(u16* scene, u16* exit, u16* current_map) {
         }
         return REFUSE;
       }
-      ret = PARTIAL_ALLOW;
+      ret = bt_player_chars.control_type == BT_PLAYER_CHAR_BREEGULL_BLASTER ? ALLOW : PARTIAL_ALLOW;
     }
   }
   switch (*scene) {
     case BT_MAP_DIGGER_TUNNEL:
       if (
-        bt_save->flags->ioh_defeated_klungo1
+        bt_flags.ioh_defeated_klungo1
         && (
           !ap_memory.pc.settings.randomize_nests
           || save_custom_get_bit(bt_custom_save.nests, 0x019)
@@ -130,7 +130,7 @@ u32 exits_can_pass(u16* scene, u16* exit, u16* current_map) {
       break;
     case BT_MAP_ANOTHER_DIGGER_TUNNEL:
       if (
-        bt_save->flags->ioh_defeated_klungo2
+        bt_flags.ioh_defeated_klungo2
         && (
           !ap_memory.pc.settings.randomize_nests
           || (save_custom_get_bit(bt_custom_save.nests, 0x051) && save_custom_get_bit(bt_custom_save.nests, 0x052))
@@ -151,4 +151,43 @@ u32 exits_can_pass(u16* scene, u16* exit, u16* current_map) {
       break;
   }
   return ret;
+}
+
+u32 exits_check(bt_exit_info_t* info) {
+  switch (info->type) {
+    case 3:
+      if (info->scene == 4) {
+        u32 scene;
+        u32 exit;
+        bt_fn_mt_get_sacred_chamber(info, &scene, &exit);
+        info->type = 5;
+        info->check_type = 0;
+        info->scene = scene - 0xA0;
+        info->exit = exit;
+      }
+      break;
+    case 5:
+      if (info->check_type == 0x0C) {
+        info->check_type = 0;
+        check_mumbo_location:
+        switch (bt_flags.ccl_mumbo_location) {
+          case 1:
+            switch (bt_current_map) {
+              case BT_MAP_CCL:
+                if (info->scene == 0x9F) info->scene--;
+                else info->scene++;
+                break;
+              default:
+                if (info->exit == 0x09) info->exit = 0x16;
+                else info->exit = 0x09;
+            }
+          case 3: break;
+          default:
+            bt_flags.ccl_mumbo_location = (BT_RANDOM % 2) ? 1 : 3;
+            goto check_mumbo_location;
+        }
+      }
+      break;
+  }
+  return info->type;
 }
