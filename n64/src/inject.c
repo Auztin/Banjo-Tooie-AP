@@ -2,6 +2,7 @@
 #include "main.h"
 #include "util.h"
 #include "bt.h"
+#include "exits.h"
 
 extern u32 inject_load_scene_displaced(u16, u16, u32, u32);
 u32 inject_load_scene(u16 scene, u16 exit, u32 _unknown_A2, u32 _unknown_A3) {
@@ -115,6 +116,9 @@ u32 inject_init(u32 _unknown) {
 
   // replace game's spawn prop function
   util_inject(UTIL_INJECT_JUMP, 0x80108C90, (u32)inject_spawn_prop, 1);
+
+  // replace game's exit check function
+  util_inject(UTIL_INJECT_FUNCTION, 0x800D5328, (u32)exits_check, 0);
 
   post_init();
   return ret;

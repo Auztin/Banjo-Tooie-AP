@@ -1331,9 +1331,8 @@ void ap_update() {
           }
         }
         break;
-      case BT_PLAYER_CHAR_BANJO_KAZOOIE: {
-        u32 map_exit = (bt_loading_map.map << 8) | bt_loading_map.exit;
-        switch (map_exit) {
+      case BT_PLAYER_CHAR_BANJO_KAZOOIE:
+        switch ((bt_loading_map.map << 8) | bt_loading_map.exit) {
           case (BT_MAP_GI_FLOOR1 << 8) | 0x0F:
           case (BT_MAP_GI_FLOOR2 << 8) | 0x0F:
           case (BT_MAP_GI_FLOOR3 << 8) | 0x09:
@@ -1350,9 +1349,49 @@ void ap_update() {
             bt_respawn_point[1] = bt_respawn_point[0];
             bt_respawn_point[0] = (bt_respawn_point_t){.map=0x0136, .exit=0x19};
             break;
+          case (BT_MAP_MT                         << 8) | 0x07:
+          case (BT_MAP_MT_TARGITZANS_TEMPLE_LOBBY << 8) | 0x02:
+          case (BT_MAP_MT_TARGITZANS_TEMPLE       << 8) | 0x01:
+          case (BT_MAP_MT_TARGITZANS_TEMPLE       << 8) | 0x02:
+          case (BT_MAP_MT_TARGITZANS_TEMPLE       << 8) | 0x03:
+          case (BT_MAP_MT_SLIGHTLY_SACRED_CHAMBER << 8) | 0x01:
+          case (BT_MAP_MT_REALLY_SACRED_CHAMBER   << 8) | 0x01:
+          case (BT_MAP_GGM                        << 8) | 0x09:
+          case (BT_MAP_GGM_ORDNANCE_STORAGE_LOBBY << 8) | 0x02:
+          case (BT_MAP_GGM_ORDNANCE_STORAGE       << 8) | 0x01:
+          case (BT_MAP_GI_FLOOR4                  << 8) | 0x02:
+          case (BT_MAP_GI_CLINKERS_CAVERN_LOBBY   << 8) | 0x02:
+          case (BT_MAP_GI_CLINKERS_CAVERN         << 8) | 0x01:
+            if (bt_flags.breegull_blaster) {
+              bt_fn_change_character(bt_current_player_char, BT_PLAYER_CHAR_BREEGULL_BLASTER);
+              bt_xyz_t point = {0, 0, 0};
+              bt_fn_character_move_to(&point, 0, 0);
+            }
+            break;
         }
         break;
-      }
+      case BT_PLAYER_CHAR_BREEGULL_BLASTER:
+        switch ((bt_loading_map.map << 8) | bt_loading_map.exit) {
+          case (BT_MAP_MT                         << 8) | 0x07:
+          case (BT_MAP_MT_TARGITZANS_TEMPLE_LOBBY << 8) | 0x02:
+          case (BT_MAP_MT_TARGITZANS_TEMPLE       << 8) | 0x01:
+          case (BT_MAP_MT_TARGITZANS_TEMPLE       << 8) | 0x02:
+          case (BT_MAP_MT_TARGITZANS_TEMPLE       << 8) | 0x03:
+          case (BT_MAP_MT_SLIGHTLY_SACRED_CHAMBER << 8) | 0x01:
+          case (BT_MAP_MT_REALLY_SACRED_CHAMBER   << 8) | 0x01:
+          case (BT_MAP_GGM                        << 8) | 0x09:
+          case (BT_MAP_GGM_ORDNANCE_STORAGE_LOBBY << 8) | 0x02:
+          case (BT_MAP_GGM_ORDNANCE_STORAGE       << 8) | 0x01:
+          case (BT_MAP_GI_FLOOR4                  << 8) | 0x02:
+          case (BT_MAP_GI_CLINKERS_CAVERN_LOBBY   << 8) | 0x02:
+          case (BT_MAP_GI_CLINKERS_CAVERN         << 8) | 0x01:
+            break;
+          default:
+            bt_fn_change_character(bt_current_player_char, BT_PLAYER_CHAR_BANJO_KAZOOIE);
+            bt_xyz_t point = {0, 0, 0};
+            bt_fn_character_move_to(&point, 0, 0);
+        }
+        break;
     }
   }
 }
@@ -2151,6 +2190,8 @@ void ap_new_file() {
   bt_flags.ww_paid_dodgem = 1;
   bt_flags.ww_opened_dodgem1 = 1;
   bt_flags.hfp_lava_opened_kickball_door1 = 1;
+  bt_flags.hfp_lava_opened_flight_pad = 1;
+  bt_flags.hfp_icy_opened_claw_clamber_boots = 1;
   if (!ap_memory.pc.settings.cheato_rewards) bt_flags.cheats_jukebox_enabled = 1;
 }
 

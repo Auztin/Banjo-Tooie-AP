@@ -4,6 +4,19 @@
 #define bt_current_map (*(u16*)0x8012B402)
 
 typedef struct {
+  s16 x;
+  s16 y;
+  s16 z;
+  u16 _unk1 : 9;
+  u16 type : 6;
+  u16 _unk2 : 1;
+  u16 scene;
+  u8 _unk3;
+  u8 check_type;
+  u32 exit;
+} bt_exit_info_t;
+
+typedef struct {
   u16 map;
   u8 loading;
   u8 exit;
@@ -18,6 +31,9 @@ typedef struct {
 
 typedef u32 (*bt_fnt_load_scene)(u16 mapId, u16 entranceId, u8 animate);
 #define bt_fn_load_scene ((bt_fnt_load_scene)0x800A7990)
+
+typedef void (*bt_fnt_mt_get_sacred_chamber)(bt_exit_info_t*, u32* scene, u32* exit);
+#define bt_fn_mt_get_sacred_chamber ((bt_fnt_mt_get_sacred_chamber)0x8008A368)
 
 // Taken from ScriptHawk: https://github.com/Isotarge/ScriptHawk/blob/master/games/bt.lua
 enum {
@@ -46,7 +62,7 @@ enum {
   BT_MAP_0x0C4 = 0x0C4, // MT - Jade Snake Grove
   BT_MAP_0x0C5, // MT - Treasure Chamber
   BT_MAP_MT_MINIGAME_KICKBALL1, // MT - Kickball Arena 1
-  BT_MAP_0x0C7, // GGM
+  BT_MAP_GGM, // GGM
   BT_MAP_MT_MINIGAME_KICKBALL2, // MT - Kickball Arena 2
   BT_MAP_MT_MINIGAME_KICKBALL3, // MT - Kickball Arena 3
   BT_MAP_0x0CA, // GGM - Fuel Depot
@@ -67,7 +83,7 @@ enum {
   BT_MAP_GGM_MUMBO, // GGM - Mumbo's Skull
   BT_MAP_0x0DA, // GGM - Toxic Gas Cave
   BT_MAP_0x0DB, // GGM - Canary Cave
-  BT_MAP_0x0DC, // GGM - Ordnance Storage
+  BT_MAP_GGM_ORDNANCE_STORAGE, // GGM - Ordnance Storage
   BT_MAP_0x0DD, // WW - Dodgem Dome Lobby
   BT_MAP_WW_MINIGAME_DODGEM1, // WW - Dodgem Challenge 1 vs 1
   BT_MAP_WW_MINIGAME_DODGEM2, // WW - Dodgem Challenge 2 vs 1
@@ -190,8 +206,8 @@ enum {
   BT_MAP_CK_TOT_QUIZ_ROOM, // CK - Tower of Tragedy
   BT_MAP_CK_GUN_CHAMBER, // CK - Gun Chamber
   BT_MAP_CCL_MINIGAME_CANARY_MARY, // CCL - Canary Mary Race
-  BT_MAP_0x162, // GI - Floor 4 (Clinker's Cavern)
-  BT_MAP_0x163, // GGM - Ordnance Storage Entrance
+  BT_MAP_GI_CLINKERS_CAVERN, // GI - Floor 4 (Clinker's Cavern)
+  BT_MAP_GGM_ORDNANCE_STORAGE_LOBBY, // GGM - Ordnance Storage Entrance
   BT_MAP_0x164, // GI - Clinker's Cavern (multiplayer)
   BT_MAP_0x165, // GGM - Ordnance Storage (multiplayer)
   BT_MAP_0x166, // MT - Targitzan's Temple (multiplayer)
@@ -205,10 +221,10 @@ enum {
   BT_MAP_GI_MUMBO, // GI - Mumbo's Skull
   BT_MAP_0x173, // SM - Banjo's House
   BT_MAP_WW_MUMBO = 0x176, // WW - Mumbo's Skull
-  BT_MAP_0x177, // MT - Targitzan's Slightly Sacred Chamber
-  BT_MAP_MT_INSIDE_TEMPLE, // MT - Inside Targitzan's Temple
-  BT_MAP_0x179, // MT - Targitzan's Temple Lobby
-  BT_MAP_0x17A, // MT - Targitzan's Really Sacred Chamber
+  BT_MAP_MT_SLIGHTLY_SACRED_CHAMBER, // MT - Targitzan's Slightly Sacred Chamber
+  BT_MAP_MT_TARGITZANS_TEMPLE, // MT - Inside Targitzan's Temple
+  BT_MAP_MT_TARGITZANS_TEMPLE_LOBBY, // MT - Targitzan's Temple Lobby
+  BT_MAP_MT_REALLY_SACRED_CHAMBER, // MT - Targitzan's Really Sacred Chamber
   BT_MAP_0x17B, // WW - Balloon Burst (multiplayer)
   BT_MAP_0x17C, // WW - Hoop Hurry (multiplayer)
   BT_MAP_0x17D, // GI - Packing Game
@@ -220,7 +236,7 @@ enum {
   BT_MAP_0x183, // TDL - Chompa's Belly Shootout (multiplayer)
   BT_MAP_0x185 = 0x185, // CCL - Trash Can Mini
   BT_MAP_WW_MINIGAME_DODGEM4, // WW - Dodgems
-  BT_MAP_0x187, // GI - Sewer Entrance
+  BT_MAP_GI_CLINKERS_CAVERN_LOBBY, // GI - Sewer Entrance
   BT_MAP_0x188, // CCL - Zubbas' Nest (multiplayer)
   BT_MAP_0x189, // CK - Tower of Tragedy Quiz (Multiplayer)
   BT_MAP_0x18A, // CK - Inside HAG 1
