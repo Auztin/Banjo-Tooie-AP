@@ -2147,6 +2147,8 @@ void ap_new_file() {
   bt_flags.ww_paid_dodgem = 1;
   bt_flags.ww_opened_dodgem1 = 1;
   bt_flags.hfp_lava_opened_kickball_door1 = 1;
+  bt_flags.hfp_lava_opened_flight_pad = 1;
+  bt_flags.hfp_icy_opened_claw_clamber_boots = 1;
   if (!ap_memory.pc.settings.cheato_rewards) bt_flags.cheats_jukebox_enabled = 1;
 }
 
