@@ -65,12 +65,22 @@ u32 exits_can_pass(u16* scene, u16* exit, u16* current_map) {
     REFUSE = 0x0528,
   };
   u32 ret = VANILLA;
+  u16 real_scene = *scene;
+  u16 real_exit = *exit;
+  switch (bt_current_map) {
+    case BT_MAP_CCL_MINGY_JONGO:
+      if (*scene == BT_MAP_CCL && *exit == 0x16) real_exit = 0x09;
+      break;
+    case BT_MAP_CCL_MUMBO:
+      if (*scene == BT_MAP_CCL && *exit == 0x09) real_exit = 0x16;
+      break;
+  }
   for (int i = 0; i < AP_MEMORY_EXIT_MAP_MAX; i++) {
     ap_memory_pc_exit_map_t* mapping = &(ap_memory.pc.exit_map[i]);
     if (!mapping->on_map) break;
     if (mapping->on_map != *current_map) continue;
-    if (mapping->og_map == *scene && mapping->og_exit == *exit) {
-      switch ((*scene << 8) | *exit) {
+    if (mapping->og_map == real_scene && mapping->og_exit == real_exit) {
+      switch ((real_scene << 8) | real_exit) {
         case (BT_MAP_TDL                     << 8) | 20:
         case (BT_MAP_TDL_TERRYS_NEST         << 8) |  2:
         case (BT_MAP_TDL_TERRYS_NEST         << 8) |  5:
