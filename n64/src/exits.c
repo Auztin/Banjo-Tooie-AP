@@ -89,6 +89,14 @@ u32 exits_can_pass(u16* scene, u16* exit, u16* current_map) {
         default:
           *scene = mapping->to_map;
           *exit = mapping->to_exit;
+          switch (bt_current_map) {
+            case BT_MAP_CCL_MINGY_JONGO:
+              if (bt_flags.ccl_mumbo_location == 1 && *scene == BT_MAP_CCL && *exit == 0x09) *exit = 0x16;
+              break;
+            case BT_MAP_CCL_MUMBO:
+              if (bt_flags.ccl_mumbo_location == 1 && *scene == BT_MAP_CCL && *exit == 0x16) *exit = 0x09;
+              break;
+          }
       }
       u8 missing[15];
       int n = 0;
