@@ -13,12 +13,14 @@
     // const std::map<std::string, std::string> ADDRESS_MAP;
     bool check_flag(std::string);
     bool check_custom_flag(u8* data, u16 id);
+    bool set_custom_flag(u8* data, u16 id);
 
     typedef struct {
         int mapId;
         int from_map;
         int entranceId;
         int exitId;
+        std::vector<int> access;
     } world_entrance_t;
 
     extern std::map<std::string, world_entrance_t> WORLD_ENTRANCES;

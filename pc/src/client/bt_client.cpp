@@ -1440,6 +1440,10 @@ void BTClient::randomize_entrances(json entrance_table)
         ap_memory.pc.exit_map[i].on_map = WORLD_ENTRANCES[orig_world].from_map;
         ap_memory.pc.exit_map[i].to_map = WORLD_ENTRANCES[new_world].mapId;
         ap_memory.pc.exit_map[i].to_exit = WORLD_ENTRANCES[new_world].entranceId;
+        for(int move_id: WORLD_ENTRANCES[new_world].access)
+        {
+            set_custom_flag(ap_memory.pc.exit_map[i].access_rules, move_id);
+        }
         i++;
 
         ap_memory.pc.exit_map[i].og_map = WORLD_ENTRANCES[new_world].from_map;
@@ -1447,6 +1451,10 @@ void BTClient::randomize_entrances(json entrance_table)
         ap_memory.pc.exit_map[i].on_map = WORLD_ENTRANCES[new_world].mapId;
         ap_memory.pc.exit_map[i].to_map = WORLD_ENTRANCES[orig_world].from_map;
         ap_memory.pc.exit_map[i].to_exit = WORLD_ENTRANCES[orig_world].exitId;
+        for(int move_id: WORLD_ENTRANCES[orig_world].access)
+        {
+            set_custom_flag(ap_memory.pc.exit_map[i].access_rules, move_id);
+        }
         i++;
     }
 }
