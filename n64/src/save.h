@@ -11,12 +11,13 @@ typedef struct {
   u8 jiggies;
   u8 honeycombs;
   u8 pages;
-  u8 green_relics; // unused
+  u8 green_relics;
   u8 notes;
   u8 treble_clefs;
   u8 doubloons;
-  u8 tickets; // unused
+  u8 tickets;
   u8 mumbo_tokens;
+  u8 beans;
 } save_data_totals_t;
 
 typedef struct Save_Data_s {

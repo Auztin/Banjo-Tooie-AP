@@ -882,6 +882,31 @@ void ap_sync_items(u16 type, u8 value) {
     case AP_ITEM_CHEATJUKE:
       bt_flags.cheats_jukebox_received = value > 0;
       break;
+    case AP_ITEM_BTTICKET:
+      if (value != totals->tickets) {
+        totals->tickets = value;
+        if (bt_flags.ww_traded_big_top_tickets) value = 0;
+        current = bt_items[BT_ITEM_TICKETS] ^ bt_item_keys[BT_ITEM_TICKETS].key;
+        bt_fn_increase_item(BT_ITEM_TICKETS, value-current);
+      }
+      break;
+    case AP_ITEM_BEAN:
+      if (value != totals->beans) {
+        totals->beans = value;
+        if (bt_flags.ccl_planted_bean_sack_race) value -= 1;
+        if (bt_flags.ccl_planted_bean_cheese) value -= 1;
+        current = bt_items[BT_ITEM_BEANS] ^ bt_item_keys[BT_ITEM_BEANS].key;
+        bt_fn_increase_item(BT_ITEM_BEANS, value-current);
+      }
+      break;
+    case AP_ITEM_GRRELIC:
+      if (value != totals->green_relics) {
+        totals->green_relics = value;
+        if(totals->green_relics >= 10 && totals->green_relics <= 20 && bt_current_map == BT_MAP_MT_TARGITZANS_TEMPLE) bt_fn_object_anim(0x2b4, 7, 0);
+        if(totals->green_relics >= 20 && bt_current_map == BT_MAP_MT_TARGITZANS_TEMPLE) bt_fn_object_anim(0x2b4, 7, 1);
+        bt_fn_ui_show_number(BT_UI_NUMBERS_GREEN_SACRED_STATUE, totals->green_relics, 0);
+      }
+      break;
   }
 }
 
@@ -1007,7 +1032,7 @@ void ap_trap_tip_end() {
 
 bool ap_trap_tip(bool checking) {
   if (checking) {
-    if (!bt_dialog.textObjectPtr && bt_fn_load_dialog((BT_RANDOM % 0x3D)+0x1686, 0x48, bt_current_player_char->pos, 0)) {
+    if (!bt_dialog.textObjectPtr && bt_fn_load_dialog((bt_fn_random() % 0x3D)+0x1686, 0x48, bt_current_player_char->pos, 0)) {
       bt_dialog.callbackPtr = ap_trap_tip_end;
       return true;
     }
@@ -1190,7 +1215,7 @@ u8 ap_get_zb_icon() {
     ap.is_internal_message = 0;
     return ap.internal_icon;
   }
-  if (icon >= sizeof(ap_dialog_icons)) icon = BT_RANDOM % sizeof(ap_dialog_icons);
+  if (icon >= sizeof(ap_dialog_icons)) icon = bt_fn_random() % sizeof(ap_dialog_icons);
   ap.zb_icon = icon;
   icon = ap_dialog_icons[icon];
   ap.last_icon = icon;
@@ -1332,10 +1357,15 @@ void ap_update() {
           case (BT_MAP_MT_SLIGHTLY_SACRED_CHAMBER << 8) | 0x01:
           case (BT_MAP_MT_REALLY_SACRED_CHAMBER   << 8) | 0x01:
           case (BT_MAP_GGM                        << 8) | 0x09:
+          case (BT_MAP_GGM_ORDNANCE_STORAGE_LOBBY << 8) | 0x00:
           case (BT_MAP_GGM_ORDNANCE_STORAGE_LOBBY << 8) | 0x02:
+          case (BT_MAP_GGM_ORDNANCE_STORAGE       << 8) | 0x00:
           case (BT_MAP_GGM_ORDNANCE_STORAGE       << 8) | 0x01:
+          case (BT_MAP_TDL_INSIDE_THE_MOUNTAIN    << 8) | 0x0B:
           case (BT_MAP_GI_FLOOR4                  << 8) | 0x02:
+          case (BT_MAP_GI_CLINKERS_CAVERN_LOBBY   << 8) | 0x00:
           case (BT_MAP_GI_CLINKERS_CAVERN_LOBBY   << 8) | 0x02:
+          case (BT_MAP_GI_CLINKERS_CAVERN         << 8) | 0x00:
           case (BT_MAP_GI_CLINKERS_CAVERN         << 8) | 0x01:
             if (bt_flags.breegull_blaster) {
               bt_fn_change_character(bt_current_player_char, BT_PLAYER_CHAR_BREEGULL_BLASTER);
@@ -1355,10 +1385,15 @@ void ap_update() {
           case (BT_MAP_MT_SLIGHTLY_SACRED_CHAMBER << 8) | 0x01:
           case (BT_MAP_MT_REALLY_SACRED_CHAMBER   << 8) | 0x01:
           case (BT_MAP_GGM                        << 8) | 0x09:
+          case (BT_MAP_GGM_ORDNANCE_STORAGE_LOBBY << 8) | 0x00:
           case (BT_MAP_GGM_ORDNANCE_STORAGE_LOBBY << 8) | 0x02:
+          case (BT_MAP_GGM_ORDNANCE_STORAGE       << 8) | 0x00:
           case (BT_MAP_GGM_ORDNANCE_STORAGE       << 8) | 0x01:
+          case (BT_MAP_TDL_INSIDE_THE_MOUNTAIN    << 8) | 0x0B:
           case (BT_MAP_GI_FLOOR4                  << 8) | 0x02:
+          case (BT_MAP_GI_CLINKERS_CAVERN_LOBBY   << 8) | 0x00:
           case (BT_MAP_GI_CLINKERS_CAVERN_LOBBY   << 8) | 0x02:
+          case (BT_MAP_GI_CLINKERS_CAVERN         << 8) | 0x00:
           case (BT_MAP_GI_CLINKERS_CAVERN         << 8) | 0x01:
             break;
           default:
@@ -1773,7 +1808,7 @@ void ap_signpost_dialog(bt_obj_instance_t* obj) {
     save_custom_set_bit(bt_custom_save.signposts, ap.signpost);
     u8 icon = ap_memory.pc.settings.dialog_character;
     if (icon == 110) icon = BT_ZOOMBOX_ICON_JAMJARS;
-    else if (icon >= sizeof(ap_dialog_icons)) icon = ap_dialog_icons[BT_RANDOM % sizeof(ap_dialog_icons)];
+    else if (icon >= sizeof(ap_dialog_icons)) icon = ap_dialog_icons[bt_fn_random() % sizeof(ap_dialog_icons)];
     else icon = ap_dialog_icons[icon];
     ap.zb_signpost = bt_fn_zoombox_new(28, icon, 0, 1);
     bt_fn_zoombox_init(ap.zb_signpost);
@@ -1818,9 +1853,15 @@ void ap_check() {
     ap_check_enough_notes(total_notes, save_totals(6));
     ap_sync_traps();
     if (ap.health_animation_pos) ap_get_health_upgrade();
-    if (!bt_controllers[0].held.l && bt_controllers[0].pressed.dleft) {
+    if (ap_memory.n64.misc.tag_link_ap != ap_memory.pc.misc.tag_link_ap) {
       ap_can_transform_t data;
-      if (!&bt_pause_ctx && !ap_cycle_character(&data)) {
+      if (!&bt_pause_ctx) ap_cycle_character(&data);
+      ap_memory.n64.misc.tag_link_ap++;
+      usb.send.misc = 1;
+    }
+    if (!&bt_pause_ctx && !bt_controllers[0].held.l && bt_controllers[0].pressed.dleft) {
+      ap_can_transform_t data;
+      if (!ap_cycle_character(&data)) {
         bt_fn_play_sound(BT_SOUND_WRONG, -1, 1, -1);
         if (data.flag && !data.visited) {
           if (data.form == BT_PLAYER_CHAR_MUMBO) {
@@ -1840,6 +1881,10 @@ void ap_check() {
           ap.internal_icon = BT_ZOOMBOX_ICON_HUMBA;
           strcpy(ap.internal_message, "BEAR AND BIRD MUST FIND MAGIC...");
         }
+      }
+      else {
+        ap_memory.n64.misc.tag_link_us++;
+        usb.send.misc = 1;
       }
     }
   }
@@ -2193,5 +2238,8 @@ void ap_load_file() {
 
     bt_flags.hfp_lava_opened_kickball_door2 = 1;
     bt_flags.hfp_lava_opened_kickball_door3 = 1;
+  }
+  if (ap_memory.pc.settings.gi_open_frontdoor) {
+    bt_flags.gi_floor1_opened_main_entrance = 1;
   }
 }

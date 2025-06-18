@@ -174,6 +174,10 @@ enum {
   AP_ITEM_SILO_WASTELAND,
   AP_ITEM_SILO_QUAGMIRE,
 
+  AP_ITEM_BTTICKET,
+  AP_ITEM_GRRELIC,
+  AP_ITEM_BEAN,
+
   AP_ITEM_MAX, // needs to be last
 };
 

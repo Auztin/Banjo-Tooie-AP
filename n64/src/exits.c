@@ -65,38 +65,20 @@ u32 exits_can_pass(u16* scene, u16* exit, u16* current_map) {
     REFUSE = 0x0528,
   };
   u32 ret = VANILLA;
-  u16 real_scene = *scene;
-  u16 real_exit = *exit;
-  switch (bt_current_map) {
-    case BT_MAP_CCL_MINGY_JONGO:
-      if (*scene == BT_MAP_CCL && *exit == 0x16) real_exit = 0x09;
-      break;
-    case BT_MAP_CCL_MUMBO:
-      if (*scene == BT_MAP_CCL && *exit == 0x09) real_exit = 0x16;
-      break;
-  }
   for (int i = 0; i < AP_MEMORY_EXIT_MAP_MAX; i++) {
     ap_memory_pc_exit_map_t* mapping = &(ap_memory.pc.exit_map[i]);
     if (!mapping->on_map) break;
     if (mapping->on_map != *current_map) continue;
-    if (mapping->og_map == real_scene && mapping->og_exit == real_exit) {
-      switch ((real_scene << 8) | real_exit) {
+    if (mapping->og_map == *scene && mapping->og_exit == *exit) {
+      switch ((*scene << 8) | *exit) {
         case (BT_MAP_TDL                     << 8) | 20:
         case (BT_MAP_TDL_TERRYS_NEST         << 8) |  2:
         case (BT_MAP_TDL_TERRYS_NEST         << 8) |  5:
         case (BT_MAP_TDL_INSIDE_THE_MOUNTAIN << 8) |  4:
-          if (bt_player_chars.control_type == BT_PLAYER_CHAR_BANJO) break;
+          if (bt_player_chars.control_type == BT_PLAYER_CHAR_BANJO) goto end_loop;
         default:
           *scene = mapping->to_map;
           *exit = mapping->to_exit;
-          switch (bt_current_map) {
-            case BT_MAP_CCL_MINGY_JONGO:
-              if (bt_flags.ccl_mumbo_location == 1 && *scene == BT_MAP_CCL && *exit == 0x09) *exit = 0x16;
-              break;
-            case BT_MAP_CCL_MUMBO:
-              if (bt_flags.ccl_mumbo_location == 1 && *scene == BT_MAP_CCL && *exit == 0x16) *exit = 0x09;
-              break;
-          }
       }
       u8 missing[15];
       int n = 0;
@@ -124,6 +106,7 @@ u32 exits_can_pass(u16* scene, u16* exit, u16* current_map) {
       ret = bt_player_chars.control_type == BT_PLAYER_CHAR_BREEGULL_BLASTER ? ALLOW : PARTIAL_ALLOW;
     }
   }
+  end_loop:
   switch (*scene) {
     case BT_MAP_DIGGER_TUNNEL:
       if (
@@ -167,6 +150,29 @@ u32 exits_can_pass(u16* scene, u16* exit, u16* current_map) {
       }
       if (ret == VANILLA) ret = PARTIAL_ALLOW;
       break;
+    case BT_MAP_CCL:
+      if (bt_flags.ccl_mumbo_location == 1) {
+        switch (*exit) {
+          case 0x09:
+            *exit = 0x16;
+            break;
+          case 0x16:
+            *exit = 0x09;
+            break;
+        }
+      }
+      break;
+    case BT_MAP_SEA_BOTTOM:
+      if (ret != VANILLA && *exit == 0x28) {
+        if (!bt_flags.jrl_locker_names) {
+          u32 v;
+          while (!(v = bt_fn_random() & 0xF) || v >= 0xA) bt_fn_save_set_bits(0x39F, bt_fn_random() & 0x1F, 5);
+          bt_fn_save_set_bits(0x3A4, v, 4);
+        }
+        const static u8 exits[] = {0x28, 0x16, 0x23, 0x28, 0x17, 0x13, 0x24, 0x25, 0x15, 0x14};
+        *exit = exits[bt_fn_save_get_bits(0x3A4, 4)];
+      }
+      break;
   }
   return ret;
 }
@@ -190,18 +196,14 @@ u32 exits_check(bt_exit_info_t* info) {
         check_mumbo_location:
         switch (bt_flags.ccl_mumbo_location) {
           case 1:
-            switch (bt_current_map) {
-              case BT_MAP_CCL:
-                if (info->scene == 0x9F) info->scene--;
-                else info->scene++;
-                break;
-              default:
-                if (info->exit == 0x09) info->exit = 0x16;
-                else info->exit = 0x09;
+            if (bt_current_map == BT_MAP_CCL) {
+              if (info->scene == 0x9F) info->scene--;
+              else info->scene++;
             }
+            break;
           case 3: break;
           default:
-            bt_flags.ccl_mumbo_location = (BT_RANDOM % 2) ? 1 : 3;
+            bt_flags.ccl_mumbo_location = (bt_fn_random() % 2) ? 1 : 3;
             goto check_mumbo_location;
         }
       }

@@ -1003,6 +1003,22 @@ void pre_object_init(bt_object_t *obj) {
       util_inject(UTIL_INJECT_FUNCTION, (u32)obj + 0x05FC, (u32)save_fake_give_fast_swimming, 0);
       util_inject(UTIL_INJECT_FUNCTION, (u32)obj + 0x0640, (u32)save_fake_give_bubbles, 0);
       break;
+    case BT_OBJ_WWTICKET:
+      if (!ap_memory.pc.settings.randomize_tickets) break;
+      util_inject(UTIL_INJECT_RAW     , (u32)obj + 0x0124, 0, 0);
+      break;
+    case BT_OBJ_JADESTATUE:
+      if (!ap_memory.pc.settings.randomize_green_relics) break;
+      util_inject(UTIL_INJECT_RAW     , (u32)obj + 0x00AC, 0, 0); // called to remove statues when enough flags are set when entering temple
+      util_inject(UTIL_INJECT_RAW     , (u32)obj + 0x0260, 0, 0); // called to open doors based on Saveflags.
+      util_inject(UTIL_INJECT_RAW     , (u32)obj + 0x02E8, 0, 0); // called to open doors based on Saveflags.
+      util_inject(UTIL_INJECT_RAW     , (u32)obj + 0x0274, 0, 0); // Updates UI when collecting a statue
+      util_inject(UTIL_INJECT_RAW     , (u32)obj + 0x0354, 0, 0); // called to removes statues from the game when collected 20
+      break;
+    case BT_OBJ_BEANSTALKSEED:
+      if (!ap_memory.pc.settings.randomize_beans) break;
+      util_inject(UTIL_INJECT_RAW     , (u32)obj + 0x035C, 0, 0);
+      break;
     case BT_OBJ_BOTTLES_FAMILY:
       util_inject(UTIL_INJECT_FUNCTION, (u32)obj + 0x09BC, (u32)save_fake_give_move, 0);
       break;

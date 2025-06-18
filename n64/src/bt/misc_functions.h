@@ -37,4 +37,10 @@ typedef bool (*bt_fnt_sparkle)(bt_xyz_t*, u16 type);
 typedef bool (*bt_fnt_unk_update_obj)(bt_obj_instance_t*);
 #define bt_fn_unk_update_obj ((bt_fnt_unk_update_obj)0x801015D0)
 
+typedef int (*bt_fnt_save_get_bits)(u16 offset, u16 bits);
+#define bt_fn_save_get_bits ((bt_fnt_save_get_bits)0x800DA564)
+
+typedef int (*bt_fnt_save_set_bits)(u16 offset, u16 value, u16 bits);
+#define bt_fn_save_set_bits ((bt_fnt_save_set_bits)0x800DA7A8)
+
 #endif // BT_FN_INJECTED_H

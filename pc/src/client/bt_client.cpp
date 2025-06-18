@@ -964,12 +964,12 @@ nlohmann::json BTClient::check_skivvies_locations()
             }
             if(ap_memory.n64.saves.real.gi_cleaned_workers)
             {
-                check[1231602] = true;
-                check[1231603] = true;
-                check[1231604] = true;
-                check[1231605] = true;
-                check[1231606] = true;
-                check[1231607] = true;
+                check["1231602"] = true;
+                check["1231603"] = true;
+                check["1231604"] = true;
+                check["1231605"] = true;
+                check["1231606"] = true;
+                check["1231607"] = true;
             }
         }
     }
@@ -992,6 +992,81 @@ nlohmann::json BTClient::check_mrfit_locations()
         }
     }
     return check;
+}
+
+// -------------- BIGTOP TICKETS -------------------
+
+nlohmann::json BTClient::check_bt_ticket_locations()
+{
+    nlohmann::json check = json({});
+    if(ASSET_MAP_CHECK.count(CURRENT_MAP))
+    {
+        if(ASSET_MAP_CHECK[CURRENT_MAP].count("BIGTOP_TICKETS"))
+        {
+            for(const std::string& locationId: ASSET_MAP_CHECK[CURRENT_MAP]["BIGTOP_TICKETS"])
+            {
+                check[locationId] = check_flag(locationId);
+            }
+        }
+    }
+    return check;
+}
+
+void BTClient::obtain_bt_ticket()
+{
+    TOTAL_BTTICKET++;
+    ap_memory.pc.items[AP_ITEM_BTTICKET] = TOTAL_BTTICKET;
+    return;
+}
+
+// -------------- JADE STATUES / GREEN RELICS -------------------
+
+nlohmann::json BTClient::check_green_relics_locations()
+{
+    nlohmann::json check = json({});
+    if(ASSET_MAP_CHECK.count(CURRENT_MAP))
+    {
+        if(ASSET_MAP_CHECK[CURRENT_MAP].count("GREEN_RELICS"))
+        {
+            for(const std::string& locationId: ASSET_MAP_CHECK[CURRENT_MAP]["GREEN_RELICS"])
+            {
+                check[locationId] = check_flag(locationId);
+            }
+        }
+    }
+    return check;
+}
+
+void BTClient::obtain_grrelic()
+{
+    TOTAL_GRRELIC++;
+    ap_memory.pc.items[AP_ITEM_GRRELIC] = TOTAL_GRRELIC;
+    return;
+}
+
+// -------------- BEANS -------------------
+
+nlohmann::json BTClient::check_beans_locations()
+{
+    nlohmann::json check = json({});
+    if(ASSET_MAP_CHECK.count(CURRENT_MAP))
+    {
+        if(ASSET_MAP_CHECK[CURRENT_MAP].count("BEANS"))
+        {
+            for(const std::string& locationId: ASSET_MAP_CHECK[CURRENT_MAP]["BEANS"])
+            {
+                check[locationId] = check_flag(locationId);
+            }
+        }
+    }
+    return check;
+}
+
+void BTClient::obtain_beans()
+{
+    TOTAL_BEANS++;
+    ap_memory.pc.items[AP_ITEM_BEAN] = TOTAL_BEANS;
+    return;
 }
 
 // -------------- Game Function ------------------
@@ -1106,6 +1181,22 @@ void BTClient::initialize_bt()
     if(ENABLE_AP_AUTOMATIC_CHEATS == true)
     {
         ap_memory.pc.settings.automatic_cheats = 1;
+    }
+    if(GI_FRONTDOOR == true)
+    {
+        ap_memory.pc.settings.gi_open_frontdoor = 1;
+    }
+    if(ENABLE_AP_TICKETS == true)
+    {
+        ap_memory.pc.settings.randomize_tickets = 1;
+    }
+    if(ENABLE_AP_GRRELICS == true)
+    {
+        ap_memory.pc.settings.randomize_green_relics = 1;
+    }
+    if(ENABLE_AP_BEANS == true)
+    {
+        ap_memory.pc.settings.randomize_beans = 1;
     }
     if(ENABLE_AP_EASY_CANARY == true)
     {
@@ -1349,6 +1440,10 @@ void BTClient::randomize_entrances(json entrance_table)
         ap_memory.pc.exit_map[i].on_map = WORLD_ENTRANCES[orig_world].from_map;
         ap_memory.pc.exit_map[i].to_map = WORLD_ENTRANCES[new_world].mapId;
         ap_memory.pc.exit_map[i].to_exit = WORLD_ENTRANCES[new_world].entranceId;
+        for(int move_id: WORLD_ENTRANCES[new_world].access)
+        {
+            set_custom_flag(ap_memory.pc.exit_map[i].access_rules, move_id);
+        }
         i++;
 
         ap_memory.pc.exit_map[i].og_map = WORLD_ENTRANCES[new_world].from_map;
@@ -1356,6 +1451,10 @@ void BTClient::randomize_entrances(json entrance_table)
         ap_memory.pc.exit_map[i].on_map = WORLD_ENTRANCES[new_world].mapId;
         ap_memory.pc.exit_map[i].to_map = WORLD_ENTRANCES[orig_world].from_map;
         ap_memory.pc.exit_map[i].to_exit = WORLD_ENTRANCES[orig_world].exitId;
+        for(int move_id: WORLD_ENTRANCES[orig_world].reverse_access)
+        {
+            set_custom_flag(ap_memory.pc.exit_map[i].access_rules, move_id);
+        }
         i++;
     }
 }
@@ -1819,6 +1918,11 @@ asio::awaitable<void> BTClient::getSlotData()
         DEATH_LINK = true;
         if(DEBUG_NET == true) { std::cout << "Deathlink is set" << std::endl; }
     }
+    if(block.contains(string{"slot_taglink"}) && block["slot_taglink"] != 0)
+    {
+        TAG_LINK = true;
+        if(DEBUG_NET == true) { std::cout << "Taglink is set" << std::endl; }
+    }
     if(block.contains(string{"slot_tower_of_tragedy"}))
     {
         SKIP_TOT = block["slot_tower_of_tragedy"];
@@ -1918,6 +2022,26 @@ asio::awaitable<void> BTClient::getSlotData()
     {
         ENABLE_AP_AUTOMATIC_CHEATS = true;
         if(DEBUG_NET == true) { std::cout << "Honey B rewards are Enabled" << std::endl; }
+    }
+    if(block.contains(string{"slot_open_gi_entrance"}) && block["slot_open_gi_entrance"] != 0)
+    {
+        GI_FRONTDOOR = true;
+        if(DEBUG_NET == true) { std::cout << "GI Frontdoor are Enabled" << std::endl; }
+    }
+    if(block.contains(string{"slot_randomize_tickets"}) && block["slot_randomize_tickets"] != 0)
+    {
+        ENABLE_AP_TICKETS = true;
+        if(DEBUG_NET == true) { std::cout << "Randomize Tickets are Enabled" << std::endl; }
+    }
+    if(block.contains(string{"slot_randomize_green_relics"}) && block["slot_randomize_tickets"] != 0)
+    {
+        ENABLE_AP_GRRELICS = true;
+        if(DEBUG_NET == true) { std::cout << "Randomize Green Relics are Enabled" << std::endl; }
+    }
+    if(block.contains(string{"slot_randomize_beans"}) && block["slot_randomize_beans"] != 0)
+    {
+        ENABLE_AP_BEANS = true;
+        if(DEBUG_NET == true) { std::cout << "Randomize Beans are Enabled" << std::endl; }
     }
     if(block.contains(string{"slot_easy_canary"}) && block["slot_easy_canary"] != 0)
     {
@@ -2085,6 +2209,10 @@ void BTClient::process_block(json bt_data)
     {
         ap_memory.pc.misc.death_link_ap++;
     }
+    if(bt_data.contains(string{"triggerTag"}) && bt_data["triggerTag"] == true && TAG_LINK == true)
+    {
+        ap_memory.pc.misc.tag_link_ap++;
+    }
 }
 
 string BTClient::get_state()
@@ -2175,6 +2303,9 @@ void BTClient::processAGIItem(json item_data)
                 case 1230789: ap_memory.pc.traps[AP_TRAP_SQUISH]++; break;
                 case 1230833: ap_memory.pc.traps[AP_TRAP_TIP]++; break;
                 case 1230916: obtain_health_upgrade(); break;
+                case 1230922: obtain_bt_ticket(); break;
+                case 1230923: obtain_grrelic(); break;
+                case 1230924: obtain_beans(); break;
             }
         }
     }
@@ -2201,6 +2332,7 @@ asio::awaitable<void> BTClient::sendToBTClient()
         }
     }
     bool dead = false;
+    bool tag = false;
     json retTable = json({});
     if(ap_memory.pc.misc.death_link_us != ap_memory.n64.misc.death_link_us)
     {
@@ -2242,9 +2374,22 @@ asio::awaitable<void> BTClient::sendToBTClient()
     {
         DEATH_LINK_TRIGGERED = false;
     }
+    if(ap_memory.pc.misc.tag_link_us != ap_memory.n64.misc.tag_link_us)
+    {
+        ap_memory.pc.misc.tag_link_us++;
+        if (TAG_LINK && !TAG_LINK_TRIGGERED) {
+            tag = true;
+            TAG_LINK_TRIGGERED = true;
+        }
+    }
+    else
+    {
+        TAG_LINK_TRIGGERED = false;
+    }
     retTable["scriptVersion"] = SCRIPT_VERSION;
     retTable["playerName"] = PLAYER;
     retTable["deathlinkActive"] = DEATH_LINK;
+    retTable["taglinkActive"] = TAG_LINK;
     retTable["jiggies"] = check_jiggy_locations();
     retTable["jinjos"] = check_jinjo_locations();
     retTable["pages"] = check_page_locations();
@@ -2258,6 +2403,7 @@ asio::awaitable<void> BTClient::sendToBTClient()
     retTable["stations"] = check_station_locations();
     retTable["chuffy"] = check_chuffy_location();
     retTable["isDead"] = dead;
+    retTable["isTag"] = tag;
     retTable["jinjofam"] = check_jinjo_family_locations();
     retTable["worlds"] = check_unlock_worlds();
     retTable["mystery"] = check_mystery_locations();
@@ -2276,6 +2422,9 @@ asio::awaitable<void> BTClient::sendToBTClient()
     retTable["alien_kids"] = check_alien_kids_locations();
     retTable["skivvies"] = check_skivvies_locations();
     retTable["fit_events"] = check_mrfit_locations();
+    retTable["bt_tickets"] = check_bt_ticket_locations();
+    retTable["green_relics"] = check_green_relics_locations();
+    retTable["beans"] = check_beans_locations();
     retTable["DEMO"] = false;
     retTable["banjo_map"] = CURRENT_MAP;
     retTable["sync_ready"] = "true";

@@ -8,6 +8,8 @@ typedef struct {
     u8 show_message; // if != pc.show_text, show pc.text and increment
     u8 death_link_us; // incremented if player dies on their own
     u8 death_link_ap; // if != pc.death_link_ap, kill player and increment
+    u8 tag_link_us; // incremented if player swap characters on their own
+    u8 tag_link_ap; // if != pc.tag_link_ap, attempt to swap characters on their own and increment
     u16 current_map;
   } misc;
   struct {

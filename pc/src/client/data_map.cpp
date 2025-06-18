@@ -142,7 +142,34 @@ std::map<uint16_t, std::map<std::string, std::vector<std::string>>> ASSET_MAP_CH
             {"HONEYCOMB", {"1230705"}}
         }},
         {0x178, { //MT - Inside Tatgitzan's Temple
-            {"JINJOS", {"1230553"}}
+            {"JINJOS", {"1230553"}},
+            {"GREEN_RELICS", {
+                "1231614",
+                "1231615",
+                "1231616",
+                "1231617",
+                "1231618",
+                "1231619",
+                "1231620",
+                "1231621",
+                "1231622",
+                "1231623",
+                "1231624",
+                "1231625",
+                "1231626",
+                "1231627",
+                "1231628",
+                "1231629",
+                "1231630",
+                "1231631",
+                "1231632",
+                "1231633",
+                "1231634",
+                "1231635",
+                "1231636",
+                "1231637",
+                "1231638",
+            }}
         }},
         //GLITTER GULCH MINE
 
@@ -243,7 +270,8 @@ std::map<uint16_t, std::map<std::string, std::vector<std::string>>> ASSET_MAP_CH
             {"TREBLE", {"1230783"}},
             {"SILO", {"1230761","1230760"}},
             {"WARPPAD", {"1231567","1231568","1231569","1231570"}},
-            {"BOGGY_KIDS", {"1231596","1231598"}}
+            {"BOGGY_KIDS", {"1231596","1231598"}},
+            {"BIGTOP_TICKETS", {"1231610","1231611","1231612","1231613"}}
         }},
         {0xEA, { //WW - Cave of Horrors
             {"JINJOS", {"1230562"}},
@@ -628,7 +656,8 @@ std::map<uint16_t, std::map<std::string, std::vector<std::string>>> ASSET_MAP_CH
                 "1230700"
             }},
             {"WARPPAD", {"1231592"}},
-            {"MRFIT", {"1231608","1231609"}}
+            {"MRFIT", {"1231608","1231609"}},
+            {"BEANS", {"1231639", "1231640"}}
         }},
         {0x13A,	{ //CCL - Central Cavern
             {"JIGGIES", {"1230674"}},
@@ -1277,7 +1306,41 @@ bool check_flag(std::string locationId) {
         // Mr Fit
             case 1231608: return real->ccl_beat_mr_fit_high_jump;
             case 1231609: return real->ccl_beat_mr_fit_sack_race;
-    }
+        // Tickets
+            case 1231610: return real->ww_ticket_collected_entrance;
+            case 1231611: return real->ww_ticket_collected_space;
+            case 1231612: return real->ww_ticket_collected_spooky;
+            case 1231613: return real->ww_ticket_collected_western;
+        //Jade Statues
+            case 1231614: return real->mt_sacred_statue_near_entrance1;
+            case 1231615: return real->mt_sacred_statue_near_entrance2;
+            case 1231616: return real->mt_sacred_statue_small_pillars1;
+            case 1231617: return real->mt_sacred_statue_small_pillars2;
+            case 1231618: return real->mt_sacred_statue_small_pillars3;
+            case 1231619: return real->mt_sacred_statue_sput_sput1;
+            case 1231620: return real->mt_sacred_statue_sput_sput2;
+            case 1231621: return real->mt_sacred_statue_sput_sput3;
+            case 1231622: return real->mt_sacred_statue_sput_sput4;
+            case 1231623: return real->mt_sacred_statue_sput_sput5;
+            case 1231624: return real->mt_sacred_statue_big_pillars5;
+            case 1231625: return real->mt_sacred_statue_big_pillars1;
+            case 1231626: return real->mt_sacred_statue_big_pillars2;
+            case 1231627: return real->mt_sacred_statue_big_pillars3;
+            case 1231628: return real->mt_sacred_statue_big_pillars4;
+            case 1231629: return real->mt_sacred_statue_near_sacred_chambers1;
+            case 1231630: return real->mt_sacred_statue_near_sacred_chambers2;
+            case 1231631: return real->mt_sacred_statue_passage_near_sacred_chambers3;
+            case 1231632: return real->mt_sacred_statue_passage_near_sacred_chambers2;
+            case 1231633: return real->mt_sacred_statue_passage_near_sacred_chambers1;
+            case 1231634: return real->mt_sacred_statue_passage_near_entrance1;
+            case 1231635: return real->mt_sacred_statue_passage_near_entrance2;
+            case 1231636: return real->mt_sacred_statue_adjacent_big_pillars_room2;
+            case 1231637: return real->mt_sacred_statue_adjacent_big_pillars_room1;
+            case 1231638: return real->mt_sacred_statue_adjacent_big_pillars_room3;
+        // Beans
+            case 1231639: return real->ccl_collected_bean1;
+            case 1231640: return real->ccl_collected_bean2;
+        }
     return false;
 }
 
@@ -1287,17 +1350,34 @@ bool check_custom_flag(u8* data, u16 id) {
   return data[byte] & bit;
 }
 
+bool set_custom_flag(u8* data, u16 id) {
+  u8 byte = id/8;
+  u8 bit = 1 << (id % 8);
+  bool ret = data[byte] & bit;
+  data[byte] |= bit;
+  return ret;
+}
+
 std::map<std::string, world_entrance_t> WORLD_ENTRANCES =
 {
-    {"Mayahem Temple", {.mapId = 0xB8, .from_map = 0x14F, .entranceId = 10, .exitId = 2}},
-    {"Glitter Gulch Mine", {.mapId = 0xC7, .from_map = 0x152, .entranceId = 17, .exitId = 2}},
-    {"Witchyworld", {.mapId = 0xD6, .from_map = 0x154, .entranceId = 18, .exitId = 2}},
-    {"Jolly Roger's Lagoon - Town Center", {.mapId = 0x1A7, .from_map = 0x155, .entranceId = 3, .exitId = 5}},
-    {"Terrydactyland", {.mapId = 0x112, .from_map = 0x15A, .entranceId = 23, .exitId = 2}},
-    {"Outside Grunty Industries", {.mapId = 0x100, .from_map = 0x15C, .entranceId = 9, .exitId = 2}},
-    {"Hailfire Peaks", {.mapId = 0x127, .from_map = 0x155, .entranceId = 21, .exitId = 6}},
-    {"Cloud Cuckooland", {.mapId = 0x136, .from_map = 0x15A, .entranceId = 20, .exitId = 5}},
-    {"Cauldron Keep", {.mapId = 0x15D, .from_map = 0x15C, .entranceId = 1, .exitId = 3}}
+    {"Mayahem Temple", {.mapId = 0xB8, .from_map = 0x14F, .entranceId = 10, .exitId = 2, .access = {}, .reverse_access = {}}},
+    {"Glitter Gulch Mine", {.mapId = 0xC7, .from_map = 0x152, .entranceId = 17, .exitId = 2, .access = {}, .reverse_access = {}}},
+    {"Witchyworld", {.mapId = 0xD6, .from_map = 0x154, .entranceId = 18, .exitId = 2, .access = {}, .reverse_access = {}}},
+    {"Jolly Roger's Lagoon - Town Center", {.mapId = 0x1A7, .from_map = 0x155, .entranceId = 3, .exitId = 5, .access = {}, .reverse_access = {}}},
+    {"Terrydactyland", {.mapId = 0x112, .from_map = 0x15A, .entranceId = 23, .exitId = 2, .access = {}, .reverse_access = {}}},
+    {"Outside Grunty Industries", {.mapId = 0x100, .from_map = 0x15C, .entranceId = 9, .exitId = 2, .access = {}, .reverse_access = {}}},
+    {"Hailfire Peaks", {.mapId = 0x127, .from_map = 0x155, .entranceId = 21, .exitId = 6, .access = {}, .reverse_access = {}}},
+    {"Cloud Cuckooland", {.mapId = 0x136, .from_map = 0x15A, .entranceId = 20, .exitId = 5, .access = {}, .reverse_access = {}}},
+    {"Cauldron Keep", {.mapId = 0x15D, .from_map = 0x15C, .entranceId = 1, .exitId = 3, .access = {}, .reverse_access = {}}},
+    {"Targitzan's Really Sacred Chamber", {.mapId = 0x17A, .from_map = 0x178, .entranceId = 1, .exitId = 2, .access = {AP_ITEM_BBLASTER}, .reverse_access = {AP_ITEM_BBLASTER}}},
+    {"Inside Chuffy's Boiler", {.mapId = 0x0D1, .from_map = 0x0D0, .entranceId = 1, .exitId = 2, .access = {}, .reverse_access = {}}},
+    {"Big Top Interior", {.mapId = 0x0F9, .from_map = 0x0D6, .entranceId = 1, .exitId = 3, .access = {}, .reverse_access = {}}},
+    {"Davy Jones' Locker", {.mapId = 0x0FC, .from_map = 0x28, .entranceId = 1, .exitId = 0x1A9, .access = {AP_ITEM_GEGGS, AP_ITEM_AUQAIM}, .reverse_access = {}}},
+    {"Terry's Nest", {.mapId = 0x113, .from_map = 0x112, .entranceId = 0x05, .exitId = 0x14, .access = {}}},
+    {"Repair Depot", {.mapId = 0x110, .from_map = 0x10F, .entranceId = 1, .exitId = 3, .access = {AP_ITEM_GEGGS}, .reverse_access = {}}},
+    {"Chilli Billi Crater", {.mapId = 0x12B, .from_map = 0x127, .entranceId = 1, .exitId = 0x16, .access = {AP_ITEM_IEGGS}, .reverse_access = {}}},
+    {"Chilli Willy Crater", {.mapId = 0x12C, .from_map = 0x128, .entranceId = 1, .exitId = 0x0C, .access = {}, .reverse_access = {}}},
+    {"Fake Mumbo Skull", {.mapId = 0x13F, .from_map = 0x136, .entranceId = 1, .exitId = 0x09, .access = {}, .reverse_access = {}}}
 };
 
 std::map<int, std::map<int, int> > NEST_DATA = {
