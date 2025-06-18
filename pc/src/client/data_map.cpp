@@ -1360,24 +1360,24 @@ bool set_custom_flag(u8* data, u16 id) {
 
 std::map<std::string, world_entrance_t> WORLD_ENTRANCES =
 {
-    {"Mayahem Temple", {.mapId = 0xB8, .from_map = 0x14F, .entranceId = 10, .exitId = 2, .access = {}}},
-    {"Glitter Gulch Mine", {.mapId = 0xC7, .from_map = 0x152, .entranceId = 17, .exitId = 2, .access = {}}},
-    {"Witchyworld", {.mapId = 0xD6, .from_map = 0x154, .entranceId = 18, .exitId = 2, .access = {}}},
-    {"Jolly Roger's Lagoon - Town Center", {.mapId = 0x1A7, .from_map = 0x155, .entranceId = 3, .exitId = 5, .access = {}}},
-    {"Terrydactyland", {.mapId = 0x112, .from_map = 0x15A, .entranceId = 23, .exitId = 2, .access = {}}},
-    {"Outside Grunty Industries", {.mapId = 0x100, .from_map = 0x15C, .entranceId = 9, .exitId = 2, .access = {}}},
-    {"Hailfire Peaks", {.mapId = 0x127, .from_map = 0x155, .entranceId = 21, .exitId = 6, .access = {}}},
-    {"Cloud Cuckooland", {.mapId = 0x136, .from_map = 0x15A, .entranceId = 20, .exitId = 5, .access = {}}},
-    {"Cauldron Keep", {.mapId = 0x15D, .from_map = 0x15C, .entranceId = 1, .exitId = 3, .access = {}}},
-    {"Targitzan's Really Sacred Chamber", {.mapId = 0x17A, .from_map = 0x178, .entranceId = 1, .exitId = 2, .access = {AP_ITEM_BBLASTER}}},
-    {"Inside Chuffy's Boiler", {.mapId = 0x0D1, .from_map = 0x0D0, .entranceId = 1, .exitId = 2, .access = {}}},
-    {"Big Top Interior", {.mapId = 0x0F9, .from_map = 0x0D6, .entranceId = 1, .exitId = 3, .access = {}}},
-    {"Davy Jones' Locker", {.mapId = 0x0FC, .from_map = 0x25, .entranceId = 1, .exitId = 0x1A9, .access = {AP_ITEM_GEGGS, AP_ITEM_AUQAIM}}},
+    {"Mayahem Temple", {.mapId = 0xB8, .from_map = 0x14F, .entranceId = 10, .exitId = 2, .access = {}, .reverse_access = {}}},
+    {"Glitter Gulch Mine", {.mapId = 0xC7, .from_map = 0x152, .entranceId = 17, .exitId = 2, .access = {}, .reverse_access = {}}},
+    {"Witchyworld", {.mapId = 0xD6, .from_map = 0x154, .entranceId = 18, .exitId = 2, .access = {}, .reverse_access = {}}},
+    {"Jolly Roger's Lagoon - Town Center", {.mapId = 0x1A7, .from_map = 0x155, .entranceId = 3, .exitId = 5, .access = {}, .reverse_access = {}}},
+    {"Terrydactyland", {.mapId = 0x112, .from_map = 0x15A, .entranceId = 23, .exitId = 2, .access = {}, .reverse_access = {}}},
+    {"Outside Grunty Industries", {.mapId = 0x100, .from_map = 0x15C, .entranceId = 9, .exitId = 2, .access = {}, .reverse_access = {}}},
+    {"Hailfire Peaks", {.mapId = 0x127, .from_map = 0x155, .entranceId = 21, .exitId = 6, .access = {}, .reverse_access = {}}},
+    {"Cloud Cuckooland", {.mapId = 0x136, .from_map = 0x15A, .entranceId = 20, .exitId = 5, .access = {}, .reverse_access = {}}},
+    {"Cauldron Keep", {.mapId = 0x15D, .from_map = 0x15C, .entranceId = 1, .exitId = 3, .access = {}, .reverse_access = {}}},
+    {"Targitzan's Really Sacred Chamber", {.mapId = 0x17A, .from_map = 0x178, .entranceId = 1, .exitId = 2, .access = {AP_ITEM_BBLASTER}, .reverse_access = {AP_ITEM_BBLASTER}}},
+    {"Inside Chuffy's Boiler", {.mapId = 0x0D1, .from_map = 0x0D0, .entranceId = 1, .exitId = 2, .access = {}, .reverse_access = {}}},
+    {"Big Top Interior", {.mapId = 0x0F9, .from_map = 0x0D6, .entranceId = 1, .exitId = 3, .access = {}, .reverse_access = {}}},
+    {"Davy Jones' Locker", {.mapId = 0x0FC, .from_map = 0x28, .entranceId = 1, .exitId = 0x1A9, .access = {AP_ITEM_GEGGS, AP_ITEM_AUQAIM}, .reverse_access = {}}},
     {"Terry's Nest", {.mapId = 0x113, .from_map = 0x112, .entranceId = 0x05, .exitId = 0x14, .access = {}}},
-    {"Repair Depot", {.mapId = 0x110, .from_map = 0x10F, .entranceId = 1, .exitId = 3, .access = {AP_ITEM_GEGGS}}},
-    {"Chilli Billi Crater", {.mapId = 0x12B, .from_map = 0x127, .entranceId = 1, .exitId = 0x16, .access = {AP_ITEM_IEGGS}}},
-    {"Chilli Willy Crater", {.mapId = 0x12C, .from_map = 0x128, .entranceId = 1, .exitId = 0x0C, .access = {}}},
-    {"Fake Mumbo Skull", {.mapId = 0x13F, .from_map = 0x136, .entranceId = 1, .exitId = 0x09, .access = {}}}
+    {"Repair Depot", {.mapId = 0x110, .from_map = 0x10F, .entranceId = 1, .exitId = 3, .access = {AP_ITEM_GEGGS}, .reverse_access = {}}},
+    {"Chilli Billi Crater", {.mapId = 0x12B, .from_map = 0x127, .entranceId = 1, .exitId = 0x16, .access = {AP_ITEM_IEGGS}, .reverse_access = {}}},
+    {"Chilli Willy Crater", {.mapId = 0x12C, .from_map = 0x128, .entranceId = 1, .exitId = 0x0C, .access = {}, .reverse_access = {}}},
+    {"Fake Mumbo Skull", {.mapId = 0x13F, .from_map = 0x136, .entranceId = 1, .exitId = 0x09, .access = {}, .reverse_access = {}}}
 };
 
 std::map<int, std::map<int, int> > NEST_DATA = {

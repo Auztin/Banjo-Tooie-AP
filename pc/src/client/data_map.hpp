@@ -21,6 +21,7 @@
         int entranceId;
         int exitId;
         std::vector<int> access;
+        std::vector<int> reverse_access;
     } world_entrance_t;
 
     extern std::map<std::string, world_entrance_t> WORLD_ENTRANCES;
