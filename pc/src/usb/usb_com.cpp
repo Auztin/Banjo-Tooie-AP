@@ -263,23 +263,15 @@ bool USBCom::send() {
   if (exit_map) {
     int size = sizeof(ap_memory_pc_exit_map_t);
     int max = sizeof(packet.extra)/size;
-    int n = 0;
-    int offset = 0;
-    for (int i = 0; i < AP_MEMORY_EXIT_MAP_MAX; i++) {
-      memcpy(packet.extra+size*n, &apm_converted.exit_map[i], size);
-      if (n == max) {
+    for (int i = 0, n = 0, offset = 0; i <= AP_MEMORY_EXIT_MAP_MAX; i++, n++) {
+      if (n == max || i == AP_MEMORY_EXIT_MAP_MAX) {
         packet.exit_map.offset = offset;
         packet.exit_map.size = size*n;
         write(USB_CMD_PC_EXIT_MAP, packet.exit_map.size);
-        n = 0;
         offset += size*n;
+        n = 0;
       }
-      n++;
-    }
-    if (n) {
-      packet.exit_map.offset = offset;
-      packet.exit_map.size = size*n;
-      write(USB_CMD_PC_EXIT_MAP, packet.exit_map.size);
+      if (i < AP_MEMORY_EXIT_MAP_MAX) memcpy(packet.extra+size*n, &apm_converted.exit_map[i], size);
     }
   }
   return reprocess;

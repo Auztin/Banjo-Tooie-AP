@@ -188,8 +188,6 @@ private:
   nlohmann::json check_bt_ticket_locations();
   nlohmann::json check_green_relics_locations();
   nlohmann::json check_beans_locations();
-
-
 };
 
 #endif // BT_CLIENT_HPP

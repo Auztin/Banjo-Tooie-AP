@@ -33,7 +33,7 @@ u8 usb_write(u8 cmd, u32 len) {
 }
 
 void usb_apmemcpy(void* to, void* from, u32 size) {
-  if ((u32)to < (u32)&ap_memory || (u32)(to+size) > (u32)(&ap_memory+sizeof(ap_memory))) {
+  if ((u32)to < (u32)&ap_memory || (u32)(to)+size > (u32)(&ap_memory)+sizeof(ap_memory)) {
     usb.status = USB_STATUS_DISCONNECTED;
     return;
   }
@@ -138,7 +138,7 @@ void usb_check() {
               break;
             }
             case USB_CMD_PC_EXIT_MAP: {
-              usb_apmemcpy(ap_memory.pc.exit_map+usb.packet.exit_map.offset, usb.packet.exit_map.data, usb.packet.exit_map.size);
+              usb_apmemcpy((void*)((u32)(&ap_memory.pc.exit_map)+usb.packet.exit_map.offset), usb.packet.exit_map.data, usb.packet.exit_map.size);
               break;
             }
           }

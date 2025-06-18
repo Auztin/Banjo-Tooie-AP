@@ -35,7 +35,6 @@ typedef struct Save_Data_s {
     u8 egg_nests;
     u8 feather_nests;
     u8 health_upgrades;
-    u8 green_relic[24];
   } custom[3];
 } save_data_t;
 

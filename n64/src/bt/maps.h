@@ -262,7 +262,7 @@ enum {
   BT_MAP_0x1A6 = 0x1A6, // JRL - Smuggler's cavern
   BT_MAP_0x1A7, // JRL
   BT_MAP_0x1A8, // JRL - Atlantis
-  BT_MAP_0x1A9, // JRL - Sea Bottom
+  BT_MAP_SEA_BOTTOM, // JRL - Sea Bottom
 };
 
 #endif // BT_MAPS_H

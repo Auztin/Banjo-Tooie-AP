@@ -46,7 +46,6 @@ typedef struct {
 
 #define BT_IN_GAME (bt_save_slot != 0xFF && bt_current_map != BT_MAP_FILE_SELECT)
 #define BT_FPS          (*(u8 *)0x8007913F)
-#define BT_RANDOM       (*(u32*)0x8012C7F0)
 #define BT_TITLE_SCREEN (*(u8 *)0x8012C78D) // set to 0x40 to allow skipping
 #define BT_IS_PAUSED    ((*(u16*)0x80127632) == 4)
 
@@ -88,5 +87,8 @@ typedef struct {
   u8 string_index;
   u8 _unknown[3];
 } bt_pause_main_entry_t;
+
+typedef u32 (*bt_fnt_random)();
+#define bt_fn_random ((bt_fnt_random)0x800DC090)
 
 #endif // BT_H

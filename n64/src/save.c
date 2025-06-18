@@ -285,6 +285,7 @@ u16 save_totals(u8 type) {
       return total;
     case 4: return save_data.custom[bt_save_slot].totals.pages;
     case 5:
+      if (ap_memory.pc.settings.randomize_green_relics) return ap_memory.pc.items[AP_ITEM_GRRELIC];
       if (bt_flags.mt_sacred_statue_adjacent_big_pillars_room1) total++;
       if (bt_flags.mt_sacred_statue_adjacent_big_pillars_room2) total++;
       if (bt_flags.mt_sacred_statue_near_entrance1) total++;

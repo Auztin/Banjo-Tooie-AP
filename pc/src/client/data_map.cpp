@@ -1314,7 +1314,7 @@ bool check_flag(std::string locationId) {
         //Jade Statues
             case 1231614: return real->mt_sacred_statue_near_entrance1;
             case 1231615: return real->mt_sacred_statue_near_entrance2;
-            case 1231616: return real->mt_sacred_statue_small_pillars1;  
+            case 1231616: return real->mt_sacred_statue_small_pillars1;
             case 1231617: return real->mt_sacred_statue_small_pillars2;
             case 1231618: return real->mt_sacred_statue_small_pillars3;
             case 1231619: return real->mt_sacred_statue_sput_sput1;
