@@ -626,15 +626,17 @@ void ap_sync_items(u16 type, u8 value) {
       break;
     case AP_ITEM_CHUFFY:
       if (value) {
-        if (
-             !bt_flags.train_at_ioh
-          && !bt_flags.train_at_tdl
-          && !bt_flags.train_at_gi
-          && !bt_flags.train_at_hfp_lava
-          && !bt_flags.train_at_hfp_icy
-          && !bt_flags.train_at_ww
-        ) bt_flags.train_at_ggm = 1;
-        bt_flags.ggm_mumbo_train = 1;
+        if (ap_memory.pc.settings.randomize_chuffy) {
+          if (
+               !bt_flags.train_at_ioh
+            && !bt_flags.train_at_tdl
+            && !bt_flags.train_at_gi
+            && !bt_flags.train_at_hfp_lava
+            && !bt_flags.train_at_hfp_icy
+            && !bt_flags.train_at_ww
+          ) bt_flags.train_at_ggm = 1;
+          bt_flags.ggm_mumbo_train = 1;
+        }
         bt_fake_flags.ggm_defeated_chuffy = 1;
         bt_fake_flags.ggm_mumbo_train = 1;
       }

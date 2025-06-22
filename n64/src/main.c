@@ -1027,6 +1027,7 @@ void pre_object_init(bt_object_t *obj) {
       break;
     case BT_OBJ_TRAIN_SIGN:
       util_inject(UTIL_INJECT_JUMP    , (u32)obj + 0x032C, (u32)main_train_summon, 1);
+      if (!ap_memory.pc.settings.randomize_chuffy) break;
       util_inject(UTIL_INJECT_FUNCTION, (u32)obj + 0x0250, (u32)save_fake_get_bit, 0); // defeated chuffy
       util_inject(UTIL_INJECT_FUNCTION, (u32)obj + 0x0450, (u32)save_fake_get_bit, 0); // levitated train
       break;

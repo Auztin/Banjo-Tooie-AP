@@ -103,6 +103,13 @@ u32 exits_can_pass(u16* scene, u16* exit, u16* current_map) {
         }
         return REFUSE;
       }
+      if (*scene == BT_MAP_CHUFFYS_CAB && !bt_flags.ggm_mumbo_train) {
+        if (!ap.internal_message[0] && !ap.message[0]) {
+          ap.internal_icon = BT_ZOOMBOX_ICON_OLD_KING_COAL;
+          strcpy(ap.internal_message, "YOU CAN'T ENTER THE CHUFFIN' TRAIN WHILE IT'S DERAILED!");
+        }
+        return REFUSE;
+      }
       ret = bt_player_chars.control_type == BT_PLAYER_CHAR_BREEGULL_BLASTER ? ALLOW : PARTIAL_ALLOW;
     }
   }
