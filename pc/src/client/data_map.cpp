@@ -1372,12 +1372,12 @@ std::map<std::string, world_entrance_t> WORLD_ENTRANCES =
     {"Targitzan's Really Sacred Chamber", {.mapId = 0x17A, .from_map = 0x178, .entranceId = 1, .exitId = 2, .access = {AP_ITEM_BBLASTER}, .reverse_access = {AP_ITEM_BBLASTER}}},
     {"Inside Chuffy's Boiler", {.mapId = 0x0D1, .from_map = 0x0D0, .entranceId = 1, .exitId = 2, .access = {}, .reverse_access = {}}},
     {"Big Top Interior", {.mapId = 0x0F9, .from_map = 0x0D6, .entranceId = 1, .exitId = 3, .access = {}, .reverse_access = {}}},
-    {"Davy Jones' Locker", {.mapId = 0x0FC, .from_map = 0x28, .entranceId = 1, .exitId = 0x1A9, .access = {AP_ITEM_GEGGS, AP_ITEM_AUQAIM}, .reverse_access = {}}},
+    {"Davy Jones' Locker", {.mapId = 0x0FC, .from_map = 0x1A9, .entranceId = 1, .exitId = 0x28, .access = {AP_ITEM_GEGGS, AP_ITEM_AUQAIM}, .reverse_access = {}}},
     {"Terry's Nest", {.mapId = 0x113, .from_map = 0x112, .entranceId = 0x05, .exitId = 0x14, .access = {}}},
     {"Repair Depot", {.mapId = 0x110, .from_map = 0x10F, .entranceId = 1, .exitId = 3, .access = {AP_ITEM_GEGGS}, .reverse_access = {}}},
     {"Chilli Billi Crater", {.mapId = 0x12B, .from_map = 0x127, .entranceId = 1, .exitId = 0x16, .access = {AP_ITEM_IEGGS}, .reverse_access = {}}},
     {"Chilli Willy Crater", {.mapId = 0x12C, .from_map = 0x128, .entranceId = 1, .exitId = 0x0C, .access = {}, .reverse_access = {}}},
-    {"Fake Mumbo Skull", {.mapId = 0x13F, .from_map = 0x136, .entranceId = 1, .exitId = 0x09, .access = {}, .reverse_access = {}}}
+    {"Mingy Jongo Skull", {.mapId = 0x13F, .from_map = 0x136, .entranceId = 1, .exitId = 0x09, .access = {}, .reverse_access = {}}}
 };
 
 std::map<int, std::map<int, int> > NEST_DATA = {
