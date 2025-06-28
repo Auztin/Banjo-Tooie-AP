@@ -1136,6 +1136,9 @@ void pre_object_init(bt_object_t *obj) {
     case BT_OBJ_EXIT_GUARD:
       util_inject(UTIL_INJECT_FUNCTION, (u32)obj + 0x0630, (u32)exits_can_pass_displaced, 1);
       break;
+    case BT_OBJ_CCL_BUBBLE:
+      util_inject(UTIL_INJECT_FUNCTION, (u32)obj + 0x08F0, (u32)exits_ccl_bubble, 0);
+      break;
   }
 }
 

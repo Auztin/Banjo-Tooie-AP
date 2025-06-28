@@ -218,3 +218,8 @@ u32 exits_check(bt_exit_info_t* info) {
   }
   return info->type;
 }
+
+void exits_ccl_bubble(u16 scene, u16 exit) {
+  exits_can_pass(&scene, &exit, 0);
+  bt_fn_load_scene_ccl_bubble(scene, exit);
+}

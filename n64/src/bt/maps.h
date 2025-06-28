@@ -32,6 +32,9 @@ typedef struct {
 typedef u32 (*bt_fnt_load_scene)(u16 mapId, u16 entranceId, u8 animate);
 #define bt_fn_load_scene ((bt_fnt_load_scene)0x800A7990)
 
+typedef void (*bt_fnt_load_scene_ccl_bubble)(u16 mapId, u16 entranceId);
+#define bt_fn_load_scene_ccl_bubble ((bt_fnt_load_scene_ccl_bubble)0x80087A58)
+
 typedef void (*bt_fnt_mt_get_sacred_chamber)(bt_exit_info_t*, u32* scene, u32* exit);
 #define bt_fn_mt_get_sacred_chamber ((bt_fnt_mt_get_sacred_chamber)0x8008A368)
 
