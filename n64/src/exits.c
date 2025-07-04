@@ -111,6 +111,7 @@ u32 exits_can_pass(u16* scene, u16* exit, u16* current_map) {
         return REFUSE;
       }
       ret = bt_player_chars.control_type == BT_PLAYER_CHAR_BREEGULL_BLASTER ? ALLOW : PARTIAL_ALLOW;
+      break;
     }
   }
   end_loop:
