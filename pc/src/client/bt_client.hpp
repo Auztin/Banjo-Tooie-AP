@@ -57,7 +57,6 @@ private:
   bool SKIP_KLUNGO = false;
   bool OPEN_HAG1 = false;
   bool ENABLE_AP_CHUFFY = false;
-  bool ENABLE_AP_WORLDS = false; //Used to Randomize World Order
   bool ENABLE_AP_NESTS = false;
   bool ENABLE_AP_SIGNPOSTS = false;
   bool ENABLE_AP_EASY_CANARY = false;

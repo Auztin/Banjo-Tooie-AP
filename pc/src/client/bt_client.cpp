@@ -1963,11 +1963,6 @@ asio::awaitable<void> BTClient::getSlotData()
         ENABLE_AP_CHUFFY = true;
         if(DEBUG_NET == true) { std::cout << "CHUFFY is set" << std::endl; }
     }
-    if(block.contains(string{"slot_worlds"}) && block["slot_worlds"] != "false")
-    {
-        ENABLE_AP_WORLDS = true;
-        if(DEBUG_NET == true) { std::cout << "Worlds are Shuffled" << std::endl; }
-    }
     if(block.contains(string{"slot_nestsanity"}) && block["slot_nestsanity"] != 0)
     {
         ENABLE_AP_NESTS = true;
@@ -2069,9 +2064,9 @@ asio::awaitable<void> BTClient::getSlotData()
     {
         TH_LENGTH = block["slot_token_hunt_length"];
     }
-    if(block.contains(string{"slot_world_order"}))
+    if(block.contains(string{"slot_world_requirements"}))
     {
-        world_order_cost(block["slot_world_order"], block["slot_keys"]);
+        world_order_cost(block["slot_world_requirements"], block["slot_world_order"]);
     }
     if(block.contains(string{"slot_silo_costs"}))
     {
