@@ -2028,7 +2028,7 @@ asio::awaitable<void> BTClient::getSlotData()
         ENABLE_AP_TICKETS = true;
         if(DEBUG_NET == true) { std::cout << "Randomize Tickets are Enabled" << std::endl; }
     }
-    if(block.contains(string{"slot_randomize_green_relics"}) && block["slot_randomize_tickets"] != 0)
+    if(block.contains(string{"slot_randomize_green_relics"}) && block["slot_randomize_green_relics"] != 0)
     {
         ENABLE_AP_GRRELICS = true;
         if(DEBUG_NET == true) { std::cout << "Randomize Green Relics are Enabled" << std::endl; }
