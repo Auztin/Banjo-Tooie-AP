@@ -17,14 +17,14 @@ bt_obj_setup_t setup_cache[512];
 
 struct main_credit_lines_t {
   s16 icon;
-  char name[20];
+  char name[25];
 } main_credit_lines[] = {
   {.icon=BT_ZOOMBOX_ICON_KAZOOIE_HIGH_PITCHED, .name="G0GOTBC..."},
   {.icon=BT_ZOOMBOX_ICON_BOGGY, .name="FHNNHF..."},
   {.icon=BT_ZOOMBOX_ICON_EVIL_BOTTLES, .name="AUSTIN..."},
   {.icon=BT_ZOOMBOX_ICON_CANARY_MARY, .name="UNALIVE..."},
   {.icon=BT_ZOOMBOX_ICON_GRUNTY, .name="DARDY..."},
-  {.icon=BT_ZOOMBOX_ICON_SAFE, .name="OZONE..."},
+  {.icon=BT_ZOOMBOX_ICON_SAFE, .name="OZONE AND MIASCHEMES..."},
   {.icon=BT_ZOOMBOX_ICON_WELDAR, .name="AND JJJJ12212   "},
 };
 
