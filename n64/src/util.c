@@ -1,0 +1,107 @@
+#include "util.h"
+
+void util_inject(enum UTIL_INJECT type, u32 addr, u32 data, u8 addNOP) {
+	u32 op = 0;
+	u32 extra = 0;
+	switch (type) {
+		case UTIL_INJECT_RAW:
+			(*(vu32*)addr) = data;
+			return;
+		case UTIL_INJECT_JUMP:
+			op = 0x08000000;
+			extra = (data & 0x01FFFFFF)/4;
+			break;
+		case UTIL_INJECT_FUNCTION:
+			op = 0x0C000000;
+			extra = (data & 0x01FFFFFF)/4;
+			break;
+		case UTIL_INJECT_BRANCH:
+			op = 0x10000000;
+			extra = (u16)(data/4-1);
+			break;
+		case UTIL_INJECT_RETVALUE:
+			op = 0x24020000;
+			extra = data & 0xFFFF;
+			break;
+		case UTIL_INJECT_RETURN:
+			op = 0x03E00008;
+			extra = 0;
+			if (addNOP) util_inject(UTIL_INJECT_RETVALUE, addr + 4, data, 0);
+			addNOP = 0;
+			break;
+	}
+	if (op) {
+		(*(vu32*)addr) = op | extra;
+		if (addNOP) (*(vu32*)(addr + 4)) = 0;
+	}
+}
+
+bool get_bit(u8* data, u32 id) {
+	u32 byte = id/8;
+	u8 bit = 1 << (id % 8);
+	return (data[byte] & bit) ? 1 : 0;
+}
+
+bool change_bit(u8* data, u32 id, bool value) {
+	u32 byte = id/8;
+	u8 bit = 1 << (id % 8);
+	bool ret = data[byte] & bit;
+	if (value) data[byte] |= bit;
+	else data[byte] &= ~bit;
+	return ret ? 1 : 0;
+}
+
+bool set_bit(u8* data, u32 id) {
+	return change_bit(data, id, 1);
+}
+
+bool unset_bit(u8* data, u32 id) {
+	return change_bit(data, id, 0);
+}
+
+u32 util_rand_state = 1;
+
+void csrand(u32 seed) {
+	util_rand_state = seed ? seed : 1;
+}
+
+u32 crand() {
+	u32 x = util_rand_state;
+	x ^= x << 13;
+	x ^= x >> 7;
+	x ^= x << 5;
+	return util_rand_state = x;
+}
+
+rgba_u8_t hue_rgb(float hue) {
+	rgba_u8_t color = {0, };
+	hue *= 6;
+	int h = hue;
+	switch (h) {
+		case 0:
+			color.r = 0xFF;
+			color.b = (hue-h)*0xFF;
+			break;
+		case 1:
+			color.b = 0xFF;
+			color.r = (1-(hue-h))*0xFF;
+			break;
+		case 2:
+			color.b = 0xFF;
+			color.g = (hue-h)*0xFF;
+			break;
+		case 3:
+			color.g = 0xFF;
+			color.b = (1-(hue-h))*0xFF;
+			break;
+		case 4:
+			color.g = 0xFF;
+			color.r = (hue-h)*0xFF;
+			break;
+		case 5:
+			color.r = 0xFF;
+			color.g = (1-(hue-h))*0xFF;
+			break;
+	}
+	return color;
+}

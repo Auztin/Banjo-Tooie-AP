@@ -1,0 +1,15 @@
+#pragma once
+
+// Automatically generated using gen_constants.py
+
+#include "n64/types.h"
+
+typedef union {
+	struct {
+		u16 major;
+		u8  minor;
+		u8  build;
+	};
+	u32 as_int;
+} ap_version_t;
+static const ap_version_t AP_VERSION = {.major=5, .minor=0, .build=0};

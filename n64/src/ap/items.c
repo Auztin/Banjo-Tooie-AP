@@ -1,0 +1,187 @@
+// Automatically generated using gen_constants.py
+
+#include "ap/items.h"
+
+bool ap_items_in_group(ap_item_t item, ap_item_group_t group) {
+  switch (group) {
+    case APIG_JINJOS:
+      switch (item) {
+        case API_YELLOW_JINJO:
+        case API_PURPLE_JINJO:
+        case API_BLACK_JINJO:
+        case API_ORANGE_JINJO:
+        case API_RED_JINJO:
+        case API_BLUE_JINJO:
+        case API_WHITE_JINJO:
+        case API_GREEN_JINJO:
+        case API_BROWN_JINJO:
+          return true;
+        default: return false;
+      }
+    case APIG_MOVES:
+      switch (item) {
+        case API_PACK_WHACK:
+        case API_ICE_EGGS:
+        case API_GRIP_GRAB:
+        case API_WING_WHACK:
+        case API_HATCH:
+        case API_TAXI_PACK:
+        case API_EGG_AIM:
+        case API_SPLIT_UP:
+        case API_SUB_AQUA_EGG_AIMING:
+        case API_DOUBLE_AIR:
+        case API_CLOCKWORK_KAZOOIE_EGGS:
+        case API_BREEGULL_BLASTER:
+        case API_SACK_PACK:
+        case API_TALON_TORPEDO:
+        case API_FAST_SWIMMING:
+        case API_GLIDE:
+        case API_AIRBORNE_EGG_AIMING:
+        case API_BEAK_BAYONET:
+        case API_SPRINGY_STEP_SHOES:
+        case API_FIRE_EGGS:
+        case API_SNOOZE_PACK:
+        case API_SHACK_PACK:
+        case API_AMAZE_O_GAZE:
+        case API_GRENADE_EGGS:
+        case API_CLAW_CLAMBER_BOOTS:
+        case API_BILL_DRILL:
+        case API_LEG_SPRING:
+          return true;
+        default: return false;
+      }
+    case APIG_MAGICS:
+      switch (item) {
+        case API_MUMBO_LEVITATE:
+        case API_MUMBO_GOLDEN_GOLIATH:
+        case API_HUMBA_SUB:
+        case API_HUMBA_SNOWBALL:
+        case API_HUMBA_BEE:
+        case API_MUMBO_RAIN_DANCE:
+        case API_MUMBO_OXYGENATE:
+        case API_HUMBA_STONY:
+        case API_MUMBO_LIFE_FORCE:
+        case API_HUMBA_T_REX:
+        case API_MUMBO_EMP:
+        case API_HUMBA_MONEY_VAN:
+        case API_MUMBO_POWER:
+        case API_MUMBO_HEAL:
+        case API_HUMBA_WASHING_MACHINE:
+        case API_HUMBA_DETONATOR:
+        case API_MUMBO_ENLARGE:
+        case API_HUMBA_DRAGON:
+          return true;
+        default: return false;
+      }
+    case APIG_STATIONS:
+      switch (item) {
+        case API_HFP_LAVA_SIDE_TRAIN_STATION:
+        case API_IOH_TRAIN_STATION:
+        case API_WW_TRAIN_STATION:
+        case API_GI_TRAIN_STATION:
+        case API_TDL_TRAIN_STATION:
+        case API_HFP_ICY_SIDE_TRAIN_STATION:
+          return true;
+        default: return false;
+      }
+    case APIG_STOP_N_SWOP:
+      switch (item) {
+        case API_BLUE_MYSTERY_EGG:
+        case API_BREEGULL_BASH:
+        case API_HOMING_EGGS:
+        case API_PINK_MYSTERY_EGG:
+        case API_ICE_KEY:
+          return true;
+        default: return false;
+      }
+    case APIG_WORLDS:
+      switch (item) {
+        case API_CLOUD_CUCKOOLAND:
+        case API_TERRYDACTYLAND:
+        case API_GRUNTY_INDUSTRIES:
+        case API_WITCHYWORLD:
+        case API_MAYAHEM_TEMPLE:
+        case API_HAILFIRE_PEAKS:
+        case API_JOLLY_ROGERS_LAGOON:
+        case API_GLITTER_GULCH_MINE:
+        case API_CAULDRON_KEEP:
+          return true;
+        default: return false;
+      }
+    case APIG_WARP_SILOS:
+      switch (item) {
+        case API_PINE_GROVE_WARP_SILO:
+        case API_QUAGMIRE_WARP_SILO:
+        case API_CLIFF_TOP_WARP_SILO:
+        case API_PLATEAU_WARP_SILO:
+        case API_WOODED_HOLLOW_WARP_SILO:
+        case API_WASTELAND_WARP_SILO:
+        case API_JINJO_VILLAGE_WARP_SILO:
+          return true;
+        default: return false;
+      }
+    case APIG_WARP_PADS:
+      switch (item) {
+        case API_TDL_TOP_OF_THE_MOUNTAIN_WARP_PAD:
+        case API_CK_TOP_OF_THE_TOWER_WARP_PAD:
+        case API_WW_WORLD_ENTRY_AND_EXIT_WARP_PAD:
+        case API_TDL_OUTSIDE_MUMBOS_SKULL_WARP_PAD:
+        case API_WW_BEHIND_THE_BIG_TOP_TENT_WARP_PAD:
+        case API_GI_FLOOR_1_ENTRANCE_DOOR_WARP_PAD:
+        case API_HFP_FIRE_SIDE_LOWER_AREA_MUMBO_WARP_PAD:
+        case API_WW_OUTSIDE_WUMBAS_WIGWAM_WARP_PAD:
+        case API_MT_OUTSIDE_MUMBOS_SKULL_WARP_PAD:
+        case API_GGM_INSIDE_WUMBAS_WIGWAM_WARP_PAD:
+        case API_CCL_WORLD_ENTRY_AND_EXIT_WARP_PAD:
+        case API_GGM_WORLD_ENTRY_AND_EXIT_WARP_PAD:
+        case API_TDL_WORLD_ENTRY_AND_EXIT_WARP_PAD:
+        case API_GI_FLOOR_4_NEAR_THE_CRUSHERS_WARP_PAD:
+        case API_HFP_ICE_SIDE_INSIDE_ICICLE_GROTTO_WARP_PAD:
+        case API_GGM_OUTSIDE_THE_CRUSHING_SHED_WARP_PAD:
+        case API_JRL_LOCKERS_CAVERN_WARP_PAD:
+        case API_WW_OUTSIDE_MUMBOS_SKULL_WARP_PAD:
+        case API_MT_KICKBALL_STADIUM_LOBBY_WARP_PAD:
+        case API_CK_BOTTOM_OF_THE_TOWER_WARP_PAD:
+        case API_GI_OUTSIDE_ON_THE_ROOF_OUTSIDE_WARP_PAD:
+        case API_JRL_BIG_FISH_CAVERN_WARP_PAD:
+        case API_MT_PRISON_COMPOUND_WARP_PAD:
+        case API_GGM_OUTSIDE_MUMBOS_SKULL_WARP_PAD:
+        case API_HFP_ICE_SIDE_LOWER_AREA_WUMBA_WARP_PAD:
+        case API_MT_NEAR_WUMBAS_WIGWAM_WARP_PAD:
+        case API_HFP_FIRE_SIDE_UPPER_AREA_WARP_PAD:
+        case API_GI_FLOOR_3_OUTSIDE_MUMBOS_SKULL_WARP_PAD:
+        case API_HFP_ICE_SIDE_UPPER_AREA_WARP_PAD:
+        case API_GGM_NEAR_THE_TRAIN_STATION_WARP_PAD:
+        case API_JRL_SUNKEN_SHIP_WARP_PAD:
+        case API_GI_FLOOR_2_OUTSIDE_WUMBAS_WIGWAM_WARP_PAD:
+        case API_WW_SPACE_ZONE_WARP_PAD:
+        case API_JRL_TOWN_CENTER_WARP_PAD:
+        case API_TDL_STOMPING_PLAINS_WARP_PAD:
+        case API_TDL_OUTSIDE_WUMBAS_WIGWAM_WARP_PAD:
+        case API_JRL_ATLANTIS_WARP_PAD:
+        case API_MT_WORLD_ENTRY_AND_EXIT_WARP_PAD:
+        case API_CCL_CENTRAL_CAVERN_WARP_PAD:
+          return true;
+        default: return false;
+      }
+    case APIG_CHEATS:
+      switch (item) {
+        case API_CHEATO_REWARD_FALLPROOF:
+        case API_CHEATO_REWARD_FEATHERS:
+        case API_CHEATO_REWARD_JUKEBOX:
+        case API_CHEATO_REWARD_HONEYBACK:
+        case API_CHEATO_REWARD_EGGS:
+          return true;
+        default: return false;
+      }
+    case APIG_NESTS:
+      switch (item) {
+        case API_EGG_NEST:
+        case API_FEATHER_NEST:
+        case API_GOLDEN_EGG_NEST:
+          return true;
+        default: return false;
+      }
+    default: return false;
+  }
+}

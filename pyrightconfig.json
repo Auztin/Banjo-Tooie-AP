@@ -1,0 +1,4 @@
+{
+  "extends": ".vscode/pyrightconfig.json",
+  "strict": ["ap/"]
+}
