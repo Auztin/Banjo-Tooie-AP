@@ -30,7 +30,7 @@ release: clean .WAIT all
 	cp n64/rom/$(GAME).patch ap/assets/
 	cp n64/rom/$(GAME)_Patched.z64-md5 ap/assets/
 	cp pc/Bizhawk.lua ap/assets/connector_$(GAME_LOWER)_bizhawk.lua
-	cd tools/archipelago/repo && $(PYTHON)/python Launcher.py "Build APWorlds" $(GAME_NAME)
+	cd tools/archipelago/repo && "$(PYTHON)/python" Launcher.py "Build APWorlds" $(GAME_NAME)
 	mv tools/archipelago/repo/build/apworlds/$(GAME_LOWER).apworld release/
 	7z d release/$(GAME_LOWER).apworld $(GAME_LOWER)/.git $(GAME_LOWER)/.gitignore $(GAME_LOWER)/README.md $(GAME_LOWER)/template.yaml
 	cp pc/Bizhawk.lua release/connector_$(GAME_LOWER)_bizhawk.lua
