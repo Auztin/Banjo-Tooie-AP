@@ -5,868 +5,868 @@
 #include "n64/types.h"
 
 typedef struct {
-  u32 death_link : 1;
-  u32 easy_canary : 1;
-  u32 extra_cheats : 1;
-  u32 hint_clarity : 1;
-  u32 open_back_doors : 1;
-  u32 open_gi_front_door : 1;
-  u32 open_hag1 : 1;
-  u32 progressive_aiming : 1;
-  u32 progressive_bash_attack : 1;
-  u32 progressive_beak_buster : 1;
-  u32 progressive_eggs : 1;
-  u32 progressive_flight : 1;
-  u32 progressive_shoes : 1;
-  u32 progressive_water_training : 1;
-  u32 replace_excess_jiggies : 1;
-  u32 replace_excess_mumbo_tokens : 1;
-  u32 replace_excess_note_nests : 1;
-  u32 shuffle_beans : 1;
-  u32 shuffle_big_top_tickets : 1;
-  u32 shuffle_boss_entrances : 1;
-  u32 shuffle_bt_moves : 1;
-  u32 shuffle_cheato_pages : 1;
-  u32 shuffle_cheato_rewards : 1;
-  u32 shuffle_chuffy : 1;
-  u32 shuffle_doubloons : 1;
-  u32 shuffle_glowbos : 1;
-  u32 shuffle_green_relics : 1;
-  u32 shuffle_honeyb_rewards : 1;
-  u32 shuffle_honeycombs : 1;
-  u32 shuffle_jiggywiggys_super_special_challenge : 1;
-  u32 shuffle_jinjos : 1;
-  u32 shuffle_nests : 1;
-  u32 shuffle_note_nests : 1;
-  u32 shuffle_signs : 1;
-  u32 shuffle_stop_n_swop : 1;
-  u32 shuffle_train_stations : 1;
-  u32 shuffle_treble_clefs : 1;
-  u32 shuffle_warp_pads : 1;
-  u32 shuffle_warp_silos : 1;
-  u32 shuffle_world_entrances : 1;
-  u32 shuffle_world_order : 1;
-  u32 skip_klungo : 1;
-  u32 speedup_minigames : 1;
-  u32 tag_link : 1;
-  u32 add_hints_to_archipelago : 2;
-  u32 instant_transform : 2;
-  u32 jiggywiggys_challenges : 2;
-  u32 move_silo_costs : 2;
-  u32 shuffle_bk_moves : 2;
-  u32 tower_of_tragedy : 2;
-  u32 chosen_eggs : 3;
-  u32 preset_jiggywiggys_challenge_costs : 3;
-  u32 preset_victory_goals : 3;
-  struct {
-    u8 airborne_egg_aiming : 1;
-    u8 beak_bomb : 1;
-    u8 flight_pad : 1;
-  } progressive_flight_list;
-  struct {
-    u8 amaze_o_gaze : 1;
-    u8 breegull_blaster : 1;
-    u8 egg_aim : 1;
-    u8 third_person_egg_shooting : 1;
-  } progressive_aiming_list;
-  struct {
-    u8 claw_clamber_boots : 1;
-    u8 springy_step_shoes : 1;
-    u8 stilt_stride : 1;
-    u8 turbo_trainers : 1;
-  } progressive_shoes_list;
-  struct {
-    u8 eggs : 1;
-    u8 fallproof : 1;
-    u8 feathers : 1;
-    u8 homing_eggs : 1;
-    u8 honeyback : 1;
-  } auto_enable_cheats;
-  struct {
-    u8 dive : 1;
-    u8 double_air : 1;
-    u8 fast_swimming : 1;
-    u8 sub_aqua_egg_aiming : 1;
-    u8 talon_torpedo : 1;
-  } progressive_water_training_list;
-  struct {
-    u8 blue_eggs : 1;
-    u8 clockwork_kazooie_eggs : 1;
-    u8 fire_eggs : 1;
-    u8 grenade_eggs : 1;
-    u8 ice_eggs : 1;
-  } starting_eggs;
-  struct {
-    u8 easy_glitches : 1;
-    u8 easy_tedious_tricks : 1;
-    u8 easy_tricks : 1;
-    u8 frame_perfect : 1;
-    u8 hard_glitches : 1;
-    u8 hard_tedious_tricks : 1;
-    u8 hard_tricks : 1;
-  } preset_logic_tricks;
-  struct {
-    u8 balloon_burst : 1;
-    u8 black_jinjo_family : 1;
-    u8 blue_jinjo_family : 1;
-    u8 brown_jinjo_family : 1;
-    u8 canary_mary : 1;
-    u8 chilli_billi : 1;
-    u8 chilly_willy : 1;
-    u8 chompas_belly : 1;
-    u8 clinkers_cavern : 1;
-    u8 dodgem_dome : 1;
-    u8 green_jinjo_family : 1;
-    u8 hag_1 : 1;
-    u8 hfp_kickball : 1;
-    u8 hoop_hurry : 1;
-    u8 lord_woo_fak_fak : 1;
-    u8 mt_kickball : 1;
-    u8 mingy_jongo : 1;
-    u8 mini_sub_challenge : 1;
-    u8 mr_patch : 1;
-    u8 old_king_coal : 1;
-    u8 orange_jinjo_family : 1;
-    u8 ordnance_storage : 1;
-    u8 pot_o_gold : 1;
-    u8 purple_jinjo_family : 1;
-    u8 red_jinjo_family : 1;
-    u8 saucer_of_peril : 1;
-    u8 targitzan : 1;
-    u8 terry : 1;
-    u8 tower_of_tragedy : 1;
-    u8 trash_can : 1;
-    u8 twinkly_packing : 1;
-    u8 weldar : 1;
-    u8 white_jinjo_family : 1;
-    u8 yellow_jinjo_family : 1;
-    u8 zubbas : 1;
-  } chosen_goals;
-  struct {
-    u8 balloon_burst : 1;
-    u8 black_jinjo_family : 1;
-    u8 blue_jinjo_family : 1;
-    u8 brown_jinjo_family : 1;
-    u8 canary_mary : 1;
-    u8 chilli_billi : 1;
-    u8 chilly_willy : 1;
-    u8 chompas_belly : 1;
-    u8 clinkers_cavern : 1;
-    u8 dodgem_dome : 1;
-    u8 green_jinjo_family : 1;
-    u8 hag_1 : 1;
-    u8 hfp_kickball : 1;
-    u8 hoop_hurry : 1;
-    u8 lord_woo_fak_fak : 1;
-    u8 mt_kickball : 1;
-    u8 mingy_jongo : 1;
-    u8 mini_sub_challenge : 1;
-    u8 mr_patch : 1;
-    u8 old_king_coal : 1;
-    u8 orange_jinjo_family : 1;
-    u8 ordnance_storage : 1;
-    u8 pot_o_gold : 1;
-    u8 purple_jinjo_family : 1;
-    u8 red_jinjo_family : 1;
-    u8 saucer_of_peril : 1;
-    u8 targitzan : 1;
-    u8 terry : 1;
-    u8 tower_of_tragedy : 1;
-    u8 trash_can : 1;
-    u8 twinkly_packing : 1;
-    u8 weldar : 1;
-    u8 white_jinjo_family : 1;
-    u8 yellow_jinjo_family : 1;
-    u8 zubbas : 1;
-  } victory_goals;
-  struct {
-    u8 air_rat_a_tat_rap_clip : 1;
-    u8 beak_barge_clip : 1;
-    u8 beak_barge_jump : 1;
-    u8 beak_bomb_tricks : 1;
-    u8 beak_buster_fall : 1;
-    u8 beak_buster_jump : 1;
-    u8 bill_drill_jump : 1;
-    u8 breegull_bash_clip : 1;
-    u8 breegull_bash_fall : 1;
-    u8 breegull_bash_grab : 1;
-    u8 damage_boost : 1;
-    u8 damage_boost_jump : 1;
-    u8 death_warp : 1;
-    u8 dragunda_sidle : 1;
-    u8 easy_jumps : 1;
-    u8 easy_tedious_jumps : 1;
-    u8 extra_clockwork_usage : 1;
-    u8 fall_damage : 1;
-    u8 flap_flip_slide_extension : 1;
-    u8 free_shock_spring_pad : 1;
-    u8 gi_guarded_jiggy_without_fighting : 1;
-    u8 gi_quality_control_vent_as_banjo : 1;
-    u8 gi_extra_loggo_moves : 1;
-    u8 ground_rat_a_tat_rap_fall : 1;
-    u8 ground_rat_a_tat_rap_jump : 1;
-    u8 hard_jumps : 1;
-    u8 hard_tedious_jumps : 1;
-    u8 instant_transform_trick : 1;
-    u8 pack_whack_fall : 1;
-    u8 pack_whack_jump : 1;
-    u8 roll_jump : 1;
-    u8 sack_pack_air_jump : 1;
-    u8 sack_pack_ending_jump : 1;
-    u8 sack_pack_fall : 1;
-    u8 shack_pack_air_jump : 1;
-    u8 shack_pack_fall : 1;
-    u8 slide_jump : 1;
-    u8 snooze_pack_fall : 1;
-    u8 talon_trot_slide_jump : 1;
-    u8 talon_trot_smuggle : 1;
-    u8 talon_trot_smuggle_cross_world : 1;
-    u8 taxi_pack_fall : 1;
-    u8 wonderwing_damage_boost : 1;
-    u8 wonderwing_fall : 1;
-    u8 wonderwing_jump : 1;
-  } logic_tricks;
-  struct {
-    u8 alien : 1;
-    u8 alien_child : 1;
-    u8 all : 1;
-    u8 banjo : 1;
-    u8 banjo_kazooie : 1;
-    u8 bargasaurus : 1;
-    u8 beehive : 1;
-    u8 bigga_foot : 1;
-    u8 big_al : 1;
-    u8 blobbelda : 1;
-    u8 boggy : 1;
-    u8 bottles : 1;
-    u8 bottles_dead : 1;
-    u8 bovina : 1;
-    u8 canary_mary : 1;
-    u8 captain_blackeye : 1;
-    u8 captain_blubber : 1;
-    u8 cheato : 1;
-    u8 chief_bloatazin : 1;
-    u8 chilli_billi : 1;
-    u8 chilly_willy : 1;
-    u8 chompa : 1;
-    u8 chris_p_bacon : 1;
-    u8 conga : 1;
-    u8 dilberta : 1;
-    u8 dingpot : 1;
-    u8 dino_kid1 : 1;
-    u8 dino_kid2 : 1;
-    u8 dino_scrit_big : 1;
-    u8 dino_scrit_small : 1;
-    u8 dippy : 1;
-    u8 evil_bottles : 1;
-    u8 george : 1;
-    u8 gi_announcer : 1;
-    u8 glowbo : 1;
-    u8 gobi : 1;
-    u8 goggles : 1;
-    u8 groggy : 1;
-    u8 grunty : 1;
-    u8 guffo : 1;
-    u8 heggy : 1;
-    u8 honeycomb : 1;
-    u8 honey_b : 1;
-    u8 humba : 1;
-    u8 jamjars : 1;
-    u8 jiggy : 1;
-    u8 jiggywiggy : 1;
-    u8 jiggywiggy_disciple : 1;
-    u8 jinjo_black : 1;
-    u8 jinjo_blue : 1;
-    u8 jinjo_brown : 1;
-    u8 jinjo_green : 1;
-    u8 jinjo_orange : 1;
-    u8 jinjo_purple : 1;
-    u8 jinjo_red : 1;
-    u8 jinjo_white : 1;
-    u8 jinjo_yellow : 1;
-    u8 jolly : 1;
-    u8 kazooie : 1;
-    u8 king_jingaling : 1;
-    u8 king_jingaling_dead : 1;
-    u8 klungo : 1;
-    u8 loggo : 1;
-    u8 lord_woo_fak_fak : 1;
-    u8 merry_maggie : 1;
-    u8 mildred : 1;
-    u8 mingella : 1;
-    u8 mingy_jongo : 1;
-    u8 minjo_black : 1;
-    u8 minjo_blue : 1;
-    u8 minjo_brown : 1;
-    u8 minjo_green : 1;
-    u8 minjo_orange : 1;
-    u8 minjo_purple : 1;
-    u8 minjo_red : 1;
-    u8 minjo_white : 1;
-    u8 minjo_yellow : 1;
-    u8 moggy : 1;
-    u8 mrs_boggy : 1;
-    u8 mrs_bottles : 1;
-    u8 mr_fit : 1;
-    u8 mr_patch : 1;
-    u8 mumbo : 1;
-    u8 old_king_coal : 1;
-    u8 oogle_boogle : 1;
-    u8 pawno : 1;
-    u8 pig1 : 1;
-    u8 prospector : 1;
-    u8 rabbit_worker1 : 1;
-    u8 rocknut : 1;
-    u8 roysten : 1;
-    u8 sabreman : 1;
-    u8 safe : 1;
-    u8 salty_joe : 1;
-    u8 soggy : 1;
-    u8 speccy : 1;
-    u8 ssslumber : 1;
-    u8 stonies1 : 1;
-    u8 styracosaurus_mom : 1;
-    u8 sub : 1;
-    u8 targitzan : 1;
-    u8 terry : 1;
-    u8 tiptup : 1;
-    u8 ufo : 1;
-    u8 unga_bunga : 1;
-    u8 unogopaz : 1;
-    u8 washer : 1;
-    u8 weldar : 1;
-    u8 yellow_dodgem : 1;
-    u8 yellow_stony : 1;
-    u8 zubba : 1;
-  } dialog_character;
-  s32 extra_bass_clefs;
-  s32 extra_cheato_pages;
-  s32 extra_doubloons;
-  s32 extra_egg_nests;
-  s32 extra_empty_honeycombs;
-  s32 extra_feather_nests;
-  s32 extra_jiggies;
-  s32 extra_mumbo_tokens;
-  s32 extra_note_nests;
-  s32 extra_treble_clefs;
-  s32 golden_egg_nests;
-  s32 max_mumbo_tokens;
-  s32 move_hints;
-  s32 open_warp_silos;
-  s32 sign_hints;
-  s32 slip_traps;
-  s32 squish_traps;
-  s32 tip_traps;
-  s32 transform_traps;
-  s32 trip_traps;
-  s32 jiggywiggys_challenge_costs[11];
-  s32 chosen_move_silo_costs[24];
+	u32 death_link : 1;
+	u32 easy_canary : 1;
+	u32 extra_cheats : 1;
+	u32 hint_clarity : 1;
+	u32 open_back_doors : 1;
+	u32 open_gi_front_door : 1;
+	u32 open_hag1 : 1;
+	u32 progressive_aiming : 1;
+	u32 progressive_bash_attack : 1;
+	u32 progressive_beak_buster : 1;
+	u32 progressive_eggs : 1;
+	u32 progressive_flight : 1;
+	u32 progressive_shoes : 1;
+	u32 progressive_water_training : 1;
+	u32 replace_excess_jiggies : 1;
+	u32 replace_excess_mumbo_tokens : 1;
+	u32 replace_excess_note_nests : 1;
+	u32 shuffle_beans : 1;
+	u32 shuffle_big_top_tickets : 1;
+	u32 shuffle_boss_entrances : 1;
+	u32 shuffle_bt_moves : 1;
+	u32 shuffle_cheato_pages : 1;
+	u32 shuffle_cheato_rewards : 1;
+	u32 shuffle_chuffy : 1;
+	u32 shuffle_doubloons : 1;
+	u32 shuffle_glowbos : 1;
+	u32 shuffle_green_relics : 1;
+	u32 shuffle_honeyb_rewards : 1;
+	u32 shuffle_honeycombs : 1;
+	u32 shuffle_jiggywiggys_super_special_challenge : 1;
+	u32 shuffle_jinjos : 1;
+	u32 shuffle_nests : 1;
+	u32 shuffle_note_nests : 1;
+	u32 shuffle_signs : 1;
+	u32 shuffle_stop_n_swop : 1;
+	u32 shuffle_train_stations : 1;
+	u32 shuffle_treble_clefs : 1;
+	u32 shuffle_warp_pads : 1;
+	u32 shuffle_warp_silos : 1;
+	u32 shuffle_world_entrances : 1;
+	u32 shuffle_world_order : 1;
+	u32 skip_klungo : 1;
+	u32 speedup_minigames : 1;
+	u32 tag_link : 1;
+	u32 add_hints_to_archipelago : 2;
+	u32 instant_transform : 2;
+	u32 jiggywiggys_challenges : 2;
+	u32 move_silo_costs : 2;
+	u32 shuffle_bk_moves : 2;
+	u32 tower_of_tragedy : 2;
+	u32 chosen_eggs : 3;
+	u32 preset_jiggywiggys_challenge_costs : 3;
+	u32 preset_victory_goals : 3;
+	struct {
+		u8 airborne_egg_aiming : 1;
+		u8 beak_bomb : 1;
+		u8 flight_pad : 1;
+	} progressive_flight_list;
+	struct {
+		u8 amaze_o_gaze : 1;
+		u8 breegull_blaster : 1;
+		u8 egg_aim : 1;
+		u8 third_person_egg_shooting : 1;
+	} progressive_aiming_list;
+	struct {
+		u8 claw_clamber_boots : 1;
+		u8 springy_step_shoes : 1;
+		u8 stilt_stride : 1;
+		u8 turbo_trainers : 1;
+	} progressive_shoes_list;
+	struct {
+		u8 eggs : 1;
+		u8 fallproof : 1;
+		u8 feathers : 1;
+		u8 homing_eggs : 1;
+		u8 honeyback : 1;
+	} auto_enable_cheats;
+	struct {
+		u8 dive : 1;
+		u8 double_air : 1;
+		u8 fast_swimming : 1;
+		u8 sub_aqua_egg_aiming : 1;
+		u8 talon_torpedo : 1;
+	} progressive_water_training_list;
+	struct {
+		u8 blue_eggs : 1;
+		u8 clockwork_kazooie_eggs : 1;
+		u8 fire_eggs : 1;
+		u8 grenade_eggs : 1;
+		u8 ice_eggs : 1;
+	} starting_eggs;
+	struct {
+		u8 easy_glitches : 1;
+		u8 easy_tedious_tricks : 1;
+		u8 easy_tricks : 1;
+		u8 frame_perfect : 1;
+		u8 hard_glitches : 1;
+		u8 hard_tedious_tricks : 1;
+		u8 hard_tricks : 1;
+	} preset_logic_tricks;
+	struct {
+		u8 balloon_burst : 1;
+		u8 black_jinjo_family : 1;
+		u8 blue_jinjo_family : 1;
+		u8 brown_jinjo_family : 1;
+		u8 canary_mary : 1;
+		u8 chilli_billi : 1;
+		u8 chilly_willy : 1;
+		u8 chompas_belly : 1;
+		u8 clinkers_cavern : 1;
+		u8 dodgem_dome : 1;
+		u8 green_jinjo_family : 1;
+		u8 hag_1 : 1;
+		u8 hfp_kickball : 1;
+		u8 hoop_hurry : 1;
+		u8 lord_woo_fak_fak : 1;
+		u8 mt_kickball : 1;
+		u8 mingy_jongo : 1;
+		u8 mini_sub_challenge : 1;
+		u8 mr_patch : 1;
+		u8 old_king_coal : 1;
+		u8 orange_jinjo_family : 1;
+		u8 ordnance_storage : 1;
+		u8 pot_o_gold : 1;
+		u8 purple_jinjo_family : 1;
+		u8 red_jinjo_family : 1;
+		u8 saucer_of_peril : 1;
+		u8 targitzan : 1;
+		u8 terry : 1;
+		u8 tower_of_tragedy : 1;
+		u8 trash_can : 1;
+		u8 twinkly_packing : 1;
+		u8 weldar : 1;
+		u8 white_jinjo_family : 1;
+		u8 yellow_jinjo_family : 1;
+		u8 zubbas : 1;
+	} chosen_goals;
+	struct {
+		u8 balloon_burst : 1;
+		u8 black_jinjo_family : 1;
+		u8 blue_jinjo_family : 1;
+		u8 brown_jinjo_family : 1;
+		u8 canary_mary : 1;
+		u8 chilli_billi : 1;
+		u8 chilly_willy : 1;
+		u8 chompas_belly : 1;
+		u8 clinkers_cavern : 1;
+		u8 dodgem_dome : 1;
+		u8 green_jinjo_family : 1;
+		u8 hag_1 : 1;
+		u8 hfp_kickball : 1;
+		u8 hoop_hurry : 1;
+		u8 lord_woo_fak_fak : 1;
+		u8 mt_kickball : 1;
+		u8 mingy_jongo : 1;
+		u8 mini_sub_challenge : 1;
+		u8 mr_patch : 1;
+		u8 old_king_coal : 1;
+		u8 orange_jinjo_family : 1;
+		u8 ordnance_storage : 1;
+		u8 pot_o_gold : 1;
+		u8 purple_jinjo_family : 1;
+		u8 red_jinjo_family : 1;
+		u8 saucer_of_peril : 1;
+		u8 targitzan : 1;
+		u8 terry : 1;
+		u8 tower_of_tragedy : 1;
+		u8 trash_can : 1;
+		u8 twinkly_packing : 1;
+		u8 weldar : 1;
+		u8 white_jinjo_family : 1;
+		u8 yellow_jinjo_family : 1;
+		u8 zubbas : 1;
+	} victory_goals;
+	struct {
+		u8 air_rat_a_tat_rap_clip : 1;
+		u8 beak_barge_clip : 1;
+		u8 beak_barge_jump : 1;
+		u8 beak_bomb_tricks : 1;
+		u8 beak_buster_fall : 1;
+		u8 beak_buster_jump : 1;
+		u8 bill_drill_jump : 1;
+		u8 breegull_bash_clip : 1;
+		u8 breegull_bash_fall : 1;
+		u8 breegull_bash_grab : 1;
+		u8 damage_boost : 1;
+		u8 damage_boost_jump : 1;
+		u8 death_warp : 1;
+		u8 dragunda_sidle : 1;
+		u8 easy_jumps : 1;
+		u8 easy_tedious_jumps : 1;
+		u8 extra_clockwork_usage : 1;
+		u8 fall_damage : 1;
+		u8 flap_flip_slide_extension : 1;
+		u8 free_shock_spring_pad : 1;
+		u8 gi_guarded_jiggy_without_fighting : 1;
+		u8 gi_quality_control_vent_as_banjo : 1;
+		u8 gi_extra_loggo_moves : 1;
+		u8 ground_rat_a_tat_rap_fall : 1;
+		u8 ground_rat_a_tat_rap_jump : 1;
+		u8 hard_jumps : 1;
+		u8 hard_tedious_jumps : 1;
+		u8 instant_transform_trick : 1;
+		u8 pack_whack_fall : 1;
+		u8 pack_whack_jump : 1;
+		u8 roll_jump : 1;
+		u8 sack_pack_air_jump : 1;
+		u8 sack_pack_ending_jump : 1;
+		u8 sack_pack_fall : 1;
+		u8 shack_pack_air_jump : 1;
+		u8 shack_pack_fall : 1;
+		u8 slide_jump : 1;
+		u8 snooze_pack_fall : 1;
+		u8 talon_trot_slide_jump : 1;
+		u8 talon_trot_smuggle : 1;
+		u8 talon_trot_smuggle_cross_world : 1;
+		u8 taxi_pack_fall : 1;
+		u8 wonderwing_damage_boost : 1;
+		u8 wonderwing_fall : 1;
+		u8 wonderwing_jump : 1;
+	} logic_tricks;
+	struct {
+		u8 alien : 1;
+		u8 alien_child : 1;
+		u8 all : 1;
+		u8 banjo : 1;
+		u8 banjo_kazooie : 1;
+		u8 bargasaurus : 1;
+		u8 beehive : 1;
+		u8 bigga_foot : 1;
+		u8 big_al : 1;
+		u8 blobbelda : 1;
+		u8 boggy : 1;
+		u8 bottles : 1;
+		u8 bottles_dead : 1;
+		u8 bovina : 1;
+		u8 canary_mary : 1;
+		u8 captain_blackeye : 1;
+		u8 captain_blubber : 1;
+		u8 cheato : 1;
+		u8 chief_bloatazin : 1;
+		u8 chilli_billi : 1;
+		u8 chilly_willy : 1;
+		u8 chompa : 1;
+		u8 chris_p_bacon : 1;
+		u8 conga : 1;
+		u8 dilberta : 1;
+		u8 dingpot : 1;
+		u8 dino_kid1 : 1;
+		u8 dino_kid2 : 1;
+		u8 dino_scrit_big : 1;
+		u8 dino_scrit_small : 1;
+		u8 dippy : 1;
+		u8 evil_bottles : 1;
+		u8 george : 1;
+		u8 gi_announcer : 1;
+		u8 glowbo : 1;
+		u8 gobi : 1;
+		u8 goggles : 1;
+		u8 groggy : 1;
+		u8 grunty : 1;
+		u8 guffo : 1;
+		u8 heggy : 1;
+		u8 honeycomb : 1;
+		u8 honey_b : 1;
+		u8 humba : 1;
+		u8 jamjars : 1;
+		u8 jiggy : 1;
+		u8 jiggywiggy : 1;
+		u8 jiggywiggy_disciple : 1;
+		u8 jinjo_black : 1;
+		u8 jinjo_blue : 1;
+		u8 jinjo_brown : 1;
+		u8 jinjo_green : 1;
+		u8 jinjo_orange : 1;
+		u8 jinjo_purple : 1;
+		u8 jinjo_red : 1;
+		u8 jinjo_white : 1;
+		u8 jinjo_yellow : 1;
+		u8 jolly : 1;
+		u8 kazooie : 1;
+		u8 king_jingaling : 1;
+		u8 king_jingaling_dead : 1;
+		u8 klungo : 1;
+		u8 loggo : 1;
+		u8 lord_woo_fak_fak : 1;
+		u8 merry_maggie : 1;
+		u8 mildred : 1;
+		u8 mingella : 1;
+		u8 mingy_jongo : 1;
+		u8 minjo_black : 1;
+		u8 minjo_blue : 1;
+		u8 minjo_brown : 1;
+		u8 minjo_green : 1;
+		u8 minjo_orange : 1;
+		u8 minjo_purple : 1;
+		u8 minjo_red : 1;
+		u8 minjo_white : 1;
+		u8 minjo_yellow : 1;
+		u8 moggy : 1;
+		u8 mrs_boggy : 1;
+		u8 mrs_bottles : 1;
+		u8 mr_fit : 1;
+		u8 mr_patch : 1;
+		u8 mumbo : 1;
+		u8 old_king_coal : 1;
+		u8 oogle_boogle : 1;
+		u8 pawno : 1;
+		u8 pig1 : 1;
+		u8 prospector : 1;
+		u8 rabbit_worker1 : 1;
+		u8 rocknut : 1;
+		u8 roysten : 1;
+		u8 sabreman : 1;
+		u8 safe : 1;
+		u8 salty_joe : 1;
+		u8 soggy : 1;
+		u8 speccy : 1;
+		u8 ssslumber : 1;
+		u8 stonies1 : 1;
+		u8 styracosaurus_mom : 1;
+		u8 sub : 1;
+		u8 targitzan : 1;
+		u8 terry : 1;
+		u8 tiptup : 1;
+		u8 ufo : 1;
+		u8 unga_bunga : 1;
+		u8 unogopaz : 1;
+		u8 washer : 1;
+		u8 weldar : 1;
+		u8 yellow_dodgem : 1;
+		u8 yellow_stony : 1;
+		u8 zubba : 1;
+	} dialog_character;
+	s32 extra_bass_clefs;
+	s32 extra_cheato_pages;
+	s32 extra_doubloons;
+	s32 extra_egg_nests;
+	s32 extra_empty_honeycombs;
+	s32 extra_feather_nests;
+	s32 extra_jiggies;
+	s32 extra_mumbo_tokens;
+	s32 extra_note_nests;
+	s32 extra_treble_clefs;
+	s32 golden_egg_nests;
+	s32 max_mumbo_tokens;
+	s32 move_hints;
+	s32 open_warp_silos;
+	s32 sign_hints;
+	s32 slip_traps;
+	s32 squish_traps;
+	s32 tip_traps;
+	s32 transform_traps;
+	s32 trip_traps;
+	s32 jiggywiggys_challenge_costs[11];
+	s32 chosen_move_silo_costs[24];
 } ap_options_t;
 
 typedef enum {
-  APO_INVALID = -1,
-  APO_DEATH_LINK = 0,
-  APO_TAG_LINK = 1,
-  APO_PRESET_VICTORY_GOALS = 2,
-  APO_VICTORY_GOALS_HAG_1 = 3,
-  APO_VICTORY_GOALS_TARGITZAN = 4,
-  APO_VICTORY_GOALS_OLD_KING_COAL = 5,
-  APO_VICTORY_GOALS_MR_PATCH = 6,
-  APO_VICTORY_GOALS_LORD_WOO_FAK_FAK = 7,
-  APO_VICTORY_GOALS_TERRY = 8,
-  APO_VICTORY_GOALS_WELDAR = 9,
-  APO_VICTORY_GOALS_CHILLY_WILLY = 10,
-  APO_VICTORY_GOALS_CHILLI_BILLI = 11,
-  APO_VICTORY_GOALS_MINGY_JONGO = 12,
-  APO_VICTORY_GOALS_MT_KICKBALL = 13,
-  APO_VICTORY_GOALS_ORDNANCE_STORAGE = 14,
-  APO_VICTORY_GOALS_HOOP_HURRY = 15,
-  APO_VICTORY_GOALS_DODGEM_DOME = 16,
-  APO_VICTORY_GOALS_SAUCER_OF_PERIL = 17,
-  APO_VICTORY_GOALS_BALLOON_BURST = 18,
-  APO_VICTORY_GOALS_MINI_SUB_CHALLENGE = 19,
-  APO_VICTORY_GOALS_CHOMPAS_BELLY = 20,
-  APO_VICTORY_GOALS_CLINKERS_CAVERN = 21,
-  APO_VICTORY_GOALS_TWINKLY_PACKING = 22,
-  APO_VICTORY_GOALS_HFP_KICKBALL = 23,
-  APO_VICTORY_GOALS_POT_O_GOLD = 24,
-  APO_VICTORY_GOALS_ZUBBAS = 25,
-  APO_VICTORY_GOALS_TRASH_CAN = 26,
-  APO_VICTORY_GOALS_CANARY_MARY = 27,
-  APO_VICTORY_GOALS_TOWER_OF_TRAGEDY = 28,
-  APO_VICTORY_GOALS_WHITE_JINJO_FAMILY = 29,
-  APO_VICTORY_GOALS_ORANGE_JINJO_FAMILY = 30,
-  APO_VICTORY_GOALS_YELLOW_JINJO_FAMILY = 31,
-  APO_VICTORY_GOALS_BROWN_JINJO_FAMILY = 32,
-  APO_VICTORY_GOALS_GREEN_JINJO_FAMILY = 33,
-  APO_VICTORY_GOALS_RED_JINJO_FAMILY = 34,
-  APO_VICTORY_GOALS_BLUE_JINJO_FAMILY = 35,
-  APO_VICTORY_GOALS_PURPLE_JINJO_FAMILY = 36,
-  APO_VICTORY_GOALS_BLACK_JINJO_FAMILY = 37,
-  APO_EXTRA_MUMBO_TOKENS = 38,
-  APO_MAX_MUMBO_TOKENS = 39,
-  APO_REPLACE_EXCESS_MUMBO_TOKENS = 40,
-  APO_OPEN_HAG1 = 41,
-  APO_PRESET_LOGIC_TRICKS_EASY_TRICKS = 42,
-  APO_PRESET_LOGIC_TRICKS_EASY_TEDIOUS_TRICKS = 43,
-  APO_PRESET_LOGIC_TRICKS_EASY_GLITCHES = 44,
-  APO_PRESET_LOGIC_TRICKS_HARD_TRICKS = 45,
-  APO_PRESET_LOGIC_TRICKS_HARD_TEDIOUS_TRICKS = 46,
-  APO_PRESET_LOGIC_TRICKS_HARD_GLITCHES = 47,
-  APO_PRESET_LOGIC_TRICKS_FRAME_PERFECT = 48,
-  APO_LOGIC_TRICKS_BEAK_BARGE_JUMP = 49,
-  APO_LOGIC_TRICKS_BEAK_BUSTER_FALL = 50,
-  APO_LOGIC_TRICKS_BEAK_BUSTER_JUMP = 51,
-  APO_LOGIC_TRICKS_BILL_DRILL_JUMP = 52,
-  APO_LOGIC_TRICKS_BREEGULL_BASH_FALL = 53,
-  APO_LOGIC_TRICKS_BREEGULL_BASH_GRAB = 54,
-  APO_LOGIC_TRICKS_DRAGUNDA_SIDLE = 55,
-  APO_LOGIC_TRICKS_EASY_JUMPS = 56,
-  APO_LOGIC_TRICKS_GI_EXTRA_LOGGO_MOVES = 57,
-  APO_LOGIC_TRICKS_GROUND_RAT_A_TAT_RAP_FALL = 58,
-  APO_LOGIC_TRICKS_GROUND_RAT_A_TAT_RAP_JUMP = 59,
-  APO_LOGIC_TRICKS_PACK_WHACK_FALL = 60,
-  APO_LOGIC_TRICKS_PACK_WHACK_JUMP = 61,
-  APO_LOGIC_TRICKS_ROLL_JUMP = 62,
-  APO_LOGIC_TRICKS_SACK_PACK_AIR_JUMP = 63,
-  APO_LOGIC_TRICKS_SACK_PACK_FALL = 64,
-  APO_LOGIC_TRICKS_SHACK_PACK_AIR_JUMP = 65,
-  APO_LOGIC_TRICKS_SHACK_PACK_FALL = 66,
-  APO_LOGIC_TRICKS_SNOOZE_PACK_FALL = 67,
-  APO_LOGIC_TRICKS_TAXI_PACK_FALL = 68,
-  APO_LOGIC_TRICKS_BEAK_BOMB_TRICKS = 69,
-  APO_LOGIC_TRICKS_DAMAGE_BOOST = 70,
-  APO_LOGIC_TRICKS_DAMAGE_BOOST_JUMP = 71,
-  APO_LOGIC_TRICKS_DEATH_WARP = 72,
-  APO_LOGIC_TRICKS_EASY_TEDIOUS_JUMPS = 73,
-  APO_LOGIC_TRICKS_EXTRA_CLOCKWORK_USAGE = 74,
-  APO_LOGIC_TRICKS_FALL_DAMAGE = 75,
-  APO_LOGIC_TRICKS_GI_QUALITY_CONTROL_VENT_AS_BANJO = 76,
-  APO_LOGIC_TRICKS_GI_GUARDED_JIGGY_WITHOUT_FIGHTING = 77,
-  APO_LOGIC_TRICKS_INSTANT_TRANSFORM_TRICK = 78,
-  APO_LOGIC_TRICKS_TALON_TROT_SMUGGLE = 79,
-  APO_LOGIC_TRICKS_TALON_TROT_SMUGGLE_CROSS_WORLD = 80,
-  APO_LOGIC_TRICKS_WONDERWING_DAMAGE_BOOST = 81,
-  APO_LOGIC_TRICKS_WONDERWING_FALL = 82,
-  APO_LOGIC_TRICKS_WONDERWING_JUMP = 83,
-  APO_LOGIC_TRICKS_AIR_RAT_A_TAT_RAP_CLIP = 84,
-  APO_LOGIC_TRICKS_BEAK_BARGE_CLIP = 85,
-  APO_LOGIC_TRICKS_BREEGULL_BASH_CLIP = 86,
-  APO_LOGIC_TRICKS_FREE_SHOCK_SPRING_PAD = 87,
-  APO_LOGIC_TRICKS_HARD_JUMPS = 88,
-  APO_LOGIC_TRICKS_SLIDE_JUMP = 89,
-  APO_LOGIC_TRICKS_FLAP_FLIP_SLIDE_EXTENSION = 90,
-  APO_LOGIC_TRICKS_HARD_TEDIOUS_JUMPS = 91,
-  APO_LOGIC_TRICKS_TALON_TROT_SLIDE_JUMP = 92,
-  APO_LOGIC_TRICKS_SACK_PACK_ENDING_JUMP = 93,
-  APO_INSTANT_TRANSFORM = 94,
-  APO_SHUFFLE_BK_MOVES = 95,
-  APO_SHUFFLE_BT_MOVES = 96,
-  APO_SHUFFLE_GLOWBOS = 97,
-  APO_SHUFFLE_JINJOS = 98,
-  APO_SHUFFLE_TREBLE_CLEFS = 99,
-  APO_SHUFFLE_NOTE_NESTS = 100,
-  APO_SHUFFLE_HONEYCOMBS = 101,
-  APO_SHUFFLE_HONEYB_REWARDS = 102,
-  APO_SHUFFLE_CHEATO_PAGES = 103,
-  APO_SHUFFLE_CHEATO_REWARDS = 104,
-  APO_SHUFFLE_STOP_N_SWOP = 105,
-  APO_SHUFFLE_DOUBLOONS = 106,
-  APO_SHUFFLE_GREEN_RELICS = 107,
-  APO_SHUFFLE_BIG_TOP_TICKETS = 108,
-  APO_SHUFFLE_BEANS = 109,
-  APO_SHUFFLE_WARP_SILOS = 110,
-  APO_SHUFFLE_WARP_PADS = 111,
-  APO_SHUFFLE_SIGNS = 112,
-  APO_SHUFFLE_JIGGYWIGGYS_SUPER_SPECIAL_CHALLENGE = 113,
-  APO_SHUFFLE_NESTS = 114,
-  APO_SHUFFLE_CHUFFY = 115,
-  APO_SHUFFLE_TRAIN_STATIONS = 116,
-  APO_SHUFFLE_WORLD_ORDER = 117,
-  APO_SHUFFLE_WORLD_ENTRANCES = 118,
-  APO_SHUFFLE_BOSS_ENTRANCES = 119,
-  APO_PROGRESSIVE_EGGS = 120,
-  APO_PROGRESSIVE_AIMING = 121,
-  APO_PROGRESSIVE_FLIGHT = 122,
-  APO_PROGRESSIVE_WATER_TRAINING = 123,
-  APO_PROGRESSIVE_BEAK_BUSTER = 124,
-  APO_PROGRESSIVE_BASH_ATTACK = 125,
-  APO_PROGRESSIVE_SHOES = 126,
-  APO_PROGRESSIVE_AIMING_LIST_THIRD_PERSON_EGG_SHOOTING = 127,
-  APO_PROGRESSIVE_AIMING_LIST_AMAZE_O_GAZE = 128,
-  APO_PROGRESSIVE_AIMING_LIST_EGG_AIM = 129,
-  APO_PROGRESSIVE_AIMING_LIST_BREEGULL_BLASTER = 130,
-  APO_PROGRESSIVE_FLIGHT_LIST_FLIGHT_PAD = 131,
-  APO_PROGRESSIVE_FLIGHT_LIST_BEAK_BOMB = 132,
-  APO_PROGRESSIVE_FLIGHT_LIST_AIRBORNE_EGG_AIMING = 133,
-  APO_PROGRESSIVE_WATER_TRAINING_LIST_DIVE = 134,
-  APO_PROGRESSIVE_WATER_TRAINING_LIST_SUB_AQUA_EGG_AIMING = 135,
-  APO_PROGRESSIVE_WATER_TRAINING_LIST_TALON_TORPEDO = 136,
-  APO_PROGRESSIVE_WATER_TRAINING_LIST_DOUBLE_AIR = 137,
-  APO_PROGRESSIVE_WATER_TRAINING_LIST_FAST_SWIMMING = 138,
-  APO_PROGRESSIVE_SHOES_LIST_STILT_STRIDE = 139,
-  APO_PROGRESSIVE_SHOES_LIST_TURBO_TRAINERS = 140,
-  APO_PROGRESSIVE_SHOES_LIST_SPRINGY_STEP_SHOES = 141,
-  APO_PROGRESSIVE_SHOES_LIST_CLAW_CLAMBER_BOOTS = 142,
-  APO_SKIP_KLUNGO = 143,
-  APO_TOWER_OF_TRAGEDY = 144,
-  APO_SPEEDUP_MINIGAMES = 145,
-  APO_OPEN_GI_FRONT_DOOR = 146,
-  APO_OPEN_BACK_DOORS = 147,
-  APO_EASY_CANARY = 148,
-  APO_SIGN_HINTS = 149,
-  APO_MOVE_HINTS = 150,
-  APO_HINT_CLARITY = 151,
-  APO_ADD_HINTS_TO_ARCHIPELAGO = 152,
-  APO_REPLACE_EXCESS_JIGGIES = 153,
-  APO_REPLACE_EXCESS_NOTE_NESTS = 154,
-  APO_EXTRA_JIGGIES = 155,
-  APO_EXTRA_NOTE_NESTS = 156,
-  APO_EXTRA_BASS_CLEFS = 157,
-  APO_EXTRA_TREBLE_CLEFS = 158,
-  APO_EXTRA_DOUBLOONS = 159,
-  APO_EXTRA_EMPTY_HONEYCOMBS = 160,
-  APO_EXTRA_CHEATO_PAGES = 161,
-  APO_EXTRA_EGG_NESTS = 162,
-  APO_EXTRA_FEATHER_NESTS = 163,
-  APO_TRIP_TRAPS = 164,
-  APO_SLIP_TRAPS = 165,
-  APO_TIP_TRAPS = 166,
-  APO_TRANSFORM_TRAPS = 167,
-  APO_GOLDEN_EGG_NESTS = 168,
-  APO_SQUISH_TRAPS = 169,
-  APO_JIGGYWIGGYS_CHALLENGES = 170,
-  APO_PRESET_JIGGYWIGGYS_CHALLENGE_COSTS = 171,
-  APO_JIGGYWIGGYS_CHALLENGE_COSTS_CHALLENGE_1 = 172,
-  APO_JIGGYWIGGYS_CHALLENGE_COSTS_CHALLENGE_2 = 173,
-  APO_JIGGYWIGGYS_CHALLENGE_COSTS_CHALLENGE_3 = 174,
-  APO_JIGGYWIGGYS_CHALLENGE_COSTS_CHALLENGE_4 = 175,
-  APO_JIGGYWIGGYS_CHALLENGE_COSTS_CHALLENGE_5 = 176,
-  APO_JIGGYWIGGYS_CHALLENGE_COSTS_CHALLENGE_6 = 177,
-  APO_JIGGYWIGGYS_CHALLENGE_COSTS_CHALLENGE_7 = 178,
-  APO_JIGGYWIGGYS_CHALLENGE_COSTS_CHALLENGE_8 = 179,
-  APO_JIGGYWIGGYS_CHALLENGE_COSTS_CHALLENGE_9 = 180,
-  APO_JIGGYWIGGYS_CHALLENGE_COSTS_CHALLENGE_10 = 181,
-  APO_JIGGYWIGGYS_CHALLENGE_COSTS_CHALLENGE_11 = 182,
-  APO_STARTING_EGGS_BLUE_EGGS = 183,
-  APO_STARTING_EGGS_FIRE_EGGS = 184,
-  APO_STARTING_EGGS_GRENADE_EGGS = 185,
-  APO_STARTING_EGGS_ICE_EGGS = 186,
-  APO_STARTING_EGGS_CLOCKWORK_KAZOOIE_EGGS = 187,
-  APO_OPEN_WARP_SILOS = 188,
-  APO_MOVE_SILO_COSTS = 189,
-  APO_EXTRA_CHEATS = 190,
-  APO_AUTO_ENABLE_CHEATS_FEATHERS = 191,
-  APO_AUTO_ENABLE_CHEATS_EGGS = 192,
-  APO_AUTO_ENABLE_CHEATS_FALLPROOF = 193,
-  APO_AUTO_ENABLE_CHEATS_HONEYBACK = 194,
-  APO_AUTO_ENABLE_CHEATS_HOMING_EGGS = 195,
-  APO_DIALOG_CHARACTER_ALIEN = 196,
-  APO_DIALOG_CHARACTER_ALIEN_CHILD = 197,
-  APO_DIALOG_CHARACTER_ALL = 198,
-  APO_DIALOG_CHARACTER_BANJO = 199,
-  APO_DIALOG_CHARACTER_BANJO_KAZOOIE = 200,
-  APO_DIALOG_CHARACTER_BARGASAURUS = 201,
-  APO_DIALOG_CHARACTER_BEEHIVE = 202,
-  APO_DIALOG_CHARACTER_BIGGA_FOOT = 203,
-  APO_DIALOG_CHARACTER_BIG_AL = 204,
-  APO_DIALOG_CHARACTER_BLOBBELDA = 205,
-  APO_DIALOG_CHARACTER_BOGGY = 206,
-  APO_DIALOG_CHARACTER_BOTTLES = 207,
-  APO_DIALOG_CHARACTER_BOTTLES_DEAD = 208,
-  APO_DIALOG_CHARACTER_BOVINA = 209,
-  APO_DIALOG_CHARACTER_CANARY_MARY = 210,
-  APO_DIALOG_CHARACTER_CAPTAIN_BLACKEYE = 211,
-  APO_DIALOG_CHARACTER_CAPTAIN_BLUBBER = 212,
-  APO_DIALOG_CHARACTER_CHEATO = 213,
-  APO_DIALOG_CHARACTER_CHIEF_BLOATAZIN = 214,
-  APO_DIALOG_CHARACTER_CHILLI_BILLI = 215,
-  APO_DIALOG_CHARACTER_CHILLY_WILLY = 216,
-  APO_DIALOG_CHARACTER_CHOMPA = 217,
-  APO_DIALOG_CHARACTER_CHRIS_P_BACON = 218,
-  APO_DIALOG_CHARACTER_CONGA = 219,
-  APO_DIALOG_CHARACTER_DILBERTA = 220,
-  APO_DIALOG_CHARACTER_DINGPOT = 221,
-  APO_DIALOG_CHARACTER_DINO_KID1 = 222,
-  APO_DIALOG_CHARACTER_DINO_KID2 = 223,
-  APO_DIALOG_CHARACTER_DINO_SCRIT_BIG = 224,
-  APO_DIALOG_CHARACTER_DINO_SCRIT_SMALL = 225,
-  APO_DIALOG_CHARACTER_DIPPY = 226,
-  APO_DIALOG_CHARACTER_EVIL_BOTTLES = 227,
-  APO_DIALOG_CHARACTER_GEORGE = 228,
-  APO_DIALOG_CHARACTER_GI_ANNOUNCER = 229,
-  APO_DIALOG_CHARACTER_GLOWBO = 230,
-  APO_DIALOG_CHARACTER_GOBI = 231,
-  APO_DIALOG_CHARACTER_GOGGLES = 232,
-  APO_DIALOG_CHARACTER_GROGGY = 233,
-  APO_DIALOG_CHARACTER_GRUNTY = 234,
-  APO_DIALOG_CHARACTER_GUFFO = 235,
-  APO_DIALOG_CHARACTER_HEGGY = 236,
-  APO_DIALOG_CHARACTER_HONEYCOMB = 237,
-  APO_DIALOG_CHARACTER_HONEY_B = 238,
-  APO_DIALOG_CHARACTER_HUMBA = 239,
-  APO_DIALOG_CHARACTER_JAMJARS = 240,
-  APO_DIALOG_CHARACTER_JIGGY = 241,
-  APO_DIALOG_CHARACTER_JIGGYWIGGY = 242,
-  APO_DIALOG_CHARACTER_JIGGYWIGGY_DISCIPLE = 243,
-  APO_DIALOG_CHARACTER_JINJO_BLACK = 244,
-  APO_DIALOG_CHARACTER_JINJO_BLUE = 245,
-  APO_DIALOG_CHARACTER_JINJO_BROWN = 246,
-  APO_DIALOG_CHARACTER_JINJO_GREEN = 247,
-  APO_DIALOG_CHARACTER_JINJO_ORANGE = 248,
-  APO_DIALOG_CHARACTER_JINJO_PURPLE = 249,
-  APO_DIALOG_CHARACTER_JINJO_RED = 250,
-  APO_DIALOG_CHARACTER_JINJO_WHITE = 251,
-  APO_DIALOG_CHARACTER_JINJO_YELLOW = 252,
-  APO_DIALOG_CHARACTER_JOLLY = 253,
-  APO_DIALOG_CHARACTER_KAZOOIE = 254,
-  APO_DIALOG_CHARACTER_KING_JINGALING = 255,
-  APO_DIALOG_CHARACTER_KING_JINGALING_DEAD = 256,
-  APO_DIALOG_CHARACTER_KLUNGO = 257,
-  APO_DIALOG_CHARACTER_LOGGO = 258,
-  APO_DIALOG_CHARACTER_LORD_WOO_FAK_FAK = 259,
-  APO_DIALOG_CHARACTER_MERRY_MAGGIE = 260,
-  APO_DIALOG_CHARACTER_MILDRED = 261,
-  APO_DIALOG_CHARACTER_MINGELLA = 262,
-  APO_DIALOG_CHARACTER_MINGY_JONGO = 263,
-  APO_DIALOG_CHARACTER_MINJO_BLACK = 264,
-  APO_DIALOG_CHARACTER_MINJO_BLUE = 265,
-  APO_DIALOG_CHARACTER_MINJO_BROWN = 266,
-  APO_DIALOG_CHARACTER_MINJO_GREEN = 267,
-  APO_DIALOG_CHARACTER_MINJO_ORANGE = 268,
-  APO_DIALOG_CHARACTER_MINJO_PURPLE = 269,
-  APO_DIALOG_CHARACTER_MINJO_RED = 270,
-  APO_DIALOG_CHARACTER_MINJO_WHITE = 271,
-  APO_DIALOG_CHARACTER_MINJO_YELLOW = 272,
-  APO_DIALOG_CHARACTER_MOGGY = 273,
-  APO_DIALOG_CHARACTER_MRS_BOGGY = 274,
-  APO_DIALOG_CHARACTER_MRS_BOTTLES = 275,
-  APO_DIALOG_CHARACTER_MR_FIT = 276,
-  APO_DIALOG_CHARACTER_MR_PATCH = 277,
-  APO_DIALOG_CHARACTER_MUMBO = 278,
-  APO_DIALOG_CHARACTER_OLD_KING_COAL = 279,
-  APO_DIALOG_CHARACTER_OOGLE_BOOGLE = 280,
-  APO_DIALOG_CHARACTER_PAWNO = 281,
-  APO_DIALOG_CHARACTER_PIG1 = 282,
-  APO_DIALOG_CHARACTER_PROSPECTOR = 283,
-  APO_DIALOG_CHARACTER_RABBIT_WORKER1 = 284,
-  APO_DIALOG_CHARACTER_ROCKNUT = 285,
-  APO_DIALOG_CHARACTER_ROYSTEN = 286,
-  APO_DIALOG_CHARACTER_SABREMAN = 287,
-  APO_DIALOG_CHARACTER_SAFE = 288,
-  APO_DIALOG_CHARACTER_SALTY_JOE = 289,
-  APO_DIALOG_CHARACTER_SOGGY = 290,
-  APO_DIALOG_CHARACTER_SPECCY = 291,
-  APO_DIALOG_CHARACTER_SSSLUMBER = 292,
-  APO_DIALOG_CHARACTER_STONIES1 = 293,
-  APO_DIALOG_CHARACTER_STYRACOSAURUS_MOM = 294,
-  APO_DIALOG_CHARACTER_SUB = 295,
-  APO_DIALOG_CHARACTER_TARGITZAN = 296,
-  APO_DIALOG_CHARACTER_TERRY = 297,
-  APO_DIALOG_CHARACTER_TIPTUP = 298,
-  APO_DIALOG_CHARACTER_UFO = 299,
-  APO_DIALOG_CHARACTER_UNGA_BUNGA = 300,
-  APO_DIALOG_CHARACTER_UNOGOPAZ = 301,
-  APO_DIALOG_CHARACTER_WASHER = 302,
-  APO_DIALOG_CHARACTER_WELDAR = 303,
-  APO_DIALOG_CHARACTER_YELLOW_DODGEM = 304,
-  APO_DIALOG_CHARACTER_YELLOW_STONY = 305,
-  APO_DIALOG_CHARACTER_ZUBBA = 306,
-  APO_CHOSEN_EGGS = 307,
-  APO_CHOSEN_GOALS_HAG_1 = 308,
-  APO_CHOSEN_GOALS_TARGITZAN = 309,
-  APO_CHOSEN_GOALS_OLD_KING_COAL = 310,
-  APO_CHOSEN_GOALS_MR_PATCH = 311,
-  APO_CHOSEN_GOALS_LORD_WOO_FAK_FAK = 312,
-  APO_CHOSEN_GOALS_TERRY = 313,
-  APO_CHOSEN_GOALS_WELDAR = 314,
-  APO_CHOSEN_GOALS_CHILLY_WILLY = 315,
-  APO_CHOSEN_GOALS_CHILLI_BILLI = 316,
-  APO_CHOSEN_GOALS_MINGY_JONGO = 317,
-  APO_CHOSEN_GOALS_MT_KICKBALL = 318,
-  APO_CHOSEN_GOALS_ORDNANCE_STORAGE = 319,
-  APO_CHOSEN_GOALS_HOOP_HURRY = 320,
-  APO_CHOSEN_GOALS_DODGEM_DOME = 321,
-  APO_CHOSEN_GOALS_SAUCER_OF_PERIL = 322,
-  APO_CHOSEN_GOALS_BALLOON_BURST = 323,
-  APO_CHOSEN_GOALS_MINI_SUB_CHALLENGE = 324,
-  APO_CHOSEN_GOALS_CHOMPAS_BELLY = 325,
-  APO_CHOSEN_GOALS_CLINKERS_CAVERN = 326,
-  APO_CHOSEN_GOALS_TWINKLY_PACKING = 327,
-  APO_CHOSEN_GOALS_HFP_KICKBALL = 328,
-  APO_CHOSEN_GOALS_POT_O_GOLD = 329,
-  APO_CHOSEN_GOALS_ZUBBAS = 330,
-  APO_CHOSEN_GOALS_TRASH_CAN = 331,
-  APO_CHOSEN_GOALS_CANARY_MARY = 332,
-  APO_CHOSEN_GOALS_TOWER_OF_TRAGEDY = 333,
-  APO_CHOSEN_GOALS_WHITE_JINJO_FAMILY = 334,
-  APO_CHOSEN_GOALS_ORANGE_JINJO_FAMILY = 335,
-  APO_CHOSEN_GOALS_YELLOW_JINJO_FAMILY = 336,
-  APO_CHOSEN_GOALS_BROWN_JINJO_FAMILY = 337,
-  APO_CHOSEN_GOALS_GREEN_JINJO_FAMILY = 338,
-  APO_CHOSEN_GOALS_RED_JINJO_FAMILY = 339,
-  APO_CHOSEN_GOALS_BLUE_JINJO_FAMILY = 340,
-  APO_CHOSEN_GOALS_PURPLE_JINJO_FAMILY = 341,
-  APO_CHOSEN_GOALS_BLACK_JINJO_FAMILY = 342,
-  APO_CHOSEN_MOVE_SILO_COSTS_FIRE_EGGS = 343,
-  APO_CHOSEN_MOVE_SILO_COSTS_GRENADE_EGGS = 344,
-  APO_CHOSEN_MOVE_SILO_COSTS_ICE_EGGS = 345,
-  APO_CHOSEN_MOVE_SILO_COSTS_CLOCKWORK_KAZOOIE_EGGS = 346,
-  APO_CHOSEN_MOVE_SILO_COSTS_EGG_AIM = 347,
-  APO_CHOSEN_MOVE_SILO_COSTS_BREEGULL_BLASTER = 348,
-  APO_CHOSEN_MOVE_SILO_COSTS_GRIP_GRAB = 349,
-  APO_CHOSEN_MOVE_SILO_COSTS_BILL_DRILL = 350,
-  APO_CHOSEN_MOVE_SILO_COSTS_BEAK_BAYONET = 351,
-  APO_CHOSEN_MOVE_SILO_COSTS_SPLIT_UP = 352,
-  APO_CHOSEN_MOVE_SILO_COSTS_PACK_WHACK = 353,
-  APO_CHOSEN_MOVE_SILO_COSTS_AIRBORNE_EGG_AIMING = 354,
-  APO_CHOSEN_MOVE_SILO_COSTS_WING_WHACK = 355,
-  APO_CHOSEN_MOVE_SILO_COSTS_SUB_AQUA_EGG_AIMING = 356,
-  APO_CHOSEN_MOVE_SILO_COSTS_TALON_TORPEDO = 357,
-  APO_CHOSEN_MOVE_SILO_COSTS_SPRINGY_STEP_SHOES = 358,
-  APO_CHOSEN_MOVE_SILO_COSTS_TAXI_PACK = 359,
-  APO_CHOSEN_MOVE_SILO_COSTS_HATCH = 360,
-  APO_CHOSEN_MOVE_SILO_COSTS_CLAW_CLAMBER_BOOTS = 361,
-  APO_CHOSEN_MOVE_SILO_COSTS_SNOOZE_PACK = 362,
-  APO_CHOSEN_MOVE_SILO_COSTS_LEG_SPRING = 363,
-  APO_CHOSEN_MOVE_SILO_COSTS_SHACK_PACK = 364,
-  APO_CHOSEN_MOVE_SILO_COSTS_GLIDE = 365,
-  APO_CHOSEN_MOVE_SILO_COSTS_SACK_PACK = 366,
-  APO_MAX = 367,
+	APO_INVALID = -1,
+	APO_DEATH_LINK = 0,
+	APO_TAG_LINK = 1,
+	APO_PRESET_VICTORY_GOALS = 2,
+	APO_VICTORY_GOALS_HAG_1 = 3,
+	APO_VICTORY_GOALS_TARGITZAN = 4,
+	APO_VICTORY_GOALS_OLD_KING_COAL = 5,
+	APO_VICTORY_GOALS_MR_PATCH = 6,
+	APO_VICTORY_GOALS_LORD_WOO_FAK_FAK = 7,
+	APO_VICTORY_GOALS_TERRY = 8,
+	APO_VICTORY_GOALS_WELDAR = 9,
+	APO_VICTORY_GOALS_CHILLY_WILLY = 10,
+	APO_VICTORY_GOALS_CHILLI_BILLI = 11,
+	APO_VICTORY_GOALS_MINGY_JONGO = 12,
+	APO_VICTORY_GOALS_MT_KICKBALL = 13,
+	APO_VICTORY_GOALS_ORDNANCE_STORAGE = 14,
+	APO_VICTORY_GOALS_HOOP_HURRY = 15,
+	APO_VICTORY_GOALS_DODGEM_DOME = 16,
+	APO_VICTORY_GOALS_SAUCER_OF_PERIL = 17,
+	APO_VICTORY_GOALS_BALLOON_BURST = 18,
+	APO_VICTORY_GOALS_MINI_SUB_CHALLENGE = 19,
+	APO_VICTORY_GOALS_CHOMPAS_BELLY = 20,
+	APO_VICTORY_GOALS_CLINKERS_CAVERN = 21,
+	APO_VICTORY_GOALS_TWINKLY_PACKING = 22,
+	APO_VICTORY_GOALS_HFP_KICKBALL = 23,
+	APO_VICTORY_GOALS_POT_O_GOLD = 24,
+	APO_VICTORY_GOALS_ZUBBAS = 25,
+	APO_VICTORY_GOALS_TRASH_CAN = 26,
+	APO_VICTORY_GOALS_CANARY_MARY = 27,
+	APO_VICTORY_GOALS_TOWER_OF_TRAGEDY = 28,
+	APO_VICTORY_GOALS_WHITE_JINJO_FAMILY = 29,
+	APO_VICTORY_GOALS_ORANGE_JINJO_FAMILY = 30,
+	APO_VICTORY_GOALS_YELLOW_JINJO_FAMILY = 31,
+	APO_VICTORY_GOALS_BROWN_JINJO_FAMILY = 32,
+	APO_VICTORY_GOALS_GREEN_JINJO_FAMILY = 33,
+	APO_VICTORY_GOALS_RED_JINJO_FAMILY = 34,
+	APO_VICTORY_GOALS_BLUE_JINJO_FAMILY = 35,
+	APO_VICTORY_GOALS_PURPLE_JINJO_FAMILY = 36,
+	APO_VICTORY_GOALS_BLACK_JINJO_FAMILY = 37,
+	APO_EXTRA_MUMBO_TOKENS = 38,
+	APO_MAX_MUMBO_TOKENS = 39,
+	APO_REPLACE_EXCESS_MUMBO_TOKENS = 40,
+	APO_OPEN_HAG1 = 41,
+	APO_PRESET_LOGIC_TRICKS_EASY_TRICKS = 42,
+	APO_PRESET_LOGIC_TRICKS_EASY_TEDIOUS_TRICKS = 43,
+	APO_PRESET_LOGIC_TRICKS_EASY_GLITCHES = 44,
+	APO_PRESET_LOGIC_TRICKS_HARD_TRICKS = 45,
+	APO_PRESET_LOGIC_TRICKS_HARD_TEDIOUS_TRICKS = 46,
+	APO_PRESET_LOGIC_TRICKS_HARD_GLITCHES = 47,
+	APO_PRESET_LOGIC_TRICKS_FRAME_PERFECT = 48,
+	APO_LOGIC_TRICKS_BEAK_BARGE_JUMP = 49,
+	APO_LOGIC_TRICKS_BEAK_BUSTER_FALL = 50,
+	APO_LOGIC_TRICKS_BEAK_BUSTER_JUMP = 51,
+	APO_LOGIC_TRICKS_BILL_DRILL_JUMP = 52,
+	APO_LOGIC_TRICKS_BREEGULL_BASH_FALL = 53,
+	APO_LOGIC_TRICKS_BREEGULL_BASH_GRAB = 54,
+	APO_LOGIC_TRICKS_DRAGUNDA_SIDLE = 55,
+	APO_LOGIC_TRICKS_EASY_JUMPS = 56,
+	APO_LOGIC_TRICKS_GI_EXTRA_LOGGO_MOVES = 57,
+	APO_LOGIC_TRICKS_GROUND_RAT_A_TAT_RAP_FALL = 58,
+	APO_LOGIC_TRICKS_GROUND_RAT_A_TAT_RAP_JUMP = 59,
+	APO_LOGIC_TRICKS_PACK_WHACK_FALL = 60,
+	APO_LOGIC_TRICKS_PACK_WHACK_JUMP = 61,
+	APO_LOGIC_TRICKS_ROLL_JUMP = 62,
+	APO_LOGIC_TRICKS_SACK_PACK_AIR_JUMP = 63,
+	APO_LOGIC_TRICKS_SACK_PACK_FALL = 64,
+	APO_LOGIC_TRICKS_SHACK_PACK_AIR_JUMP = 65,
+	APO_LOGIC_TRICKS_SHACK_PACK_FALL = 66,
+	APO_LOGIC_TRICKS_SNOOZE_PACK_FALL = 67,
+	APO_LOGIC_TRICKS_TAXI_PACK_FALL = 68,
+	APO_LOGIC_TRICKS_BEAK_BOMB_TRICKS = 69,
+	APO_LOGIC_TRICKS_DAMAGE_BOOST = 70,
+	APO_LOGIC_TRICKS_DAMAGE_BOOST_JUMP = 71,
+	APO_LOGIC_TRICKS_DEATH_WARP = 72,
+	APO_LOGIC_TRICKS_EASY_TEDIOUS_JUMPS = 73,
+	APO_LOGIC_TRICKS_EXTRA_CLOCKWORK_USAGE = 74,
+	APO_LOGIC_TRICKS_FALL_DAMAGE = 75,
+	APO_LOGIC_TRICKS_GI_QUALITY_CONTROL_VENT_AS_BANJO = 76,
+	APO_LOGIC_TRICKS_GI_GUARDED_JIGGY_WITHOUT_FIGHTING = 77,
+	APO_LOGIC_TRICKS_INSTANT_TRANSFORM_TRICK = 78,
+	APO_LOGIC_TRICKS_TALON_TROT_SMUGGLE = 79,
+	APO_LOGIC_TRICKS_TALON_TROT_SMUGGLE_CROSS_WORLD = 80,
+	APO_LOGIC_TRICKS_WONDERWING_DAMAGE_BOOST = 81,
+	APO_LOGIC_TRICKS_WONDERWING_FALL = 82,
+	APO_LOGIC_TRICKS_WONDERWING_JUMP = 83,
+	APO_LOGIC_TRICKS_AIR_RAT_A_TAT_RAP_CLIP = 84,
+	APO_LOGIC_TRICKS_BEAK_BARGE_CLIP = 85,
+	APO_LOGIC_TRICKS_BREEGULL_BASH_CLIP = 86,
+	APO_LOGIC_TRICKS_FREE_SHOCK_SPRING_PAD = 87,
+	APO_LOGIC_TRICKS_HARD_JUMPS = 88,
+	APO_LOGIC_TRICKS_SLIDE_JUMP = 89,
+	APO_LOGIC_TRICKS_FLAP_FLIP_SLIDE_EXTENSION = 90,
+	APO_LOGIC_TRICKS_HARD_TEDIOUS_JUMPS = 91,
+	APO_LOGIC_TRICKS_TALON_TROT_SLIDE_JUMP = 92,
+	APO_LOGIC_TRICKS_SACK_PACK_ENDING_JUMP = 93,
+	APO_INSTANT_TRANSFORM = 94,
+	APO_SHUFFLE_BK_MOVES = 95,
+	APO_SHUFFLE_BT_MOVES = 96,
+	APO_SHUFFLE_GLOWBOS = 97,
+	APO_SHUFFLE_JINJOS = 98,
+	APO_SHUFFLE_TREBLE_CLEFS = 99,
+	APO_SHUFFLE_NOTE_NESTS = 100,
+	APO_SHUFFLE_HONEYCOMBS = 101,
+	APO_SHUFFLE_HONEYB_REWARDS = 102,
+	APO_SHUFFLE_CHEATO_PAGES = 103,
+	APO_SHUFFLE_CHEATO_REWARDS = 104,
+	APO_SHUFFLE_STOP_N_SWOP = 105,
+	APO_SHUFFLE_DOUBLOONS = 106,
+	APO_SHUFFLE_GREEN_RELICS = 107,
+	APO_SHUFFLE_BIG_TOP_TICKETS = 108,
+	APO_SHUFFLE_BEANS = 109,
+	APO_SHUFFLE_WARP_SILOS = 110,
+	APO_SHUFFLE_WARP_PADS = 111,
+	APO_SHUFFLE_SIGNS = 112,
+	APO_SHUFFLE_JIGGYWIGGYS_SUPER_SPECIAL_CHALLENGE = 113,
+	APO_SHUFFLE_NESTS = 114,
+	APO_SHUFFLE_CHUFFY = 115,
+	APO_SHUFFLE_TRAIN_STATIONS = 116,
+	APO_SHUFFLE_WORLD_ORDER = 117,
+	APO_SHUFFLE_WORLD_ENTRANCES = 118,
+	APO_SHUFFLE_BOSS_ENTRANCES = 119,
+	APO_PROGRESSIVE_EGGS = 120,
+	APO_PROGRESSIVE_AIMING = 121,
+	APO_PROGRESSIVE_FLIGHT = 122,
+	APO_PROGRESSIVE_WATER_TRAINING = 123,
+	APO_PROGRESSIVE_BEAK_BUSTER = 124,
+	APO_PROGRESSIVE_BASH_ATTACK = 125,
+	APO_PROGRESSIVE_SHOES = 126,
+	APO_PROGRESSIVE_AIMING_LIST_THIRD_PERSON_EGG_SHOOTING = 127,
+	APO_PROGRESSIVE_AIMING_LIST_AMAZE_O_GAZE = 128,
+	APO_PROGRESSIVE_AIMING_LIST_EGG_AIM = 129,
+	APO_PROGRESSIVE_AIMING_LIST_BREEGULL_BLASTER = 130,
+	APO_PROGRESSIVE_FLIGHT_LIST_FLIGHT_PAD = 131,
+	APO_PROGRESSIVE_FLIGHT_LIST_BEAK_BOMB = 132,
+	APO_PROGRESSIVE_FLIGHT_LIST_AIRBORNE_EGG_AIMING = 133,
+	APO_PROGRESSIVE_WATER_TRAINING_LIST_DIVE = 134,
+	APO_PROGRESSIVE_WATER_TRAINING_LIST_SUB_AQUA_EGG_AIMING = 135,
+	APO_PROGRESSIVE_WATER_TRAINING_LIST_TALON_TORPEDO = 136,
+	APO_PROGRESSIVE_WATER_TRAINING_LIST_DOUBLE_AIR = 137,
+	APO_PROGRESSIVE_WATER_TRAINING_LIST_FAST_SWIMMING = 138,
+	APO_PROGRESSIVE_SHOES_LIST_STILT_STRIDE = 139,
+	APO_PROGRESSIVE_SHOES_LIST_TURBO_TRAINERS = 140,
+	APO_PROGRESSIVE_SHOES_LIST_SPRINGY_STEP_SHOES = 141,
+	APO_PROGRESSIVE_SHOES_LIST_CLAW_CLAMBER_BOOTS = 142,
+	APO_SKIP_KLUNGO = 143,
+	APO_TOWER_OF_TRAGEDY = 144,
+	APO_SPEEDUP_MINIGAMES = 145,
+	APO_OPEN_GI_FRONT_DOOR = 146,
+	APO_OPEN_BACK_DOORS = 147,
+	APO_EASY_CANARY = 148,
+	APO_SIGN_HINTS = 149,
+	APO_MOVE_HINTS = 150,
+	APO_HINT_CLARITY = 151,
+	APO_ADD_HINTS_TO_ARCHIPELAGO = 152,
+	APO_REPLACE_EXCESS_JIGGIES = 153,
+	APO_REPLACE_EXCESS_NOTE_NESTS = 154,
+	APO_EXTRA_JIGGIES = 155,
+	APO_EXTRA_NOTE_NESTS = 156,
+	APO_EXTRA_BASS_CLEFS = 157,
+	APO_EXTRA_TREBLE_CLEFS = 158,
+	APO_EXTRA_DOUBLOONS = 159,
+	APO_EXTRA_EMPTY_HONEYCOMBS = 160,
+	APO_EXTRA_CHEATO_PAGES = 161,
+	APO_EXTRA_EGG_NESTS = 162,
+	APO_EXTRA_FEATHER_NESTS = 163,
+	APO_TRIP_TRAPS = 164,
+	APO_SLIP_TRAPS = 165,
+	APO_TIP_TRAPS = 166,
+	APO_TRANSFORM_TRAPS = 167,
+	APO_GOLDEN_EGG_NESTS = 168,
+	APO_SQUISH_TRAPS = 169,
+	APO_JIGGYWIGGYS_CHALLENGES = 170,
+	APO_PRESET_JIGGYWIGGYS_CHALLENGE_COSTS = 171,
+	APO_JIGGYWIGGYS_CHALLENGE_COSTS_CHALLENGE_1 = 172,
+	APO_JIGGYWIGGYS_CHALLENGE_COSTS_CHALLENGE_2 = 173,
+	APO_JIGGYWIGGYS_CHALLENGE_COSTS_CHALLENGE_3 = 174,
+	APO_JIGGYWIGGYS_CHALLENGE_COSTS_CHALLENGE_4 = 175,
+	APO_JIGGYWIGGYS_CHALLENGE_COSTS_CHALLENGE_5 = 176,
+	APO_JIGGYWIGGYS_CHALLENGE_COSTS_CHALLENGE_6 = 177,
+	APO_JIGGYWIGGYS_CHALLENGE_COSTS_CHALLENGE_7 = 178,
+	APO_JIGGYWIGGYS_CHALLENGE_COSTS_CHALLENGE_8 = 179,
+	APO_JIGGYWIGGYS_CHALLENGE_COSTS_CHALLENGE_9 = 180,
+	APO_JIGGYWIGGYS_CHALLENGE_COSTS_CHALLENGE_10 = 181,
+	APO_JIGGYWIGGYS_CHALLENGE_COSTS_CHALLENGE_11 = 182,
+	APO_STARTING_EGGS_BLUE_EGGS = 183,
+	APO_STARTING_EGGS_FIRE_EGGS = 184,
+	APO_STARTING_EGGS_GRENADE_EGGS = 185,
+	APO_STARTING_EGGS_ICE_EGGS = 186,
+	APO_STARTING_EGGS_CLOCKWORK_KAZOOIE_EGGS = 187,
+	APO_OPEN_WARP_SILOS = 188,
+	APO_MOVE_SILO_COSTS = 189,
+	APO_EXTRA_CHEATS = 190,
+	APO_AUTO_ENABLE_CHEATS_FEATHERS = 191,
+	APO_AUTO_ENABLE_CHEATS_EGGS = 192,
+	APO_AUTO_ENABLE_CHEATS_FALLPROOF = 193,
+	APO_AUTO_ENABLE_CHEATS_HONEYBACK = 194,
+	APO_AUTO_ENABLE_CHEATS_HOMING_EGGS = 195,
+	APO_DIALOG_CHARACTER_ALIEN = 196,
+	APO_DIALOG_CHARACTER_ALIEN_CHILD = 197,
+	APO_DIALOG_CHARACTER_ALL = 198,
+	APO_DIALOG_CHARACTER_BANJO = 199,
+	APO_DIALOG_CHARACTER_BANJO_KAZOOIE = 200,
+	APO_DIALOG_CHARACTER_BARGASAURUS = 201,
+	APO_DIALOG_CHARACTER_BEEHIVE = 202,
+	APO_DIALOG_CHARACTER_BIGGA_FOOT = 203,
+	APO_DIALOG_CHARACTER_BIG_AL = 204,
+	APO_DIALOG_CHARACTER_BLOBBELDA = 205,
+	APO_DIALOG_CHARACTER_BOGGY = 206,
+	APO_DIALOG_CHARACTER_BOTTLES = 207,
+	APO_DIALOG_CHARACTER_BOTTLES_DEAD = 208,
+	APO_DIALOG_CHARACTER_BOVINA = 209,
+	APO_DIALOG_CHARACTER_CANARY_MARY = 210,
+	APO_DIALOG_CHARACTER_CAPTAIN_BLACKEYE = 211,
+	APO_DIALOG_CHARACTER_CAPTAIN_BLUBBER = 212,
+	APO_DIALOG_CHARACTER_CHEATO = 213,
+	APO_DIALOG_CHARACTER_CHIEF_BLOATAZIN = 214,
+	APO_DIALOG_CHARACTER_CHILLI_BILLI = 215,
+	APO_DIALOG_CHARACTER_CHILLY_WILLY = 216,
+	APO_DIALOG_CHARACTER_CHOMPA = 217,
+	APO_DIALOG_CHARACTER_CHRIS_P_BACON = 218,
+	APO_DIALOG_CHARACTER_CONGA = 219,
+	APO_DIALOG_CHARACTER_DILBERTA = 220,
+	APO_DIALOG_CHARACTER_DINGPOT = 221,
+	APO_DIALOG_CHARACTER_DINO_KID1 = 222,
+	APO_DIALOG_CHARACTER_DINO_KID2 = 223,
+	APO_DIALOG_CHARACTER_DINO_SCRIT_BIG = 224,
+	APO_DIALOG_CHARACTER_DINO_SCRIT_SMALL = 225,
+	APO_DIALOG_CHARACTER_DIPPY = 226,
+	APO_DIALOG_CHARACTER_EVIL_BOTTLES = 227,
+	APO_DIALOG_CHARACTER_GEORGE = 228,
+	APO_DIALOG_CHARACTER_GI_ANNOUNCER = 229,
+	APO_DIALOG_CHARACTER_GLOWBO = 230,
+	APO_DIALOG_CHARACTER_GOBI = 231,
+	APO_DIALOG_CHARACTER_GOGGLES = 232,
+	APO_DIALOG_CHARACTER_GROGGY = 233,
+	APO_DIALOG_CHARACTER_GRUNTY = 234,
+	APO_DIALOG_CHARACTER_GUFFO = 235,
+	APO_DIALOG_CHARACTER_HEGGY = 236,
+	APO_DIALOG_CHARACTER_HONEYCOMB = 237,
+	APO_DIALOG_CHARACTER_HONEY_B = 238,
+	APO_DIALOG_CHARACTER_HUMBA = 239,
+	APO_DIALOG_CHARACTER_JAMJARS = 240,
+	APO_DIALOG_CHARACTER_JIGGY = 241,
+	APO_DIALOG_CHARACTER_JIGGYWIGGY = 242,
+	APO_DIALOG_CHARACTER_JIGGYWIGGY_DISCIPLE = 243,
+	APO_DIALOG_CHARACTER_JINJO_BLACK = 244,
+	APO_DIALOG_CHARACTER_JINJO_BLUE = 245,
+	APO_DIALOG_CHARACTER_JINJO_BROWN = 246,
+	APO_DIALOG_CHARACTER_JINJO_GREEN = 247,
+	APO_DIALOG_CHARACTER_JINJO_ORANGE = 248,
+	APO_DIALOG_CHARACTER_JINJO_PURPLE = 249,
+	APO_DIALOG_CHARACTER_JINJO_RED = 250,
+	APO_DIALOG_CHARACTER_JINJO_WHITE = 251,
+	APO_DIALOG_CHARACTER_JINJO_YELLOW = 252,
+	APO_DIALOG_CHARACTER_JOLLY = 253,
+	APO_DIALOG_CHARACTER_KAZOOIE = 254,
+	APO_DIALOG_CHARACTER_KING_JINGALING = 255,
+	APO_DIALOG_CHARACTER_KING_JINGALING_DEAD = 256,
+	APO_DIALOG_CHARACTER_KLUNGO = 257,
+	APO_DIALOG_CHARACTER_LOGGO = 258,
+	APO_DIALOG_CHARACTER_LORD_WOO_FAK_FAK = 259,
+	APO_DIALOG_CHARACTER_MERRY_MAGGIE = 260,
+	APO_DIALOG_CHARACTER_MILDRED = 261,
+	APO_DIALOG_CHARACTER_MINGELLA = 262,
+	APO_DIALOG_CHARACTER_MINGY_JONGO = 263,
+	APO_DIALOG_CHARACTER_MINJO_BLACK = 264,
+	APO_DIALOG_CHARACTER_MINJO_BLUE = 265,
+	APO_DIALOG_CHARACTER_MINJO_BROWN = 266,
+	APO_DIALOG_CHARACTER_MINJO_GREEN = 267,
+	APO_DIALOG_CHARACTER_MINJO_ORANGE = 268,
+	APO_DIALOG_CHARACTER_MINJO_PURPLE = 269,
+	APO_DIALOG_CHARACTER_MINJO_RED = 270,
+	APO_DIALOG_CHARACTER_MINJO_WHITE = 271,
+	APO_DIALOG_CHARACTER_MINJO_YELLOW = 272,
+	APO_DIALOG_CHARACTER_MOGGY = 273,
+	APO_DIALOG_CHARACTER_MRS_BOGGY = 274,
+	APO_DIALOG_CHARACTER_MRS_BOTTLES = 275,
+	APO_DIALOG_CHARACTER_MR_FIT = 276,
+	APO_DIALOG_CHARACTER_MR_PATCH = 277,
+	APO_DIALOG_CHARACTER_MUMBO = 278,
+	APO_DIALOG_CHARACTER_OLD_KING_COAL = 279,
+	APO_DIALOG_CHARACTER_OOGLE_BOOGLE = 280,
+	APO_DIALOG_CHARACTER_PAWNO = 281,
+	APO_DIALOG_CHARACTER_PIG1 = 282,
+	APO_DIALOG_CHARACTER_PROSPECTOR = 283,
+	APO_DIALOG_CHARACTER_RABBIT_WORKER1 = 284,
+	APO_DIALOG_CHARACTER_ROCKNUT = 285,
+	APO_DIALOG_CHARACTER_ROYSTEN = 286,
+	APO_DIALOG_CHARACTER_SABREMAN = 287,
+	APO_DIALOG_CHARACTER_SAFE = 288,
+	APO_DIALOG_CHARACTER_SALTY_JOE = 289,
+	APO_DIALOG_CHARACTER_SOGGY = 290,
+	APO_DIALOG_CHARACTER_SPECCY = 291,
+	APO_DIALOG_CHARACTER_SSSLUMBER = 292,
+	APO_DIALOG_CHARACTER_STONIES1 = 293,
+	APO_DIALOG_CHARACTER_STYRACOSAURUS_MOM = 294,
+	APO_DIALOG_CHARACTER_SUB = 295,
+	APO_DIALOG_CHARACTER_TARGITZAN = 296,
+	APO_DIALOG_CHARACTER_TERRY = 297,
+	APO_DIALOG_CHARACTER_TIPTUP = 298,
+	APO_DIALOG_CHARACTER_UFO = 299,
+	APO_DIALOG_CHARACTER_UNGA_BUNGA = 300,
+	APO_DIALOG_CHARACTER_UNOGOPAZ = 301,
+	APO_DIALOG_CHARACTER_WASHER = 302,
+	APO_DIALOG_CHARACTER_WELDAR = 303,
+	APO_DIALOG_CHARACTER_YELLOW_DODGEM = 304,
+	APO_DIALOG_CHARACTER_YELLOW_STONY = 305,
+	APO_DIALOG_CHARACTER_ZUBBA = 306,
+	APO_CHOSEN_EGGS = 307,
+	APO_CHOSEN_GOALS_HAG_1 = 308,
+	APO_CHOSEN_GOALS_TARGITZAN = 309,
+	APO_CHOSEN_GOALS_OLD_KING_COAL = 310,
+	APO_CHOSEN_GOALS_MR_PATCH = 311,
+	APO_CHOSEN_GOALS_LORD_WOO_FAK_FAK = 312,
+	APO_CHOSEN_GOALS_TERRY = 313,
+	APO_CHOSEN_GOALS_WELDAR = 314,
+	APO_CHOSEN_GOALS_CHILLY_WILLY = 315,
+	APO_CHOSEN_GOALS_CHILLI_BILLI = 316,
+	APO_CHOSEN_GOALS_MINGY_JONGO = 317,
+	APO_CHOSEN_GOALS_MT_KICKBALL = 318,
+	APO_CHOSEN_GOALS_ORDNANCE_STORAGE = 319,
+	APO_CHOSEN_GOALS_HOOP_HURRY = 320,
+	APO_CHOSEN_GOALS_DODGEM_DOME = 321,
+	APO_CHOSEN_GOALS_SAUCER_OF_PERIL = 322,
+	APO_CHOSEN_GOALS_BALLOON_BURST = 323,
+	APO_CHOSEN_GOALS_MINI_SUB_CHALLENGE = 324,
+	APO_CHOSEN_GOALS_CHOMPAS_BELLY = 325,
+	APO_CHOSEN_GOALS_CLINKERS_CAVERN = 326,
+	APO_CHOSEN_GOALS_TWINKLY_PACKING = 327,
+	APO_CHOSEN_GOALS_HFP_KICKBALL = 328,
+	APO_CHOSEN_GOALS_POT_O_GOLD = 329,
+	APO_CHOSEN_GOALS_ZUBBAS = 330,
+	APO_CHOSEN_GOALS_TRASH_CAN = 331,
+	APO_CHOSEN_GOALS_CANARY_MARY = 332,
+	APO_CHOSEN_GOALS_TOWER_OF_TRAGEDY = 333,
+	APO_CHOSEN_GOALS_WHITE_JINJO_FAMILY = 334,
+	APO_CHOSEN_GOALS_ORANGE_JINJO_FAMILY = 335,
+	APO_CHOSEN_GOALS_YELLOW_JINJO_FAMILY = 336,
+	APO_CHOSEN_GOALS_BROWN_JINJO_FAMILY = 337,
+	APO_CHOSEN_GOALS_GREEN_JINJO_FAMILY = 338,
+	APO_CHOSEN_GOALS_RED_JINJO_FAMILY = 339,
+	APO_CHOSEN_GOALS_BLUE_JINJO_FAMILY = 340,
+	APO_CHOSEN_GOALS_PURPLE_JINJO_FAMILY = 341,
+	APO_CHOSEN_GOALS_BLACK_JINJO_FAMILY = 342,
+	APO_CHOSEN_MOVE_SILO_COSTS_FIRE_EGGS = 343,
+	APO_CHOSEN_MOVE_SILO_COSTS_GRENADE_EGGS = 344,
+	APO_CHOSEN_MOVE_SILO_COSTS_ICE_EGGS = 345,
+	APO_CHOSEN_MOVE_SILO_COSTS_CLOCKWORK_KAZOOIE_EGGS = 346,
+	APO_CHOSEN_MOVE_SILO_COSTS_EGG_AIM = 347,
+	APO_CHOSEN_MOVE_SILO_COSTS_BREEGULL_BLASTER = 348,
+	APO_CHOSEN_MOVE_SILO_COSTS_GRIP_GRAB = 349,
+	APO_CHOSEN_MOVE_SILO_COSTS_BILL_DRILL = 350,
+	APO_CHOSEN_MOVE_SILO_COSTS_BEAK_BAYONET = 351,
+	APO_CHOSEN_MOVE_SILO_COSTS_SPLIT_UP = 352,
+	APO_CHOSEN_MOVE_SILO_COSTS_PACK_WHACK = 353,
+	APO_CHOSEN_MOVE_SILO_COSTS_AIRBORNE_EGG_AIMING = 354,
+	APO_CHOSEN_MOVE_SILO_COSTS_WING_WHACK = 355,
+	APO_CHOSEN_MOVE_SILO_COSTS_SUB_AQUA_EGG_AIMING = 356,
+	APO_CHOSEN_MOVE_SILO_COSTS_TALON_TORPEDO = 357,
+	APO_CHOSEN_MOVE_SILO_COSTS_SPRINGY_STEP_SHOES = 358,
+	APO_CHOSEN_MOVE_SILO_COSTS_TAXI_PACK = 359,
+	APO_CHOSEN_MOVE_SILO_COSTS_HATCH = 360,
+	APO_CHOSEN_MOVE_SILO_COSTS_CLAW_CLAMBER_BOOTS = 361,
+	APO_CHOSEN_MOVE_SILO_COSTS_SNOOZE_PACK = 362,
+	APO_CHOSEN_MOVE_SILO_COSTS_LEG_SPRING = 363,
+	APO_CHOSEN_MOVE_SILO_COSTS_SHACK_PACK = 364,
+	APO_CHOSEN_MOVE_SILO_COSTS_GLIDE = 365,
+	APO_CHOSEN_MOVE_SILO_COSTS_SACK_PACK = 366,
+	APO_MAX = 367,
 } ap_option_t;
 
 typedef enum {
-  APOK_PRESET_VICTORY_GOALS_INVALID = -1,
-  APOK_PRESET_VICTORY_GOALS_NONE = 0,
-  APOK_PRESET_VICTORY_GOALS_HAG1 = 1,
-  APOK_PRESET_VICTORY_GOALS_MINIGAME_HUNT = 2,
-  APOK_PRESET_VICTORY_GOALS_BOSS_HUNT = 3,
-  APOK_PRESET_VICTORY_GOALS_JINJO_FAMILY_RESCUE = 4,
-  APOK_PRESET_VICTORY_GOALS_WONDERWING_CHALLENGE = 5,
-  APOK_PRESET_VICTORY_GOALS_TOKEN_HUNT = 6,
-  APOK_PRESET_VICTORY_GOALS_BOSS_HUNT_AND_HAG1 = 7,
-  APOK_PRESET_VICTORY_GOALS_MAX = 8,
+	APOK_PRESET_VICTORY_GOALS_INVALID = -1,
+	APOK_PRESET_VICTORY_GOALS_NONE = 0,
+	APOK_PRESET_VICTORY_GOALS_HAG1 = 1,
+	APOK_PRESET_VICTORY_GOALS_MINIGAME_HUNT = 2,
+	APOK_PRESET_VICTORY_GOALS_BOSS_HUNT = 3,
+	APOK_PRESET_VICTORY_GOALS_JINJO_FAMILY_RESCUE = 4,
+	APOK_PRESET_VICTORY_GOALS_WONDERWING_CHALLENGE = 5,
+	APOK_PRESET_VICTORY_GOALS_TOKEN_HUNT = 6,
+	APOK_PRESET_VICTORY_GOALS_BOSS_HUNT_AND_HAG1 = 7,
+	APOK_PRESET_VICTORY_GOALS_MAX = 8,
 } ap_option_key_preset_victory_goals_t;
 
 typedef enum {
-  APOK_INSTANT_TRANSFORM_INVALID = -1,
-  APOK_INSTANT_TRANSFORM_DISABLED = 0,
-  APOK_INSTANT_TRANSFORM_LOGIC = 1,
-  APOK_INSTANT_TRANSFORM_NO_LOGIC = 2,
-  APOK_INSTANT_TRANSFORM_MAX = 3,
+	APOK_INSTANT_TRANSFORM_INVALID = -1,
+	APOK_INSTANT_TRANSFORM_DISABLED = 0,
+	APOK_INSTANT_TRANSFORM_LOGIC = 1,
+	APOK_INSTANT_TRANSFORM_NO_LOGIC = 2,
+	APOK_INSTANT_TRANSFORM_MAX = 3,
 } ap_option_key_instant_transform_t;
 
 typedef enum {
-  APOK_SHUFFLE_BK_MOVES_INVALID = -1,
-  APOK_SHUFFLE_BK_MOVES_NONE = 0,
-  APOK_SHUFFLE_BK_MOVES_MCJIGGY_SPECIAL = 1,
-  APOK_SHUFFLE_BK_MOVES_ALL = 2,
-  APOK_SHUFFLE_BK_MOVES_MAX = 3,
+	APOK_SHUFFLE_BK_MOVES_INVALID = -1,
+	APOK_SHUFFLE_BK_MOVES_NONE = 0,
+	APOK_SHUFFLE_BK_MOVES_MCJIGGY_SPECIAL = 1,
+	APOK_SHUFFLE_BK_MOVES_ALL = 2,
+	APOK_SHUFFLE_BK_MOVES_MAX = 3,
 } ap_option_key_shuffle_bk_moves_t;
 
 typedef enum {
-  APOK_TOWER_OF_TRAGEDY_INVALID = -1,
-  APOK_TOWER_OF_TRAGEDY_FULL = 0,
-  APOK_TOWER_OF_TRAGEDY_SKIP = 1,
-  APOK_TOWER_OF_TRAGEDY_ROUND_3 = 2,
-  APOK_TOWER_OF_TRAGEDY_MAX = 3,
+	APOK_TOWER_OF_TRAGEDY_INVALID = -1,
+	APOK_TOWER_OF_TRAGEDY_FULL = 0,
+	APOK_TOWER_OF_TRAGEDY_SKIP = 1,
+	APOK_TOWER_OF_TRAGEDY_ROUND_3 = 2,
+	APOK_TOWER_OF_TRAGEDY_MAX = 3,
 } ap_option_key_tower_of_tragedy_t;
 
 typedef enum {
-  APOK_HINT_CLARITY_INVALID = -1,
-  APOK_HINT_CLARITY_CRYPTIC = 0,
-  APOK_HINT_CLARITY_CLEAR = 1,
-  APOK_HINT_CLARITY_MAX = 2,
+	APOK_HINT_CLARITY_INVALID = -1,
+	APOK_HINT_CLARITY_CRYPTIC = 0,
+	APOK_HINT_CLARITY_CLEAR = 1,
+	APOK_HINT_CLARITY_MAX = 2,
 } ap_option_key_hint_clarity_t;
 
 typedef enum {
-  APOK_ADD_HINTS_TO_ARCHIPELAGO_INVALID = -1,
-  APOK_ADD_HINTS_TO_ARCHIPELAGO_NEVER = 0,
-  APOK_ADD_HINTS_TO_ARCHIPELAGO_PROGRESSION = 1,
-  APOK_ADD_HINTS_TO_ARCHIPELAGO_ALWAYS = 2,
-  APOK_ADD_HINTS_TO_ARCHIPELAGO_MAX = 3,
+	APOK_ADD_HINTS_TO_ARCHIPELAGO_INVALID = -1,
+	APOK_ADD_HINTS_TO_ARCHIPELAGO_NEVER = 0,
+	APOK_ADD_HINTS_TO_ARCHIPELAGO_PROGRESSION = 1,
+	APOK_ADD_HINTS_TO_ARCHIPELAGO_ALWAYS = 2,
+	APOK_ADD_HINTS_TO_ARCHIPELAGO_MAX = 3,
 } ap_option_key_add_hints_to_archipelago_t;
 
 typedef enum {
-  APOK_JIGGYWIGGYS_CHALLENGES_INVALID = -1,
-  APOK_JIGGYWIGGYS_CHALLENGES_VANILLA = 0,
-  APOK_JIGGYWIGGYS_CHALLENGES_AUTO = 1,
-  APOK_JIGGYWIGGYS_CHALLENGES_SHUFFLED = 2,
-  APOK_JIGGYWIGGYS_CHALLENGES_AUTO_SHUFFLED = 3,
-  APOK_JIGGYWIGGYS_CHALLENGES_MAX = 4,
+	APOK_JIGGYWIGGYS_CHALLENGES_INVALID = -1,
+	APOK_JIGGYWIGGYS_CHALLENGES_VANILLA = 0,
+	APOK_JIGGYWIGGYS_CHALLENGES_AUTO = 1,
+	APOK_JIGGYWIGGYS_CHALLENGES_SHUFFLED = 2,
+	APOK_JIGGYWIGGYS_CHALLENGES_AUTO_SHUFFLED = 3,
+	APOK_JIGGYWIGGYS_CHALLENGES_MAX = 4,
 } ap_option_key_jiggywiggys_challenges_t;
 
 typedef enum {
-  APOK_PRESET_JIGGYWIGGYS_CHALLENGE_COSTS_INVALID = -1,
-  APOK_PRESET_JIGGYWIGGYS_CHALLENGE_COSTS_CHEAP = 0,
-  APOK_PRESET_JIGGYWIGGYS_CHALLENGE_COSTS_DEFAULT = 1,
-  APOK_PRESET_JIGGYWIGGYS_CHALLENGE_COSTS_EXPENSIVE = 2,
-  APOK_PRESET_JIGGYWIGGYS_CHALLENGE_COSTS_RANDOMIZE = 3,
-  APOK_PRESET_JIGGYWIGGYS_CHALLENGE_COSTS_CUSTOM = 4,
-  APOK_PRESET_JIGGYWIGGYS_CHALLENGE_COSTS_MAX = 5,
+	APOK_PRESET_JIGGYWIGGYS_CHALLENGE_COSTS_INVALID = -1,
+	APOK_PRESET_JIGGYWIGGYS_CHALLENGE_COSTS_CHEAP = 0,
+	APOK_PRESET_JIGGYWIGGYS_CHALLENGE_COSTS_DEFAULT = 1,
+	APOK_PRESET_JIGGYWIGGYS_CHALLENGE_COSTS_EXPENSIVE = 2,
+	APOK_PRESET_JIGGYWIGGYS_CHALLENGE_COSTS_RANDOMIZE = 3,
+	APOK_PRESET_JIGGYWIGGYS_CHALLENGE_COSTS_CUSTOM = 4,
+	APOK_PRESET_JIGGYWIGGYS_CHALLENGE_COSTS_MAX = 5,
 } ap_option_key_preset_jiggywiggys_challenge_costs_t;
 
 typedef enum {
-  APOK_JIGGYWIGGYS_CHALLENGE_COSTS_INVALID = -1,
-  APOK_JIGGYWIGGYS_CHALLENGE_COSTS_CHALLENGE_1 = 0,
-  APOK_JIGGYWIGGYS_CHALLENGE_COSTS_CHALLENGE_2 = 1,
-  APOK_JIGGYWIGGYS_CHALLENGE_COSTS_CHALLENGE_3 = 2,
-  APOK_JIGGYWIGGYS_CHALLENGE_COSTS_CHALLENGE_4 = 3,
-  APOK_JIGGYWIGGYS_CHALLENGE_COSTS_CHALLENGE_5 = 4,
-  APOK_JIGGYWIGGYS_CHALLENGE_COSTS_CHALLENGE_6 = 5,
-  APOK_JIGGYWIGGYS_CHALLENGE_COSTS_CHALLENGE_7 = 6,
-  APOK_JIGGYWIGGYS_CHALLENGE_COSTS_CHALLENGE_8 = 7,
-  APOK_JIGGYWIGGYS_CHALLENGE_COSTS_CHALLENGE_9 = 8,
-  APOK_JIGGYWIGGYS_CHALLENGE_COSTS_CHALLENGE_10 = 9,
-  APOK_JIGGYWIGGYS_CHALLENGE_COSTS_CHALLENGE_11 = 10,
-  APOK_JIGGYWIGGYS_CHALLENGE_COSTS_MAX = 11,
+	APOK_JIGGYWIGGYS_CHALLENGE_COSTS_INVALID = -1,
+	APOK_JIGGYWIGGYS_CHALLENGE_COSTS_CHALLENGE_1 = 0,
+	APOK_JIGGYWIGGYS_CHALLENGE_COSTS_CHALLENGE_2 = 1,
+	APOK_JIGGYWIGGYS_CHALLENGE_COSTS_CHALLENGE_3 = 2,
+	APOK_JIGGYWIGGYS_CHALLENGE_COSTS_CHALLENGE_4 = 3,
+	APOK_JIGGYWIGGYS_CHALLENGE_COSTS_CHALLENGE_5 = 4,
+	APOK_JIGGYWIGGYS_CHALLENGE_COSTS_CHALLENGE_6 = 5,
+	APOK_JIGGYWIGGYS_CHALLENGE_COSTS_CHALLENGE_7 = 6,
+	APOK_JIGGYWIGGYS_CHALLENGE_COSTS_CHALLENGE_8 = 7,
+	APOK_JIGGYWIGGYS_CHALLENGE_COSTS_CHALLENGE_9 = 8,
+	APOK_JIGGYWIGGYS_CHALLENGE_COSTS_CHALLENGE_10 = 9,
+	APOK_JIGGYWIGGYS_CHALLENGE_COSTS_CHALLENGE_11 = 10,
+	APOK_JIGGYWIGGYS_CHALLENGE_COSTS_MAX = 11,
 } ap_option_key_jiggywiggys_challenge_costs_t;
 
 typedef enum {
-  APOK_MOVE_SILO_COSTS_INVALID = -1,
-  APOK_MOVE_SILO_COSTS_VANILLA = 0,
-  APOK_MOVE_SILO_COSTS_RANDOMIZE = 1,
-  APOK_MOVE_SILO_COSTS_PROGRESSIVE = 2,
-  APOK_MOVE_SILO_COSTS_MAX = 3,
+	APOK_MOVE_SILO_COSTS_INVALID = -1,
+	APOK_MOVE_SILO_COSTS_VANILLA = 0,
+	APOK_MOVE_SILO_COSTS_RANDOMIZE = 1,
+	APOK_MOVE_SILO_COSTS_PROGRESSIVE = 2,
+	APOK_MOVE_SILO_COSTS_MAX = 3,
 } ap_option_key_move_silo_costs_t;
 
 typedef enum {
-  APOK_CHOSEN_EGGS_INVALID = -1,
-  APOK_CHOSEN_EGGS_BLUE_EGGS = 0,
-  APOK_CHOSEN_EGGS_FIRE_EGGS = 1,
-  APOK_CHOSEN_EGGS_GRENADE_EGGS = 2,
-  APOK_CHOSEN_EGGS_ICE_EGGS = 3,
-  APOK_CHOSEN_EGGS_CLOCKWORK_KAZOOIE_EGGS = 4,
-  APOK_CHOSEN_EGGS_MAX = 5,
+	APOK_CHOSEN_EGGS_INVALID = -1,
+	APOK_CHOSEN_EGGS_BLUE_EGGS = 0,
+	APOK_CHOSEN_EGGS_FIRE_EGGS = 1,
+	APOK_CHOSEN_EGGS_GRENADE_EGGS = 2,
+	APOK_CHOSEN_EGGS_ICE_EGGS = 3,
+	APOK_CHOSEN_EGGS_CLOCKWORK_KAZOOIE_EGGS = 4,
+	APOK_CHOSEN_EGGS_MAX = 5,
 } ap_option_key_chosen_eggs_t;
 
 typedef enum {
-  APOK_CHOSEN_MOVE_SILO_COSTS_INVALID = -1,
-  APOK_CHOSEN_MOVE_SILO_COSTS_FIRE_EGGS = 0,
-  APOK_CHOSEN_MOVE_SILO_COSTS_GRENADE_EGGS = 1,
-  APOK_CHOSEN_MOVE_SILO_COSTS_ICE_EGGS = 2,
-  APOK_CHOSEN_MOVE_SILO_COSTS_CLOCKWORK_KAZOOIE_EGGS = 3,
-  APOK_CHOSEN_MOVE_SILO_COSTS_EGG_AIM = 4,
-  APOK_CHOSEN_MOVE_SILO_COSTS_BREEGULL_BLASTER = 5,
-  APOK_CHOSEN_MOVE_SILO_COSTS_GRIP_GRAB = 6,
-  APOK_CHOSEN_MOVE_SILO_COSTS_BILL_DRILL = 7,
-  APOK_CHOSEN_MOVE_SILO_COSTS_BEAK_BAYONET = 8,
-  APOK_CHOSEN_MOVE_SILO_COSTS_SPLIT_UP = 9,
-  APOK_CHOSEN_MOVE_SILO_COSTS_PACK_WHACK = 10,
-  APOK_CHOSEN_MOVE_SILO_COSTS_AIRBORNE_EGG_AIMING = 11,
-  APOK_CHOSEN_MOVE_SILO_COSTS_WING_WHACK = 12,
-  APOK_CHOSEN_MOVE_SILO_COSTS_SUB_AQUA_EGG_AIMING = 13,
-  APOK_CHOSEN_MOVE_SILO_COSTS_TALON_TORPEDO = 14,
-  APOK_CHOSEN_MOVE_SILO_COSTS_SPRINGY_STEP_SHOES = 15,
-  APOK_CHOSEN_MOVE_SILO_COSTS_TAXI_PACK = 16,
-  APOK_CHOSEN_MOVE_SILO_COSTS_HATCH = 17,
-  APOK_CHOSEN_MOVE_SILO_COSTS_CLAW_CLAMBER_BOOTS = 18,
-  APOK_CHOSEN_MOVE_SILO_COSTS_SNOOZE_PACK = 19,
-  APOK_CHOSEN_MOVE_SILO_COSTS_LEG_SPRING = 20,
-  APOK_CHOSEN_MOVE_SILO_COSTS_SHACK_PACK = 21,
-  APOK_CHOSEN_MOVE_SILO_COSTS_GLIDE = 22,
-  APOK_CHOSEN_MOVE_SILO_COSTS_SACK_PACK = 23,
-  APOK_CHOSEN_MOVE_SILO_COSTS_MAX = 24,
+	APOK_CHOSEN_MOVE_SILO_COSTS_INVALID = -1,
+	APOK_CHOSEN_MOVE_SILO_COSTS_FIRE_EGGS = 0,
+	APOK_CHOSEN_MOVE_SILO_COSTS_GRENADE_EGGS = 1,
+	APOK_CHOSEN_MOVE_SILO_COSTS_ICE_EGGS = 2,
+	APOK_CHOSEN_MOVE_SILO_COSTS_CLOCKWORK_KAZOOIE_EGGS = 3,
+	APOK_CHOSEN_MOVE_SILO_COSTS_EGG_AIM = 4,
+	APOK_CHOSEN_MOVE_SILO_COSTS_BREEGULL_BLASTER = 5,
+	APOK_CHOSEN_MOVE_SILO_COSTS_GRIP_GRAB = 6,
+	APOK_CHOSEN_MOVE_SILO_COSTS_BILL_DRILL = 7,
+	APOK_CHOSEN_MOVE_SILO_COSTS_BEAK_BAYONET = 8,
+	APOK_CHOSEN_MOVE_SILO_COSTS_SPLIT_UP = 9,
+	APOK_CHOSEN_MOVE_SILO_COSTS_PACK_WHACK = 10,
+	APOK_CHOSEN_MOVE_SILO_COSTS_AIRBORNE_EGG_AIMING = 11,
+	APOK_CHOSEN_MOVE_SILO_COSTS_WING_WHACK = 12,
+	APOK_CHOSEN_MOVE_SILO_COSTS_SUB_AQUA_EGG_AIMING = 13,
+	APOK_CHOSEN_MOVE_SILO_COSTS_TALON_TORPEDO = 14,
+	APOK_CHOSEN_MOVE_SILO_COSTS_SPRINGY_STEP_SHOES = 15,
+	APOK_CHOSEN_MOVE_SILO_COSTS_TAXI_PACK = 16,
+	APOK_CHOSEN_MOVE_SILO_COSTS_HATCH = 17,
+	APOK_CHOSEN_MOVE_SILO_COSTS_CLAW_CLAMBER_BOOTS = 18,
+	APOK_CHOSEN_MOVE_SILO_COSTS_SNOOZE_PACK = 19,
+	APOK_CHOSEN_MOVE_SILO_COSTS_LEG_SPRING = 20,
+	APOK_CHOSEN_MOVE_SILO_COSTS_SHACK_PACK = 21,
+	APOK_CHOSEN_MOVE_SILO_COSTS_GLIDE = 22,
+	APOK_CHOSEN_MOVE_SILO_COSTS_SACK_PACK = 23,
+	APOK_CHOSEN_MOVE_SILO_COSTS_MAX = 24,
 } ap_option_key_chosen_move_silo_costs_t;
 
 void ap_options_set(ap_option_t option, s32 value);

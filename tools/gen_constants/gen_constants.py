@@ -25,10 +25,10 @@ commands = {cmd:value for value, cmd in enumerate([
 	"TAG_LINK",
 ])}
 states = {
-	"DISCONNECTED": 0,
-	"CONNECTING":   1,
-	"CONNECTED":    2,
-	"PINGED":       4,
+	"DISCONNECTED":	0,
+	"CONNECTING":		1,
+	"CONNECTED":		2,
+	"PINGED":				4,
 }
 slot_data = set()
 option_ids = {}
@@ -66,11 +66,11 @@ def c_header(f):
 
 def c_enum(f, enums, prefix, name):
 	f.write("\ntypedef enum {\n")
-	f.write(f"  {prefix}_INVALID = -1,\n")
+	f.write(f"\t{prefix}_INVALID = -1,\n")
 	value = 0
 	for key, value in enums.items():
-		f.write(f"  {prefix}_{data.option_name(key).upper()} = {value},\n")
-	f.write(f"  {prefix}_MAX = {value+1},\n")
+		f.write(f"\t{prefix}_{data.option_name(key).upper()} = {value},\n")
+	f.write(f"\t{prefix}_MAX = {value+1},\n")
 	f.write(f"}} {name}_t;\n")
 
 def process_option(f, option):
@@ -213,11 +213,11 @@ with open("../ap/ids.py", "w") as f:
 	f.write(f"location_name_to_id = {json.dumps(location_name_to_id, indent=2)}\n\n")
 	f.write(f"class AP_CMD:\n")
 	for cmd, value in commands.items():
-		f.write(f"  {cmd} = {value}\n")
+		f.write(f"\t{cmd} = {value}\n")
 	f.write("\n")
 	f.write(f"class AP_STATE:\n")
 	for state, value in states.items():
-		f.write(f"  {state} = {value}\n")
+		f.write(f"\t{state} = {value}\n")
 
 with open("../ap/data/region_names.py", "w") as f:
 	f.write("# Automatically generated using gen_constants.py\n\n")
@@ -248,16 +248,16 @@ with open("../n64/src/ap/options.h", "w") as f:
 	# struct ap_options_t
 	f.write("\ntypedef struct {\n")
 	for key, value in sorted(option_types["small"].items(), key=lambda e: (e[1], e[0])):
-		f.write(f"  u32 {data.option_name(key)} : {value};\n")
+		f.write(f"\tu32 {data.option_name(key)} : {value};\n")
 	for key, value in sorted(option_types["bits"].items(), key=lambda e: (e[1], e[0])):
-		f.write("  struct {\n")
+		f.write("\tstruct {\n")
 		for value in sorted(option_set[key]):
-			f.write(f"    u8 {data.option_name(value)} : 1;\n")
-		f.write(f"  }} {data.option_name(key)};\n")
+			f.write(f"\t\tu8 {data.option_name(value)} : 1;\n")
+		f.write(f"\t}} {data.option_name(key)};\n")
 	for key in sorted(option_types["numbers"]):
-		f.write(f"  s32 {data.option_name(key)};\n")
+		f.write(f"\ts32 {data.option_name(key)};\n")
 	for key, value in sorted(option_types["arrays"].items(), key=lambda e: (e[1], e[0])):
-		f.write(f"  s32 {data.option_name(key)}[{value}];\n")
+		f.write(f"\ts32 {data.option_name(key)}[{value}];\n")
 	f.write("} ap_options_t;\n")
 	# enum ap_option
 	c_enum(f, option_ids, "APO", "ap_option")
@@ -274,24 +274,24 @@ with open("../n64/src/ap/options.c", "w") as f:
 	f.write("#include \"ap/ap.h\"\n\n")
 	# ap_option_set()
 	f.write("void ap_options_set(ap_option_t option, s32 value) {\n")
-	f.write("  switch (option) {\n")
+	f.write("\tswitch (option) {\n")
 	for key, value in sorted(option_types["small"].items(), key=lambda e: (e[1], e[0])):
 		key = data.option_name(key)
-		f.write(f"    case APO_{key.upper()}: {{ap.options.{key} = value; return;}}\n")
+		f.write(f"\t\tcase APO_{key.upper()}: {{ap.options.{key} = value; return;}}\n")
 	for key, value in sorted(option_types["bits"].items(), key=lambda e: (e[1], e[0])):
 		key = data.option_name(key)
 		for value in sorted(option_set[key]):
 			value = data.option_name(value)
-			f.write(f"    case APO_{key.upper()}_{value.upper()}: {{ap.options.{key}.{value} = value; return;}}\n")
+			f.write(f"\t\tcase APO_{key.upper()}_{value.upper()}: {{ap.options.{key}.{value} = value; return;}}\n")
 	for key in sorted(option_types["numbers"]):
-		f.write(f"    case APO_{key.upper()}: {{ap.options.{key} = value; return;}}\n")
+		f.write(f"\t\tcase APO_{key.upper()}: {{ap.options.{key} = value; return;}}\n")
 	for key, value in sorted(option_types["arrays"].items(), key=lambda e: (e[1], e[0])):
 		name = data.option_name(key)
 		for key, value in option_keys[key].items():
 			key = data.option_name(key)
-			f.write(f"    case APO_{name.upper()}_{key.upper()}: {{ap.options.{name}[{value}] = value; return;}}\n")
-	f.write(f"    default: return;\n")
-	f.write("  }\n")
+			f.write(f"\t\tcase APO_{name.upper()}_{key.upper()}: {{ap.options.{name}[{value}] = value; return;}}\n")
+	f.write(f"\t\tdefault: return;\n")
+	f.write("\t}\n")
 	f.write("}\n")
 
 with open("../n64/src/ap/items.h", "w") as f:
@@ -307,17 +307,17 @@ with open("../n64/src/ap/items.c", "w") as f:
 	header(f)
 	f.write("#include \"ap/items.h\"\n\n")
 	f.write("bool ap_items_in_group(ap_item_t item, ap_item_group_t group) {\n")
-	f.write("  switch (group) {\n")
+	f.write("\tswitch (group) {\n")
 	for group_name, items in sorted(item_groups.items()):
-		f.write(f"    case APIG_{data.option_name(group_name).upper()}:\n")
-		f.write("      switch (item) {\n")
+		f.write(f"\t\tcase APIG_{data.option_name(group_name).upper()}:\n")
+		f.write("\t\t\tswitch (item) {\n")
 		for item in sorted(items):
-			f.write(f"        case API_{data.option_name(item).upper()}:\n")
-		f.write("          return true;\n")
-		f.write("        default: return false;\n")
-		f.write("      }\n")
-	f.write(f"    default: return false;\n")
-	f.write("  }\n")
+			f.write(f"\t\t\t\tcase API_{data.option_name(item).upper()}:\n")
+		f.write("\t\t\t\t\treturn true;\n")
+		f.write("\t\t\t\tdefault: return false;\n")
+		f.write("\t\t\t}\n")
+	f.write(f"\t\tdefault: return false;\n")
+	f.write("\t}\n")
 	f.write("}\n")
 
 with open("../n64/src/ap/locations.h", "w") as f:
@@ -325,6 +325,14 @@ with open("../n64/src/ap/locations.h", "w") as f:
 	# enum ap_location
 	c_enum(f, location_name_to_id, "APL", "ap_location")
 	f.write(f"#define APL_MAX_BYTES (((APL_MAX-1)-(APL_MAX-1)%8+8)/8)\n")
+	# struct ap_locations_t
+	f.write("\ntypedef union {\n")
+	f.write("\tstruct {\n")
+	for key, value in location_name_to_id.items():
+		f.write(f"\t\tu8 {data.option_name(key)} : 1;\n")
+	f.write("\t};\n")
+	f.write(f"\tu8 raw[APL_MAX_BYTES];\n")
+	f.write("} ap_locations_t;\n")
 	# enum ap_location_group
 	c_enum(f, {group:i for i, group in enumerate(sorted(data.location_groups))}, "APLG", "ap_location_group")
 	# ap_locations_in_group()
@@ -334,17 +342,17 @@ with open("../n64/src/ap/locations.c", "w") as f:
 	header(f)
 	f.write("#include \"ap/locations.h\"\n\n")
 	f.write("bool ap_locations_in_group(ap_location_t location, ap_location_group_t group) {\n")
-	f.write("  switch (group) {\n")
+	f.write("\tswitch (group) {\n")
 	for group_name, locations in sorted(data.location_groups.items()):
-		f.write(f"    case APLG_{data.option_name(group_name).upper()}:\n")
-		f.write("      switch (location) {\n")
+		f.write(f"\t\tcase APLG_{data.option_name(group_name).upper()}:\n")
+		f.write("\t\t\tswitch (location) {\n")
 		for location in sorted(locations):
-			f.write(f"        case APL_{data.option_name(location).upper()}:\n")
-		f.write("          return true;\n")
-		f.write("        default: return false;\n")
-		f.write("      }\n")
-	f.write(f"    default: return false;\n")
-	f.write("  }\n")
+			f.write(f"\t\t\t\tcase APL_{data.option_name(location).upper()}:\n")
+		f.write("\t\t\t\t\treturn true;\n")
+		f.write("\t\t\t\tdefault: return false;\n")
+		f.write("\t\t\t}\n")
+	f.write(f"\t\tdefault: return false;\n")
+	f.write("\t}\n")
 	f.write("}\n")
 
 with open("../n64/src/ap/commands.h", "w") as f:
