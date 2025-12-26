@@ -29,14 +29,14 @@ release: clean .WAIT all
 	$(RM) release/* ap/assets/*
 	cp n64/rom/$(GAME).patch ap/assets/
 	cp n64/rom/$(GAME)_Patched.z64-md5 ap/assets/
-	cp pc/Bizhawk.lua ap/assets/connector_$(GAME_SHORT)_bizhawk.lua
+	cp pc/Bizhawk.lua ap/assets/connector_$(GAME_LOWER)_bizhawk.lua
 	cd tools/archipelago/repo && $(PYTHON)/python Launcher.py "Build APWorlds" $(GAME_NAME)
 	mv tools/archipelago/repo/build/apworlds/$(GAME_LOWER).apworld release/
 	7z d release/$(GAME_LOWER).apworld $(GAME_LOWER)/.git $(GAME_LOWER)/.gitignore $(GAME_LOWER)/README.md $(GAME_LOWER)/template.yaml
-	cp pc/Bizhawk.lua release/connector_$(GAME_SHORT)_bizhawk.lua
-	cp pc/Project64.js release/connector_$(GAME_SHORT)_pj64.js
-	cp pc/Flashcart/Flashcart release/connector_$(GAME_SHORT)_flashcart_linux
-	cp pc/Flashcart/Flashcart.exe release/connector_$(GAME_SHORT)_flashcart.exe
+	cp pc/Bizhawk.lua release/connector_$(GAME_LOWER)_bizhawk.lua
+	cp pc/Project64.js release/connector_$(GAME_LOWER)_pj64.js
+	cp pc/Flashcart/Flashcart release/connector_$(GAME_LOWER)_flashcart_linux
+	cp pc/Flashcart/Flashcart.exe release/connector_$(GAME_LOWER)_flashcart.exe
 
 clean:
 	@$(MAKE) --no-print-directory -C tools clean
