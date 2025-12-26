@@ -207,7 +207,7 @@ location_name_to_id = {name:next_id() if num == 1 else num for name, num in sort
 
 with open("../ap/ids.py", "w") as f:
 	f.write("# Automatically generated using gen_constants.py\n\n")
-	f.write(f"slot_data_names = {json.dumps(list(slot_data), indent=2)}\n\n")
+	f.write(f"slot_data_names = {json.dumps(sorted(list(slot_data)), indent=2)}\n\n")
 	f.write(f"option_name_to_id = {json.dumps(option_ids, indent=2)}\n\n")
 	f.write(f"item_name_to_id = {json.dumps(item_name_to_id, indent=2)}\n\n")
 	f.write(f"location_name_to_id = {json.dumps(location_name_to_id, indent=2)}\n\n")
@@ -308,10 +308,10 @@ with open("../n64/src/ap/items.c", "w") as f:
 	f.write("#include \"ap/items.h\"\n\n")
 	f.write("bool ap_items_in_group(ap_item_t item, ap_item_group_t group) {\n")
 	f.write("  switch (group) {\n")
-	for group_name, items in item_groups.items():
+	for group_name, items in sorted(item_groups.items()):
 		f.write(f"    case APIG_{data.option_name(group_name).upper()}:\n")
 		f.write("      switch (item) {\n")
-		for item in items:
+		for item in sorted(items):
 			f.write(f"        case API_{data.option_name(item).upper()}:\n")
 		f.write("          return true;\n")
 		f.write("        default: return false;\n")
@@ -335,10 +335,10 @@ with open("../n64/src/ap/locations.c", "w") as f:
 	f.write("#include \"ap/locations.h\"\n\n")
 	f.write("bool ap_locations_in_group(ap_location_t location, ap_location_group_t group) {\n")
 	f.write("  switch (group) {\n")
-	for group_name, locations in data.location_groups.items():
+	for group_name, locations in sorted(data.location_groups.items()):
 		f.write(f"    case APLG_{data.option_name(group_name).upper()}:\n")
 		f.write("      switch (location) {\n")
-		for location in locations:
+		for location in sorted(locations):
 			f.write(f"        case APL_{data.option_name(location).upper()}:\n")
 		f.write("          return true;\n")
 		f.write("        default: return false;\n")
