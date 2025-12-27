@@ -1,11 +1,11 @@
 #include "save.h"
 #include "util.h"
-#include "ap/ap.h"
-#include "ap/version.h"
-#include "n64/dma.h"
+#include <ap/ap.h>
+#include <ap/version.h>
+#include <n64/dma.h>
 #include <string.h>
 
-save_t save = {0,};
+save_t save = {0};
 
 void save_init_random() {
 	u32 ap_seed[5];
@@ -17,13 +17,13 @@ void save_init_random() {
 	seed_t seed;
 	for (int i = 0; i < 4; i++) {
 		csrand(ap_seed[i]);
-		seed.bytes[i] = crand()%256;
+		seed.bytes[i] = crand() % 256;
 	}
 	csrand(ap_seed[4]);
 	for (int i = 0; i < ap.team; i++) crand();
-	int iters = crand()%129;
+	int iters = crand() % 129;
 	for (int i = 0; i < ap.slot; i++) crand();
-	iters += crand()%128;
+	iters += crand() % 128;
 	csrand(seed.i);
 	for (; iters; iters--) crand();
 }
@@ -36,6 +36,7 @@ void save_init() {
 		save.data.magic_start = SAVE_MAGIC;
 		save.data.magic_end = SAVE_MAGIC;
 		save.data.version = AP_VERSION.as_int;
+		save.data.last_online_slot = -1;
 		save.dirty = true;
 		save_sram_write();
 	}
@@ -51,14 +52,14 @@ void save_sram_write() {
 u32 save_eeprom_read(UNUSED u32 _unused, u32 offset, u32 *ramAddr) {
 	offset *= 2;
 	ramAddr[0] = save.data.eeprom[offset];
-	ramAddr[1] = save.data.eeprom[offset+1];
+	ramAddr[1] = save.data.eeprom[offset + 1];
 	return 0;
 }
 
 u32 save_eeprom_write(UNUSED u32 _unused, u32 offset, u32 *ramAddr) {
 	offset *= 2;
 	save.data.eeprom[offset] = ramAddr[0];
-	save.data.eeprom[offset+1] = ramAddr[1];
+	save.data.eeprom[offset + 1] = ramAddr[1];
 	save.dirty = true;
 	return 0;
 }

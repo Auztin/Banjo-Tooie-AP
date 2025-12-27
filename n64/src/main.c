@@ -2,11 +2,12 @@
 #include "save.h"
 #include "usb.h"
 #include "util.h"
-#include "ap/ap.h"
-#include "n64/dma.h"
-#include "n64/sys.h"
+#include <ap/ap.h>
+#include <bt/_unsorted.h>
+#include <n64/dma.h>
+#include <n64/sys.h>
 
-main_t main = {0, };
+main_t main = {0};
 
 void main_init() {
 	main.is_emulator = io_read(0xA4100010) == 0 ? 1 : 0;
@@ -15,22 +16,24 @@ void main_init() {
 	save_init();
 }
 
+void main_game_init() {
+}
+
 void main_loop() {
-	// sf_fn_game_update();
+	bt_loop();
 	u32 c0_count = C0_COUNT();
-	main.delta = (c0_count-main.last_c0_count)/TICKS_PER_MILLISECOND;
+	main.delta = (c0_count - main.last_c0_count) / TICKS_PER_MILLISECOND;
 	main.last_c0_count = c0_count;
 	if (main.delta >= 250) return;
 	save_sram_write();
 	if (main.is_emulator) {
 		ap_input();
 		ap_output();
-	}
-	else usb_check();
+	} else usb_check();
 }
 
 void main_goal_completed() {
-	if (!set_bit(ap.locations, APL_COMPLETION_CONDITION)) {}
+	if (!set_bit(ap_save.locations.raw, APL_COMPLETION_CONDITION)) {}
 }
 
 // void main_menu_update() {

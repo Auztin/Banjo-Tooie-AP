@@ -1,7 +1,7 @@
 #pragma once
 
-#include <stdint.h>
 #include <stdbool.h>
+#include <stdint.h>
 
 typedef uint8_t u8;
 typedef uint16_t u16;
@@ -27,5 +27,5 @@ typedef struct {
 	u8 r, g, b, a;
 } rgba_u8_t;
 
-#define countof(a) (sizeof(a)/sizeof(*a))
+#define countof(a) (sizeof(a) / sizeof(*a))
 #define UNUSED __attribute__((unused))

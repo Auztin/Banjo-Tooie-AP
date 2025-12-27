@@ -1,6 +1,6 @@
 #pragma once
 
-#include "n64/types.h"
+#include <n64/types.h>
 
 typedef struct {
 	bool is_emulator;
@@ -10,5 +10,6 @@ typedef struct {
 extern main_t main;
 
 void main_init();
+void main_game_init();
 void main_loop();
 void main_goal_completed();

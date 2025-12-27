@@ -1,7 +1,7 @@
 #include "usb.h"
-#include "n64/ed64.h"
-#include "ap/ap.h"
-#include "ap/commands.h"
+#include <ap/ap.h>
+#include <ap/commands.h>
+#include <n64/ed64.h>
 
 void usb_init() {
 	ed64_init();
@@ -9,21 +9,21 @@ void usb_init() {
 
 u8 usb_read() {
 	if (ed64_read(&ap.input, 8)) return 1;
-	int size = ap.input.size-6;
+	int size = ap.input.size - 6;
 	if (size > 0) {
 		size--;
-		size = size-size%4+4;
+		size = size - size % 4 + 4;
 		if (size > 504 || ed64_read(ap.input.data, size)) return 1;
 	}
 	return 0;
 }
 
 u8 usb_write() {
-	int size = ap.output.size+2;
+	int size = ap.output.size + 2;
 	if (size < 8) size = 8;
 	else if (size) {
 		size--;
-		size = size-size%4+4;
+		size = size - size % 4 + 4;
 	}
 	return ed64_write(&ap.output, size);
 }

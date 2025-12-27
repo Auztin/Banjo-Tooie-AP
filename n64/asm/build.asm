@@ -39,6 +39,7 @@ PAYLOAD_START:
 .align 0x10
 .importobj srcbundle
 .include "displaced.asm"
+.include "funcs.asm"
 .include "assets.asm"
 
 .align 0x10

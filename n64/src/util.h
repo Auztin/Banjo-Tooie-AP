@@ -12,10 +12,10 @@ enum UTIL_INJECT {
 };
 
 void util_inject(enum UTIL_INJECT type, u32 addr, u32 data, u8 addNOP);
-bool get_bit(u8* data, u32 id);
-bool change_bit(u8* data, u32 id, bool value);
-bool set_bit(u8* data, u32 id);
-bool unset_bit(u8* data, u32 id);
+bool get_bit(u8 *data, u32 id);
+bool change_bit(u8 *data, u32 id, bool value);
+bool set_bit(u8 *data, u32 id);
+bool unset_bit(u8 *data, u32 id);
 void csrand(u32 seed);
 u32 crand();
 rgba_u8_t hue_rgb(float hue);

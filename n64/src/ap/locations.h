@@ -2,7 +2,7 @@
 
 // Automatically generated using gen_constants.py
 
-#include "n64/types.h"
+#include <n64/types.h>
 
 typedef enum {
 	APL_INVALID = -1,
@@ -1176,7 +1176,7 @@ typedef enum {
 	APL_WW_WUMBAS_GLOWBO = 1167,
 	APL_MAX = 1168,
 } ap_location_t;
-#define APL_MAX_BYTES (((APL_MAX-1)-(APL_MAX-1)%8+8)/8)
+#define APL_MAX_BYTES (((APL_MAX - 1) - (APL_MAX - 1) % 8 + 8) / 8)
 
 typedef union {
 	struct {

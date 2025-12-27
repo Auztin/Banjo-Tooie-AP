@@ -2,7 +2,7 @@
 
 // Automatically generated using gen_constants.py
 
-#include "n64/types.h"
+#include <n64/types.h>
 
 typedef enum {
 	APC_INVALID = -1,
