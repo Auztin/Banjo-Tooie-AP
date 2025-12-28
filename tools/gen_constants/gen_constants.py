@@ -165,8 +165,8 @@ def process_option(f, option):
 	else: fwrite(f" {default}{comment}\n")
 
 next_id.id = 0
-with open("../ap/template.yaml", "w") as f:
-	with open("gen_constants/template_header.yaml", "r") as template_header:
+with open("../ap/template.yaml", "w", encoding="utf8") as f:
+	with open("gen_constants/template_header.yaml", "r", encoding="utf8") as template_header:
 		f.write(template_header.read())
 	for group in options.groups:
 		if group.name != "Game Options": f.write(f"\n  ### {group.name} ###\n")
