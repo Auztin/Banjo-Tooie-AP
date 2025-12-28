@@ -1376,7 +1376,7 @@ std::map<std::string, world_entrance_t> WORLD_ENTRANCES =
     {"Terry's Nest", {.mapId = 0x113, .from_map = 0x112, .entranceId = 0x05, .exitId = 0x14, .access = {}}},
     {"Repair Depot", {.mapId = 0x110, .from_map = 0x10F, .entranceId = 1, .exitId = 3, .access = {AP_ITEM_GEGGS}, .reverse_access = {}}},
     {"Chilli Billi Crater", {.mapId = 0x12B, .from_map = 0x127, .entranceId = 1, .exitId = 0x16, .access = {AP_ITEM_IEGGS}, .reverse_access = {}}},
-    {"Chilli Willy Crater", {.mapId = 0x12C, .from_map = 0x128, .entranceId = 1, .exitId = 0x0C, .access = {}, .reverse_access = {}}},
+    {"Chilly Willy Crater", {.mapId = 0x12C, .from_map = 0x128, .entranceId = 1, .exitId = 0x0C, .access = {}, .reverse_access = {}}},
     {"Mingy Jongo Skull", {.mapId = 0x13F, .from_map = 0x136, .entranceId = 1, .exitId = 0x09, .access = {}, .reverse_access = {}}}
 };
 
