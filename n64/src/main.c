@@ -17,6 +17,7 @@ void main_init() {
 }
 
 void main_game_init() {
+	BT_TITLE_SCREEN = 0x40;
 }
 
 void main_loop() {
