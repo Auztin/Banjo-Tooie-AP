@@ -33,3 +33,16 @@ bt_objects_spawn:
 ADDIU SP, SP, -0x28
 J 0x80108C98
 SW RA, 0x001C (SP)
+
+.align 0x08
+bt_zoombox_new:
+LW V0, 0x80087B08
+J _to32
+ADDIU V1, R0, 0x0001
+
+.align 0x08
+bt_zoombox_dialog_options:
+LW V0, 0x80087B80
+J _to32
+ADDIU V1, R0, 0x0003
+

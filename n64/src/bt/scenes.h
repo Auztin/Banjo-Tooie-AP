@@ -18,4 +18,4 @@ typedef struct {
 } bt_exit_info_t;
 
 void bt_scenes_mt_get_sacred_chamber(bt_exit_info_t *, u32 *scene, u32 *exit);
-void bt_scenes_load(u16 scene, u16 exit, u32 _unk_A2, u32 _unk_A3);
+void bt_scenes_load(u16 scene, u16 exit, u32, u32);
