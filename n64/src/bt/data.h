@@ -4,3 +4,6 @@
 
 u32 bt_data_load(u32 id);
 u32 bt_data_get(u32 id);
+
+u32 data_load(u32 id);
+u32 data_get(u32 id);

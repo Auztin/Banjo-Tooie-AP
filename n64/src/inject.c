@@ -1,11 +1,12 @@
 #include "main.h"
 #include "save.h"
 #include "util.h"
-#include <mods/data.h>
-#include <mods/gfx.h>
-#include <mods/objects.h>
-#include <mods/saves.h>
-#include <mods/scenes.h>
+#include <bt/data.h>
+#include <bt/gfx.h>
+#include <bt/game.h>
+#include <bt/objects.h>
+#include <bt/saves.h>
+#include <bt/scenes.h>
 #include <n64/types.h>
 
 u32 inject_init() {

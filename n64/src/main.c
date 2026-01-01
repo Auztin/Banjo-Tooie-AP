@@ -3,7 +3,7 @@
 #include "usb.h"
 #include "util.h"
 #include <ap/ap.h>
-#include <bt/_unsorted.h>
+#include <bt/game.h>
 #include <n64/dma.h>
 #include <n64/sys.h>
 

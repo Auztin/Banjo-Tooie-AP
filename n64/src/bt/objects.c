@@ -1,7 +1,8 @@
 #include "objects.h"
 #include "file_select.h"
-#include <bt/_unsorted.h>
-#include <bt/maps.h>
+#include "game.h"
+#include "maps.h"
+#include "scenes.h"
 
 u32 objects_singleton(u32 addr) {
 	u32 value = (*(u32 *)addr);

@@ -1,5 +1,4 @@
 #include "data.h"
-#include <bt/data.h>
 
 u32 data_load(u32 id) {
 	return bt_data_load(id);

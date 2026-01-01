@@ -1,14 +1,14 @@
 #include "file_select.h"
+#include "audio.h"
+#include "controllers.h"
 #include "objects.h"
-#include "util.h"
+#include "zoombox.h"
 #include <ap/ap.h>
 #include <ap/states.h>
-#include <bt/audio.h>
-#include <bt/controllers.h>
-#include <bt/zoombox.h>
 #include <save.h>
 #include <stdlib.h>
 #include <string.h>
+#include <util.h>
 
 #define LOADER 0x80085BB0
 #define UPDATE 0x1424

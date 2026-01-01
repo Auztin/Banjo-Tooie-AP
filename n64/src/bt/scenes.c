@@ -1,7 +1,7 @@
 #include "scenes.h"
-#include <bt/_unsorted.h>
-#include <bt/maps.h>
-#include <bt/saves.h>
+#include "game.h"
+#include "maps.h"
+#include "saves.h"
 
 void scenes_load(u16 scene, u16 exit, u32 _unk_A2, u32 _unk_A3) {
 	bt_scenes_load(scene, exit, _unk_A2, _unk_A3);

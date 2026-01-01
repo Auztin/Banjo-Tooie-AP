@@ -2,6 +2,7 @@
 
 #include "flags_save.h"
 #include "flags_temp.h"
+#include "jinjos.h"
 
 typedef struct {
 	bt_save_flags_t *flags;
@@ -27,3 +28,7 @@ typedef enum {
 } bt_saves_totals_type_t;
 
 u32 bt_saves_load(u32);
+
+void saves_load(u32 _unk_A0);
+u16 saves_totals(bt_saves_totals_type_t type);
+u8 saves_jinjo_family_count(bt_jinjo_t color);

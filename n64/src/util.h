@@ -1,6 +1,6 @@
 #pragma once
 
-#include "n64/types.h"
+#include <n64/types.h>
 
 enum UTIL_INJECT {
 	UTIL_INJECT_RAW,
