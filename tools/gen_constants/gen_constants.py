@@ -223,7 +223,7 @@ with open("../ap/data/region_names.py", "w") as f:
 	f.write("# Automatically generated using gen_constants.py\n\n")
 	f.write("from typing import Literal\n\n")
 	f.write(f"RegionName = Literal{json.dumps(
-		[region for region in data.regions.keys() if not region.startswith("Location | ")],
+		[region for region in sorted(data.regions.keys()) if not region.startswith("Location | ")],
 		indent="\t"
 	)}\n\n")
 
