@@ -207,10 +207,10 @@ location_name_to_id = {name:next_id() if num == 1 else num for name, num in sort
 
 with open("../ap/ids.py", "w") as f:
 	f.write("# Automatically generated using gen_constants.py\n\n")
-	f.write(f"slot_data_names = {json.dumps(sorted(list(slot_data)), indent=2)}\n\n")
-	f.write(f"option_name_to_id = {json.dumps(option_ids, indent=2)}\n\n")
-	f.write(f"item_name_to_id = {json.dumps(item_name_to_id, indent=2)}\n\n")
-	f.write(f"location_name_to_id = {json.dumps(location_name_to_id, indent=2)}\n\n")
+	f.write(f"slot_data_names = {json.dumps(sorted(list(slot_data)), indent="\t")}\n\n")
+	f.write(f"option_name_to_id = {json.dumps(option_ids, indent="\t")}\n\n")
+	f.write(f"item_name_to_id = {json.dumps(item_name_to_id, indent="\t")}\n\n")
+	f.write(f"location_name_to_id = {json.dumps(location_name_to_id, indent="\t")}\n\n")
 	f.write(f"class AP_CMD:\n")
 	for cmd, value in commands.items():
 		f.write(f"\t{cmd} = {value}\n")
@@ -224,7 +224,7 @@ with open("../ap/data/region_names.py", "w") as f:
 	f.write("from typing import Literal\n\n")
 	f.write(f"RegionName = Literal{json.dumps(
 		[region for region in data.regions.keys() if not region.startswith("Location | ")],
-		indent=2
+		indent="\t"
 	)}\n\n")
 
 with open("../n64/src/ap/version.h", "w") as f:
