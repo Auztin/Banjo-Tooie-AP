@@ -43,6 +43,8 @@ option_set = {}
 option_names = {cls:name for name, cls in typing.get_type_hints(BanjoTooieOptionsList).items()}
 item_name_to_id = {}
 location_name_to_id = {"Completion Condition":0}
+exit_name_to_id = {}
+exit_name_to_data = {}
 
 class Id:
 	id: int
@@ -184,13 +186,13 @@ with open("../ap/template.yaml", "w", encoding="utf8") as f:
 				group_header = True
 		process_option(f, option)
 
-next_id.id = 1
 for item_option, items in data.items.items():
 	for item_name, classification in items.items():
 		item_name_to_id[item_name] = 1
 for item_name, items in data.progressives.items():
 	item_name_to_id[item_name] = 1
-item_name_to_id = {name:next_id() if num == 1 else num for name, num in sorted(item_name_to_id.items(), key=lambda e: e[0])}
+next_id.id = 1
+item_name_to_id = {name:next_id() for name in sorted(item_name_to_id.keys())}
 
 item_names: dict[str, str] = {}
 for item, value in item_name_to_id.items():
@@ -198,12 +200,23 @@ for item, value in item_name_to_id.items():
 		item_names[data.item_name(item)] = item
 item_groups = {group:{item_names[item] for item in items} for group, items in data.item_groups.items() if not group.startswith("_")}
 
-next_id.id = 1
 for region_name, region in data.regions.items():
 	if region.get("major_region", None) == "Menu": continue
 	for location_name, location in region.get("locations", {}).items():
 		location_name_to_id[location_name] = 1
-location_name_to_id = {name:next_id() if num == 1 else num for name, num in sorted(location_name_to_id.items(), key=lambda e: e[0])}
+	for exit_name, exit_ in region.get("exits", {}).items():
+		if "id" not in exit_: continue
+		entrance_name = f"{region_name} -> {exit_name}"
+		exit_name_to_id[entrance_name] = 1
+		exit_name_to_data[entrance_name] = (
+			str(region.get("id", 0)),
+			str(data.regions[exit_name].get("id", 0)),
+			str(exit_["id"])
+		)
+next_id.id = 1
+location_name_to_id = {name:next_id() for name in sorted(location_name_to_id.keys())}
+next_id.id = 1
+exit_name_to_id = {name:next_id() for name in sorted(exit_name_to_id.keys())}
 
 with open("../ap/ids.py", "w") as f:
 	f.write("# Automatically generated using gen_constants.py\n\n")
@@ -211,6 +224,7 @@ with open("../ap/ids.py", "w") as f:
 	f.write(f"option_name_to_id = {json.dumps(option_ids, indent="\t")}\n\n")
 	f.write(f"item_name_to_id = {json.dumps(item_name_to_id, indent="\t")}\n\n")
 	f.write(f"location_name_to_id = {json.dumps(location_name_to_id, indent="\t")}\n\n")
+	f.write(f"exit_name_to_id = {json.dumps(exit_name_to_id, indent="\t")}\n\n")
 	f.write(f"class AP_CMD:\n")
 	for cmd, value in commands.items():
 		f.write(f"\t{cmd} = {value}\n")
@@ -352,6 +366,28 @@ with open("../n64/src/ap/locations.c", "w") as f:
 		f.write("\t\tdefault: return false;\n")
 		f.write("\t\t}\n")
 	f.write(f"\tdefault: return false;\n")
+	f.write("\t}\n")
+	f.write("}\n")
+
+exit_name_to_id = {name.replace("->", "_"):value for name, value in exit_name_to_id.items()}
+exit_name_to_data = {name.replace("->", "_"):value for name, value in exit_name_to_data.items()}
+
+with open("../n64/src/ap/exits.h", "w") as f:
+	c_header(f)
+	f.write("#include <ap/ap.h>\n")
+	# enum ap_exit
+	c_enum(f, exit_name_to_id, "APE", "ap_exit")
+	# ap_exits_get()
+	f.write("\nap_exit_data_t ap_exits_get(ap_exit_t id);\n")
+
+with open("../n64/src/ap/exits.c", "w") as f:
+	header(f)
+	f.write("#include <ap/exits.h>\n\n")
+	f.write("ap_exit_data_t ap_exits_get(ap_exit_t id) {\n")
+	f.write("\tswitch (id) {\n")
+	for key, value in sorted(exit_name_to_id.items()):
+		f.write(f"\tcase APE_{data.option_name(key).upper()}: return (ap_exit_data_t){{{", ".join(exit_name_to_data[key])}}};\n")
+	f.write(f"\tdefault: return (ap_exit_data_t){{0}};\n")
 	f.write("\t}\n")
 	f.write("}\n")
 
