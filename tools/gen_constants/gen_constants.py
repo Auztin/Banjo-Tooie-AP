@@ -404,7 +404,7 @@ with open("../n64/src/ap/states.h", "w") as f:
 with open("gen_constants/short_constants.txt", "w") as f:
 	names = set()
 	for name in item_name_to_id: names.add(data.item_name(name))
-	for name in location_name_to_id: names.add(data.item_name(name))
+	for name in data.locations: names.add(data.item_name(name))
 	for tricks in data.tricks.values():
 		for name in tricks: names.add(data.item_name(name))
 	for name in data.alias: names.add(data.item_name(name))
