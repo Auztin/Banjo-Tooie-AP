@@ -1,3 +1,4 @@
+# pyright: basic
 import sys, typing, json, re, math, Options
 sys.path.insert(0, "../ap")
 from options import BanjoTooieOptionsList
@@ -201,17 +202,17 @@ for item, value in item_name_to_id.items():
 item_groups = {group:{item_names[item] for item in items} for group, items in data.item_groups.items() if not group.startswith("_")}
 
 for region_name, region in data.regions.items():
-	if region.get("major_region", None) == "Menu": continue
-	for location_name, location in region.get("locations", {}).items():
+	if region.major_region == "Menu": continue
+	for location_name, location in region.locations.items():
 		location_name_to_id[location_name] = 1
-	for exit_name, exit_ in region.get("exits", {}).items():
-		if "id" not in exit_: continue
+	for exit_name, exit_ in region.exits.items():
+		if exit_.id is None: continue
 		entrance_name = f"{region_name} -> {exit_name}"
 		exit_name_to_id[entrance_name] = 1
 		exit_name_to_data[entrance_name] = (
-			str(region.get("id", 0)),
-			str(data.regions[exit_name].get("id", 0)),
-			str(exit_["id"])
+			str(region.id),
+			str(data.regions[exit_name].id),
+			str(exit_.id)
 		)
 next_id.id = 1
 location_name_to_id = {name:next_id() for name in sorted(location_name_to_id.keys())}
@@ -237,7 +238,7 @@ with open("../ap/data/region_names.py", "w") as f:
 	f.write("# Automatically generated using gen_constants.py\n\n")
 	f.write("from typing import Literal\n\n")
 	f.write(f"RegionName = Literal{json.dumps(
-		[region for region in sorted(data.regions.keys()) if not region.startswith("Location | ")],
+		[region for region in sorted(data.regions.keys()) if not region.startswith("Locations | ")],
 		indent="\t"
 	)}\n\n")
 
