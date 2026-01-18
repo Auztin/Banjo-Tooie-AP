@@ -187,9 +187,8 @@ with open("../ap/template.yaml", "w", encoding="utf8") as f:
 				group_header = True
 		process_option(f, option)
 
-for item_option, items in data.items.items():
-	for item_name, classification in items.items():
-		item_name_to_id[item_name] = 1
+for item_name in data.ast_items:
+	item_name_to_id[item_name] = 1
 for item_name, items in data.progressives.items():
 	item_name_to_id[item_name] = 1
 next_id.id = 1
@@ -238,7 +237,7 @@ with open("../ap/data/region_names.py", "w") as f:
 	f.write("# Automatically generated using gen_constants.py\n\n")
 	f.write("from typing import Literal\n\n")
 	f.write(f"RegionName = Literal{json.dumps(
-		[region for region in sorted(data.regions.keys()) if not region.startswith("Locations | ")],
+		[region for region in sorted(data.names.regions) if not region.startswith("Locations | ")],
 		indent="\t"
 	)}\n\n")
 
@@ -405,7 +404,7 @@ with open("../n64/src/ap/states.h", "w") as f:
 with open("gen_constants/short_constants.txt", "w") as f:
 	names = set()
 	for name in item_name_to_id: names.add(data.item_name(name))
-	for name in data.locations: names.add(data.item_name(name))
+	for name in data.names.locations: names.add(data.item_name(name))
 	for tricks in data.tricks.values():
 		for name in tricks: names.add(data.item_name(name))
 	for name in data.alias: names.add(data.item_name(name))
