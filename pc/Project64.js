@@ -1,6 +1,6 @@
 var input_ptr = 0x80400000
 var output_ptr = 0x80400004
-var port = 0x5F64
+var port = 0x008700
 
 console.clear()
 console.log("Waiting for ROM to be ready...");
@@ -17,8 +17,8 @@ function check_game() {
 		ready = false;
 		return;
 	}
-	var size = mem.u16[output]+2;
-	var cmd = mem.u16[output+2];
+	var size = mem.u16[output] + 2;
+	var cmd = mem.u16[output + 2];
 	if (cmd) ready = true;
 	if (!connection) {
 		if (!cmd) ready = false;
@@ -26,10 +26,10 @@ function check_game() {
 	}
 	if (cmd) {
 		connection.write(mem.getblock(output, 512).slice(0, size));
-		mem.u16[output+2] = 0;
+		mem.u16[output + 2] = 0;
 	}
-	if (!mem.u16[input+2] && socket_buffer.length >= 3) {
-		size = socket_buffer.readUInt16BE()+2;
+	if (!mem.u16[input + 2] && socket_buffer.length >= 3) {
+		size = socket_buffer.readUInt16BE() + 2;
 		if (socket_buffer.length >= size) {
 			mem.setblock(input, socket_buffer.slice(0, size));
 			socket_buffer = socket_buffer.slice(size);
@@ -48,13 +48,13 @@ function check_socket() {
 		console.log("Connection error");
 		connection = null;
 	});
-	connection.connect(port, "127.0.0.1", function() {
+	connection.connect(port, "127.0.0.1", function () {
 		console.log("Connected");
 		socket_buffer = new Buffer(0);
 		connection.on("data", function (data) {
 			socket_buffer = Buffer.concat([socket_buffer, data]);
 		});
-		connection.on("close", function() {
+		connection.on("close", function () {
 			connection = null;
 			console.log("Disconnected");
 		});

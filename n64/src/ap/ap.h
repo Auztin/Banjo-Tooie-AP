@@ -15,12 +15,15 @@ typedef struct {
 } ap_packet_option_t;
 
 typedef struct {
-	u16 on_map;
-	u16 og_map;
-	u16 to_map;
-	u8 og_exit;
-	u8 to_exit;
+	u16 from;
+	u16 to;
 } ap_exit_map_t;
+
+typedef struct {
+	u16 on_map;
+	u16 to_map;
+	u8 exit;
+} ap_exit_data_t;
 
 typedef struct __attribute__((aligned(16))) {
 	u16 size;

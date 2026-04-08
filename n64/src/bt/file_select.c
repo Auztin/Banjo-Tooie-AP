@@ -48,18 +48,17 @@ void file_select_update(bt_file_select_t *ctx) {
 	static u8 last_state;
 	static u8 last_client_state;
 	u32 singleton = objects_singleton(LOADER);
+	int state = ap.state & ~APS_PINGED;
 	if (
 		ctx->selected < 3
-		&& (ap.state == APS_CONNECTED || ap.state == APS_DISCONNECTED)
-		&& (ap.client_state == APS_CONNECTED || ap.client_state == APS_DISCONNECTED)
-		&& (ap.state != last_state || ap.client_state != last_client_state)
+		&& (state != last_state || ap.client_state != last_client_state)
 	) {
 		file_select.refresh = true;
 		ctx->selected++;
 		objects_jump = singleton + MOVE_HORIZONTAL;
 		objects_jump_now(ctx, -1);
 	}
-	last_state = ap.state;
+	last_state = state;
 	last_client_state = ap.client_state;
 	objects_jump = singleton + UPDATE + 8;
 	bt_file_select_update(ctx);
@@ -81,8 +80,8 @@ u8 file_select_cursor(bt_file_select_t *ctx, u8 operation, u8 selected) {
 				bool game_blank = game_seed[0] == 0 && !memcmp(game_seed, game_seed + 1, 19);
 				bool match = !memcmp(client_seed, game_seed, 20);
 				if (
-					(ap.client_state != APS_DISCONNECTED && (client_blank || (!game_blank && !match)))
-					|| (ap.client_state == APS_DISCONNECTED && (game_blank || selected != save.data.last_online_slot))
+					(ap.state != APS_DISCONNECTED && (client_blank || (!game_blank && !match)))
+					|| (ap.state == APS_DISCONNECTED && (game_blank || selected != save.data.last_online_slot))
 				) {
 					if (!(bt_controllers[0].held.l && bt_controllers[0].held.r)) {
 						bt_play_sound(BT_SOUND_WRONG, -1, 1, -1);
@@ -128,9 +127,9 @@ void file_select_banjo_update(bt_file_select_banjo_t *instance) {
 void file_select_kazooie_set_text(bt_zoombox_t *zb, char *text) {
 	if (!strcmp(text, "PRESS \x87 TO PLAY THE GAME.")) {
 		char *lines[2];
-		if (ap.client_state == APS_CONNECTED) lines[0] = "CLIENT: CONNECTED";
+		if ((ap.state & ~APS_PINGED) == APS_CONNECTED) lines[0] = "CLIENT: CONNECTED";
 		else lines[0] = "CLIENT: DISCONNECTED";
-		if (ap.state == APS_CONNECTED) lines[1] = "AP: CONNECTED";
+		if (ap.client_state == APS_CONNECTED) lines[1] = "AP: CONNECTED";
 		else lines[1] = "AP: DISCONNECTED";
 		bt_zoombox_append_lines(zb, 2, lines);
 		return;
@@ -146,8 +145,9 @@ void file_select_banjo_set_text(char *text, u16 dialog_id, u8 id, u32 _unk_A3, u
 		case 0: // Empty Game
 			memset(&save.data.custom[*slot - 1], 0, sizeof(save_custom_data_t));
 			strcpy(text, "NEW GAME. ");
-			if (ap.state == APS_CONNECTED && ap.client_state == APS_CONNECTED) strcat(text, "PRESS \x87 TO PLAY THE GAME.");
-			else if (ap.state == APS_CONNECTED) strcat(text, "CONNECT CLIENT TO THE ROOM.");
+			int state = ap.state & ~APS_PINGED;
+			if (state == APS_CONNECTED && ap.client_state == APS_CONNECTED) strcat(text, "PRESS \x87 TO PLAY THE GAME.");
+			else if (state == APS_CONNECTED) strcat(text, "CONNECT CLIENT TO THE ROOM.");
 			else strcat(text, "RUN CLIENT AND CONNECTOR.");
 			break;
 		case 1: { // Game Time
@@ -162,7 +162,7 @@ void file_select_banjo_set_text(char *text, u16 dialog_id, u8 id, u32 _unk_A3, u
 		}
 		case 2: // Jiggies
 		case 3: // Jiggy
-			if (ap.client_state == APS_CONNECTED) {
+			if (ap.state != APS_DISCONNECTED) {
 				if (memcmp(ap.seed, save.data.custom[*slot - 1].seed, 20)) strcpy(text, "SAVE DOESN'T MATCH CLIENT");
 				else strcpy(text, "SAVE MATCHES CLIENT");
 			} else if (save.data.last_online_slot == *slot - 1) strcpy(text, "CAN BE PLAYED OFFLINE");

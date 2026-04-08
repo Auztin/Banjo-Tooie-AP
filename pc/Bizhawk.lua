@@ -1,6 +1,6 @@
 local input_ptr = 0x80400000
 local output_ptr = 0x80400004
-local port = 0x5F64
+local port = 0x008700
 
 console.clear()
 local socket_loaded, socket = pcall(require, "socket")

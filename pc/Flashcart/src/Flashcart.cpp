@@ -1,25 +1,24 @@
-#include <stdio.h>
 #include <asio.hpp>
 #include <ftd2xx.h>
 #include <queue>
+#include <stdio.h>
 
 using namespace std;
 
-int port = 0x5F64;
+int port = 0x008700;
 
 class Connection;
 
 class Connection {
-public:
-	asio::io_context* ctx;
+	public:
+	asio::io_context *ctx;
 	asio::ip::tcp::socket socket;
 	asio::ip::tcp::resolver resolver;
 	bool connected = false;
 	queue<uint8_t> buffer;
 
-	Connection(asio::io_context* ctx):
-		socket(*ctx),
-		resolver(*ctx) {
+	Connection(asio::io_context *ctx) : socket(*ctx),
+																			resolver(*ctx) {
 		this->ctx = ctx;
 	}
 
@@ -45,16 +44,16 @@ public:
 		});
 	}
 
-	void send(uint8_t* bytes) {
+	void send(uint8_t *bytes) {
 		if (!connected) {
 			connect();
 			return;
 		}
 		int size = (bytes[0] << 8) | bytes[1];
 		uint8_t data[512];
-		memcpy(data, bytes, size+2);
-		asio::async_write(socket, asio::buffer(bytes, size+2), [this, size, data](auto error, auto transferred) {
-			if (error || transferred != size+2) connection_error();
+		memcpy(data, bytes, size + 2);
+		asio::async_write(socket, asio::buffer(bytes, size + 2), [this, size, data](auto error, auto transferred) {
+			if (error || transferred != size + 2) connection_error();
 		});
 	}
 
@@ -73,19 +72,19 @@ public:
 				connection_error();
 				break;
 			}
-			received = co_await socket.async_receive(asio::buffer(buf+2, size), asio::redirect_error(asio::use_awaitable, error));
+			received = co_await socket.async_receive(asio::buffer(buf + 2, size), asio::redirect_error(asio::use_awaitable, error));
 			if (error || received != size) {
 				connection_error();
 				break;
 			}
-			for (int i = 0; i < received+2; i++) buffer.push(buf[i]);
+			for (int i = 0; i < received + 2; i++) buffer.push(buf[i]);
 		}
 	}
 };
-Connection* connection;
+Connection *connection;
 
 class Game {
-public:
+	public:
 	asio::steady_timer timer;
 	FT_HANDLE handle;
 	bool ready = false;
@@ -97,25 +96,23 @@ public:
 		uint8_t raw[512];
 	} packet_t;
 
-	Game(asio::io_context* ctx):
-		timer(*ctx) {
+	Game(asio::io_context *ctx) : timer(*ctx) {
 		check();
 	}
 
 	void check() {
-		int wait = (int)(1/60.0*1000);
+		int wait = (int)(1 / 60.0 * 1000);
 		if (read() != FT_OK) {
 			FT_Close(handle);
 			if (open() != FT_OK) wait = 1000;
-		}
-		else if (process() != FT_OK) {
+		} else if (process() != FT_OK) {
 			connection->connection_error();
 			FT_Close(handle);
 			if (open() != FT_OK) wait = 1000;
 		}
 
 		timer.expires_after(std::chrono::milliseconds(wait));
-		timer.async_wait([this](const asio::error_code& error) {
+		timer.async_wait([this](const asio::error_code &error) {
 			if (!error) check();
 		});
 	}
@@ -149,26 +146,25 @@ public:
 		status = FT_GetQueueStatus(handle, &pending);
 		if (pending >= 8) {
 			if (FT_Read(handle, packet.raw, 8, &size) != FT_OK || size != 8) return FT_OTHER_ERROR;
-			int packet_size = ((packet.raw[0] << 8) | packet.raw[1])-6;
+			int packet_size = ((packet.raw[0] << 8) | packet.raw[1]) - 6;
 			if (packet_size > 0) {
 				packet_size--;
-				packet_size = packet_size-packet_size%4+4;
+				packet_size = packet_size - packet_size % 4 + 4;
 				if (packet_size > 504) return FT_OTHER_ERROR;
 				if (FT_Read(handle, packet.extra, packet_size, &size) != FT_OK || size != packet_size) return FT_OTHER_ERROR;
 			}
 			connection->send(packet.raw);
-		}
-		else if (pending > 0) FT_Purge(handle, FT_PURGE_RX);
+		} else if (pending > 0) FT_Purge(handle, FT_PURGE_RX);
 		return status;
 	}
 
-	FT_STATUS write(uint8_t* packet) {
+	FT_STATUS write(uint8_t *packet) {
 		DWORD size;
-		int packet_size = ((packet[0] << 8) | packet[1])+2;
+		int packet_size = ((packet[0] << 8) | packet[1]) + 2;
 		if (packet_size < 8) packet_size = 8;
 		else if (packet_size) {
 			packet_size--;
-			packet_size = packet_size-packet_size%4+4;
+			packet_size = packet_size - packet_size % 4 + 4;
 		}
 		return (FT_Write(handle, packet, packet_size, &size) != FT_OK || size != packet_size) ? FT_OTHER_ERROR : FT_OK;
 	}
@@ -182,7 +178,7 @@ public:
 		connection->buffer.pop();
 		int size = (packet.raw[0] << 8) | packet.raw[1];
 		for (int i = 0; i < size; i++) {
-			packet.raw[i+2] = connection->buffer.front();
+			packet.raw[i + 2] = connection->buffer.front();
 			connection->buffer.pop();
 		}
 		return write(packet.raw);
