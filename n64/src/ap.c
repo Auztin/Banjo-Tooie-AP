@@ -242,13 +242,14 @@ void ap_item_nest(bool feather_nest) {
 }
 
 void ap_get_health_upgrade() {
-  bt_fn_ui_animate_new_health(0, 1-ap.health_animation_pos);
+  //Comments below to make it so that Luna64 doesn't crash
+  //bt_fn_ui_animate_new_health(0, 1-ap.health_animation_pos);
   u8 health = bt_fn_get_max_health(bt_player_chars.control_type) + 1;
-  bt_fn_ui_show_other_number(BT_UI_NUMBERS_HEALTH_UPGRADE, health, health);
-  if (bt_fn_ui_finished_number_animation(BT_UI_NUMBERS_HEALTH_UPGRADE)) {
-    ap.health_animation_pos -= 0.10;
-    if (ap.health_animation_pos < 0) ap.health_animation_pos = 0;
-  }
+  //bt_fn_ui_show_other_number(BT_UI_NUMBERS_HEALTH_UPGRADE, health, health);
+  //if (bt_fn_ui_finished_number_animation(BT_UI_NUMBERS_HEALTH_UPGRADE)) {
+    //ap.health_animation_pos -= 0.10;
+    //if (ap.health_animation_pos < 0) ap.health_animation_pos = 0;
+  //}
 }
 
 void ap_sync_items(u16 type, u8 value) {
