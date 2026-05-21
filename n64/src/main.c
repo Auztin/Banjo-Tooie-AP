@@ -42,6 +42,7 @@ void post_init() {
   util_inject(UTIL_INJECT_JUMP, 0x800A1718, (u32)ap_get_health, 1); // always return 2 health while trapping
   util_inject(UTIL_INJECT_JUMP, 0x800A17A8, (u32)ap_increase_health, 1); // prevent decreasing health while trapping
   util_inject(UTIL_INJECT_JUMP, 0x80096628, (u32)ap_ground_info, 1); // allow slipping on any surface
+  util_inject(UTIL_INJECT_FUNCTION, 0x80012458, (u32)check_tiptoe, 1); // After getting hardware controls, check if dpad up is held
   usb_init();
   main.zb_credits[0] = bt_fn_zoombox_new(50, BT_ZOOMBOX_ICON_BANJO, 0, 1);
   main.zb_credits[1] = bt_fn_zoombox_new(160, BT_ZOOMBOX_ICON_KAZOOIE, 0, 0);
@@ -248,6 +249,16 @@ void post_spawn_prop(u16 id, bt_s32_xyz_t* pos, u32 yrot, bt_obj_setup_t* setup,
       if (ap_memory.pc.settings.randomize_chuffy && bt_current_map == BT_MAP_TRAIN_STATION_GGM) obj->state = 7;
       break;
   }
+}
+
+bool check_tiptoe()
+{
+  bool controls_polled = bt_fn_poll_controls();
+  if(bt_controllers[0].held.dup > 0 && controls_polled)
+  {
+    bt_controllers[0].joystick.y = 0.175;
+  }
+  return controls_polled;
 }
 
 void pre_loop() {

@@ -43,4 +43,7 @@ typedef int (*bt_fnt_save_get_bits)(u16 offset, u16 bits);
 typedef int (*bt_fnt_save_set_bits)(u16 offset, u16 value, u16 bits);
 #define bt_fn_save_set_bits ((bt_fnt_save_set_bits)0x800DA7A8)
 
+typedef bool (*bt_fnt_poll_controls)();
+#define bt_fn_poll_controls ((bt_fnt_poll_controls)0x8001608C)
+
 #endif // BT_FN_INJECTED_H

@@ -2,8 +2,8 @@
 #define ARCHIPELAGO_H
 
 #define AP_VERSION_MAJOR 4
-#define AP_VERSION_MINOR 11
-#define AP_VERSION_PATCH 6
+#define AP_VERSION_MINOR 12
+#define AP_VERSION_PATCH 0
 
 #include <stdint.h>
 #include <stdbool.h>
