@@ -70,6 +70,8 @@ private:
   bool ENABLE_AP_GRRELICS = false;
   bool ENABLE_AP_TICKETS = false;
   bool ENABLE_AP_BEANS = false;
+  int AP_GRRELICS_CHAMBER = 0;
+  int AP_GRRELICS_BOSS = 0;
   int GOAL_TYPE = 0;
   int MGH_LENGTH = 0; //Mini-game Mumbo Token Length
   int BH_LENGTH = 0; //Boss Token Length

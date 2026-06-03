@@ -45,6 +45,8 @@ int main() {
   printf("        setting_easy_canary = 0x%X,\n",             calc(mem.pc.settings, mem.pc.settings.easy_canary));
   printf("        setting_jiggy_requirements = 0x%X,\n",      calc(mem.pc.settings, mem.pc.settings.jiggy_requirements));
   printf("        setting_silo_requirements = 0x%X,\n",       calc(mem.pc.settings, mem.pc.settings.silo_requirements));
+  printf("        setting_green_relics_chamber_requirement = 0x%X,\n", calc(mem.pc.settings, mem.pc.settings.green_relics_chamber_requirement));
+  printf("        setting_green_relics_boss_requirement = 0x%X,\n",    calc(mem.pc.settings, mem.pc.settings.green_relics_boss_requirement));
   printf("    pc_items = 0x%X,\n",                            calc(ptr, ptr.pc_items));
   printf("    pc_traps = 0x%X,\n",                            calc(ptr, ptr.pc_traps));
   printf("    pc_exit_map = 0x%X,\n",                         calc(ptr, ptr.pc_exit_map));

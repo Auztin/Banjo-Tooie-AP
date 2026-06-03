@@ -61,6 +61,8 @@ typedef struct {
     u8 easy_canary;
     u8 jiggy_requirements[11];
     u16 silo_requirements[24];
+    u8 green_relics_chamber_requirement;
+    u8 green_relics_boss_requirement;
   } settings;
   u8 items[AP_ITEM_MAX];
   u8 traps[AP_TRAP_MAX];
