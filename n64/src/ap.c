@@ -905,8 +905,8 @@ void ap_sync_items(u16 type, u8 value) {
     case AP_ITEM_GRRELIC:
       if (value != totals->green_relics) {
         totals->green_relics = value;
-        if(totals->green_relics >= 10 && totals->green_relics <= 20 && bt_current_map == BT_MAP_MT_TARGITZANS_TEMPLE) bt_fn_object_anim(0x2b4, 7, 0);
-        if(totals->green_relics >= 20 && bt_current_map == BT_MAP_MT_TARGITZANS_TEMPLE) bt_fn_object_anim(0x2b4, 7, 1);
+        if(totals->green_relics >= ap_memory.pc.settings.green_relics_chamber_requirement && totals->green_relics <= ap_memory.pc.settings.green_relics_boss_requirement && bt_current_map == BT_MAP_MT_TARGITZANS_TEMPLE) bt_fn_object_anim(0x2b4, 7, 0);
+        if(totals->green_relics >= ap_memory.pc.settings.green_relics_boss_requirement && bt_current_map == BT_MAP_MT_TARGITZANS_TEMPLE) bt_fn_object_anim(0x2b4, 7, 1);
         bt_fn_ui_show_number(BT_UI_NUMBERS_GREEN_SACRED_STATUE, totals->green_relics, 0);
       }
       break;

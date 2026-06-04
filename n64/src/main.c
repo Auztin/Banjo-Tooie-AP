@@ -1018,6 +1018,11 @@ void pre_object_init(bt_object_t *obj) {
       if (!ap_memory.pc.settings.randomize_tickets) break;
       util_inject(UTIL_INJECT_RAW     , (u32)obj + 0x0124, 0, 0);
       break;
+    case BT_OBJ_TEMPLEBOSSDOOR:
+      if (!ap_memory.pc.settings.randomize_green_relics) break;
+      util_inject(UTIL_INJECT_RAW     , (u32)obj + 0x009C, (0x24180000 | ap_memory.pc.settings.green_relics_boss_requirement), 0);
+      util_inject(UTIL_INJECT_RAW     , (u32)obj + 0x00A8, (0x240F0000 | ap_memory.pc.settings.green_relics_chamber_requirement), 0);
+      break;
     case BT_OBJ_JADESTATUE:
       if (!ap_memory.pc.settings.randomize_green_relics) break;
       util_inject(UTIL_INJECT_RAW     , (u32)obj + 0x00AC, 0, 0); // called to remove statues when enough flags are set when entering temple
@@ -1029,6 +1034,7 @@ void pre_object_init(bt_object_t *obj) {
     case BT_OBJ_TEMPLELOBBYDOOR:
     if (!ap_memory.pc.settings.randomize_green_relics) break;
       util_inject(UTIL_INJECT_RAW     , (u32)obj + 0x98, 0, 0);
+      break;
     case BT_OBJ_BEANSTALKSEED:
       if (!ap_memory.pc.settings.randomize_beans) break;
       util_inject(UTIL_INJECT_RAW     , (u32)obj + 0x035C, 0, 0);
