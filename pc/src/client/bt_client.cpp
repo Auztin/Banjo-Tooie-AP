@@ -2044,12 +2044,12 @@ asio::awaitable<void> BTClient::getSlotData()
     if(block.contains(string{"slot_green_relics_chamber_requirement"}))
     {
         AP_GRRELICS_CHAMBER = block["slot_green_relics_chamber_requirement"];
-        if(DEBUG_NET == true) { std::cout << "Gren Relics Slightly Sacred Chamber Requirement is set to" << AP_GRRELICS_CHAMBER << std::endl; }
+        if(DEBUG_NET == true) { std::cout << "Green Relics Slightly Sacred Chamber Requirement is set to" << AP_GRRELICS_CHAMBER << std::endl; }
     }
     if(block.contains(string{"slot_green_relics_boss_requirement"}))
     {
         AP_GRRELICS_BOSS = block["slot_green_relics_boss_requirement"]
-        if(DEBUG_NET == true) { std::cout << "Gren Relics Boss Requirement is set to" << AP_GRRELICS_BOSS << std::endl; }
+        if(DEBUG_NET == true) { std::cout << "Green Relics Boss Requirement is set to" << AP_GRRELICS_BOSS << std::endl; }
     }
     if(block.contains(string{"slot_randomize_beans"}) && block["slot_randomize_beans"] != 0)
     {
