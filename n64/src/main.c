@@ -1034,6 +1034,7 @@ void pre_object_init(bt_object_t *obj) {
     case BT_OBJ_TEMPLELOBBYDOOR:
     if (!ap_memory.pc.settings.randomize_green_relics) break;
       util_inject(UTIL_INJECT_RAW     , (u32)obj + 0x98, 0, 0);
+      break;
     case BT_OBJ_BEANSTALKSEED:
       if (!ap_memory.pc.settings.randomize_beans) break;
       util_inject(UTIL_INJECT_RAW     , (u32)obj + 0x035C, 0, 0);
