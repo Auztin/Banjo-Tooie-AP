@@ -6,7 +6,7 @@
 #include "ftd2xx.h"
 #include <archipelago.h>
 
-#define USB_COM_LOGGING false
+#define USB_COM_LOGGING true
 
 extern ap_memory_t ap_memory;
 class BTClient;
