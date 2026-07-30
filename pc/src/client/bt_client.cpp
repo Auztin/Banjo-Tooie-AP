@@ -1876,7 +1876,7 @@ void BTClient::show_message(int character, json data, bool force) {
             message.text = own ? std::format("You can now use the {}.", item)
                                : std::format("{} has just unlocked the {}.", player, item);
             break;
-        case 1230923: // Green Relic"
+        case 1230923: // Green Relic
             default_character = BT_ZOOMBOX_ICON_TARGITZAN;
             if (ENABLE_AP_GRRELICS && ap_memory.n64.misc.current_map != 376)
             {
@@ -1896,10 +1896,6 @@ void BTClient::show_message(int character, json data, bool force) {
                         message.text = std::format("Targitzans Really Sacred Chamber is now open... Lets egg em!");
                     }
                 }
-            }
-            if (character == 110 || character == BT_ZOOMBOX_ICON_TARGITZAN) {
-                message.text = own ? std::format("Mumbo now use mighty {} spell. Bear go visit Mumbo to try.", item_names[item_id])
-                                   : std::format("{} told Mumbo mighty {} spell. Bear go visit Mumbo to try.", player, item_names[item_id]);
             }
         default: return;
     }
