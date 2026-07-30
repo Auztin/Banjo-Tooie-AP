@@ -1883,17 +1883,26 @@ void BTClient::show_message(int character, json data, bool force) {
                 if(ap_memory.pc.items[item_id] == AP_GRRELICS_CHAMBER) {
                     if (character == 110 || character == BT_ZOOMBOX_ICON_TARGITZAN) {
                         if(AP_GRRELICS_CHAMBER == 1)
-                            message.text = std::format("Good Job Mortal. {} statue gain you entry to my Slightly Sacred Chamber...", item_names[item_id]);
+                        {
+                            message.text = std::format("Good Job Mortal. {} statue gain you entry to my Slightly Sacred Chamber...", AP_GRRELICS_CHAMBER);
+                            break;
+                        }
                         else
-                            message.text = std::format("Good Job Mortal. {} statues gain you entry to my Slightly Sacred Chamber...", item_names[item_id]);
+                        {
+                            message.text = std::format("Good Job Mortal. {} statues gain you entry to my Slightly Sacred Chamber...", AP_GRRELICS_CHAMBER);
+                            break;
+                        }
                     } else {
                         message.text = std::format("Targitzans Slightly Sacred Chamber is now open...");
+                        break;
                     }
                 } else if (ap_memory.pc.items[item_id] == AP_GRRELICS_BOSS) {
                     if (character == 110 || character == BT_ZOOMBOX_ICON_TARGITZAN) {
-                        message.text = std::format("Good Job Mortal. {} statues gain you entry to my Really Sacred Chamber...", item_names[item_id]);
+                        message.text = std::format("Good Job Mortal. {} statues gain you entry to my Really Sacred Chamber...", AP_GRRELICS_BOSS);
+                        break;
                     } else {
                         message.text = std::format("Targitzans Really Sacred Chamber is now open... Lets egg em!");
+                        break;
                     }
                 }
             }
