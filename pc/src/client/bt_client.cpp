@@ -1893,15 +1893,17 @@ void BTClient::show_message(int character, json data, bool force) {
                     } else {
                         message.text = std::format("Targitzans Slightly Sacred Chamber is now open...");
                     }
+                    break;
                 } else if (ap_memory.pc.items[AP_ITEM_GRRELIC] == AP_GRRELICS_BOSS) {
                     if (character == 110 || character == BT_ZOOMBOX_ICON_TARGITZAN) {
                         message.text = std::format("Good Job Mortal. {} statues gain you entry to my Really Sacred Chamber...", AP_GRRELICS_BOSS);
                     } else {
                         message.text = std::format("Targitzans Really Sacred Chamber is now open... Lets egg em!");
                     }
+                    break;
                 }
             }
-            break;
+            return;
         default: return;
     }
     if (item_id >= 1230944 && item_id <= 1230952) {
