@@ -177,6 +177,7 @@ u8 save_has_egg_type(u16 type) {
 
 u8 save_worlds_jiggy_requirment(u8 world) {
   if (bt_save_slot > 2 || world > 10) return 99;
+  if(world == 9 && ap_memory.pc.settings.victory_condition == 0) return ap_memory.pc.items[AP_ITEM_H1A] ? 0 : 70;
   return ap_memory.pc.settings.jiggy_requirements[world];
 }
 
